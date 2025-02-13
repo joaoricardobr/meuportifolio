@@ -49,6 +49,7 @@
             background: #B2FF00;
         }
 
+
         /* Seção Sobre Mim */
         #sobre {
             background: linear-gradient(135deg, #CCFF00, #B2FF00);
@@ -85,26 +86,60 @@
         }
 
         /* Botões de Contato */
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+       
+       
+        #projetos10 {
+            padding: 60px 0;
+            text-align: center;
+            background: #000;
+            color: #fff;
         }
 
-        .contact-buttons a {
-            display: inline-block;
-            padding: 12px 25px;
-            background: #000;
+        #projetos10 h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
             color: #CCFF00;
+        }
+
+        .projeto10 {
+            background: #1a1a1a;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            transition: transform 0.3s ease;
+        }
+
+        .projeto10:hover {
+            transform: scale(1.03);
+        }
+
+        .projeto10 h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #CCFF00;
+        }
+
+        .projeto10 p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .projeto10 a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #CCFF00;
+            color: #000;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 1em;
+            margin-right: 10px;
             transition: background 0.3s ease, transform 0.3s ease;
         }
 
-        .contact-buttons a:hover {
-            background: #333;
+        .projeto10 a:hover {
+            background: #2F4F4F;
             transform: translateY(-3px);
         }
 
@@ -195,6 +230,20 @@
         body.light-mode .dark-mode-btn:hover {
             background: #B2FF00;
         }
+        
+         /* Responsividade */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.2rem;
+      }
+
+      .about h2 {
+        font-size: 1.5rem;
+      }
+
+      .project-card {
+        padding: 0.5rem;
+      }
     </style>
 </head>
 <body>
@@ -221,13 +270,15 @@
                 </ul>
             </ul>
             <p><strong>Entre em contato:</strong></p>
-            <div class="contact-buttons">
-                <a href="mailto:[SEU EMAIL]" target="_blank">📧 Email</a>
-                <a href="[LINKEDIN]" target="_blank">🌐 LinkedIn</a>
-                <a href="[GITHUB]" target="_blank">💻 GitHub</a>
-                <a href="tel:[SEU TELEFONE]">📞 Telefone</a>
+            <center>
+            <div class="projeto10">
+                <a href="http://cloudeng.ezyro.com/?i=1" target="_blank" class="btn">📧 Email</a>
+                <a href="http://cloudeng.ezyro.com/cloud2024" target="_blank" class="btn">🌐 LinkedIn</a>
+                <a href="http://cloudeng.ezyro.com/?i=1" target="_blank" class="btn">📞 Telefone </a>
+                <a href="http://cloudeng.ezyro.com/cloud2024" target="_blank" class="btn">💻 GitHub</a>
             </div>
         </div>
+        </center>
     </section>
 
     <!-- Seção Projetos -->
@@ -237,8 +288,8 @@
             <div class="projeto">
                 <h3>Cloud Engenharia</h3>
                 <p>O Projeto Cloud foi desenvolvido pelo Engenheiro João Ricardo. A Cloud Mega serve apenas para visualizar arquivos, enquanto a Cloud 2024 oferece acesso completo: adicionar arquivos, pesquisar, criar pastas e muito mais.</p>
-                <a href="http://cloudeng.ezyro.com/?i=1" target="_blank" class="btn">Cloud Mega (Visualização)</a>
-                <a href="http://cloudeng.ezyro.com/cloud2024" target="_blank" class="btn">Cloud 2024 (Acesso Completo)</a>
+                <a href="http://cloudeng.ezyro.com/?i=1" target="_blank" class="btn">Cloud Mega</a>
+                <a href="http://cloudeng.ezyro.com/cloud2024" target="_blank" class="btn">Cloud 2025</a>
             </div>
             <div class="projeto">
                 <h3>Formulário de Paciente - Clínica de Estética</h3>
