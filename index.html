@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfólio de Projetos - João Ricardo">
+    <meta name="author" content="João Ricardo">
+    <title>João Ricardo - Portfólio de Projetos</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* Botão Dark/Day */
+        .dark-mode-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #CCFF00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .dark-mode-btn:hover {
+            background: #B2FF00;
+        }
+
+        /* Seção Sobre Mim */
+        #sobre {
+            background: linear-gradient(135deg, #CCFF00, #B2FF00);
+            color: #000;
+            padding: 40px 0;
+            text-align: justify; /* Texto justificado */
+        }
+
+        #sobre h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center; /* Título centralizado */
+        }
+
+        #sobre p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: justify; /* Parágrafos justificados */
+        }
+
+        #sobre ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sobre ul li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        #sobre ul li strong {
+            color: #000;
+        }
+
+        /* Botões de Contato */
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .contact-buttons a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #000;
+            color: #CCFF00;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .contact-buttons a:hover {
+            background: #333;
+            transform: translateY(-3px);
+        }
+
+        /* Seção Projetos */
+        #projetos {
+            padding: 60px 0;
+            text-align: center;
+            background: #000;
+            color: #fff;
+        }
+
+        #projetos h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #CCFF00;
+        }
+
+        .projeto {
+            background: #1a1a1a;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            transition: transform 0.3s ease;
+        }
+
+        .projeto:hover {
+            transform: scale(1.03);
+        }
+
+        .projeto h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #CCFF00;
+        }
+
+        .projeto p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .projeto a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #CCFF00;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .projeto a:hover {
+            background: #B2FF00;
+            transform: translateY(-3px);
+        }
+
+        /* Rodapé */
+        footer {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer p {
+            font-size: 0.9em;
+        }
+
+        /* Modo Light */
+        body.light-mode {
+            background: #fff;
+            color: #333;
+        }
+
+        body.light-mode #sobre {
+            background: linear-gradient(135deg, #CCFF00, #B2FF00);
+            color: #333;
+        }
+
+        body.light-mode .dark-mode-btn {
+            background: #CCFF00;
+            color: #333;
+        }
+
+        body.light-mode .dark-mode-btn:hover {
+            background: #B2FF00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão Dark/Day -->
+    <button class="dark-mode-btn" onclick="toggleDarkMode()">🌙</button>
+
+    <!-- Seção Sobre Mim -->
+    <section id="sobre">
+        <div class="container">
+            <h1>Sobre Mim</h1>
+            <p>
+                Olá! Meu nome é João Ricardo, sou Engenheiro da Computação, Full Stack Developer e Perito Forense Computacional com 38 anos de idade.
+                Com uma sólida experiência em desenvolvimento web/mobile, segurança digital e análise forense, ajudo empresas e indivíduos a criar soluções tecnológicas inovadoras e seguras.
+                Acredito que a tecnologia deve ser usada para melhorar vidas, e esse princípio guia tanto minha carreira quanto minha jornada como pai dedicado.
+            </p>
+            <ul>
+                <li><strong>Profissão:</strong> Engenheiro da Computação | Full Stack Developer | Perito Forense</li>
+                <li><strong>Experiência:</strong> Desenvolvimento web/mobile, segurança digital e análise forense</li>
+                <li><strong>Habilidades:</strong></li>
+                <ul>
+                    <li>Desenvolvimento Full Stack: JavaScript, Python, Java, React, Node.js, Django, MySQL, MongoDB</li>
+                    <li>Perícia Forense: Análise de Malware, Recuperação de Dados, Investigação Digital</li>
+                    <li>Cloud & DevOps: AWS, Azure, Google Cloud Platform</li>
+                </ul>
+            </ul>
+            <p><strong>Entre em contato:</strong></p>
+            <div class="contact-buttons">
+                <a href="mailto:[SEU EMAIL]" target="_blank">📧 Email</a>
+                <a href="[LINKEDIN]" target="_blank">🌐 LinkedIn</a>
+                <a href="[GITHUB]" target="_blank">💻 GitHub</a>
+                <a href="tel:[SEU TELEFONE]">📞 Telefone</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Projetos -->
+    <section id="projetos">
+        <div class="container">
+            <h2>Meus Projetos</h2>
+            <div class="projeto">
+                <h3>Cloud Engenharia</h3>
+                <p>O Projeto Cloud foi desenvolvido pelo Engenheiro João Ricardo. A Cloud Mega serve apenas para visualizar arquivos, enquanto a Cloud 2024 oferece acesso completo: adicionar arquivos, pesquisar, criar pastas e muito mais.</p>
+                <a href="http://cloudeng.ezyro.com/?i=1" target="_blank" class="btn">Cloud Mega (Visualização)</a>
+                <a href="http://cloudeng.ezyro.com/cloud2024" target="_blank" class="btn">Cloud 2024 (Acesso Completo)</a>
+            </div>
+            <div class="projeto">
+                <h3>Formulário de Paciente - Clínica de Estética</h3>
+                <p>Este repositório contém o código-fonte do site da Clínica de Estética, incluindo um formulário interativo para coleta de informações de pacientes. Recursos incluem persistência de dados no localStorage, validação de formulário, integração com Formspree, encaminhamento para WhatsApp, design responsivo e seleção dinâmica de estados e cidades.</p>
+                <a href="https://joaoricardobr.github.io/formularioclinica/" target="_blank" class="btn">Ver Projeto</a>
+                <a href="https://github.com/joaoricardobr/formularioclinica" target="_blank" class="btn">Clonar Projeto</a>
+            </div>
+            <div class="projeto">
+                <h3>Clima Agora 🌤️</h3>
+                <p>Uma aplicação web que permite aos usuários consultar as condições climáticas atuais e a previsão do clima para os próximos dias em qualquer cidade. Inclui compartilhamento via WhatsApp, ajuste de fonte e design moderno e responsivo.</p>
+                <a href="https://joaoricardobr.github.io/climatempo/" target="_blank" class="btn">Ver Projeto</a>
+                <a href="https://github.com/joaoricardobr/climatempo" target="_blank" class="btn">Clonar Projeto</a>
+            </div>
+            <div class="projeto">
+                <h3>Sistema de Pagamento Wi-Fi Premium 📶️</h3>
+                <p>Sistema completo para gerenciamento de pagamentos com integração WhatsApp, consulta meteorológica e upload automático de comprovantes. Design moderno com tema escuro e elementos neon.</p>
+                <a href="http://joaoricardobr.github.io/capitveportal" target="_blank" class="btn">Ver Projeto</a>
+                <a href="https://github.com/joaoricardobr/capitveportal" target="_blank" class="btn">Clonar Projeto</a>
+            </div>
+            <div class="projeto">
+                <h3>Lorraine Botura - Tratamento Estético</h3>
+                <p>A Lorraine Botura é uma solução inovadora que utiliza a tecnologia de vibração oscilatória terapêutica para tratar gordura localizada, celulite, dores musculares e recuperação muscular. Ideal para clínicas de estética e centros de reabilitação.</p>
+               <a href="https://lorrainebotura.com.br/" target="_blank" class="btn">Ver Projeto</a>
+             <a href="https://github.com/joaoricardobr/capitveportal" target="_blank" class="btn">Clonar Projeto</a>
+            
+            </div>
+            
+            <div class="projeto">
+                <h3>Vídeos Surpresa 🎬</h3>
+                <p>Este projeto é um site que oferece uma experiência de "Vídeos Surpresa" ao usuário. O site carrega vídeos aleatórios de categorias como Carros, Humor, Política e muitas outras, utilizando a API do YouTube. O projeto é otimizado para uma requisição única por acesso e apresenta uma interface simples e intuitiva.</p>
+               
+                <ul>
+                <a href="http://joaoricardobr.github.io/videosurpresa" target="_blank" class="btn">Ver Projeto</a>
+            <a href="https://github.com/joaoricardobr/videosurpresa" target="_blank" class="btn">Clonar Projeto</a>
+            </div>
+            
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p><span>©</span> 2025 João Ricardo. Todos os direitos reservados.</p>
+            <p>Design inspirado em temas modernos. Feito com ❤️ por <a href="https://github.com/joaoricardobr" target="_blank">João Ricardo</a>.</p>
+            <p>Ícones fornecidos por <a href="https://fontawesome.com/" target="_blank">Font Awesome</a> e cores inspiradas no estilo neon.</p>
+        </div>
+    </footer>
+     <!-- Script para Dark Mode -->
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('light-mode'); // Alterna a classe 'light-mode'
+            const btn = document.querySelector('.dark-mode-btn');
+            if (body.classList.contains('light-mode')) {
+                btn.textContent = '☀️'; // Ícone para modo claro
+            } else {
+                btn.textContent = '🌙'; // Ícone para modo escuro
+            }
+        
+    </script>
+</body>
+</html>
