@@ -1,767 +1,317 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfólio de Projetos - João Ricardo">
     <meta name="author" content="João Ricardo">
     <title>João Ricardo - Portfólio de Projetos</title>
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome via CDN -->
+
+    <!-- External Resources -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind Reset (Optional, can remove if not needed) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
+    <!-- ======================================== -->
+    <!--                   CSS                  -->
+    <!-- ======================================== -->
     <style>
-        /* Estilos Essenciais */
-        .project-card {
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        }
-        .project-card.hidden-card {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out,
-                        visibility 0s linear 0.3s, max-height 0s linear 0.3s,
-                        margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s;
-            visibility: hidden;
-            max-height: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            border-width: 0 !important;
-            overflow: hidden;
-        }
+        /* --- Base & Configuration (Kavian Colors) --- */
+        :root {
+            --brand-brown: #A0522D; /* Sienna */
+            --brand-brown-dark: #8B4513; /* SaddleBrown */
+            --brand-gold: #D4AF37;
+            --brand-light-bg: #F8F8F8;
+            --brand-dark-bg: #1a1a1a;
+            --brand-card-light: #FFFFFF;
+            --brand-card-dark: #2D2D2D;
+            --text-primary-light: #333;
+            --text-primary-dark: #EAEAEA;
+            --text-secondary-light: #666;
+            --text-secondary-dark: #bbb;
+            --border-light: #e5e7eb;
+            --border-dark: #4b5563;
+            /* --primary-action: var(--brand-brown); */ /* Main action color (Original Brown) */
+            --primary-action: #2563eb; /* CHANGED TO BLUE for Preview Button */
+            --primary-action-dark: #1d4ed8; /* Darker Blue for Hover */
+            --primary-action-alt-dark: var(--brand-gold); /* Gold for dark mode actions if needed */
+            --secondary-action: #555;
+            --secondary-action-dark: #999;
+            --neutral-bg-light: #F0F0F0;
+            --neutral-bg-dark: #555;
 
-        /* Imagem nos Cards */
-        .project-card figure {
-            width: 100%;
-            height: 200px; /* Altura fixa inicial, ajustada por media queries */
-            margin: 0;
-            overflow: hidden;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        .project-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--brand-light-bg); color: var(--text-primary-light);
+            margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .project-card:hover img {
+        .dark body { background-color: var(--brand-dark-bg); color: var(--text-primary-dark); }
+        .container { width: 90%; max-width: 1280px; margin: 0 auto; }
+        main.container { padding: 2.5rem 1rem; flex-grow: 1; }
+
+        /* --- Header (Existing Structure - Considered "New" in style) --- */
+        .site-header {
+            background-color: var(--brand-card-light); box-shadow: var(--shadow-sm);
+            padding: 1rem 0; position: sticky; top: 0; z-index: 30;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .dark .site-header { background-color: var(--brand-card-dark); box-shadow: var(--shadow-md); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .logo { /* João Ricardo Portfólio */
+            font-weight: 700; font-size: 1.25rem; color: var(--brand-brown); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .dark .logo { color: var(--brand-gold); }
+        .logo:hover { color: var(--brand-brown-dark); }
+        .dark .logo:hover { color: #f0e68c; } /* Lighter gold on hover */
+
+        .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .header-button { /* For Dark Mode, Add Project */
+           display: inline-flex; align-items: center; justify-content: center;
+           background-color: transparent; border: none; border-radius: var(--radius-md);
+           width: 38px; height: 38px; cursor: pointer; color: #6b7280; /* Gray-500 */
+           transition: background-color 0.2s, color 0.2s, transform 0.1s; /* Added transform */
+           font-size: 1.1rem;
+        }
+        .header-button:hover {
+            background-color: #f3f4f6; /* Light gray background */
+            color: var(--brand-brown); /* Brand color on hover */
+            transform: scale(1.1); /* Subtle scale effect */
+        }
+        .dark .header-button { color: #9ca3af; /* Lighter gray in dark mode */ }
+        .dark .header-button:hover {
+            background-color: #374151; /* Darker gray background */
+            color: var(--brand-gold); /* Brand gold in dark mode hover */
             transform: scale(1.1);
+         }
+        /* Specific colors for add button */
+        .header-button.add-project-btn { color: #16a34a; /* Green */ }
+        .dark .header-button.add-project-btn { color: #4ade80; /* Lighter Green */ }
+        .header-button.add-project-btn:hover { color: #15803d; } /* Darker Green Hover */
+        .dark .header-button.add-project-btn:hover { color: #86efac; } /* Brighter Green Hover */
+
+        /* --- Filter Controls (Redesigned with Horizontal Scroll) --- */
+        #controls {
+            background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg);
+            margin-bottom: 2.5rem; box-shadow: var(--shadow-md);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); }
+
+        .controls-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+        @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem;} .search-layout-wrapper { flex-shrink: 0; } }
+
+        .filter-section-wrapper { display: flex; flex-direction: column; gap: 1rem; }
+        .filter-group-container { display: flex; flex-direction: column; gap: 0.5rem; }
+        .filter-label { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary-light); margin-left: 4px; }
+        .dark .filter-label { color: var(--text-secondary-dark); }
+        .filter-scroll-wrapper { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        .filter-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .filter-group { display: inline-flex; gap: 0.6rem; padding-bottom: 10px; white-space: nowrap; }
+
+        .filter-btn { /* Filter button style */
+            padding: 6px 14px; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 500;
+            transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer;
+            background-color: var(--neutral-bg-light); color: var(--text-secondary-light);
+            line-height: 1.4; flex-shrink: 0;
+        }
+        .dark .filter-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); }
+        /* HOVER for filter buttons */
+        .filter-btn:hover {
+            background-color: #E0E0E0; border-color: #ccc; color: var(--text-primary-light);
+            transform: translateY(-2px); /* Subtle lift */
+            box-shadow: var(--shadow-sm);
+        }
+        .dark .filter-btn:hover {
+             background-color: #666; border-color: #777; color: var(--text-primary-dark);
+             transform: translateY(-2px);
+             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+         }
+        /* Active state for filter buttons */
+        .filter-btn.active {
+            background-color: var(--brand-brown); color: white; border-color: var(--brand-brown);
+        }
+        .dark .filter-btn.active {
+            background-color: var(--brand-gold); color: #333; border-color: var(--brand-gold);
+        }
+        /* Prevent hover style override when active */
+        .filter-btn.active:hover {
+            transform: none; box-shadow: none;
+            filter: brightness(1.1); /* Slightly brighten active button on hover */
         }
 
-        /* Responsividade para Imagens */
-        @media (max-width: 640px) {
-            .project-card figure {
-                height: 150px;
-            }
+        .search-layout-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .filter-search-container { position: relative; flex-grow: 1; min-width: 200px; max-width: 350px; }
+        #filterSearchInput { /* Search bar within controls */
+            width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); background-color: var(--brand-light-bg); color: var(--text-primary-light);
+            font-size: 0.9rem; transition: all 0.2s;
         }
-        @media (min-width: 1024px) {
-            .project-card figure {
-                height: 250px;
-            }
-        }
+        .dark #filterSearchInput { background-color: var(--brand-dark-bg); border-color: var(--border-dark); color: var(--text-primary-dark); }
+        #filterSearchInput:focus { outline: none; border-color: var(--brand-brown); box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.3); }
+        .dark #filterSearchInput:focus { border-color: var(--brand-gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3); }
+        .filter-search-container .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary-light); font-size: 0.9rem; pointer-events: none; }
+        .dark .filter-search-container .search-icon { color: var(--text-secondary-dark); }
 
-        /* Estilos para Layout de Lista */
-        #project-gallery.list-view {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .layout-group { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; }
+        .layout-btn { /* Layout button style */
+            padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
+            transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer;
+            background-color: var(--neutral-bg-light); color: var(--text-secondary-light); border-color: var(--border-light);
         }
-        #project-gallery.list-view {
-            grid-template-columns: 1fr !important;
+        .dark .layout-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border-color: var(--border-dark); }
+        /* HOVER for layout buttons */
+        .layout-btn:hover {
+            background-color: #E0E0E0; color: var(--text-primary-light);
+            transform: scale(1.05); /* Scale effect */
         }
-        #project-gallery.list-view .project-card {
-            flex-direction: column;
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-            visibility: visible;
-            max-height: none;
-            margin: revert !important;
-            padding: revert !important;
-            border: revert !important;
-            overflow: visible;
-        }
-        @media (min-width: 768px) {
-            #project-gallery.list-view .project-card {
-                flex-direction: row;
-            }
-            #project-gallery.list-view .project-card figure {
-                width: 25%;
-                height: auto;
-                aspect-ratio: 1 / 1;
-            }
-            #project-gallery.list-view .project-card .card-content {
-                flex-grow: 1;
-            }
-        }
-        @media (min-width: 1024px) {
-            #project-gallery.list-view .project-card figure {
-                width: 20%;
-            }
-        }
+        .dark .layout-btn:hover { background-color: #666; color: var(--text-primary-dark); transform: scale(1.05); }
+        /* Active state for layout buttons */
+        .layout-btn.active { background-color: var(--brand-brown); color: white; border-color: var(--brand-brown); }
+        .dark .layout-btn.active { background-color: var(--brand-gold); color: #333; border-color: var(--brand-gold); }
+        /* Prevent hover style override when active */
+        .layout-btn.active:hover { transform: none; filter: brightness(1.1); }
 
-        /* Modal e Fullscreen */
-        #previewModal {
-            transition: opacity 0.3s ease-in-out;
-            opacity: 0;
-            visibility: hidden;
+        /* --- Project Gallery & Cards --- */
+        #project-gallery { display: grid; gap: 24px; grid-template-columns: 1fr; }
+        @media (min-width: 640px) { #project-gallery { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { #project-gallery { grid-template-columns: repeat(3, 1fr); } }
+
+        .project-card { /* Card styles with existing hover effect */
+            transition: all 0.3s ease; /* Existing transition */
+            border-radius: var(--radius-lg); background-color: var(--brand-card-light);
+            box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column;
+            border: 1px solid transparent; /* Add border for potential hover effect */
         }
-        #previewModal:not(.hidden) {
-            opacity: 1;
-            visibility: visible;
+        .dark .project-card { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); }
+        /* Existing hover effect for card */
+        .project-card:hover {
+            transform: translateY(-5px); /* Existing lift */
+            box-shadow: var(--shadow-lg); /* Existing shadow */
+            /* Optional: Add border highlight on hover */
+            /* border-color: var(--brand-brown); */
         }
-        #previewModal .modal-content {
-            transition: all 0.3s ease-in-out;
-            transform: scale(0.95);
-            width: 90%;
-            max-width: 1000px;
-            height: 80vh;
-        }
-        #previewModal:not(.hidden) .modal-content {
-            transform: scale(1);
-        }
-        #previewModal.fullscreen .modal-content {
-            width: 100%;
-            height: 100vh;
-            max-width: none;
-            border-radius: 0;
-        }
-        #previewIframe {
-            background-color: #e5e7eb;
-        }
-        .dark #previewIframe {
-            background-color: #4b5563;
+        .dark .project-card:hover {
+             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+             /* border-color: var(--brand-gold); */
         }
 
-        /* Painel de Adicionar Projeto */
-        #addProjectPanel {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            transform: translateY(100%);
-            opacity: 1;
-            pointer-events: none;
-            max-height: 80vh;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #a0aec0 #e5e7eb;
+        .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        /* Existing image scale effect */
+        .project-card:hover img { transform: scale(1.05); }
+
+        .project-card .card-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .project-card h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary-light); margin-bottom: 0.25rem; }
+        .dark .project-card h3 { color: var(--text-primary-dark); }
+        .project-card .category-text { font-size: 0.75rem; color: var(--brand-brown); margin-bottom: 0.75rem; text-transform: capitalize; font-weight: 500; }
+        .dark .project-card .category-text { color: var(--brand-gold); }
+        .project-card .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.75rem; }
+        .project-card .tech-tag { background-color: #ECECEC; color: #555; font-size: 0.7rem; padding: 3px 8px; border-radius: var(--radius-full); display: inline-block; }
+        .dark .project-card .tech-tag { background-color: #444; color: #ccc; }
+        .project-card .description-text { font-size: 0.875rem; color: var(--text-secondary-light); margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
+        .dark .project-card .description-text { color: var(--text-secondary-dark); }
+        .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
+
+        .project-card .card-button { /* Base style for card buttons */
+             font-size: 0.8rem; padding: 7px 12px; border-radius: var(--radius-md);
+             transition: all 0.3s ease; /* Ensure transition for all buttons */
+             border: none; cursor: pointer; font-weight: 500; display: inline-flex;
+             align-items: center; justify-content: center; gap: 0.4rem; flex: 1 1 auto; min-width: 80px;
+             text-decoration: none;
         }
-        #addProjectPanel::-webkit-scrollbar {
-            width: 6px;
+
+        /* == MODIFICATION: Preview Button == */
+        .card-button.preview {
+            background-color: var(--primary-action); /* Use BLUE variable */
+            color: white;
         }
-        #addProjectPanel::-webkit-scrollbar-thumb {
-            background-color: #a0aec0;
-            border-radius: 3px;
+        .card-button.preview:hover {
+            background-color: var(--primary-action-dark); /* Use DARKER BLUE variable */
+            transform: translateY(-2px); /* Add lift */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        #addProjectPanel::-webkit-scrollbar-track {
-            background-color: #e5e7eb;
+        /* ================================ */
+
+        /* Code Button */
+        .card-button.code { background-color: var(--secondary-action); color: white; }
+        .dark .card-button.code { background-color: var(--secondary-action-dark); }
+        .card-button.code:hover {
+            background-color: #333; /* Darker gray */
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .dark #addProjectPanel {
-            scrollbar-color: #4b5563 #1f2937;
+        .dark .card-button.code:hover { background-color: #aaa; } /* Lighter gray for dark */
+
+        /* Visit Button */
+        .card-button.visit { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); border: 1px solid var(--border-light); }
+        .dark .card-button.visit { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border: 1px solid var(--border-dark); }
+        .card-button.visit:hover {
+             background-color: #E0E0E0; color: var(--text-primary-light);
+             transform: translateY(-2px);
+             box-shadow: var(--shadow-sm);
         }
-        .dark #addProjectPanel::-webkit-scrollbar-thumb {
-            background-color: #4b5563;
+        .dark .card-button.visit:hover {
+             background-color: #666; color: var(--text-primary-dark);
+             transform: translateY(-2px);
+             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .dark #addProjectPanel::-webkit-scrollbar-track {
-            background-color: #1f2937;
+        /* Hide code button if href is "#" */
+        .card-button.code[href="#"] { display: none; }
+
+        /* --- Hide/Show Logic & No Results --- */
+        .project-card.hidden-card { opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
+        @media (max-width: 639px) { .project-card.hidden-card { margin-top: 0 !important; margin-bottom: 0 !important; } }
+        #no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); }
+        .dark #no-results { color: var(--text-secondary-dark); }
+        #no-results.hidden { display: none; }
+        #no-results i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+
+        /* --- Add Project Panel --- */
+        #addProjectPanel { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; background-color: var(--brand-card-light); padding: 0; border-top: 1px solid var(--border-light); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto; transform: translateY(100%); opacity: 0; transition: transform 0.3s, opacity 0.3s, background-color 0.3s, border-color 0.3s; pointer-events: none; scrollbar-width: thin; scrollbar-color: var(--brand-brown) var(--border-light); }
+        #addProjectPanel:not(.hidden) { transform: translateY(0); opacity: 1; pointer-events: auto;}
+        .dark #addProjectPanel { background-color: var(--brand-card-dark); border-top-color: var(--border-dark); scrollbar-color: var(--brand-gold) #374151; }
+        #addProjectPanel::-webkit-scrollbar { width: 8px; }
+        #addProjectPanel::-webkit-scrollbar-thumb { background-color: var(--brand-brown); border-radius: 4px; }
+        #addProjectPanel::-webkit-scrollbar-track { background-color: var(--border-light); }
+        .dark #addProjectPanel::-webkit-scrollbar-thumb { background-color: var(--brand-gold); }
+        .dark #addProjectPanel::-webkit-scrollbar-track { background-color: #374151; }
+        .add-panel-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 2rem 1rem; }
+        .add-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;}
+        .add-panel-header h2 { font-size: 1.25rem; font-weight: 600; }
+        #hideAddPanelBtn { /* Uses header button style base */
+             display: inline-flex; align-items: center; justify-content: center; background-color: transparent; border: none;
+             border-radius: var(--radius-md); width: 38px; height: 38px; cursor: pointer; color: var(--text-secondary-light);
+             transition: background-color 0.2s, color 0.2s, transform 0.1s; font-size: 1.1rem;
         }
-        #addProjectPanel:not(.hidden) {
-            transform: translateY(0);
-            pointer-events: auto;
+        /* Specific HOVER for close button */
+        #hideAddPanelBtn:hover {
+             background-color: #fef2f2; /* Light red background */
+             color: #ef4444; /* Red text */
+             transform: scale(1.1) rotate(90deg); /* Rotate on hover */
         }
-        #addProjectPanel.hidden {
-            opacity: 0;
+        .dark #hideAddPanelBtn { color: var(--text-secondary-dark); }
+        .dark #hideAddPanelBtn:hover {
+             background-color: #3f2a2a; /* Dark red background */
+             color: #f87171; /* Lighter red text */
+             transform: scale(1.1) rotate(90deg);
         }
-    </style>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: { extend: {} }
-        }
-    </script>
-</head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300 flex flex-col min-h-screen">
-
-<!-- Header -->
-<header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 sticky top-0 z-30 transition-colors duration-300">
-    <div class="container mx-auto flex flex-wrap justify-between items-center gap-4">
-        <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">João Ricardo - Portfólio</h1>
-        <div class="flex items-center gap-4">
-            <div class="relative">
-                <input type="search" id="searchInput" placeholder="Buscar projetos..." class="px-4 py-2 pl-10 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-full sm:w-64">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            </div>
-            <button id="darkModeToggle" class="text-xl p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                <i class="fas fa-moon" id="darkModeIcon"></i>
-            </button>
-            <button id="showAddPanelBtn" title="Adicionar Novo Projeto" class="text-xl p-2 rounded-md text-green-600 dark:text-green-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                <i class="fas fa-plus-circle"></i>
-            </button>
-        </div>
-    </div>
-</header>
-
-<!-- Main Content -->
-<main class="container mx-auto p-6 flex-grow">
-    <!-- Controles -->
-    <section id="controls" class="mb-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow controls-container">
-        <div class="flex flex-wrap justify-between items-center gap-4">
-            <div class="flex flex-wrap gap-2 items-center filter-group" data-filter-type="tech">
-                <span class="font-medium text-sm mr-2">Tecnologias:</span>
-                <button class="filter-btn tech-filter px-3 py-1 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-colors" data-filter="all">Todos</button>
-                <button class="filter-btn tech-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="html">HTML</button>
-                <button class="filter-btn tech-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="css">CSS</button>
-                <button class="filter-btn tech-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="javascript">JavaScript</button>
-                <button class="filter-btn tech-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter by="react">React</button>
-            </div>
-            <div class="flex flex-wrap gap-2 items-center filter-group" data-filter-type="category">
-                <span class="font-medium text-sm mr-2">Categoria:</span>
-                <button class="filter-btn cat-filter px-3 py-1 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-colors" data-filter="all">Todas</button>
-                <button class="filter-btn cat-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="landing-page">Landing Page</button>
-                <button class="filter-btn cat-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="portfolio">Portfólio</button>
-                <button class="filter-btn cat-filter px-3 py-1 bg-gray-200 dark:bg-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-filter="app">Aplicação</button>
-            </div>
-            <div class="flex gap-2 items-center layout-group">
-                <span class="font-medium text-sm mr-2">Layout:</span>
-                <button class="layout-btn px-3 py-1 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-colors" data-layout="grid" title="Grade">
-                    <i class="fas fa-th-large"></i>
-                </button>
-                <button class="layout-btn px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" data-layout="list" title="Lista">
-                    <i class="fas fa-list"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Galeria de Projetos -->
-    <section id="project-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-     
-          <!-- Projeto 1: Cloud Engenharia -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="cloud engenharia" data-description="o projeto cloud foi desenvolvido pelo engenheiro joão ricardo...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720551256796-624029b9dc84?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Cloud Engenharia" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Cloud Engenharia</h3>
-              <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Portfólio</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Website profissional para clínica de saúde integrativa combinando biomedicina e acupuntura.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://sorayaalaby.vercel.app/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                     </button>
-                    <a href="http://cloudeng.ezyro.com/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/cloudeng" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-         <!-- Projeto 2: Dra. Soraya Alaby -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="portfolio" data-title="dra. soraya alaby" data-description="website profissional para clínica de saúde integrativa...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1721225464945-97076602de73?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Dra. Soraya Alaby" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Dra. Soraya Alaby</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Portfólio</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Website profissional para clínica de saúde integrativa combinando biomedicina e acupuntura.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://sorayaalaby.vercel.app/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://sorayaalaby.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/biomedicaesteta" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-
-        <!-- Projeto 3: Formulário de Paciente -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="formulário de paciente" data-description="formulário interativo para coleta de informações de pacientes...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720201054067-adf2837be5e4?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Formulário de Paciente" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Formulário de Paciente</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Formulário interativo para coleta de informações de pacientes com persistência no localStorage.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/formularioclinica/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/formularioclinica/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/formularioclinica" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 4: Clima Agora -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="clima agora" data-description="aplicação web para consultar condições climáticas...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1722209813944-a4ee13b7bfd8?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Clima Agora" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Clima Agora</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Aplicação web para consultar condições climáticas atuais e previsão do tempo.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/climatempo/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/climatempo/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/climatempo" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 5: Sistema de Pagamento Wi-Fi Premium -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="sistema de pagamento wi-fi" data-description="sistema completo para gerenciamento de pagamentos...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720448972956-843ac01a7c51?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Sistema de Pagamento Wi-Fi Premium" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Sistema de Pagamento Wi-Fi</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Sistema completo para gerenciamento de pagamentos com integração WhatsApp.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/captiveportal/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/captiveportal/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/captiveportal" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 6: Lorraine Botura -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="landing-page" data-title="lorraine botura" data-description="solução inovadora que utiliza a tecnologia de vibração...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720448972787-3140916002b7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Lorraine Botura" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Lorraine Botura</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Landing Page</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Solução inovadora que utiliza tecnologia de vibração oscilatória terapêutica.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://lorrainebotura.com.br/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://lorrainebotura.com.br/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="#" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0 opacity-50 cursor-not-allowed" title="Código não disponível">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 7: Vídeos Surpresa -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="vídeos surpresa" data-description="site que oferece uma experiência de vídeos surpresa...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1721080250995-5a83519eb2a0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Vídeos Surpresa" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Vídeos Surpresa</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Site que carrega vídeos aleatórios de categorias diversas usando a API do YouTube.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/videosurpresa/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/videosurpresa/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/videosurpresa" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 8: Filtros Fotos -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="filtros fotos" data-description="efeitos de fotos do fotor podem, de forma fácil...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1722169898948-5c7fa92f4042?q=80&w=1622&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Filtros Fotos" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Filtros Fotos</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Efeitos de fotos para edição fácil e inspirada em diferentes estilos visuais.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://instafix-pi.vercel.app/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://instafix-pi.vercel.app/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/instafix" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 9: Upload e Processamento de Planilhas -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="app" data-title="upload e processamento de planilhas" data-description="aplicativo web para upload e processamento de planilhas...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720210118027-19efec2959b4?q=80&w=1766&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Upload e Processamento de Planilhas" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Upload e Processamento de Planilhas</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Aplicação</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Aplicativo web para upload e processamento de planilhas em formatos como CSV, XLS e XLSX.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/extratordedadosexcel/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/extratordedadosexcel/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/extratordedadosexcel" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <!-- Projeto 10: Apostila Concurso Biomédico EBSERH 2025 -->
-        <article class="project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden" data-technologies="html,css,javascript" data-category="portfolio" data-title="apostila concurso biomédico" data-description="apostila completa para o concurso biomédico ebserh 2025...">
-            <figure>
-                <img src="https://plus.unsplash.com/premium_photo-1720210118039-47390f1158a5?q=80&w=1604&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview de Apostila Concurso Biomédico EBSERH 2025" loading="lazy">
-            </figure>
-            <div class="p-4 flex flex-col flex-grow card-content">
-                <h3 class="text-lg font-semibold mb-1">Apostila Concurso Biomédico</h3>
-                <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">Portfólio</p>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">html</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">css</span>
-                    <span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">javascript</span>
-                </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">Apostila completa para o Concurso Biomédico EBSERH 2025.</p>
-                <div class="mt-auto flex flex-wrap gap-2 items-center">
-                    <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="https://joaoricardobr.github.io/apostilaconcurso/">
-                        <i class="fas fa-eye mr-1"></i> Ver Preview
-                    </button>
-                    <a href="https://joaoricardobr.github.io/apostilaconcurso/" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                    </a>
-                    <a href="https://github.com/joaoricardobr/apostilaconcurso" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                        <i class="fab fa-github mr-1"></i> Código
-                    </a>
-                </div>
-            </div>
-        </article>
-    </section>
-</main>
-
-<!-- Painel Flutuante para Adicionar Projeto -->
-<aside id="addProjectPanel" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg p-6 rounded-t-lg z-40 hidden">
-    <div class="container mx-auto">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Adicionar Novo Projeto</h2>
-            <button id="hideAddPanelBtn" class="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-2xl p-1">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="addProjectForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label for="projectTitle" class="block text-sm font-medium mb-1">Título</label><input type="text" id="projectTitle" name="title" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-            <div><label for="projectCategory" class="block text-sm font-medium mb-1">Categoria</label><select id="projectCategory" name="category" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"><option value="landing-page">Landing Page</option><option value="portfolio">Portfólio</option><option value="app">Aplicação</option></select></div>
-            <div class="md:col-span-2"><label for="projectDescription" class="block text-sm font-medium mb-1">Descrição Curta</label><textarea id="projectDescription" name="description" rows="2" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea></div>
-            <div><label for="projectImageUrl" class="block text-sm font-medium mb-1">URL da Imagem</label><input type="url" id="projectImageUrl" name="imageUrl" required placeholder="https://source.unsplash.com/..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-            <div><label for="projectLiveUrl" class="block text-sm font-medium mb-1">URL do Site</label><input type="url" id="projectLiveUrl" name="liveUrl" required placeholder="https://example.com" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-            <div><label for="projectCodeUrl" class="block text-sm font-medium mb-1">URL do Código (opcional)</label><input type="url" id="projectCodeUrl" name="codeUrl" placeholder="https://github.com/..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-            <div><label for="projectTechs" class="block text-sm font-medium mb-1">Tecnologias (separadas por vírgula)</label><input type="text" id="projectTechs" name="technologies" required placeholder="html,css,javascript" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-            <div class="md:col-span-2 flex justify-end"><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-colors"><i class="fas fa-plus mr-2"></i>Adicionar Projeto</button></div>
-            <p id="formMessage" class="md:col-span-2 text-sm mt-2"></p>
-        </form>
-    </div>
-</aside>
-
-<!-- Modal de Preview -->
-<div id="previewModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
-    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-xl flex flex-col overflow-hidden">
-        <div class="flex justify-between items-center p-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-            <h4 class="text-lg font-semibold truncate pr-2" id="modalTitle">Preview do Projeto</h4>
-            <div class="flex gap-2">
-                <button id="fullscreenButton" class="text-gray-500 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 text-xl p-1">
-                    <i class="fas fa-expand"></i>
-                </button>
-                <button id="closeModalButton" class="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-xl p-1">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <div class="flex-grow overflow-hidden">
-            <iframe id="previewIframe" src="about:blank" frameborder="0" class="w-full h-full"></iframe>
-        </div>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="bg-gray-800 text-gray-400 py-4 text-center mt-auto">
-    <div class="container mx-auto">
-        <p class="text-sm">© 2025 João Ricardo. Todos os direitos reservados.</p>
-        <p class="text-sm">Feito com ❤️ por <a href="https://github.com/joaoricardobr" target="_blank" class="text-indigo-400 hover:underline">João Ricardo</a>.</p>
-    </div>
-</footer>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        let currentFilters = { tech: 'all', category: 'all', search: '' };
-        let currentLayout = localStorage.getItem('layout') || 'grid';
-
-        const gallery = document.getElementById('project-gallery');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const controlsContainer = document.querySelector('.controls-container');
-        const searchInput = document.getElementById('searchInput');
-        const modal = document.getElementById('previewModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const fullscreenButton = document.getElementById('fullscreenButton');
-        const previewIframe = document.getElementById('previewIframe');
-        const addProjectPanel = document.getElementById('addProjectPanel');
-        const showAddPanelBtn = document.getElementById('showAddPanelBtn');
-        const hideAddPanelBtn = document.getElementById('hideAddPanelBtn');
-        const addProjectForm = document.getElementById('addProjectForm');
-        const formMessage = document.getElementById('formMessage');
-
-        const updateButtonActiveState = (groupSelector, activeValue, dataAttr) => {
-            const buttons = controlsContainer.querySelectorAll(`${groupSelector} button[${dataAttr}]`);
-            buttons.forEach(btn => {
-                const isActive = btn.getAttribute(dataAttr) === activeValue;
-                btn.classList.toggle('bg-indigo-600', isActive);
-                btn.classList.toggle('text-white', isActive);
-                btn.classList.toggle('bg-gray-200', !isActive);
-                btn.classList.toggle('dark:bg-gray-700', !isActive);
-                btn.classList.toggle('hover:bg-indigo-700', isActive);
-                btn.classList.toggle('dark:hover:bg-indigo-500', isActive);
-                btn.classList.toggle('hover:bg-gray-300', !isActive);
-                btn.classList.toggle('dark:hover:bg-gray-600', !isActive);
-            });
-        };
-
-        const applyTheme = (theme) => {
-            document.documentElement.classList.toggle('dark', theme === 'dark');
-            darkModeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
-            localStorage.setItem('theme', theme);
-        };
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        applyTheme(savedTheme);
-        darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
-
-        const applyLayout = (layout) => {
-            gallery.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'list-view', 'gap-6');
-            if (layout === 'grid') {
-                gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6');
-            } else if (layout === 'list') {
-                gallery.classList.add('list-view');
-            }
-            updateButtonActiveState('.layout-group', layout, 'data-layout');
-            currentLayout = layout;
-            localStorage.setItem('layout', layout);
-            filterAndSearchProjects();
-        };
-
-        const filterAndSearchProjects = () => {
-            const searchTerm = currentFilters.search.toLowerCase().trim();
-            const allCards = gallery.querySelectorAll('.project-card');
-            allCards.forEach(card => {
-                const techs = (card.dataset.technologies || '').toLowerCase();
-                const category = (card.dataset.category || '').toLowerCase();
-                const title = (card.dataset.title || '').toLowerCase();
-                const desc = (card.dataset.description || '').toLowerCase();
-
-                const techMatch = currentFilters.tech === 'all' || techs.split(',').includes(currentFilters.tech);
-                const catMatch = currentFilters.category === 'all' || category === currentFilters.category;
-                const searchMatch = searchTerm === '' || title.includes(searchTerm) || desc.includes(searchTerm) || techs.includes(searchTerm);
-
-                card.classList.toggle('hidden-card', !(techMatch && catMatch && searchMatch));
-            });
-        };
-
-        controlsContainer.addEventListener('click', (e) => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
-
-            if (btn.matches('.filter-btn')) {
-                const group = btn.closest('.filter-group');
-                const type = group.dataset.filterType;
-                const value = btn.dataset.filter;
-                if (currentFilters[type] !== value) {
-                    currentFilters[type] = value;
-                    updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
-                    filterAndSearchProjects();
-                }
-            } else if (btn.matches('.layout-btn')) {
-                const layout = btn.dataset.layout;
-                if (currentLayout !== layout) applyLayout(layout);
-            }
-        });
-
-        searchInput.addEventListener('input', (e) => {
-            currentFilters.search = e.target.value;
-            filterAndSearchProjects();
-        });
-
-        const openModal = (url, title) => {
-            if (!url || url === '#') {
-                alert('Preview não disponível.');
-                return;
-            }
-            modalTitle.textContent = title || 'Preview do Projeto';
-            previewIframe.src = url;
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeModal = () => {
-            modal.classList.remove('fullscreen');
-            modal.classList.add('hidden');
-            previewIframe.src = 'about:blank';
-            fullscreenButton.querySelector('i').classList.replace('fa-compress', 'fa-expand');
-            document.body.style.overflow = '';
-        };
-
-        const toggleFullscreen = () => {
-            modal.classList.toggle('fullscreen');
-            const icon = fullscreenButton.querySelector('i');
-            icon.classList.toggle('fa-expand');
-            icon.classList.toggle('fa-compress');
-        };
-
-        gallery.addEventListener('click', (e) => {
-            const btn = e.target.closest('.preview-button');
-            if (btn) {
-                const url = btn.dataset.previewUrl;
-                const title = btn.closest('.project-card').querySelector('h3').textContent;
-                openModal(url, title);
-            }
-        });
-
-        closeModalButton.addEventListener('click', closeModal);
-        fullscreenButton.addEventListener('click', toggleFullscreen);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
-
-        showAddPanelBtn.addEventListener('click', () => addProjectPanel.classList.remove('hidden'));
-        hideAddPanelBtn.addEventListener('click', () => {
-            addProjectPanel.classList.add('hidden');
-            addProjectForm.reset();
-            formMessage.textContent = '';
-        });
-
-        addProjectForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(addProjectForm);
-            const project = Object.fromEntries(formData.entries());
-            const techs = project.technologies.split(',').map(t => t.trim().toLowerCase()).filter(t => t);
-
-            if (!project.title || !project.category || !project.description || !project.imageUrl || !project.liveUrl || techs.length === 0) {
-                formMessage.textContent = 'Preencha todos os campos obrigatórios.';
-                formMessage.classList.add('text-red-600', 'dark:text-red-400');
-                return;
-            }
-
-            const newCard = document.createElement('article');
-            newCard.className = 'project-card flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden';
-            newCard.dataset.technologies = techs.join(',');
-            newCard.dataset.category = project.category;
-            newCard.dataset.title = project.title.toLowerCase();
-            newCard.dataset.description = project.description.toLowerCase();
-            newCard.innerHTML = `
-                <figure>
-                    <img src="${project.imageUrl}" alt="Preview de ${project.title}" loading="lazy">
-                </figure>
-                <div class="p-4 flex flex-col flex-grow card-content">
-                    <h3 class="text-lg font-semibold mb-1">${project.title}</h3>
-                    <p class="text-xs text-indigo-500 dark:text-indigo-400 mb-2 capitalize">${project.category.replace('-', ' ')}</p>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        ${techs.map(t => `<span class="tech-tag px-2 py-0.5 bg-gray-200 text-gray-800 text-xs rounded-full dark:bg-gray-600 dark:text-gray-300">${t}</span>`).join('')}
-                    </div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">${project.description}</p>
-                    <div class="mt-auto flex flex-wrap gap-2 items-center">
-                        <button class="preview-button text-sm bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded-md transition-colors flex-shrink-0" data-preview-url="${project.liveUrl}">
-                            <i class="fas fa-eye mr-1"></i> Ver Preview
-                        </button>
-                        <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-1 px-3 rounded-md transition-colors flex-shrink-0">
-                            <i class="fas fa-external-link-alt mr-1"></i> Visitar
-                        </a>
-                        ${project.codeUrl ? `<a href="${project.codeUrl}" target="_blank" rel="noopener noreferrer" class="text-sm bg-gray-600 hover:bg-gray-500 text-white dark:bg-gray-600 dark:hover:bg-gray-500 py-1 px-3 rounded-md transition-colors flex-shrink-0"><i class="fab fa-github mr-1"></i> Código</a>` : ''}
-                    </div>
-                </div>
-            `;
-            gallery.appendChild(newCard);
-            addProjectForm.reset();
-            addProjectPanel.classList.add('hidden');
-            filterAndSearchProjects();
-        });
-
-        applyLayout(currentLayout);
-    });
-</script>
-
-</body>
-</html>
+        /* Form Styles */
+        #addProjectForm { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  
