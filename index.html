@@ -314,4 +314,673 @@
         }
         /* Form Styles */
         #addProjectForm { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-  
+        @media (min-width: 768px) { #addProjectForm { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
+        #addProjectForm .form-span-2 { grid-column: 1 / -1; }
+        #addProjectForm label { font-weight: 500; margin-bottom: 0.3rem; display: block; font-size: 0.9rem; color: var(--text-secondary-light); }
+        .dark #addProjectForm label { color: var(--text-secondary-dark); }
+        #addProjectForm input[type="text"], #addProjectForm input[type="url"],
+        #addProjectForm textarea, #addProjectForm select {
+             background-color: var(--brand-light-bg); border: 1px solid var(--border-light); border-radius: var(--radius-md);
+             padding: 0.6rem 0.8rem; transition: all 0.2s; width: 100%; font-size: 0.9rem; color: var(--text-primary-light);
+        }
+        .dark #addProjectForm input[type="text"], .dark #addProjectForm input[type="url"],
+        .dark #addProjectForm textarea, .dark #addProjectForm select {
+             background-color: var(--brand-dark-bg); border-color: var(--border-dark); color: var(--text-primary-dark);
+        }
+        #addProjectForm input:focus, #addProjectForm textarea:focus, #addProjectForm select:focus {
+             outline: none; border-color: var(--brand-brown); box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.3);
+        }
+        .dark #addProjectForm input:focus, .dark #addProjectForm textarea:focus, .dark #addProjectForm select:focus {
+             border-color: var(--brand-gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+        }
+        #addProjectForm button[type="submit"] { /* Submit button */
+            background-color: #16a34a; color: white; font-weight: 600; padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-md); transition: all 0.3s; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
+        }
+        /* HOVER for submit button */
+        #addProjectForm button[type="submit"]:hover {
+             background-color: #15803d; /* Darker green */
+             transform: scale(1.03); /* Slight grow effect */
+             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+         }
+        #formMessage { font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
+        #formMessage.error { color: #dc2626; font-weight: 500; }
+        #formMessage.success { color: #16a34a; font-weight: 500; }
+
+        /* --- Preview Modal --- */
+        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        #previewModal:not(.hidden) { opacity: 1; visibility: visible; }
+        #previewModal .modal-content { background-color: var(--brand-card-light); border-radius: var(--radius-lg); width: 100%; height: 90%; max-width: 1200px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease-in-out; transform: scale(0.95); }
+        .dark #previewModal .modal-content { background-color: var(--brand-card-dark); }
+        #previewModal:not(.hidden) .modal-content { transform: scale(1); }
+        #previewModal.fullscreen .modal-content { width: 100%; height: 100%; max-width: none; border-radius: 0; }
+        #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: rgba(0,0,0,0.02); }
+        .dark #previewModal .modal-header { border-bottom-color: var(--border-dark); background-color: rgba(255,255,255,0.05); }
+        #previewModal #modalTitle { font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 1rem; }
+        .dark #previewModal #modalTitle { color: var(--text-primary-dark); }
+        #previewModal .modal-actions { display: flex; gap: 0.5rem; }
+        #previewModal .modal-button { /* Base style for modal buttons */
+            display: inline-flex; align-items: center; justify-content: center; background-color: transparent;
+            border: none; border-radius: var(--radius-md); width: 36px; height: 36px; cursor: pointer;
+            color: #6b7280; transition: all 0.2s; font-size: 1rem;
+        }
+        /* HOVER for general modal buttons */
+        #previewModal .modal-button:hover {
+            background-color: #f3f4f6; /* Light gray */
+            color: var(--brand-brown); /* Use Brand color */
+            transform: scale(1.1);
+        }
+        .dark #previewModal .modal-button { color: #9ca3af; }
+        .dark #previewModal .modal-button:hover {
+            background-color: #374151; /* Dark gray */
+            color: var(--primary-action-alt-dark); /* Use Gold */
+            transform: scale(1.1);
+        }
+        /* Specific HOVER for modal close button */
+        #previewModal .modal-button.close-btn:hover {
+            color: #EF4444; /* Red */
+            background-color: #fef2f2; /* Light red bg */
+            transform: scale(1.1) rotate(90deg); /* Rotate effect */
+        }
+        .dark #previewModal .modal-button.close-btn:hover {
+            color: #F87171; /* Lighter Red */
+            background-color: #3f2a2a; /* Dark red bg */
+            transform: scale(1.1) rotate(90deg);
+        }
+        #previewModal .modal-body { flex-grow: 1; overflow: hidden; }
+        #previewModal iframe { width: 100%; height: 100%; border: none; background-color: #f9fafb; }
+        .dark #previewModal iframe { background-color: #111827; }
+
+        /* --- Footer --- */
+        .site-footer {
+            background-color: #333; color: #bbb; padding: 1.5rem 1rem;
+            text-align: center; margin-top: auto; font-size: 0.875rem;
+        }
+        .dark .site-footer { background-color: #111; }
+        .site-footer p { margin-bottom: 0.25rem; }
+        .site-footer a { color: var(--brand-gold); font-weight: 500; text-decoration: none; transition: color 0.2s; }
+        .site-footer a:hover { color: #F0E68C; text-decoration: underline;}
+
+    </style>
+    <!-- Tailwind Config -->
+    <script> tailwind.config = { darkMode: 'class' } </script>
+</head>
+<body class=""> <!-- Add "dark" class here manually if needed -->
+
+    <!-- ======================= Header ======================= -->
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="#" class="logo">João Ricardo Portfólio</a>
+            <div class="header-actions">
+                <button id="darkModeToggle" title="Alternar Tema" class="header-button">
+                    <i class="fas fa-moon" id="darkModeIcon"></i>
+                </button>
+                <button id="showAddPanelBtn" title="Adicionar Novo Projeto" class="header-button add-project-btn">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======================= Main Content ======================= -->
+    <main class="container">
+
+        <!-- ======================= Filters (Redesigned) ======================= -->
+        <section id="controls">
+             <div class="controls-layout">
+                 <div class="filter-section-wrapper">
+                     <div class="filter-group-container">
+                         <span class="filter-label">Tecnologia:</span>
+                         <div class="filter-scroll-wrapper">
+                             <div class="filter-group" data-filter-type="tech">
+                                 <button class="filter-btn tech-filter active" data-filter="all">Todos</button>
+                                 <button class="filter-btn tech-filter" data-filter="html">HTML</button>
+                                 <button class="filter-btn tech-filter" data-filter="css">CSS</button>
+                                 <button class="filter-btn tech-filter" data-filter="javascript">JavaScript</button>
+                                 <button class="filter-btn tech-filter" data-filter="react">React</button>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="filter-group-container">
+                          <span class="filter-label">Categoria:</span>
+                          <div class="filter-scroll-wrapper">
+                              <div class="filter-group" data-filter-type="category">
+                                 <button class="filter-btn cat-filter active" data-filter="all">Todas</button>
+                                 <button class="filter-btn cat-filter" data-filter="landing-page">Landing Page</button>
+                                 <button class="filter-btn cat-filter" data-filter="portfolio">Portfólio</button>
+                                 <button class="filter-btn cat-filter" data-filter="app">Aplicação</button>
+                              </div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="search-layout-wrapper">
+                     <div class="filter-search-container">
+                         <i class="fas fa-search search-icon"></i>
+                         <input type="search" id="filterSearchInput" placeholder="Buscar nos projetos...">
+                     </div>
+                     <div class="layout-group">
+                          <span class="filter-label hidden lg:inline">Layout:</span>
+                         <button class="layout-btn active" data-layout="grid" title="Grade">
+                             <i class="fas fa-th-large"></i>
+                         </button>
+                         <button class="layout-btn" data-layout="list" title="Lista">
+                             <i class="fas fa-list"></i>
+                         </button>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- ======================= Project Gallery ======================= -->
+        <section id="project-gallery">
+             <!-- All 10 Project Cards (Kavian Structure) -->
+             <!-- Project 1 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="cloud engenharia" data-description="Projeto web para empresa de engenharia, demonstrando serviços e portfólio.">
+                <figure> <img src="https://plus.unsplash.com/premium_photo-1720551256796-624029b9dc84?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Cloud Engenharia" loading="lazy"> </figure>
+                <div class="card-content">
+                    <h3>Cloud Engenharia</h3> <p class="category-text">Aplicação</p>
+                    <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                    <p class="description-text">Projeto web para empresa de engenharia, demonstrando serviços e portfólio.</p>
+                    <div class="card-actions">
+                        <button class="card-button preview preview-button" data-preview-url="http://cloudeng.ezyro.com/"> <i class="fas fa-eye"></i> Preview </button>
+                        <a href="https://github.com/joaoricardobr/cloudeng" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                        <a href="http://cloudeng.ezyro.com/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                    </div>
+                </div>
+            </article>
+             <!-- Project 2 -->
+             <article class="project-card" data-technologies="html,css,javascript" data-category="portfolio" data-title="dra. soraya alaby" data-description="Website profissional para clínica de saúde integrativa.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1721225464945-97076602de73?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Dra. Soraya Alaby" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Dra. Soraya Alaby</h3> <p class="category-text">Portfólio</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Website profissional para clínica de saúde integrativa.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://sorayaalaby.vercel.app/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/biomedicaesteta" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://sorayaalaby.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+             </article>
+             <!-- Project 3 -->
+             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="formulário de paciente" data-description="Formulário interativo para coleta de informações de pacientes.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720201054067-adf2837be5e4?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Formulário de Paciente" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Formulário de Paciente</h3> <p class="category-text">Aplicação</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Formulário interativo para coleta de informações de pacientes.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/formularioclinica/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/formularioclinica" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://joaoricardobr.github.io/formularioclinica/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+             </article>
+             <!-- Project 4 -->
+             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="clima agora" data-description="Aplicação web para consultar condições climáticas.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1722209813944-a4ee13b7bfd8?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Clima Agora" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Clima Agora</h3> <p class="category-text">Aplicação</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Aplicação web para consultar condições climáticas.</p>
+                     <div class="card-actions">
+                          <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/climatempo/"> <i class="fas fa-eye"></i> Preview </button>
+                          <a href="https://github.com/joaoricardobr/climatempo" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                          <a href="https://joaoricardobr.github.io/climatempo/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                      </div>
+                 </div>
+             </article>
+             <!-- Project 5 -->
+             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="sistema pagamento wi-fi" data-description="Sistema simulado de portal cativo para gerenciamento de pagamentos Wi-Fi.">
+                  <figure> <img src="https://plus.unsplash.com/premium_photo-1720448972956-843ac01a7c51?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Sistema Pagamento Wi-Fi" loading="lazy"> </figure>
+                  <div class="card-content">
+                      <h3>Sistema Pagamento Wi-Fi</h3> <p class="category-text">Aplicação</p>
+                      <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                      <p class="description-text">Sistema simulado de portal cativo para gerenciamento de pagamentos Wi-Fi.</p>
+                      <div class="card-actions">
+                          <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/captiveportal/"> <i class="fas fa-eye"></i> Preview </button>
+                          <a href="https://github.com/joaoricardobr/captiveportal" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                          <a href="https://joaoricardobr.github.io/captiveportal/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                      </div>
+                  </div>
+             </article>
+            <!-- Project 6 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="landing-page" data-title="lorraine botura" data-description="Landing page apresentando solução inovadora com tecnologia de vibração.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720448972787-3140916002b7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Lorraine Botura" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Lorraine Botura</h3> <p class="category-text">Landing Page</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Landing page apresentando solução inovadora com tecnologia de vibração.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://lorrainebotura.com.br/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="#" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://lorrainebotura.com.br/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+            </article>
+            <!-- Project 7 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="vídeos surpresa" data-description="Site divertido que carrega vídeos aleatórios usando a API do YouTube.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1721080250995-5a83519eb2a0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Vídeos Surpresa" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Vídeos Surpresa</h3> <p class="category-text">Aplicação</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Site divertido que carrega vídeos aleatórios usando a API do YouTube.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/videosurpresa/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/videosurpresa" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://joaoricardobr.github.io/videosurpresa/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+            </article>
+            <!-- Project 8 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="filtros fotos" data-description="Aplicação web para aplicar efeitos de fotos.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1722169898948-5c7fa92f4042?q=80&w=1622&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Filtros Fotos" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Filtros Fotos</h3> <p class="category-text">Aplicação</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Aplicação web para aplicar efeitos de fotos.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://instafix-pi.vercel.app/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/instafix" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://instafix-pi.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+            </article>
+            <!-- Project 9 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="processador de planilhas" data-description="App web para upload e processamento de planilhas.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720210118027-19efec2959b4?q=80&w=1766&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Processador de Planilhas" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Processador de Planilhas</h3> <p class="category-text">Aplicação</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">App web para upload e processamento de planilhas.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/extratordedadosexcel/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/extratordedadosexcel" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://joaoricardobr.github.io/extratordedadosexcel/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+            </article>
+            <!-- Project 10 -->
+            <article class="project-card" data-technologies="html,css,javascript" data-category="portfolio" data-title="apostila concurso biomédico" data-description="Página de apresentação para apostila de concurso.">
+                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720210118039-47390f1158a5?q=80&w=1604&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Apostila Concurso Biomédico" loading="lazy"> </figure>
+                 <div class="card-content">
+                     <h3>Apostila Concurso Biomédico</h3> <p class="category-text">Portfólio</p>
+                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
+                     <p class="description-text">Página de apresentação para apostila de concurso.</p>
+                     <div class="card-actions">
+                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/apostilaconcurso/"> <i class="fas fa-eye"></i> Preview </button>
+                         <a href="https://github.com/joaoricardobr/apostilaconcurso" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
+                         <a href="https://joaoricardobr.github.io/apostilaconcurso/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                     </div>
+                 </div>
+             </article>
+
+             <!-- Placeholder for No Results -->
+             <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10">
+                 <i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i>
+                 <p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p>
+                 <p class="text-sm text-gray-500 dark:text-gray-500">Tente ajustar seus filtros.</p>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- ======================= Add Project Panel ======================= -->
+    <aside id="addProjectPanel" class="hidden">
+        <div class="add-panel-content">
+            <div class="add-panel-header">
+                <h2>Adicionar Novo Projeto</h2>
+                <button id="hideAddPanelBtn" title="Fechar Painel"> <i class="fas fa-times"></i> </button> <!-- Removed class="header-button" to use specific style -->
+            </div>
+            <form id="addProjectForm">
+                <div><label for="projectTitle">Título do Projeto</label><input type="text" id="projectTitle" name="title" required></div>
+                <div><label for="projectCategory">Categoria</label><select id="projectCategory" name="category" required><option value="" disabled selected>Selecione...</option><option value="landing-page">Landing Page</option><option value="portfolio">Portfólio</option><option value="app">Aplicação</option><option value="other">Outro</option></select></div>
+                <div class="form-span-2"><label for="projectDescription">Descrição Curta</label><textarea id="projectDescription" name="description" rows="3" required></textarea></div>
+                <div><label for="projectImageUrl">URL da Imagem de Preview</label><input type="url" id="projectImageUrl" name="imageUrl" required placeholder="https://images.unsplash.com/..."></div>
+                <div><label for="projectLiveUrl">URL do Site (Live)</label><input type="url" id="projectLiveUrl" name="liveUrl" required placeholder="https://meuprojeto.com"></div>
+                <div><label for="projectCodeUrl">URL do Repositório (Opcional)</label><input type="url" id="projectCodeUrl" name="codeUrl" placeholder="https://github.com/usuario/repo"></div>
+                <div><label for="projectTechs">Tecnologias (separadas por vírgula)</label><input type="text" id="projectTechs" name="technologies" required placeholder="Ex: html, css, javascript, react"></div>
+                <div class="form-span-2" style="text-align: right;"><button type="submit"><i class="fas fa-plus mr-2"></i>Adicionar Projeto</button></div>
+                <p id="formMessage" class="form-span-2"></p>
+            </form>
+        </div>
+    </aside>
+
+    <!-- ======================= Preview Modal ======================= -->
+    <div id="previewModal" class="hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalTitle">Preview do Projeto</h4>
+                <div class="modal-actions">
+                    <button id="fullscreenButton" title="Tela Cheia" class="modal-button"> <i class="fas fa-expand"></i> </button>
+                    <button id="closeModalButton" title="Fechar" class="modal-button close-btn"> <i class="fas fa-times"></i> </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="previewIframe" src="about:blank" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= Footer ======================= -->
+    <footer class="site-footer">
+        <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
+        <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
+    </footer>
+
+    <!-- ======================= JavaScript ======================= -->
+    <script>
+    // O JavaScript permanece o mesmo, pois as classes e IDs que ele usa não foram alterados.
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- STATE ---
+        let currentFilters = { tech: 'all', category: 'all', search: '' };
+        let currentLayout = localStorage.getItem('layout') || 'grid';
+
+        // --- DOM ELEMENTS ---
+        const gallery = document.getElementById('project-gallery');
+        const noResultsDiv = document.getElementById('no-results');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const controlsContainer = document.getElementById('controls');
+        const filterSearchInput = document.getElementById('filterSearchInput'); // SEARCH INPUT IN CONTROLS
+        const modal = document.getElementById('previewModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const fullscreenButton = document.getElementById('fullscreenButton');
+        const previewIframe = document.getElementById('previewIframe');
+        const addProjectPanel = document.getElementById('addProjectPanel');
+        const showAddPanelBtn = document.getElementById('showAddPanelBtn');
+        const hideAddPanelBtn = document.getElementById('hideAddPanelBtn');
+        const addProjectForm = document.getElementById('addProjectForm');
+        const formMessage = document.getElementById('formMessage');
+        const currentYearSpan = document.getElementById('currentYear');
+
+         // --- Error Checks ---
+         if (!gallery) console.error("#project-gallery not found!");
+         if (!addProjectPanel) console.error("#addProjectPanel not found!");
+         if (!showAddPanelBtn) console.error("#showAddPanelBtn not found!");
+         if (!hideAddPanelBtn) console.error("#hideAddPanelBtn not found!");
+         if (!addProjectForm) console.error("#addProjectForm not found!");
+         if (!controlsContainer) console.error("#controls container not found!");
+         if (!filterSearchInput) console.warn("#filterSearchInput not found.");
+
+         // --- INITIALIZATION ---
+        if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(savedTheme);
+        applyLayout(currentLayout);
+        filterAndSearchProjects(); // Initial filter application
+
+        // --- FUNCTIONS ---
+        function applyTheme(theme) {
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            if (darkModeIcon) darkModeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+            localStorage.setItem('theme', theme);
+        };
+
+        function updateButtonActiveState(groupSelector, activeValue, dataAttr, activeClass = 'active') {
+            if (!controlsContainer) return;
+            const buttons = controlsContainer.querySelectorAll(`${groupSelector} button[${dataAttr}]`);
+            buttons.forEach(btn => btn.classList.toggle(activeClass, btn.getAttribute(dataAttr) === activeValue));
+        };
+
+        function applyLayout(layout) {
+            if (!gallery) return;
+            // Remove existing layout classes before applying new ones
+            gallery.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'list-view', 'gap-6');
+            if (layout === 'grid') {
+                gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6'); // Use gap-6 for consistency
+            } else if (layout === 'list') {
+                // For list view, you might need specific CSS rules (add a 'list-view' class and define styles in CSS)
+                // Example: Add a class and style it in CSS for larger images, text side-by-side etc.
+                // gallery.classList.add('list-view');
+                // For simplicity here, we'll just use a single column grid for list-like layout
+                 gallery.classList.add('grid', 'grid-cols-1', 'gap-6'); // Or adjust as needed
+            }
+            const layoutGroup = controlsContainer?.querySelector('.layout-group');
+            if(layoutGroup) {
+                 updateButtonActiveState('.layout-group', layout, 'data-layout');
+            }
+            currentLayout = layout;
+            localStorage.setItem('layout', layout);
+        };
+
+        function filterAndSearchProjects() {
+             if (!gallery) return;
+             const searchVal = (filterSearchInput?.value || '').toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+             currentFilters.search = searchVal;
+
+             const allCards = gallery.querySelectorAll(':scope > .project-card');
+             let visibleCount = 0;
+             allCards.forEach(card => {
+                 try {
+                    const techs = (card.dataset.technologies || '').toLowerCase().split(',');
+                    const category = (card.dataset.category || '').toLowerCase();
+                    const title = (card.dataset.title || card.querySelector('h3')?.textContent || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    const desc = (card.dataset.description || card.querySelector('.description-text')?.textContent || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                    const techMatch = currentFilters.tech === 'all' || techs.some(t => t.trim() === currentFilters.tech);
+                    const catMatch = currentFilters.category === 'all' || category === currentFilters.category;
+                    // Search matches title, description, or any technology tag
+                    const searchMatch = searchVal === '' || title.includes(searchVal) || desc.includes(searchVal) || techs.some(t => t.trim().includes(searchVal));
+
+                    const isVisible = techMatch && catMatch && searchMatch;
+                    // Use the specific hidden class defined in CSS
+                    card.classList.toggle('hidden-card', !isVisible);
+                    if (isVisible) visibleCount++;
+                 } catch (error) {
+                     console.error("Error filtering card:", card, error);
+                     card.classList.remove('hidden-card'); visibleCount++; // Show card if error occurs
+                 }
+             });
+             // Toggle the 'no results' message based on visibility
+             if (noResultsDiv) noResultsDiv.classList.toggle('hidden', visibleCount > 0);
+        };
+
+        function openModal(url, title) {
+            if (!modal || !previewIframe || !modalTitle) return;
+            if (!url || url === '#') { alert('Preview não disponível para este projeto.'); return; }
+            modalTitle.textContent = title || 'Preview do Projeto';
+            // Reset iframe src before setting new one to avoid potential issues
+            previewIframe.src = 'about:blank';
+            // Use a small delay to ensure the src is cleared before loading the new URL
+            setTimeout(() => { previewIframe.src = url; }, 50);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        };
+
+        function closeModal() {
+             if (!modal || !previewIframe) return;
+             // Exit fullscreen if active
+             if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+                 if (document.exitFullscreen) document.exitFullscreen();
+                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                 else if (document.msExitFullscreen) document.msExitFullscreen();
+             }
+             modal.classList.add('hidden');
+             if(fullscreenButton) fullscreenButton.querySelector('i').className = 'fas fa-expand'; // Reset icon
+             previewIframe.src = 'about:blank'; // Clear iframe content
+             document.body.style.overflow = ''; // Restore scrolling
+        };
+
+        function toggleFullscreen() {
+            if (!modal) return;
+            const isInFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+            const elementToFullscreen = modal.querySelector('.modal-content') || modal; // Fullscreen the content area
+            if (!isInFullscreen) {
+                if (elementToFullscreen.requestFullscreen) elementToFullscreen.requestFullscreen();
+                else if (elementToFullscreen.webkitRequestFullscreen) elementToFullscreen.webkitRequestFullscreen();
+                else if (elementToFullscreen.msRequestFullscreen) elementToFullscreen.msRequestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (document.msExitFullscreen) document.msExitFullscreen();
+            }
+        }
+        // Update fullscreen button icon based on state
+        function handleFullscreenChange() {
+            if (!fullscreenButton) return;
+            const isInFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+            fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand';
+        }
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        function showFormMsg(msg, type = 'info') {
+            if (!formMessage) return;
+            formMessage.textContent = msg;
+            // Reset classes and add the new type class
+            formMessage.className = 'form-span-2'; // Base class
+            if (type === 'error') formMessage.classList.add('error');
+            else if (type === 'success') formMessage.classList.add('success');
+        }
+
+        // --- EVENT LISTENERS ---
+        if (darkModeToggle) darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+
+        // Filter/Layout Button Listeners (using event delegation on controls container)
+        if (controlsContainer) {
+            controlsContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('button'); // Find the nearest button clicked
+                if (!target) return; // Exit if click wasn't on or inside a button
+
+                // Handle Filter Buttons
+                if (target.classList.contains('filter-btn')) {
+                    const group = target.closest('.filter-group');
+                    if (!group) return;
+                    const type = group.dataset.filterType; // 'tech' or 'category'
+                    const value = target.dataset.filter;
+                    if (currentFilters[type] !== value) {
+                        currentFilters[type] = value;
+                        // Update active state visually for the correct group
+                        updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
+                        filterAndSearchProjects(); // Re-apply filters
+                    }
+                }
+                // Handle Layout Buttons
+                else if (target.classList.contains('layout-btn')) {
+                    const layout = target.dataset.layout; // 'grid' or 'list'
+                    if (currentLayout !== layout) {
+                        applyLayout(layout); // Apply the new layout
+                    }
+                }
+            });
+        }
+
+        // Search Input Listener
+        if (filterSearchInput) filterSearchInput.addEventListener('input', filterAndSearchProjects);
+
+        // Preview Modal Listener (using event delegation on gallery)
+        if (gallery) {
+            gallery.addEventListener('click', (e) => {
+                // Check if the click was on a preview button
+                const btn = e.target.closest('button.preview-button');
+                if (btn) {
+                    e.preventDefault(); // Prevent default button action if any
+                    const url = btn.dataset.previewUrl;
+                    const card = btn.closest('.project-card');
+                    const title = card?.querySelector('h3')?.textContent || 'Preview';
+                    openModal(url, title);
+                }
+            });
+        }
+
+        // Modal Close/Fullscreen Buttons
+        if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
+        if (fullscreenButton) fullscreenButton.addEventListener('click', toggleFullscreen);
+        // Close modal if clicking outside the content area
+        if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
+
+        // Add Project Panel Show/Hide Listeners
+        if (showAddPanelBtn && addProjectPanel) {
+             showAddPanelBtn.addEventListener('click', (e) => {
+                 e.stopPropagation(); // Prevent triggering other listeners
+                 addProjectPanel.classList.remove('hidden'); // Show panel
+             });
+        }
+        if (hideAddPanelBtn && addProjectPanel) {
+             hideAddPanelBtn.addEventListener('click', (e) => {
+                 e.stopPropagation();
+                 addProjectPanel.classList.add('hidden'); // Hide panel
+                 addProjectForm?.reset(); // Reset form fields
+                 showFormMsg(''); // Clear any previous form messages
+             });
+        }
+
+        // Add Project Form Submission Logic
+        if (addProjectForm && gallery) {
+            addProjectForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent standard form submission
+                showFormMsg(''); // Clear previous messages
+                const formData = new FormData(addProjectForm);
+                const project = Object.fromEntries(formData.entries());
+                // Process technologies string into an array, make lowercase, trim whitespace
+                const techs = (project.technologies || '').split(',')
+                                .map(t => t.trim().toLowerCase())
+                                .filter(t => t); // Remove empty tags
+
+                // Basic Validation
+                 let errors = [];
+                 if (!project.title) errors.push("Título");
+                 if (!project.liveUrl) errors.push("URL Site");
+                 if (!project.imageUrl) errors.push("URL Imagem");
+                 if (techs.length === 0) errors.push("Tecnologias");
+                 if (!project.category) errors.push("Categoria");
+                 if (!project.description) errors.push("Descrição");
+
+                 if (errors.length > 0) {
+                     showFormMsg(`Erro: Preencha os campos obrigatórios: ${errors.join(', ')}.`, 'error');
+                     return; // Stop submission
+                 }
+
+                 // Create New Project Card HTML
+                 const newCard = document.createElement('article');
+                 newCard.className = 'project-card'; // Base card class
+                 // Set data attributes for filtering/searching
+                 newCard.dataset.technologies = techs.join(',');
+                 newCard.dataset.category = project.category.toLowerCase();
+                 newCard.dataset.title = project.title.toLowerCase();
+                 newCard.dataset.description = project.description.toLowerCase();
+
+                 // Use template literal for cleaner HTML structure
+                 newCard.innerHTML = `
+                    <figure><img src="${project.imageUrl}" alt="Preview ${project.title}" loading="lazy"></figure>
+                    <div class="card-content">
+                        <h3>${project.title}</h3>
+                        <p class="category-text">${project.category}</p> <!-- Display category text -->
+                        <div class="tech-tags">
+                            ${techs.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                        </div>
+                        <p class="description-text">${project.description}</p>
+                        <div class="card-actions">
+                             <button class="card-button preview preview-button" data-preview-url="${project.liveUrl}"><i class="fas fa-eye"></i> Preview</button>
+                             <a href="${project.codeUrl || '#'}" target="_blank" rel="noopener noreferrer" class="card-button code" ${!project.codeUrl ? 'style="display:none;"' : ''}><i class="fab fa-github"></i> Código</a>
+                             <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="card-button visit"><i class="fas fa-external-link-alt"></i> Visitar</a>
+                        </div>
+                    </div>`;
+
+                 // Add the new card to the top of the gallery
+                 gallery.insertBefore(newCard, gallery.firstChild);
+
+                 // Reset form, hide panel, show success message
+                 addProjectForm.reset();
+                 addProjectPanel?.classList.add('hidden');
+                 showFormMsg('Projeto adicionado com sucesso!', 'success');
+                 // Clear success message after a few seconds
+                 setTimeout(()=>showFormMsg(''), 3000);
+
+                 // Re-apply filters to ensure the new card is displayed correctly based on current filters
+                 filterAndSearchProjects();
+            });
+        }
+
+    }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
