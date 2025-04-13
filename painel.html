@@ -1,0 +1,2853 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Dev Pro</title>
+    <!-- CORREÇÃO: Movido Google Fonts para <head> usando <link> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* CORREÇÃO: Removido @import daqui */
+
+        /* Sidebar */
+        .sidebar {
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-expanded {
+            width: 256px;
+        }
+        .sidebar-expanded .sidebar-item-text {
+            opacity: 1;
+            transition: opacity 0.2s ease 0.1s;
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .sidebar-item-text {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+            transition: opacity 0.1s ease;
+        }
+        .nav-item i.fa-fw {
+            width: 1.5em;
+            text-align: center;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            border-radius: 6px;
+            margin: 4px 8px;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .nav-item.active {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 500;
+        }
+        .sidebar-section-header {
+            padding: 16px 16px 8px 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s ease 0.1s;
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .sidebar-section-header {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: opacity 0.1s ease, height 0s ease 0.1s, padding 0s ease 0.1s;
+        }
+        .sidebar-nav {
+            max-height: calc(100vh - 64px); /* Ajuste para altura do header da sidebar */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #6b7280 #2d3748;
+        }
+        .sidebar-nav::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: #6b7280;
+            border-radius: 3px;
+        }
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        .nav-item.dragging {
+            opacity: 0.5;
+            background-color: #4a5568;
+        }
+        .nav-item.drag-over {
+            border-top: 2px solid #3b82f6;
+        }
+
+        /* Content Area */
+        .content-area {
+            transition: margin-left 0.3s ease;
+            background-color: #f9fafb; /* Fundo claro para contraste */
+        }
+
+        /* Cards (Geral) */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body {
+            padding: 1rem;
+            flex-grow: 1;
+        }
+        .card-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .card-footer {
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center; /* Alinha itens no rodapé */
+        }
+
+        /* Project Cards */
+        .project-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .project-card .card-title {
+            font-size: 1.1rem; /* Leve ajuste */
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .project-card .card-subtitle {
+            font-size: 0.8rem; /* Leve ajuste */
+            color: #c2410c;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        .project-card .card-tags {
+            display: flex;
+            flex-wrap: wrap; /* Permite que as tags quebrem linha */
+            gap: 0.5rem;
+            margin-top: 0.75rem; /* Espaçamento */
+        }
+        .project-card .tag {
+            background-color: #e5e7eb;
+            color: #374151;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+        }
+        .project-card .card-description {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-top: 0.75rem;
+            line-height: 1.4;
+            /* Limitar número de linhas para evitar cards muito longos */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .project-card .btn-preview {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem; /* Tamanho consistente */
+            transition: background-color 0.2s ease;
+            text-decoration: none; /* Remover sublinhado */
+        }
+        .project-card .btn-preview:hover {
+            background-color: #2563eb;
+        }
+        .project-card .btn-action { /* Classe comum para botões de ação */
+            background-color: #6b7280;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+            line-height: 1; /* Garante que o ícone fique centralizado */
+        }
+        .project-card .btn-action:hover {
+            background-color: #4b5563;
+        }
+        /* Espaço entre botão Preview e botões de ação */
+        .project-card .card-footer > :first-child {
+            margin-right: auto; /* Empurra os botões de ação para a direita */
+        }
+
+        /* Snippet Cards */
+        .snippet-card pre {
+            max-height: 200px; /* Limita altura do código */
+            overflow: auto; /* Adiciona scroll se necessário */
+            border-radius: 6px; /* Borda arredondada */
+        }
+        .snippet-card .card-body .flex > div:last-child { /* Alinhar botões no snippet card */
+             margin-left: auto;
+        }
+
+
+        /* Modals */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(249, 250, 251, 0.7); /* Fundo mais claro */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: 12px; /* Consistente com o card */
+        }
+
+        /* Settings */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            cursor: move;
+            background-color: white; /* Fundo para arrastar */
+        }
+        .menu-item input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            background-color: transparent; /* Input transparente */
+        }
+        .menu-item.dragging {
+            opacity: 0.5;
+            background-color: #f3f3f3;
+        }
+        .menu-item.drag-over {
+            border-top: 2px solid #3b82f6;
+        }
+
+        /* Form Inputs */
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Adicionado box-shadow na transição */
+            background-color: white; /* Garante fundo branco */
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Sombra de foco mais suave */
+        }
+        .form-textarea {
+            resize: vertical;
+        }
+        .input-icon-wrapper {
+            position: relative;
+        }
+        /* Ajuste posicionamento do ícone e padding do input */
+        .input-icon-wrapper i {
+            position: absolute;
+            left: 0.75rem;
+            top: calc(0.5rem + 1px); /* Alinha com o padding do input */
+            transform: translateY(50%); /* Centraliza verticalmente melhor */
+            color: #9ca3af;
+            pointer-events: none; /* Ícone não interfere no clique */
+            font-size: 0.875rem; /* Tamanho do ícone consistente */
+        }
+         .input-icon-wrapper label + i { /* Se o ícone vem depois do label */
+             top: calc(2.5rem + 1px); /* Ajuste quando tem label */
+         }
+        .input-icon-wrapper .form-input,
+        .input-icon-wrapper .form-select,
+        .input-icon-wrapper .form-textarea {
+            padding-left: 2.25rem; /* Aumenta espaço para o ícone */
+        }
+
+        .btn { /* Classe base para botões */
+            display: inline-flex; /* Alinha ícone e texto */
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent; /* Borda base */
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+            border-color: #d1d5db; /* Borda sutil */
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #d1d5db;
+        }
+        .btn-danger { /* Botão de perigo (exclusão) */
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .btn-danger:hover:not(:disabled) {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+        .btn-sm { /* Botão pequeno */
+             padding: 0.25rem 0.75rem;
+             font-size: 0.75rem;
+        }
+
+        /* Filtros e Ações nas seções */
+        .filter-section {
+            margin-bottom: 1.5rem; /* Espaçamento abaixo dos filtros */
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Iframe container */
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 160px); /* Ajustar altura conforme necessário */
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Login Screen -->
+    <div id="login-screen" class="fixed inset-0 flex items-center justify-center z-50 bg-gradient-to-br from-blue-100 via-white to-indigo-100 login-container">
+        <div class="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 backdrop-blur-md bg-opacity-90">
+            <div id="login-form-container" class="p-8">
+                <div class="text-center mb-6">
+                    <i class="fas fa-terminal text-blue-600 text-4xl"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 mt-2">Login DevPainel</h2>
+                </div>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="login-email" required class="form-input" placeholder="seu.email@example.com">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <input type="password" id="login-password" required minlength="6" class="form-input" placeholder="••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">
+                        <span>Entrar</span>
+                        <div id="login-spinner" class="hidden loader ml-2" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                    </button>
+                    <p id="login-error" class="text-sm text-red-600 mt-2 hidden text-center">Erro ao fazer login.</p>
+                </form>
+                <p class="text-sm text-gray-600 mt-6 text-center">
+                    Não tem uma conta? <button id="show-register-btn" class="text-blue-600 hover:underline font-medium">Cadastre-se</button>
+                </p>
+            </div>
+            <div id="register-form-container" class="p-8 hidden">
+                 <div class="text-center mb-6">
+                    <i class="fas fa-user-plus text-blue-600 text-4xl"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 mt-2">Cadastrar Conta</h2>
+                </div>
+                <form id="register-form" class="space-y-6">
+                    <div>
+                        <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="register-email" required class="form-input" placeholder="seu.email@example.com">
+                    </div>
+                    <div>
+                        <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <input type="password" id="register-password" required minlength="6" class="form-input" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div>
+                        <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Senha</label>
+                        <input type="password" id="confirm-password" required minlength="6" class="form-input" placeholder="Repita a senha">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Força da Senha:</span>
+                            <span id="password-strength-text" class="font-medium">Fraca</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="password-strength-bar" class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: 33%"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">
+                        <span>Cadastrar</span>
+                        <div id="register-spinner" class="hidden loader ml-2" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                    </button>
+                    <p id="register-error" class="text-sm text-red-600 mt-2 hidden text-center">Erro ao cadastrar.</p>
+                    <p id="register-success" class="text-sm text-green-600 mt-2 hidden text-center">Usuário cadastrado! Faça login.</p>
+                </form>
+                <p class="text-sm text-gray-600 mt-6 text-center">
+                    Já tem uma conta? <button id="show-login-btn" class="text-blue-600 hover:underline font-medium">Faça login</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard-main" class="hidden min-h-screen flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar sidebar-collapsed bg-gray-900 text-white fixed h-full z-30 shadow-lg flex flex-col">
+            <div class="p-4 flex items-center justify-between border-b border-gray-700 h-16 flex-shrink-0">
+                <div class="flex items-center flex-grow overflow-hidden">
+                    <i class="fas fa-terminal text-blue-400 text-2xl flex-shrink-0 ml-1"></i>
+                    <span class="sidebar-item-text ml-3 font-bold text-lg whitespace-nowrap">DevPainel</span>
+                </div>
+                <button id="toggle-sidebar" class="text-gray-400 hover:text-white flex-shrink-0 ml-2 p-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i class="fas fa-bars fa-fw"></i>
+                </button>
+            </div>
+            <nav id="sidebar-nav" class="sidebar-nav mt-4 flex-grow">
+                <!-- Itens do Menu gerados pelo JS -->
+                <div class="sidebar-section-header">Sites Principais</div>
+                <div id="custom-sites"></div>
+                <div class="sidebar-section-header">Navegação</div>
+                <div id="navigation-items"></div>
+                <div class="sidebar-section-header">Sistema</div>
+                <div id="system-items"></div>
+                 <!-- Espaço extra no final para melhor scroll -->
+                 <div class="h-10"></div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div id="content-area" class="content-area ml-[70px] flex-1 p-6 md:p-8 overflow-y-auto">
+            <div class="flex flex-wrap justify-between items-center mb-8 gap-4">
+                <h1 id="page-title" class="text-2xl md:text-3xl font-bold text-gray-800">Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" id="global-search" placeholder="Buscar..." class="form-input pl-10 pr-4 py-2 text-sm w-48 sm:w-64">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="relative group">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold cursor-pointer shadow-md">
+                            <span id="user-initial">U</span>
+                        </div>
+                         <!-- Dropdown Usuário (Exemplo) -->
+                         <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
+                            <span id="user-email-dropdown" class="block px-4 py-2 text-sm text-gray-700 truncate">email@example.com</span>
+                            <a href="#" data-section="settings-section" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-item-settings">Configurações</a>
+                            <a href="#" id="logout-btn-dropdown" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="section-content">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">Total de Projetos</h3>
+                            <p id="total-projects" class="text-2xl font-bold text-gray-800">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">Total de Snippets</h3>
+                            <p id="total-snippets" class="text-2xl font-bold text-gray-800">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">Total de Links</h3>
+                            <p id="total-links" class="text-2xl font-bold text-gray-800">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-lg font-semibold text-gray-800">Ações Rápidas</h2>
+                    </div>
+                    <div class="card-body grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <button id="quick-add-project-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Projeto</button>
+                        <button id="quick-add-snippet-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Snippet</button>
+                        <button id="quick-add-link-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Link</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projects-section" class="section-content hidden">
+                <div class="filter-section flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex-grow">
+                        <input type="text" id="project-search" placeholder="Buscar projetos..." class="form-input text-sm w-full sm:w-auto">
+                    </div>
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <select id="project-sort" class="form-select text-sm">
+                            <option value="created_at-desc">Mais Recente</option>
+                            <option value="created_at-asc">Mais Antigo</option>
+                            <option value="name-asc">Nome (A-Z)</option>
+                            <option value="name-desc">Nome (Z-A)</option>
+                        </select>
+                        <button id="add-project-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Projeto</button>
+                    </div>
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative min-h-[200px]">
+                    <div id="projects-loader" class="loading-overlay hidden"><div class="loader"></div></div>
+                </div>
+                <div id="projects-empty" class="text-center py-10 text-gray-500 hidden">Nenhum projeto encontrado.</div>
+            </div>
+
+            <!-- Snippets Section -->
+            <div id="snippets-section" class="section-content hidden">
+                 <div class="filter-section flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex-grow">
+                        <input type="text" id="snippet-search" placeholder="Buscar snippets..." class="form-input text-sm w-full sm:w-auto">
+                    </div>
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <select id="snippet-lang-filter" class="form-select text-sm">
+                            <option value="">Linguagem</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="CSS">CSS</option>
+                            <option value="HTML">HTML</option>
+                            <option value="Python">Python</option>
+                            <option value="SQL">SQL</option>
+                            <option value="PHP">PHP</option>
+                             <option value="Other">Outra</option>
+                        </select>
+                        <select id="snippet-sort" class="form-select text-sm">
+                            <option value="created_at-desc">Mais Recente</option>
+                            <option value="created_at-asc">Mais Antigo</option>
+                            <option value="title-asc">Título (A-Z)</option>
+                            <option value="title-desc">Título (Z-A)</option>
+                        </select>
+                        <button id="add-snippet-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Snippet</button>
+                    </div>
+                </div>
+                <div id="snippets-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative min-h-[200px]">
+                    <div id="snippets-loader" class="loading-overlay hidden"><div class="loader"></div></div>
+                </div>
+                <div id="snippets-empty" class="text-center py-10 text-gray-500 hidden">Nenhum snippet encontrado.</div>
+            </div>
+
+            <!-- Links Section -->
+            <div id="links-section" class="section-content hidden">
+                 <div class="filter-section flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex-grow">
+                        <input type="text" id="link-search" placeholder="Buscar links..." class="form-input text-sm w-full sm:w-auto">
+                    </div>
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <select id="link-sort" class="form-select text-sm">
+                            <option value="created_at-desc">Mais Recente</option>
+                            <option value="created_at-asc">Mais Antigo</option>
+                            <option value="title-asc">Título (A-Z)</option>
+                            <option value="title-desc">Título (Z-A)</option>
+                        </select>
+                        <button id="add-link-btn" class="btn btn-primary text-sm"><i class="fas fa-plus mr-2"></i> Novo Link</button>
+                    </div>
+                </div>
+                <div id="links-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative min-h-[200px]">
+                    <div id="links-loader" class="loading-overlay hidden"><div class="loader"></div></div>
+                </div>
+                <div id="links-empty" class="text-center py-10 text-gray-500 hidden">Nenhum link encontrado.</div>
+            </div>
+
+            <!-- Iframe Sections (Exemplo - adaptar URLs e IDs conforme necessário) -->
+            <div id="custom-site-1-section" class="section-content hidden">
+                <!-- CORREÇÃO: Adicionado title -->
+                <div class="iframe-container"><iframe id="custom-site-1-frame" title="Preview Site 1" src="about:blank" allowfullscreen></iframe></div>
+            </div>
+            <div id="custom-site-2-section" class="section-content hidden">
+                 <!-- CORREÇÃO: Adicionado title -->
+                <div class="iframe-container"><iframe id="custom-site-2-frame" title="Preview Site 2" src="about:blank" allowfullscreen></iframe></div>
+            </div>
+            <!-- Adicionar mais seções de iframe conforme necessário -->
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="section-content hidden">
+                <div class="card max-w-3xl mx-auto">
+                    <div class="card-header"><h2 class="text-lg font-semibold text-gray-800">Configurações</h2></div>
+                    <div class="card-body space-y-8"> <!-- Aumentado espaço entre seções -->
+                        <div>
+                            <h3 class="text-md font-semibold mb-3 text-gray-700">Informações do Usuário</h3>
+                            <p class="text-sm text-gray-600">Email: <span id="settings-user-email" class="font-medium text-gray-800">carregando...</span></p>
+                        </div>
+                        <hr/>
+                        <div>
+                            <h3 class="text-md font-semibold mb-3 text-gray-700">Alterar Senha</h3>
+                            <form id="change-password-form" class="space-y-4 max-w-sm">
+                                <div>
+                                    <label for="new-password" class="block text-sm font-medium text-gray-700">Nova Senha</label>
+                                    <input type="password" id="new-password" class="form-input mt-1" required minlength="6" placeholder="Mínimo 6 caracteres">
+                                </div>
+                                <button type="submit" class="btn btn-primary text-sm">Atualizar Senha</button>
+                                <p id="password-success-message" class="text-sm text-green-600 mt-2 hidden">Senha atualizada com sucesso!</p>
+                                <p id="password-error-message" class="text-sm text-red-600 mt-2 hidden">Erro ao atualizar senha.</p>
+                            </form>
+                        </div>
+                         <hr/>
+                        <div>
+                            <h3 class="text-md font-semibold mb-1 text-gray-700">Personalizar Ordem do Menu</h3>
+                            <p class="text-sm text-gray-500 mb-3">Arraste os itens para reordenar. Edite o texto diretamente no campo.</p>
+                            <div id="menu-items" class="space-y-2 mb-4">
+                                <!-- Itens do menu para drag and drop -->
+                            </div>
+                            <button id="save-menu-changes" class="btn btn-primary text-sm">Salvar Alterações no Menu</button>
+                            <p id="menu-success-message" class="text-sm text-green-600 mt-2 hidden">Ordem do menu atualizada com sucesso!</p>
+                            <p id="menu-error-message" class="text-sm text-red-600 mt-2 hidden">Erro ao salvar alterações no menu.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-40 hidden p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-auto modal-content">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="project-modal-title" class="text-lg font-semibold text-gray-800">Adicionar Novo Projeto</h3>
+                <button class="close-modal text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <form id="project-form" class="p-6">
+                <input type="hidden" id="project-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2 input-icon-wrapper">
+                         <label for="project-name" class="block text-sm font-medium text-gray-700 mb-1">Nome do Projeto <span class="text-red-500">*</span></label>
+                        <i class="fas fa-project-diagram"></i>
+                        <input type="text" id="project-name" required class="form-input" placeholder="Meu Projeto Incrível">
+                    </div>
+                    <div class="md:col-span-2 input-icon-wrapper">
+                         <label for="project-url" class="block text-sm font-medium text-gray-700 mb-1">URL de Visualização <span class="text-red-500">*</span></label>
+                        <i class="fas fa-link"></i>
+                        <input type="text" id="project-url" required class="form-input" placeholder="https://meuprojeto.com">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="project-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                        <textarea id="project-description" rows="3" class="form-textarea" placeholder="Descreva brevemente o projeto..."></textarea>
+                    </div>
+                    <div class="input-icon-wrapper">
+                        <label for="project-image-url" class="block text-sm font-medium text-gray-700 mb-1">URL da Imagem</label>
+                        <i class="fas fa-image"></i>
+                        <input type="text" id="project-image-url" class="form-input" placeholder="https://example.com/imagem.jpg">
+                    </div>
+                    <div class="input-icon-wrapper">
+                        <label for="project-category" class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                         <i class="fas fa-tag"></i>
+                        <select id="project-category" class="form-select">
+                            <option value="">Selecione...</option>
+                            <option value="Aplicação Web">Aplicação Web</option>
+                            <option value="Portfólio">Portfólio</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Blog">Blog</option>
+                            <option value="Landing Page">Landing Page</option>
+                            <option value="API">API</option>
+                            <option value="Mobile App">Mobile App</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                     <div class="md:col-span-2 input-icon-wrapper">
+                        <label for="project-technologies" class="block text-sm font-medium text-gray-700 mb-1">Tecnologias</label>
+                         <i class="fas fa-microchip"></i>
+                        <input type="text" id="project-technologies" class="form-input" placeholder="HTML, CSS, JavaScript, React...">
+                        <p class="text-xs text-gray-500 mt-1">Separe por vírgulas.</p>
+                    </div>
+                    <div class="md:col-span-2 input-icon-wrapper">
+                        <label for="project-code-url" class="block text-sm font-medium text-gray-700 mb-1">URL do Código (GitHub, etc.)</label>
+                         <i class="fab fa-github"></i>
+                        <input type="text" id="project-code-url" class="form-input" placeholder="https://github.com/seu-usuario/repo">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="flex items-center text-sm font-medium text-gray-700">
+                            <input type="checkbox" id="add-to-sidebar" class="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            Adicionar link rápido na Sidebar (Seção "Sites Principais")
+                        </label>
+                    </div>
+                </div>
+                <div id="project-form-error" class="hidden text-sm text-red-600 mt-4 p-3 bg-red-100 rounded border border-red-300"></div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Salvar Projeto</span>
+                        <div id="project-form-spinner" class="hidden loader ml-2" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Snippet Modal -->
+    <div id="snippet-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-40 hidden p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-auto modal-content">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="snippet-modal-title" class="text-lg font-semibold text-gray-800">Adicionar Novo Snippet</h3>
+                <button class="close-modal text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <form id="snippet-form" class="p-6">
+                <input type="hidden" id="snippet-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-icon-wrapper">
+                         <label for="snippet-title" class="block text-sm font-medium text-gray-700 mb-1">Título <span class="text-red-500">*</span></label>
+                        <i class="fas fa-heading"></i>
+                        <input type="text" id="snippet-title" required class="form-input" placeholder="Função de Validação de Email">
+                    </div>
+                     <div class="input-icon-wrapper">
+                        <label for="snippet-language" class="block text-sm font-medium text-gray-700 mb-1">Linguagem</label>
+                         <i class="fas fa-code"></i>
+                        <select id="snippet-language" class="form-select">
+                            <option value="">Selecione...</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="CSS">CSS</option>
+                            <option value="HTML">HTML</option>
+                            <option value="Python">Python</option>
+                            <option value="SQL">SQL</option>
+                            <option value="PHP">PHP</option>
+                            <option value="Other">Outra</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2 input-icon-wrapper">
+                         <label for="snippet-category" class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                        <i class="fas fa-tag"></i>
+                        <select id="snippet-category" class="form-select">
+                             <option value="">Selecione...</option>
+                            <option value="Frontend">Frontend</option>
+                            <option value="Backend">Backend</option>
+                            <option value="Banco de Dados">Banco de Dados</option>
+                            <option value="Utilitários">Utilitários</option>
+                            <option value="Configuração">Configuração</option>
+                             <option value="Outra">Outra</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="snippet-code" class="block text-sm font-medium text-gray-700 mb-1">Código <span class="text-red-500">*</span></label>
+                        <textarea id="snippet-code" rows="8" required class="form-textarea font-mono text-sm" placeholder="Cole seu código aqui..."></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="snippet-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição (Opcional)</label>
+                        <textarea id="snippet-description" rows="3" class="form-textarea" placeholder="Para que serve este snippet?"></textarea>
+                    </div>
+                </div>
+                <div id="snippet-form-error" class="hidden text-sm text-red-600 mt-4 p-3 bg-red-100 rounded border border-red-300"></div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Salvar Snippet</span>
+                        <div id="snippet-form-spinner" class="hidden loader ml-2" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link Modal -->
+    <div id="link-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-40 hidden p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-auto modal-content">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="link-modal-title" class="text-lg font-semibold text-gray-800">Adicionar Novo Link</h3>
+                <button class="close-modal text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <form id="link-form" class="p-6">
+                <input type="hidden" id="link-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-icon-wrapper">
+                         <label for="link-title" class="block text-sm font-medium text-gray-700 mb-1">Título <span class="text-red-500">*</span></label>
+                        <i class="fas fa-heading"></i>
+                        <input type="text" id="link-title" required class="form-input" placeholder="Documentação Oficial React">
+                    </div>
+                    <div class="input-icon-wrapper">
+                         <label for="link-url" class="block text-sm font-medium text-gray-700 mb-1">URL <span class="text-red-500">*</span></label>
+                        <i class="fas fa-link"></i>
+                        <input type="text" id="link-url" required class="form-input" placeholder="https://reactjs.org">
+                    </div>
+                     <div class="md:col-span-2 input-icon-wrapper">
+                         <label for="link-category" class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
+                        <i class="fas fa-tag"></i>
+                        <select id="link-category" class="form-select">
+                             <option value="">Selecione...</option>
+                            <option value="Documentação">Documentação</option>
+                            <option value="Ferramenta">Ferramenta</option>
+                            <option value="Artigo">Artigo</option>
+                            <option value="Inspiração">Inspiração</option>
+                            <option value="Referência">Referência</option>
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Outra">Outra</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="link-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição (Opcional)</label>
+                        <textarea id="link-description" rows="3" class="form-textarea" placeholder="Breve descrição sobre o link..."></textarea>
+                    </div>
+                </div>
+                <div id="link-form-error" class="hidden text-sm text-red-600 mt-4 p-3 bg-red-100 rounded border border-red-300"></div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span>Salvar Link</span>
+                        <div id="link-form-spinner" class="hidden loader ml-2" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div id="confirm-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4"> <!-- z-index maior -->
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-yellow-600"><i class="fas fa-exclamation-triangle mr-2"></i>Confirmar Exclusão</h3>
+                <button class="close-modal text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
+            </div>
+            <div class="p-6">
+                <p id="confirm-message" class="text-gray-700 mb-6">Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.</p>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-confirm-btn" class="btn btn-secondary close-modal">Cancelar</button>
+                    <button id="confirm-delete-btn" class="btn btn-danger">Excluir Permanentemente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SUPABASE CONFIGURATION ---
+        const SUPABASE_URL = 'https://hqgcjyujpicmsbtfsbwv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZ2NqeXVqcGljbXNidGZzYnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE5NDYxNTksImV4cCI6MjA1NzUyMjE1OX0.sWuvGLebMDsSo23iuzdci5utbfbqWEO_uPFl7ztQWFk';
+        const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- DOM Elements ---
+        const loginScreen = document.getElementById('login-screen');
+        const loginFormContainer = document.getElementById('login-form-container');
+        const registerFormContainer = document.getElementById('register-form-container');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const loginEmailInput = document.getElementById('login-email');
+        const loginPasswordInput = document.getElementById('login-password');
+        const registerEmailInput = document.getElementById('register-email');
+        const registerPasswordInput = document.getElementById('register-password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const loginSpinner = document.getElementById('login-spinner');
+        const loginError = document.getElementById('login-error');
+        const registerSpinner = document.getElementById('register-spinner');
+        const registerError = document.getElementById('register-error');
+        const registerSuccess = document.getElementById('register-success');
+        const passwordStrengthText = document.getElementById('password-strength-text');
+        const passwordStrengthBar = document.getElementById('password-strength-bar');
+        const showLoginBtn = document.getElementById('show-login-btn');
+        const showRegisterBtn = document.getElementById('show-register-btn');
+
+        const dashboardMain = document.getElementById('dashboard-main');
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggle-sidebar');
+        const contentArea = document.getElementById('content-area');
+        const pageTitle = document.getElementById('page-title');
+        const userInitial = document.getElementById('user-initial');
+        const userEmailDropdown = document.getElementById('user-email-dropdown');
+        const globalSearch = document.getElementById('global-search');
+
+        const totalProjects = document.getElementById('total-projects');
+        const totalSnippets = document.getElementById('total-snippets');
+        const totalLinks = document.getElementById('total-links');
+        const quickAddProjectBtn = document.getElementById('quick-add-project-btn');
+        const quickAddSnippetBtn = document.getElementById('quick-add-snippet-btn');
+        const quickAddLinkBtn = document.getElementById('quick-add-link-btn');
+
+        const projectSearch = document.getElementById('project-search');
+        const projectSort = document.getElementById('project-sort');
+        const addProjectBtn = document.getElementById('add-project-btn');
+        const projectsGrid = document.getElementById('projects-grid');
+        const projectsLoader = document.getElementById('projects-loader');
+        const projectsEmpty = document.getElementById('projects-empty');
+
+        const snippetSearch = document.getElementById('snippet-search');
+        const snippetLangFilter = document.getElementById('snippet-lang-filter');
+        const snippetSort = document.getElementById('snippet-sort');
+        const addSnippetBtn = document.getElementById('add-snippet-btn');
+        const snippetsGrid = document.getElementById('snippets-grid');
+        const snippetsLoader = document.getElementById('snippets-loader');
+        const snippetsEmpty = document.getElementById('snippets-empty');
+
+        const linkSearch = document.getElementById('link-search');
+        const linkSort = document.getElementById('link-sort');
+        const addLinkBtn = document.getElementById('add-link-btn');
+        const linksGrid = document.getElementById('links-grid');
+        const linksLoader = document.getElementById('links-loader');
+        const linksEmpty = document.getElementById('links-empty');
+
+        const projectModal = document.getElementById('project-modal');
+        const projectForm = document.getElementById('project-form');
+        const addToSidebarCheckbox = document.getElementById('add-to-sidebar');
+        const projectTechnologiesInput = document.getElementById('project-technologies');
+        const projectCodeUrlInput = document.getElementById('project-code-url');
+        const snippetModal = document.getElementById('snippet-modal');
+        const snippetForm = document.getElementById('snippet-form');
+        const linkModal = document.getElementById('link-modal');
+        const linkForm = document.getElementById('link-form');
+        const confirmModal = document.getElementById('confirm-modal');
+        const confirmMessage = document.getElementById('confirm-message'); // Para definir a mensagem
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+        const cancelConfirmBtn = document.getElementById('cancel-confirm-btn');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+
+        const settingsUserEmail = document.getElementById('settings-user-email');
+        const changePasswordForm = document.getElementById('change-password-form');
+        const newPasswordInput = document.getElementById('new-password');
+        const passwordSuccessMessage = document.getElementById('password-success-message');
+        const passwordErrorMessage = document.getElementById('password-error-message');
+        const menuItemsContainer = document.getElementById('menu-items');
+        const saveMenuChangesBtn = document.getElementById('save-menu-changes');
+        const menuSuccessMessage = document.getElementById('menu-success-message');
+        const menuErrorMessage = document.getElementById('menu-error-message');
+
+        const customSitesContainer = document.getElementById('custom-sites');
+        const navigationItemsContainer = document.getElementById('navigation-items');
+        const systemItemsContainer = document.getElementById('system-items');
+        const sectionContents = document.querySelectorAll('.section-content');
+        // O botão de logout agora é tratado pelo listener handleNavItemClick ou pelo dropdown
+        const logoutBtnDropdown = document.getElementById('logout-btn-dropdown');
+
+
+        // --- State ---
+        let isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true'; // Persistir estado
+        let currentUser = null; // Armazenar dados do usuário
+        let currentModal = null;
+        let itemToDelete = { type: null, id: null };
+        let menuItemsOrder = [];
+        let customSites = [];
+        let navigationItems = [
+            { section: 'dashboard-section', text: 'Dashboard', icon: 'fas fa-tachometer-alt', active: true },
+            { section: 'projects-section', text: 'Projetos Web', icon: 'fas fa-folder-open' },
+            { section: 'snippets-section', text: 'Snippets', icon: 'fas fa-code' },
+            { section: 'links-section', text: 'Links Úteis', icon: 'fas fa-link' }
+        ];
+        let systemItems = [
+            { section: 'settings-section', text: 'Configurações', icon: 'fas fa-cog' },
+            // CORREÇÃO: Adicionado id="logout-btn" para correspondência no JS se necessário, embora agora usemos o dropdown e o listener genérico
+            { section: null, id: 'logout-btn', text: 'Sair', icon: 'fas fa-sign-out-alt' }
+        ];
+        let updateInterval = null;
+
+        // --- Utility Functions ---
+        const showLoader = (loaderElement) => loaderElement.classList.remove('hidden');
+        const hideLoader = (loaderElement) => loaderElement.classList.add('hidden');
+        const showEmptyMessage = (emptyElement) => emptyElement.classList.remove('hidden');
+        const hideEmptyMessage = (emptyElement) => emptyElement.classList.add('hidden');
+
+        // Sanitize HTML to prevent XSS
+        function sanitizeHTML(str) {
+            if (!str) return '';
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        // Ensure URL has a protocol
+        function ensureUrlProtocol(url) {
+            if (!url || url.trim() === '#') return '#';
+            let trimmedUrl = url.trim();
+            if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) {
+                // Adiciona https:// por padrão, pode ser ajustado se necessário
+                return `https://${trimmedUrl}`;
+            }
+            return trimmedUrl;
+        }
+
+        // Format date/time
+        function formatDateTime(dateString) {
+            if (!dateString) return 'Data inválida';
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return 'Data inválida';
+                return date.toLocaleString('pt-BR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+            } catch (error) {
+                console.error("Error formatting date:", dateString, error);
+                return 'Erro na data';
+            }
+        }
+
+         // Debounce function
+         function debounce(fn, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), wait);
+            };
+        }
+
+        // --- Authentication ---
+        async function checkUserSession() {
+            const { data: { session }, error } = await sbClient.auth.getSession();
+            if (error) {
+                console.error("Error getting session:", error.message);
+                showLoginScreen('login');
+                return;
+            }
+            if (session && session.user) {
+                 const { data: { user }, error: userError } = await sbClient.auth.getUser();
+                 if (userError) {
+                    console.error("Error getting user details:", userError.message);
+                    await handleLogout(); // Força logout se não conseguir pegar detalhes
+                    return;
+                 }
+                 if (user) {
+                     showDashboard(user);
+                 } else {
+                      await handleLogout(); // Usuário não existe mais na sessão
+                 }
+            } else {
+                showLoginScreen('login');
+            }
+        }
+
+        function showLoginScreen(mode = 'login') {
+            stopAutoUpdate();
+            currentUser = null;
+            loginScreen.classList.remove('hidden');
+            dashboardMain.classList.add('hidden');
+            updateAuthFormDisplay(mode);
+        }
+
+        function updateAuthFormDisplay(mode) {
+            if (mode === 'login') {
+                loginFormContainer.classList.remove('hidden');
+                registerFormContainer.classList.add('hidden');
+                loginForm.reset();
+                loginError.classList.add('hidden');
+                loginSpinner.classList.add('hidden');
+                loginForm.querySelector('button[type="submit"]').disabled = false;
+            } else { // register
+                registerFormContainer.classList.remove('hidden');
+                loginFormContainer.classList.add('hidden');
+                registerForm.reset();
+                registerError.classList.add('hidden');
+                registerSuccess.classList.add('hidden');
+                registerSpinner.classList.add('hidden');
+                registerForm.querySelector('button[type="submit"]').disabled = false;
+                updatePasswordStrength(''); // Reset strength meter
+            }
+        }
+
+        async function showDashboard(user) {
+            currentUser = user; // Armazena usuário atual
+            loginScreen.classList.add('hidden');
+            dashboardMain.classList.remove('hidden');
+            const userEmail = user.email || 'Usuário';
+            userInitial.textContent = userEmail.charAt(0).toUpperCase();
+            userEmailDropdown.textContent = userEmail; // Atualiza email no dropdown
+            settingsUserEmail.textContent = userEmail;
+            await loadSidebarItems(); // Carrega itens personalizados primeiro
+            await loadMenuSettings(); // Carrega e aplica ordem salva
+            renderSidebar();          // Renderiza a sidebar com a ordem correta
+            applySidebarState();      // Aplica estado colapsado/expandido
+            // Navega para a seção salva ou dashboard
+            const lastSection = localStorage.getItem('lastSection') || 'dashboard-section';
+            const lastSectionTitle = localStorage.getItem('lastSectionTitle') || 'Dashboard';
+            const lastIframeUrl = localStorage.getItem('lastIframeUrl');
+
+            const itemToActivate = document.querySelector(`.nav-item[data-section="${lastSection}"]`);
+            if(itemToActivate) {
+                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                 itemToActivate.classList.add('active');
+                 navigationItems.forEach(nav => nav.active = nav.section === lastSection);
+                 pageTitle.textContent = lastSectionTitle;
+                 navigateToSection(lastSection, lastIframeUrl);
+            } else {
+                navigateToSection('dashboard-section'); // Fallback
+            }
+
+            startAutoUpdate();
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.classList.add('hidden');
+            loginSpinner.classList.remove('hidden');
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            const email = loginEmailInput.value.trim();
+            const password = loginPasswordInput.value;
+
+            try {
+                const { data: signInData, error } = await sbClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                if (signInData.user) {
+                    showDashboard(signInData.user);
+                } else {
+                     throw new Error("Usuário não encontrado após login.");
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                loginError.textContent = `Erro: ${error.message || 'Credenciais inválidas.'}`;
+                loginError.classList.remove('hidden');
+            } finally {
+                loginSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            registerError.classList.add('hidden');
+            registerSuccess.classList.add('hidden');
+            registerSpinner.classList.remove('hidden');
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            const email = registerEmailInput.value.trim();
+            const password = registerPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (password !== confirmPassword) {
+                registerError.textContent = 'As senhas não coincidem.';
+                registerError.classList.remove('hidden');
+                registerSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+                return;
+            }
+             if (password.length < 6) {
+                registerError.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+                registerError.classList.remove('hidden');
+                registerSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+                return;
+            }
+
+            try {
+                const { error } = await sbClient.auth.signUp({
+                    email,
+                    password,
+                    options: { emailRedirectTo: window.location.origin } // Para confirmação de email, se habilitado
+                });
+                if (error) throw error;
+
+                registerSuccess.classList.remove('hidden');
+                registerForm.reset();
+                updatePasswordStrength('');
+                // Redireciona para login após um tempo
+                setTimeout(() => {
+                    showLoginScreen('login');
+                    // Opcional: Pré-preencher o email no login
+                     loginEmailInput.value = email;
+                     loginPasswordInput.focus();
+                     registerSuccess.classList.add('hidden'); // Esconde msg de sucesso
+                }, 3000);
+
+            } catch (error) {
+                console.error("Register error:", error);
+                registerError.textContent = `Erro: ${error.message || 'Não foi possível criar a conta.'}`;
+                registerError.classList.remove('hidden');
+                 registerSpinner.classList.add('hidden');
+                 submitButton.disabled = false; // Reabilita botão em caso de erro
+            }
+             // Não reabilitar o botão em caso de sucesso, pois haverá redirecionamento
+        });
+
+        showLoginBtn.addEventListener('click', () => updateAuthFormDisplay('login'));
+        showRegisterBtn.addEventListener('click', () => updateAuthFormDisplay('register'));
+
+        function updatePasswordStrength(password) {
+            let strength = 0;
+            let text = 'Muito Fraca';
+            let width = '10%';
+            let colorClass = 'bg-red-700';
+
+            if (password.length >= 6) { strength++; text = 'Fraca'; width = '33%'; colorClass = 'bg-red-500'; }
+            if (password.length >= 8 && /[A-Z]/.test(password)) { strength++; text = 'Média'; width = '66%'; colorClass = 'bg-yellow-500'; }
+            if (password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password)) { strength++; }
+            if (password.length >= 10 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) { strength++; text = 'Forte'; width = '100%'; colorClass = 'bg-green-500'; }
+
+            passwordStrengthText.textContent = text;
+            passwordStrengthBar.style.width = width;
+            passwordStrengthBar.className = `h-2 rounded-full transition-all duration-300 ${colorClass}`; // Atualiza classe de cor
+        }
+
+        registerPasswordInput.addEventListener('input', (e) => {
+            updatePasswordStrength(e.target.value);
+        });
+
+        async function handleLogout() {
+             console.log("Tentando fazer logout...");
+             stopAutoUpdate();
+             try {
+                const { error } = await sbClient.auth.signOut();
+                if (error) {
+                    console.error("Logout error:", error.message);
+                    alert('Erro ao sair. Tente novamente.');
+                 } else {
+                     console.log("Logout bem-sucedido.");
+                     localStorage.removeItem('lastSection');
+                     localStorage.removeItem('lastSectionTitle');
+                     localStorage.removeItem('lastIframeUrl');
+                     localStorage.removeItem('sidebarCollapsed');
+                     showLoginScreen('login');
+                 }
+             } catch (error) {
+                 console.error("Unexpected logout error:", error);
+                 alert('Erro inesperado ao sair.');
+             }
+        }
+
+        // Evento de logout do dropdown
+        logoutBtnDropdown.addEventListener('click', async (e) => {
+            e.preventDefault();
+            await handleLogout();
+        });
+
+        // --- Sidebar & Navigation ---
+        function applySidebarState() {
+            const isCurrentlyCollapsed = sidebar.classList.contains('sidebar-collapsed');
+            if (isSidebarCollapsed !== isCurrentlyCollapsed) { // Aplica apenas se o estado mudou
+                 if (isSidebarCollapsed) {
+                    sidebar.classList.remove('sidebar-expanded');
+                    sidebar.classList.add('sidebar-collapsed');
+                    contentArea.style.marginLeft = '70px';
+                } else {
+                    sidebar.classList.remove('sidebar-collapsed');
+                    sidebar.classList.add('sidebar-expanded');
+                    contentArea.style.marginLeft = '256px';
+                }
+                localStorage.setItem('sidebarCollapsed', isSidebarCollapsed); // Salva estado
+            }
+        }
+
+
+        toggleSidebar.addEventListener('click', () => {
+            isSidebarCollapsed = !isSidebarCollapsed;
+            applySidebarState();
+        });
+
+        async function loadSidebarItems() {
+             if (!currentUser) return;
+
+             try {
+                const { data, error } = await sbClient
+                    .from('sidebar_items') // Assume que a tabela se chama sidebar_items
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('position', { ascending: true });
+
+                if (error) throw error;
+
+                customSites = data.map(item => ({
+                    id: item.id, // Guardar o ID do banco para futuras atualizações/deleções
+                    section: item.section || `custom-site-${item.id}`, // Garante uma section única
+                    url: item.url,
+                    text: item.text,
+                    icon: item.icon || 'fas fa-globe', // Ícone padrão
+                    position: item.position
+                })) || [];
+             } catch (error) {
+                  console.error("Error loading custom sidebar items:", error);
+                  customSites = []; // Reseta em caso de erro
+             }
+        }
+
+        async function loadMenuSettings() {
+             if (!currentUser) return;
+
+             try {
+                const { data, error } = await sbClient
+                    .from('user_settings') // Assume tabela user_settings
+                    .select('menu_items')
+                    .eq('user_id', currentUser.id)
+                    .maybeSingle(); // Usa maybeSingle para não dar erro se não existir
+
+                 if (error) throw error;
+
+                if (data && data.menu_items) {
+                    // Atualiza os arrays com a ordem e textos salvos,
+                    // mas preserva os itens padrão se não estiverem salvos
+                    const saved = data.menu_items;
+
+                    customSites = mergeAndSortItems(customSites, saved.custom || [], 'section'); // Usa ID ou section como chave
+                    navigationItems = mergeAndSortItems(navigationItems, saved.navigation || [], 'section');
+                    systemItems = mergeAndSortItems(systemItems, saved.system || [], 'section'); // Usa section ou ID como chave
+                }
+                // Se não houver dados salvos, os arrays padrão são mantidos
+             } catch (error) {
+                 console.error("Error loading menu settings:", error);
+                 // Mantém os arrays padrão em caso de erro
+             }
+        }
+
+        // Helper para mesclar e ordenar itens salvos com padrão
+        function mergeAndSortItems(defaultItems, savedItems, keyField) {
+            const merged = [...defaultItems]; // Começa com os padrões
+            const savedMap = new Map(savedItems.map(item => [item[keyField] || item.id, item])); // Mapeia salvos pela chave
+
+            // Atualiza textos e posições dos itens que existem em ambos
+            merged.forEach(item => {
+                const savedItem = savedMap.get(item[keyField] || item.id);
+                if (savedItem) {
+                    item.text = savedItem.text;
+                    item.position = savedItem.position;
+                    savedMap.delete(item[keyField] || item.id); // Remove do mapa para não adicionar de novo
+                }
+            });
+
+            // Adiciona itens salvos que não estavam nos padrões (pouco provável aqui, mais para customSites)
+            savedMap.forEach(savedItem => merged.push(savedItem));
+
+            // Ordena pela posição salva (ou uma posição grande se não tiver)
+            merged.sort((a, b) => (a.position ?? 999) - (b.position ?? 999));
+
+            return merged;
+        }
+
+        async function saveSidebarItem(newSiteData) {
+            if (!currentUser) return { success: false, error: 'Usuário não logado' };
+
+            const newPosition = customSites.length; // Adiciona no final por padrão
+
+             try {
+                const { data, error } = await sbClient
+                    .from('sidebar_items')
+                    .insert([{
+                        user_id: currentUser.id,
+                        section: newSiteData.section || `custom-site-${Date.now()}`, // Garante section
+                        url: newSiteData.url,
+                        text: newSiteData.text,
+                        icon: newSiteData.icon || 'fas fa-globe',
+                        position: newPosition
+                    }])
+                    .select()
+                    .single(); // Pega o item inserido
+
+                if (error) throw error;
+
+                const addedSite = { ...data, type: 'custom' }; // Adiciona tipo para D&D
+                customSites.push(addedSite); // Adiciona ao array local
+                await saveMenuSettings(); // Salva a nova ordem/item nas configurações gerais
+                renderSidebar(); // Re-renderiza a sidebar
+                return { success: true, data: addedSite };
+            } catch (error) {
+                console.error("Error saving sidebar item:", error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function deleteSidebarItem(siteIdToDelete) {
+             if (!currentUser) return { success: false, error: 'Usuário não logado' };
+
+             try {
+                  // 1. Encontra o item no array local para pegar o ID do banco de dados
+                  const itemIndex = customSites.findIndex(site => site.id === siteIdToDelete);
+                  if (itemIndex === -1) throw new Error("Item da sidebar não encontrado localmente.");
+
+                  // 2. Deleta do banco de dados
+                  const { error: dbError } = await sbClient
+                     .from('sidebar_items')
+                     .delete()
+                     .eq('id', siteIdToDelete)
+                     .eq('user_id', currentUser.id); // Segurança extra
+
+                  if (dbError) throw dbError;
+
+                  // 3. Remove do array local
+                  customSites.splice(itemIndex, 1);
+
+                   // 4. Atualiza as posições dos itens restantes (opcional, mas bom)
+                  customSites.forEach((item, index) => item.position = index);
+
+                  // 5. Salva a nova configuração do menu
+                  await saveMenuSettings();
+
+                  // 6. Re-renderiza a sidebar
+                  renderSidebar();
+
+                  return { success: true };
+
+             } catch (error) {
+                  console.error("Error deleting sidebar item:", error);
+                  return { success: false, error: error.message };
+             }
+        }
+
+
+        async function saveMenuSettings() {
+             if (!currentUser) return false;
+
+            // Atualiza posições antes de salvar
+            const updatePositions = (items) => items.forEach((item, index) => item.position = index);
+            updatePositions(customSites);
+            updatePositions(navigationItems);
+            updatePositions(systemItems);
+
+            const menuItems = {
+                custom: customSites.map(({ id, section, url, text, icon, position }) => ({ id, section, url, text, icon, position })), // Salva campos relevantes
+                navigation: navigationItems.map(({ section, text, icon, position, active }) => ({ section, text, icon, position, active })),
+                system: systemItems.map(({ section, id, text, icon, position }) => ({ section, id, text, icon, position }))
+            };
+
+
+             try {
+                 // Upsert: Atualiza se existir, insere se não existir
+                const { error } = await sbClient
+                    .from('user_settings')
+                    .upsert({ user_id: currentUser.id, menu_items: menuItems }, { onConflict: 'user_id' });
+
+                if (error) throw error;
+                 console.log("Menu settings saved successfully.");
+                 return true;
+             } catch (error) {
+                 console.error("Error saving menu settings:", error);
+                 return false;
+             }
+        }
+
+        function renderSidebar() {
+            const createNavItemHTML = (item) => `
+                <a href="#" class="nav-item ${item.active ? 'active' : ''}"
+                   ${item.section ? `data-section="${item.section}"` : ''}
+                   ${item.url ? `data-iframe-url="${ensureUrlProtocol(item.url)}"` : ''}
+                   ${item.id ? `id="${item.id}"` : ''}
+                   draggable="false"> <!-- Desabilita drag no link em si -->
+                    <i class="${item.icon || 'fas fa-question-circle'} fa-fw"></i>
+                    <span class="sidebar-item-text">${sanitizeHTML(item.text)}</span>
+                </a>
+            `;
+
+            customSitesContainer.innerHTML = customSites.map(createNavItemHTML).join('');
+            navigationItemsContainer.innerHTML = navigationItems.map(createNavItemHTML).join('');
+            systemItemsContainer.innerHTML = systemItems.map(createNavItemHTML).join('');
+
+            addSidebarListeners();
+        }
+
+        function addSidebarListeners() {
+            // Listener para cliques nos itens de navegação
+            document.querySelectorAll('#sidebar-nav .nav-item').forEach(item => {
+                // CORREÇÃO: Remove listener antigo para evitar duplicidade
+                item.removeEventListener('click', handleNavItemClick);
+                item.addEventListener('click', handleNavItemClick);
+            });
+
+            // Listener para links de Configurações e Logout no dropdown do usuário
+            document.querySelectorAll('.nav-item-settings').forEach(item => {
+                 item.removeEventListener('click', handleNavItemClick); // Remove se já existir
+                 item.addEventListener('click', handleNavItemClick);
+            });
+             // O listener do botão de logout do dropdown já foi adicionado ('logoutBtnDropdown')
+        }
+
+        function handleNavItemClick(e) {
+            const item = e.currentTarget;
+
+             // Tratamento especial para o botão Sair (se clicado na sidebar)
+            if (item.id === 'logout-btn') {
+                 e.preventDefault();
+                 handleLogout();
+                 return;
+            }
+
+            const sectionId = item.getAttribute('data-section');
+            const iframeUrl = item.getAttribute('data-iframe-url');
+            const sectionTitle = item.querySelector('.sidebar-item-text')?.textContent || item.textContent || 'Página'; // Pega texto
+
+            // Não faz nada se não tiver seção definida (pode ser um header ou item não navegável)
+             if (!sectionId && !iframeUrl && item.id !== 'logout-btn') {
+                 console.warn("Item clicado sem data-section ou data-iframe-url:", item);
+                 return;
+             }
+
+            e.preventDefault(); // Previne comportamento padrão do link
+
+            // Atualiza estado ativo
+            document.querySelectorAll('#sidebar-nav .nav-item').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+             navigationItems.forEach(nav => nav.active = (nav.section === sectionId)); // Atualiza estado interno
+
+            // Atualiza título da página
+            pageTitle.textContent = sectionTitle;
+
+            // Salva última seção visitada
+            localStorage.setItem('lastSection', sectionId);
+            localStorage.setItem('lastSectionTitle', sectionTitle);
+            if (iframeUrl) {
+                 localStorage.setItem('lastIframeUrl', iframeUrl);
+            } else {
+                 localStorage.removeItem('lastIframeUrl');
+            }
+
+
+            navigateToSection(sectionId, iframeUrl);
+
+            // Fecha sidebar em telas pequenas após clique
+            if (window.innerWidth < 768 && !isSidebarCollapsed) {
+                 isSidebarCollapsed = true;
+                 applySidebarState();
+             }
+        }
+
+        function navigateToSection(sectionId, iframeUrl = null) {
+            stopAutoUpdate(); // Para update ao navegar
+
+            sectionContents.forEach(content => content.classList.add('hidden'));
+            const sectionElement = document.getElementById(sectionId);
+
+            if (sectionElement) {
+                sectionElement.classList.remove('hidden');
+                if (iframeUrl) {
+                    const iframeId = `${sectionId}-frame`; // Constrói ID do iframe
+                    const iframe = document.getElementById(iframeId);
+                    if (iframe) {
+                        const safeUrl = ensureUrlProtocol(iframeUrl);
+                        // Só carrega se a URL for diferente para evitar recargas desnecessárias
+                        if (iframe.src !== safeUrl) {
+                             iframe.src = 'about:blank'; // Limpa antes de carregar
+                             setTimeout(() => { iframe.src = safeUrl; }, 50); // Pequeno delay
+                             console.log(`Loading iframe ${iframeId} with URL: ${safeUrl}`);
+                        }
+                    } else {
+                         console.error(`Iframe element with ID ${iframeId} not found for section ${sectionId}.`);
+                     }
+                } else {
+                    // Se não for iframe, carrega os dados da seção
+                    loadDataForSection(sectionId);
+                     startAutoUpdate(); // Reinicia update para seções de dados
+                }
+                 // Rola para o topo da área de conteúdo
+                 contentArea.scrollTop = 0;
+            } else {
+                console.error(`Section element with ID ${sectionId} not found.`);
+                // Fallback para o dashboard se a seção não for encontrada
+                 document.getElementById('dashboard-section').classList.remove('hidden');
+                 pageTitle.textContent = "Dashboard"; // Reseta título
+                 loadDataForSection('dashboard-section');
+                 startAutoUpdate();
+            }
+        }
+
+        // --- Auto Update ---
+        function startAutoUpdate() {
+            stopAutoUpdate(); // Garante que não haja múltiplos intervalos
+            console.log("Starting auto-update...");
+            updateInterval = setInterval(async () => {
+                if (!currentUser) { // Para se o usuário deslogar
+                    stopAutoUpdate();
+                    return;
+                }
+                const activeSectionElement = document.querySelector('.section-content:not(.hidden)');
+                if (!activeSectionElement) return; // Sai se nenhuma seção estiver ativa
+
+                const currentSectionId = activeSectionElement.id;
+                 console.log(`Auto-updating section: ${currentSectionId}`);
+
+                 // Atualiza apenas seções que exibem dados dinâmicos (não iframes ou settings)
+                switch (currentSectionId) {
+                    case 'dashboard-section':
+                        await loadDashboardStats();
+                        break;
+                    case 'projects-section':
+                        await loadProjects(false); // Não mostra loader principal no update
+                        break;
+                    case 'snippets-section':
+                        await loadSnippets(false); // Não mostra loader principal no update
+                        break;
+                    case 'links-section':
+                        await loadLinks(false); // Não mostra loader principal no update
+                        break;
+                     // Não faz nada para iframes ou settings
+                }
+            }, 60000); // Atualiza a cada 60 segundos (ajuste conforme necessário)
+        }
+
+        function stopAutoUpdate() {
+            if (updateInterval) {
+                console.log("Stopping auto-update.");
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
+        }
+
+        // --- Data Loading ---
+        function loadDataForSection(sectionId) {
+            if (!currentUser) return; // Precisa do usuário logado
+
+            switch (sectionId) {
+                case 'dashboard-section':
+                    loadDashboardStats();
+                    break;
+                case 'projects-section':
+                    loadProjects();
+                    break;
+                case 'snippets-section':
+                    loadSnippets();
+                    break;
+                case 'links-section':
+                    loadLinks();
+                    break;
+                case 'settings-section':
+                    // Limpa mensagens e formulários
+                    changePasswordForm.reset();
+                    passwordSuccessMessage.classList.add('hidden');
+                    passwordErrorMessage.classList.add('hidden');
+                    menuSuccessMessage.classList.add('hidden');
+                    menuErrorMessage.classList.add('hidden');
+                    // Renderiza os itens de menu atuais para edição/ordenação
+                    renderMenuItemsForSettings();
+                    break;
+                // Casos para seções de iframe são tratados em navigateToSection
+            }
+        }
+
+        async function loadDashboardStats() {
+            if (!currentUser) return;
+            console.log("Loading dashboard stats...");
+
+            try {
+                const [projectsRes, snippetsRes, linksRes] = await Promise.all([
+                    sbClient.from('projects').select('id', { count: 'exact', head: true }).eq('user_id', currentUser.id),
+                    sbClient.from('snippets').select('id', { count: 'exact', head: true }).eq('user_id', currentUser.id),
+                    sbClient.from('links').select('id', { count: 'exact', head: true }).eq('user_id', currentUser.id)
+                ]);
+
+                // Verifica erros individuais
+                if (projectsRes.error) console.error("Error counting projects:", projectsRes.error);
+                if (snippetsRes.error) console.error("Error counting snippets:", snippetsRes.error);
+                if (linksRes.error) console.error("Error counting links:", linksRes.error);
+
+                // Atualiza a UI mesmo que alguns contadores falhem
+                totalProjects.textContent = projectsRes.count ?? 'Erro';
+                totalSnippets.textContent = snippetsRes.count ?? 'Erro';
+                totalLinks.textContent = linksRes.count ?? 'Erro';
+
+            } catch (error) {
+                console.error("Error loading dashboard stats:", error);
+                totalProjects.textContent = 'Erro';
+                totalSnippets.textContent = 'Erro';
+                totalLinks.textContent = 'Erro';
+            }
+        }
+
+        // --- Projects ---
+        async function loadProjects(showMainLoader = true) {
+            if (!currentUser) return;
+             if (showMainLoader) showLoader(projectsLoader);
+             hideEmptyMessage(projectsEmpty);
+             projectsGrid.innerHTML = ''; // Limpa grid antes de carregar
+
+            try {
+                let query = sbClient.from('projects')
+                                  .select('*')
+                                  .eq('user_id', currentUser.id);
+
+                const searchTerm = projectSearch.value.trim().toLowerCase();
+                if (searchTerm) {
+                    // Busca em nome, descrição, url, categoria, tecnologias
+                     query = query.or(
+                         `name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,url.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,technologies.ilike.%${searchTerm}%`
+                     );
+                }
+
+                const [sortField, sortOrder] = projectSort.value.split('-');
+                query = query.order(sortField, { ascending: sortOrder === 'asc' });
+
+                const { data: projects, error } = await query;
+
+                 if (showMainLoader) hideLoader(projectsLoader);
+
+                if (error) throw error;
+
+                if (!projects || projects.length === 0) {
+                    showEmptyMessage(projectsEmpty);
+                } else {
+                     hideEmptyMessage(projectsEmpty);
+                     projectsGrid.innerHTML = projects.map(createProjectCard).join('');
+                     addProjectActionListeners(); // Adiciona listeners aos novos botões
+                }
+            } catch (error) {
+                 if (showMainLoader) hideLoader(projectsLoader);
+                 console.error("Error loading projects:", error);
+                 projectsGrid.innerHTML = `<p class="text-red-500 col-span-full text-center py-6">Erro ao carregar projetos. Tente novamente.</p>`;
+                 showEmptyMessage(projectsEmpty); // Mostra msg de vazio em caso de erro tb
+            }
+        }
+
+        function createProjectCard(project) {
+// CORRETO:
+const defaultImageUrl = 'https://via.placeholder.com/400x200/e0e7ff/4338ca?text=Projeto';const imageUrl = project.image_url || defaultImageUrl;
+            const name = sanitizeHTML(project.name);
+            const description = sanitizeHTML(project.description) || '<i class="text-gray-400">Sem descrição.</i>';
+            const category = sanitizeHTML(project.category) || '<i class="text-gray-400">Sem categoria</i>';
+            const technologies = project.technologies
+                ? project.technologies.split(',').map(tech => tech.trim()).filter(Boolean) // Remove vazios
+                : [];
+            const tagsHTML = technologies.length > 0
+                ? technologies.map(tech => `<span class="tag">${sanitizeHTML(tech)}</span>`).join('')
+                : '<span class="tag bg-gray-100 text-gray-500">N/A</span>'; // Tag padrão se não houver tecnologias
+
+             // CORREÇÃO: Adicionados botões de editar/excluir e aplicado ensureUrlProtocol
+            return `
+                <div class="project-card card flex flex-col h-full"> <!-- h-full para alinhar altura -->
+                    <img src="${imageUrl}" alt="Imagem do Projeto ${name}" class="h-40 w-full object-cover flex-shrink-0" onerror="this.src='${defaultImageUrl}'; this.alt='Imagem Padrão Projeto'">
+                    <div class="card-body flex-grow flex flex-col"> <!-- flex-col para empurrar footer -->
+                        <h3 class="card-title mb-1">${name}</h3>
+                        <p class="card-subtitle mb-2">${category}</p>
+                        <div class="card-tags mb-3">${tagsHTML}</div>
+                        <p class="card-description flex-grow">${description}</p> <!-- flex-grow para ocupar espaço -->
+                    </div>
+                    <div class="card-footer flex-shrink-0">
+                         <!-- Link de Preview (ocupa espaço à esquerda) -->
+                        <a href="${ensureUrlProtocol(project.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm mr-auto">Preview</a>
+                        <!-- Botões de Ação (à direita) -->
+                        <a href="${ensureUrlProtocol(project.code_url || '#')}" target="_blank" rel="noopener noreferrer" class="btn-action ${!project.code_url ? 'opacity-50 cursor-not-allowed' : ''}" title="${project.code_url ? 'Ver Código' : 'Código não disponível'}">
+                            <i class="fab fa-github fa-fw"></i> <!-- Ícone GitHub por padrão -->
+                        </a>
+                        <button class="btn-action edit-project-btn" data-id="${project.id}" title="Editar Projeto">
+                            <i class="fas fa-edit fa-fw"></i>
+                        </button>
+                        <button class="btn-action text-red-500 hover:bg-red-100 delete-project-btn" data-id="${project.id}" title="Excluir Projeto">
+                            <i class="fas fa-trash-alt fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        function addProjectActionListeners() {
+            document.querySelectorAll('.edit-project-btn').forEach(button => {
+                 button.removeEventListener('click', handleEditProject); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleEditProject);
+            });
+            document.querySelectorAll('.delete-project-btn').forEach(button => {
+                 button.removeEventListener('click', handleDeleteProject); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleDeleteProject);
+            });
+        }
+
+        async function handleEditProject(event) {
+            const projectId = event.currentTarget.getAttribute('data-id');
+            if (!currentUser || !projectId) return;
+
+             // Adiciona um feedback visual
+             event.currentTarget.disabled = true;
+             event.currentTarget.innerHTML = '<i class="fas fa-spinner fa-spin fa-fw"></i>';
+
+            try {
+                const { data: project, error } = await sbClient
+                    .from('projects')
+                    .select('*')
+                    .eq('id', projectId)
+                    .eq('user_id', currentUser.id) // Garante que o usuário é dono
+                    .single(); // Espera um único resultado
+
+                if (error) throw error;
+                if (!project) throw new Error("Projeto não encontrado ou pertence a outro usuário.");
+
+                openProjectModal(project); // Abre o modal com os dados
+            } catch (err) {
+                console.error("Error fetching project for edit:", err);
+                alert(`Erro ao carregar projeto para edição: ${err.message}`);
+            } finally {
+                 // Restaura o botão
+                 event.currentTarget.disabled = false;
+                 event.currentTarget.innerHTML = '<i class="fas fa-edit fa-fw"></i>';
+            }
+        }
+
+        function handleDeleteProject(event) {
+            const projectId = event.currentTarget.getAttribute('data-id');
+            const projectCard = event.currentTarget.closest('.project-card');
+            const projectName = projectCard?.querySelector('.card-title')?.textContent || 'este projeto';
+
+             if (!projectId) return;
+
+            itemToDelete = { type: 'project', id: projectId };
+            confirmMessage.innerHTML = `Tem certeza que deseja excluir o projeto "<strong>${sanitizeHTML(projectName)}</strong>"? <br/> Esta ação não pode ser desfeita.`;
+            openModal(confirmModal);
+        }
+
+        // --- Snippets ---
+         async function loadSnippets(showMainLoader = true) {
+            if (!currentUser) return;
+             if (showMainLoader) showLoader(snippetsLoader);
+            hideEmptyMessage(snippetsEmpty);
+            snippetsGrid.innerHTML = '';
+
+            try {
+                let query = sbClient.from('snippets')
+                                  .select('*')
+                                  .eq('user_id', currentUser.id);
+
+                const searchTerm = snippetSearch.value.trim().toLowerCase();
+                 if (searchTerm) {
+                     query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,code.ilike.%${searchTerm}%,language.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
+                 }
+
+                const langFilter = snippetLangFilter.value;
+                 if (langFilter) {
+                     if (langFilter === 'Other') {
+                         // Lógica para buscar linguagens não listadas explicitamente, pode precisar ajustar
+                          query = query.not('language', 'in', '("JavaScript","CSS","HTML","Python","SQL","PHP")');
+                     } else {
+                         query = query.eq('language', langFilter);
+                     }
+                 }
+
+                const [sortField, sortOrder] = snippetSort.value.split('-');
+                query = query.order(sortField, { ascending: sortOrder === 'asc' });
+
+                const { data: snippets, error } = await query;
+
+                 if (showMainLoader) hideLoader(snippetsLoader);
+
+                if (error) throw error;
+
+                if (!snippets || snippets.length === 0) {
+                    showEmptyMessage(snippetsEmpty);
+                } else {
+                     hideEmptyMessage(snippetsEmpty);
+                     // Usar createSnippetCard
+                     snippetsGrid.innerHTML = snippets.map(createSnippetCard).join('');
+                     addSnippetActionListeners();
+                     // Atrasar highlightAll para garantir que o DOM foi atualizado
+                     setTimeout(() => Prism.highlightAllUnder(snippetsGrid), 0);
+                }
+            } catch (err) {
+                 if (showMainLoader) hideLoader(snippetsLoader);
+                console.error("Error loading snippets:", err);
+                 snippetsGrid.innerHTML = `<p class="text-red-500 col-span-full text-center py-6">Erro ao carregar snippets. Tente novamente.</p>`;
+                 showEmptyMessage(snippetsEmpty);
+            }
+        }
+
+         function createSnippetCard(snippet) {
+            const language = snippet.language ? snippet.language.toLowerCase() : 'none';
+            // Garante que classes como 'language-js' sejam geradas se necessário
+            const languageClass = `language-${language === 'javascript' ? 'js' : language}`;
+            const title = sanitizeHTML(snippet.title);
+            const description = sanitizeHTML(snippet.description) || '<i class="text-gray-400">Sem descrição.</i>';
+            const category = sanitizeHTML(snippet.category) || '<i class="text-gray-400">Sem categoria</i>';
+            // Não sanitizar o código aqui, Prism fará isso. Mas cuidado ao renderizar!
+            const code = snippet.code || '';
+            const createdDate = formatDateTime(snippet.created_at);
+
+            return `
+                <div class="card snippet-card flex flex-col h-full"> <!-- h-full -->
+                    <div class="card-body flex-grow flex flex-col">
+                        <div class="flex justify-between items-start mb-2 flex-shrink-0">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">${title}</h3>
+                                <p class="text-xs text-gray-500">
+                                    <span class="font-medium">${category}</span>
+                                    ${snippet.language ? ` | <span class="uppercase">${sanitizeHTML(snippet.language)}</span>` : ''}
+                                </p>
+                            </div>
+                            <div class="space-x-1 flex-shrink-0"> <!-- Reduzido espaço -->
+                                <button class="btn-action edit-snippet-btn" data-id="${snippet.id}" title="Editar Snippet">
+                                    <i class="fas fa-edit fa-fw"></i>
+                                </button>
+                                <button class="btn-action text-red-500 hover:bg-red-100 delete-snippet-btn" data-id="${snippet.id}" title="Excluir Snippet">
+                                    <i class="fas fa-trash-alt fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-container flex-grow mb-3 overflow-hidden rounded bg-gray-800"> <!-- Container para o pre -->
+                           <pre class="line-numbers !m-0 !p-4 max-h-[250px] overflow-auto"><code class="${languageClass}">${Prism.util.encode(code)}</code></pre> <!-- Encode antes de inserir -->
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2 flex-shrink-0">${description}</p>
+                    </div>
+                     <div class="card-footer text-xs text-gray-400 flex-shrink-0 !py-2 !px-4 bg-gray-50"> <!-- Footer menor -->
+                         <span>Criado em: ${createdDate}</span>
+                     </div>
+                </div>
+            `;
+        }
+
+
+        function addSnippetActionListeners() {
+            document.querySelectorAll('.edit-snippet-btn').forEach(button => {
+                 button.removeEventListener('click', handleEditSnippet); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleEditSnippet);
+            });
+            document.querySelectorAll('.delete-snippet-btn').forEach(button => {
+                 button.removeEventListener('click', handleDeleteSnippet); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleDeleteSnippet);
+            });
+        }
+
+        async function handleEditSnippet(event) {
+            const snippetId = event.currentTarget.getAttribute('data-id');
+             if (!currentUser || !snippetId) return;
+
+             // Feedback visual
+             event.currentTarget.disabled = true;
+             event.currentTarget.innerHTML = '<i class="fas fa-spinner fa-spin fa-fw"></i>';
+
+            try {
+                const { data: snippet, error } = await sbClient
+                    .from('snippets')
+                    .select('*')
+                    .eq('id', snippetId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (error) throw error;
+                 if (!snippet) throw new Error("Snippet não encontrado ou pertence a outro usuário.");
+
+                openSnippetModal(snippet);
+            } catch (err) {
+                console.error("Error fetching snippet for edit:", err);
+                alert(`Erro ao carregar snippet para edição: ${err.message}`);
+            } finally {
+                 // Restaura botão
+                 event.currentTarget.disabled = false;
+                 event.currentTarget.innerHTML = '<i class="fas fa-edit fa-fw"></i>';
+            }
+        }
+
+        function handleDeleteSnippet(event) {
+            const snippetId = event.currentTarget.getAttribute('data-id');
+            const snippetCard = event.currentTarget.closest('.snippet-card');
+            const snippetTitle = snippetCard?.querySelector('h3')?.textContent || 'este snippet';
+
+             if (!snippetId) return;
+
+            itemToDelete = { type: 'snippet', id: snippetId };
+            confirmMessage.innerHTML = `Tem certeza que deseja excluir o snippet "<strong>${sanitizeHTML(snippetTitle)}</strong>"?`;
+            openModal(confirmModal);
+        }
+
+
+        // --- Links ---
+        async function loadLinks(showMainLoader = true) {
+             if (!currentUser) return;
+             if (showMainLoader) showLoader(linksLoader);
+            hideEmptyMessage(linksEmpty);
+            linksGrid.innerHTML = '';
+
+            try {
+                let query = sbClient.from('links')
+                                  .select('*')
+                                  .eq('user_id', currentUser.id);
+
+                const searchTerm = linkSearch.value.trim().toLowerCase();
+                if (searchTerm) {
+                    query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,url.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
+                }
+
+                const [sortField, sortOrder] = linkSort.value.split('-');
+                query = query.order(sortField, { ascending: sortOrder === 'asc' });
+
+                const { data: links, error } = await query;
+
+                 if (showMainLoader) hideLoader(linksLoader);
+
+                if (error) throw error;
+
+                if (!links || links.length === 0) {
+                    showEmptyMessage(linksEmpty);
+                } else {
+                     hideEmptyMessage(linksEmpty);
+                     linksGrid.innerHTML = links.map(createLinkCard).join('');
+                     addLinkActionListeners();
+                }
+            } catch (err) {
+                 if (showMainLoader) hideLoader(linksLoader);
+                console.error("Error loading links:", err);
+                 linksGrid.innerHTML = `<p class="text-red-500 col-span-full text-center py-6">Erro ao carregar links. Tente novamente.</p>`;
+                 showEmptyMessage(linksEmpty);
+            }
+        }
+
+        function createLinkCard(link) {
+            const title = sanitizeHTML(link.title);
+            const url = ensureUrlProtocol(link.url);
+            const displayUrl = sanitizeHTML(link.url); // URL para exibição (sem protocolo forçado se não precisar)
+            const description = sanitizeHTML(link.description) || '<i class="text-gray-400">Sem descrição.</i>';
+            const category = sanitizeHTML(link.category) || '<i class="text-gray-400">Sem categoria</i>';
+            const createdDate = formatDateTime(link.created_at);
+
+             // Tenta obter o favicon (best-effort)
+             let faviconUrl = '';
+             try {
+                 const domain = new URL(url).hostname;
+                 faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`; // Usar um serviço ou lógica local
+             } catch (e) { /* Ignora erros de URL inválida para favicon */ }
+
+
+            return `
+                <div class="card link-card flex flex-col h-full"> <!-- h-full -->
+                    <div class="card-body flex-grow flex flex-col">
+                        <div class="flex justify-between items-start mb-2 flex-shrink-0">
+                            <div class="flex items-center space-x-2 min-w-0"> <!-- min-w-0 para truncar -->
+                                 ${faviconUrl ? `<img src="${faviconUrl}" alt="Favicon" class="w-5 h-5 flex-shrink-0" onerror="this.style.display='none'"/>` : '<span class="w-5 h-5 flex-shrink-0"><i class="fas fa-link text-gray-400"></i></span>'}
+                                <h3 class="text-lg font-semibold text-gray-800 truncate" title="${title}">${title}</h3>
+                            </div>
+                            <div class="space-x-1 flex-shrink-0">
+                                <button class="btn-action edit-link-btn" data-id="${link.id}" title="Editar Link">
+                                    <i class="fas fa-edit fa-fw"></i>
+                                </button>
+                                <button class="btn-action text-red-500 hover:bg-red-100 delete-link-btn" data-id="${link.id}" title="Excluir Link">
+                                    <i class="fas fa-trash-alt fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                         <p class="text-xs text-gray-500 mb-3 flex-shrink-0"><span class="font-medium">${category}</span></p>
+                         <a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-sm break-all mb-3 flex-shrink-0" title="Visitar: ${url}">${displayUrl}</a>
+                        <p class="text-sm text-gray-600 flex-grow mb-3">${description}</p> <!-- flex-grow -->
+                    </div>
+                     <div class="card-footer text-xs text-gray-400 flex-shrink-0 !py-2 !px-4 bg-gray-50">
+                         <span>Adicionado em: ${createdDate}</span>
+                     </div>
+                </div>
+            `;
+        }
+
+        function addLinkActionListeners() {
+            document.querySelectorAll('.edit-link-btn').forEach(button => {
+                 button.removeEventListener('click', handleEditLink); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleEditLink);
+            });
+            document.querySelectorAll('.delete-link-btn').forEach(button => {
+                 button.removeEventListener('click', handleDeleteLink); // CORREÇÃO: Remove listener antigo
+                 button.addEventListener('click', handleDeleteLink);
+            });
+        }
+
+       async function handleEditLink(event) {
+            const linkId = event.currentTarget.getAttribute('data-id');
+            if (!currentUser || !linkId) return;
+
+            // Feedback visual
+            event.currentTarget.disabled = true;
+            event.currentTarget.innerHTML = '<i class="fas fa-spinner fa-spin fa-fw"></i>';
+
+            try {
+                const { data: link, error } = await sbClient
+                    .from('links')
+                    .select('*')
+                    .eq('id', linkId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (error) throw error;
+                if (!link) throw new Error("Link não encontrado ou pertence a outro usuário.");
+
+                openLinkModal(link);
+            } catch (err) {
+                console.error("Error fetching link for edit:", err);
+                alert(`Erro ao carregar link para edição: ${err.message}`);
+            } finally {
+                // Restaura botão
+                 event.currentTarget.disabled = false;
+                 event.currentTarget.innerHTML = '<i class="fas fa-edit fa-fw"></i>';
+            }
+        }
+
+        function handleDeleteLink(event) {
+            const linkId = event.currentTarget.getAttribute('data-id');
+            const linkCard = event.currentTarget.closest('.link-card');
+            const linkTitle = linkCard?.querySelector('h3')?.textContent || 'este link';
+
+            if (!linkId) return;
+
+            itemToDelete = { type: 'link', id: linkId };
+            confirmMessage.innerHTML = `Tem certeza que deseja excluir o link "<strong>${sanitizeHTML(linkTitle)}</strong>"?`;
+            openModal(confirmModal);
+        }
+
+        // --- Modal Handling ---
+        function openModal(modalElement) {
+            closeModal(); // Garante que apenas um modal esteja aberto
+            modalElement.classList.remove('hidden');
+            currentModal = modalElement;
+            // Adiciona classe para travar scroll do body
+            document.body.classList.add('overflow-hidden');
+             // Foca no primeiro input ou botão dentro do modal, se existir
+            const focusable = modalElement.querySelector('input, textarea, select, button');
+            if (focusable) {
+                 setTimeout(() => focusable.focus(), 50); // Pequeno delay para garantir visibilidade
+            }
+        }
+
+        function closeModal() {
+            if (currentModal) {
+                currentModal.classList.add('hidden');
+                 // Limpa erros de formulário ao fechar
+                 const errorDisplay = currentModal.querySelector('[id$="-form-error"]');
+                 if (errorDisplay) {
+                     errorDisplay.classList.add('hidden');
+                     errorDisplay.textContent = '';
+                 }
+                 // Reseta estado de deleção
+                 itemToDelete = { type: null, id: null };
+                 currentModal = null;
+                 // Remove classe que trava scroll
+                 document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', closeModal);
+        });
+
+        // Fecha modal clicando fora (no backdrop)
+         document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+             backdrop.addEventListener('click', (e) => {
+                 if (e.target === backdrop) { // Só fecha se clicar no backdrop diretamente
+                     closeModal();
+                 }
+             });
+         });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && currentModal) {
+                closeModal();
+            }
+        });
+
+        // --- Project Modal ---
+        function openProjectModal(project = null) {
+            const modalTitle = document.getElementById('project-modal-title');
+            const projectIdInput = document.getElementById('project-id');
+            const projectNameInput = document.getElementById('project-name');
+            const projectUrlInput = document.getElementById('project-url');
+            const projectDescriptionInput = document.getElementById('project-description');
+            const projectImageUrlInput = document.getElementById('project-image-url');
+            const projectCategoryInput = document.getElementById('project-category');
+            const projectFormError = document.getElementById('project-form-error');
+            const projectFormSpinner = document.getElementById('project-form-spinner');
+            const submitButton = projectForm.querySelector('button[type="submit"]');
+
+
+            projectFormError.classList.add('hidden');
+            projectFormSpinner.classList.add('hidden');
+            submitButton.disabled = false;
+            submitButton.querySelector('span').textContent = project ? 'Salvar Alterações' : 'Salvar Projeto'; // Muda texto do botão
+
+            if (project) {
+                modalTitle.textContent = 'Editar Projeto';
+                projectIdInput.value = project.id;
+                projectNameInput.value = project.name || '';
+                projectUrlInput.value = project.url || '';
+                projectDescriptionInput.value = project.description || '';
+                projectImageUrlInput.value = project.image_url || '';
+                projectCategoryInput.value = project.category || '';
+                projectTechnologiesInput.value = project.technologies || '';
+                projectCodeUrlInput.value = project.code_url || '';
+                 // Verifica se o projeto já está na sidebar para marcar o checkbox
+                 addToSidebarCheckbox.checked = customSites.some(site => site.section === `custom-project-${project.id}`);
+            } else {
+                modalTitle.textContent = 'Adicionar Novo Projeto';
+                projectForm.reset(); // Limpa todos os campos
+                projectIdInput.value = '';
+                addToSidebarCheckbox.checked = false; // Desmarcado por padrão
+            }
+
+            openModal(projectModal);
+        }
+
+        projectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const projectFormError = document.getElementById('project-form-error');
+            const projectFormSpinner = document.getElementById('project-form-spinner');
+            const submitButton = projectForm.querySelector('button[type="submit"]');
+
+            projectFormError.classList.add('hidden');
+            projectFormSpinner.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            const projectId = document.getElementById('project-id').value;
+            const name = document.getElementById('project-name').value.trim();
+            const url = document.getElementById('project-url').value.trim();
+
+             // Validação básica
+             if (!name || !url) {
+                 projectFormError.textContent = 'Nome do Projeto e URL de Visualização são obrigatórios.';
+                 projectFormError.classList.remove('hidden');
+                 projectFormSpinner.classList.add('hidden');
+                 submitButton.disabled = false;
+                 return;
+             }
+             // Validação de URL (simples)
+             try {
+                 new URL(ensureUrlProtocol(url)); // Tenta criar URL
+             } catch (_) {
+                 projectFormError.textContent = 'URL de Visualização inválida.';
+                 projectFormError.classList.remove('hidden');
+                 projectFormSpinner.classList.add('hidden');
+                 submitButton.disabled = false;
+                 return;
+             }
+
+
+            const projectData = {
+                name: name,
+                url: url,
+                description: document.getElementById('project-description').value.trim() || null,
+                image_url: document.getElementById('project-image-url').value.trim() || null,
+                category: document.getElementById('project-category').value || null,
+                // Limpa e junta tecnologias
+                technologies: document.getElementById('project-technologies').value.split(',').map(t => t.trim()).filter(Boolean).join(',') || null,
+                code_url: document.getElementById('project-code-url').value.trim() || null,
+                 // user_id é adicionado automaticamente pela política RLS no Supabase se configurado,
+                 // mas é bom ter aqui para clareza ou se RLS não for usada para inserção.
+                 user_id: currentUser.id
+            };
+
+
+            try {
+                let resultData;
+                 let resultError;
+
+                 if (projectId) { // Editando
+                     const { data, error } = await sbClient
+                         .from('projects')
+                         .update(projectData)
+                         .eq('id', projectId)
+                         .eq('user_id', currentUser.id) // Segurança
+                         .select()
+                         .single();
+                     resultData = data;
+                     resultError = error;
+
+                     // Lógica da Sidebar para Edição
+                     const siteSection = `custom-project-${projectId}`;
+                     const isInSidebar = customSites.some(site => site.section === siteSection);
+                     const shouldBeInSidebar = addToSidebarCheckbox.checked;
+                     const existingSite = customSites.find(site => site.section === siteSection);
+
+                     if (shouldBeInSidebar && !isInSidebar) {
+                         // Adicionar à sidebar
+                         await saveSidebarItem({
+                             id: existingSite?.id, // Usa ID existente se houver (improvável chegar aqui sem estar no array)
+                             section: siteSection,
+                             url: projectData.url,
+                             text: projectData.name,
+                             icon: 'fas fa-rocket' // Ícone para item adicionado manualmente
+                         });
+                     } else if (!shouldBeInSidebar && isInSidebar && existingSite) {
+                         // Remover da sidebar
+                         await deleteSidebarItem(existingSite.id);
+                     } else if (shouldBeInSidebar && isInSidebar && existingSite) {
+                          // Atualizar dados na sidebar se nome/url mudou
+                          if (existingSite.text !== projectData.name || existingSite.url !== projectData.url) {
+                              existingSite.text = projectData.name;
+                              existingSite.url = projectData.url;
+                              await saveMenuSettings(); // Salva mudança de texto/url
+                              renderSidebar();
+                          }
+                     }
+
+                 } else { // Criando
+                     const { data, error } = await sbClient
+                         .from('projects')
+                         .insert([projectData])
+                         .select()
+                         .single();
+                      resultData = data;
+                      resultError = error;
+
+                      // Adiciona à sidebar se marcado
+                      if (!resultError && addToSidebarCheckbox.checked && resultData) {
+                         const newSite = {
+                             section: `custom-project-${resultData.id}`, // Section baseada no novo ID
+                             url: resultData.url,
+                             text: resultData.name,
+                             icon: 'fas fa-star' // Ícone para novo item
+                         };
+                         await saveSidebarItem(newSite); // Salva e re-renderiza
+                     }
+                 }
+
+
+                if (resultError) throw resultError;
+
+                closeModal();
+                await loadProjects(); // Recarrega a lista de projetos
+                await loadDashboardStats(); // Atualiza contadores
+            } catch (error) {
+                console.error("Error saving project:", error);
+                projectFormError.textContent = `Erro: ${error.message || 'Não foi possível salvar o projeto.'}`;
+                projectFormError.classList.remove('hidden');
+            } finally {
+                projectFormSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+
+        // --- Snippet Modal ---
+         function openSnippetModal(snippet = null) {
+            const modalTitle = document.getElementById('snippet-modal-title');
+            const snippetIdInput = document.getElementById('snippet-id');
+            const snippetTitleInput = document.getElementById('snippet-title');
+            const snippetLanguageInput = document.getElementById('snippet-language');
+            const snippetCategoryInput = document.getElementById('snippet-category');
+            const snippetCodeInput = document.getElementById('snippet-code');
+            const snippetDescriptionInput = document.getElementById('snippet-description');
+            const snippetFormError = document.getElementById('snippet-form-error');
+            const snippetFormSpinner = document.getElementById('snippet-form-spinner');
+            const submitButton = snippetForm.querySelector('button[type="submit"]');
+
+            snippetFormError.classList.add('hidden');
+            snippetFormSpinner.classList.add('hidden');
+            submitButton.disabled = false;
+            submitButton.querySelector('span').textContent = snippet ? 'Salvar Alterações' : 'Salvar Snippet';
+
+            if (snippet) {
+                modalTitle.textContent = 'Editar Snippet';
+                snippetIdInput.value = snippet.id;
+                snippetTitleInput.value = snippet.title || '';
+                snippetLanguageInput.value = snippet.language || '';
+                snippetCategoryInput.value = snippet.category || '';
+                snippetCodeInput.value = snippet.code || '';
+                snippetDescriptionInput.value = snippet.description || '';
+            } else {
+                modalTitle.textContent = 'Adicionar Novo Snippet';
+                snippetForm.reset();
+                snippetIdInput.value = '';
+            }
+
+            openModal(snippetModal);
+        }
+
+        snippetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+             if (!currentUser) return;
+
+            const snippetFormError = document.getElementById('snippet-form-error');
+            const snippetFormSpinner = document.getElementById('snippet-form-spinner');
+            const submitButton = snippetForm.querySelector('button[type="submit"]');
+
+            snippetFormError.classList.add('hidden');
+            snippetFormSpinner.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            const snippetId = document.getElementById('snippet-id').value;
+            const title = document.getElementById('snippet-title').value.trim();
+            const code = document.getElementById('snippet-code').value.trim(); // Código não é opcional
+
+             // Validação
+             if (!title || !code) {
+                 snippetFormError.textContent = 'Título e Código são obrigatórios.';
+                 snippetFormError.classList.remove('hidden');
+                 snippetFormSpinner.classList.add('hidden');
+                 submitButton.disabled = false;
+                 return;
+             }
+
+            const snippetData = {
+                title: title,
+                language: document.getElementById('snippet-language').value || null,
+                category: document.getElementById('snippet-category').value || null,
+                code: code,
+                description: document.getElementById('snippet-description').value.trim() || null,
+                 user_id: currentUser.id
+            };
+
+            try {
+                 let resultError;
+                 if (snippetId) {
+                     const { error } = await sbClient.from('snippets').update(snippetData).eq('id', snippetId).eq('user_id', currentUser.id);
+                     resultError = error;
+                 } else {
+                     const { error } = await sbClient.from('snippets').insert([snippetData]);
+                     resultError = error;
+                 }
+
+                 if (resultError) throw resultError;
+
+                 closeModal();
+                 await loadSnippets();
+                 await loadDashboardStats();
+            } catch (error) {
+                console.error("Error saving snippet:", error);
+                snippetFormError.textContent = `Erro: ${error.message || 'Não foi possível salvar o snippet.'}`;
+                snippetFormError.classList.remove('hidden');
+            } finally {
+                snippetFormSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+
+
+        // --- Link Modal ---
+         function openLinkModal(link = null) {
+            const modalTitle = document.getElementById('link-modal-title');
+            const linkIdInput = document.getElementById('link-id');
+            const linkTitleInput = document.getElementById('link-title');
+            const linkUrlInput = document.getElementById('link-url');
+            const linkCategoryInput = document.getElementById('link-category');
+            const linkDescriptionInput = document.getElementById('link-description');
+            const linkFormError = document.getElementById('link-form-error');
+            const linkFormSpinner = document.getElementById('link-form-spinner');
+             const submitButton = linkForm.querySelector('button[type="submit"]');
+
+            linkFormError.classList.add('hidden');
+            linkFormSpinner.classList.add('hidden');
+             submitButton.disabled = false;
+             submitButton.querySelector('span').textContent = link ? 'Salvar Alterações' : 'Salvar Link';
+
+
+            if (link) {
+                modalTitle.textContent = 'Editar Link';
+                linkIdInput.value = link.id;
+                linkTitleInput.value = link.title || '';
+                linkUrlInput.value = link.url || '';
+                linkCategoryInput.value = link.category || '';
+                linkDescriptionInput.value = link.description || '';
+            } else {
+                modalTitle.textContent = 'Adicionar Novo Link';
+                linkForm.reset();
+                linkIdInput.value = '';
+            }
+
+            openModal(linkModal);
+        }
+
+        linkForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+             if (!currentUser) return;
+
+            const linkFormError = document.getElementById('link-form-error');
+            const linkFormSpinner = document.getElementById('link-form-spinner');
+            const submitButton = linkForm.querySelector('button[type="submit"]');
+
+            linkFormError.classList.add('hidden');
+            linkFormSpinner.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            const linkId = document.getElementById('link-id').value;
+            const title = document.getElementById('link-title').value.trim();
+            const url = document.getElementById('link-url').value.trim();
+
+             // Validação
+             if (!title || !url) {
+                 linkFormError.textContent = 'Título e URL são obrigatórios.';
+                 linkFormError.classList.remove('hidden');
+                 linkFormSpinner.classList.add('hidden');
+                 submitButton.disabled = false;
+                 return;
+             }
+             try {
+                  new URL(ensureUrlProtocol(url));
+             } catch (_) {
+                 linkFormError.textContent = 'URL inválida.';
+                 linkFormError.classList.remove('hidden');
+                 linkFormSpinner.classList.add('hidden');
+                 submitButton.disabled = false;
+                 return;
+             }
+
+
+            const linkData = {
+                title: title,
+                url: url,
+                category: document.getElementById('link-category').value || null,
+                description: document.getElementById('link-description').value.trim() || null,
+                 user_id: currentUser.id
+            };
+
+            try {
+                let resultError;
+                if (linkId) {
+                    const { error } = await sbClient.from('links').update(linkData).eq('id', linkId).eq('user_id', currentUser.id);
+                    resultError = error;
+                } else {
+                    const { error } = await sbClient.from('links').insert([linkData]);
+                    resultError = error;
+                }
+
+                 if (resultError) throw resultError;
+
+                 closeModal();
+                 await loadLinks();
+                 await loadDashboardStats();
+            } catch (error) {
+                console.error("Error saving link:", error);
+                linkFormError.textContent = `Erro: ${error.message || 'Não foi possível salvar o link.'}`;
+                linkFormError.classList.remove('hidden');
+            } finally {
+                linkFormSpinner.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+
+        // --- Quick Add Buttons ---
+        addProjectBtn.addEventListener('click', () => openProjectModal());
+        quickAddProjectBtn.addEventListener('click', () => openProjectModal());
+        addSnippetBtn.addEventListener('click', () => openSnippetModal());
+        quickAddSnippetBtn.addEventListener('click', () => openSnippetModal());
+        addLinkBtn.addEventListener('click', () => openLinkModal());
+        quickAddLinkBtn.addEventListener('click', () => openLinkModal());
+
+
+        // --- Delete Confirmation ---
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (!itemToDelete.type || !itemToDelete.id || !currentUser) return;
+
+             const typePlural = `${itemToDelete.type}s`; // 'projects', 'snippets', 'links'
+             confirmDeleteBtn.disabled = true;
+             confirmDeleteBtn.textContent = 'Excluindo...';
+
+             try {
+                 // Deleta o item principal
+                 const { error: deleteError } = await sbClient
+                     .from(typePlural)
+                     .delete()
+                     .eq('id', itemToDelete.id)
+                     .eq('user_id', currentUser.id); // Segurança
+
+                 if (deleteError) throw deleteError;
+
+                 // Se for um projeto, verifica se precisa remover da sidebar
+                 if (itemToDelete.type === 'project') {
+                     const siteSection = `custom-project-${itemToDelete.id}`;
+                     const siteInSidebar = customSites.find(site => site.section === siteSection);
+                     if (siteInSidebar && siteInSidebar.id) {
+                         // Deleta o item da tabela sidebar_items
+                          await deleteSidebarItem(siteInSidebar.id);
+                          // A função deleteSidebarItem já re-renderiza e salva
+                     }
+                 }
+
+                 closeModal();
+
+                 // Recarrega a seção correspondente e o dashboard
+                 switch(itemToDelete.type) {
+                     case 'project': await loadProjects(); break;
+                     case 'snippet': await loadSnippets(); break;
+                     case 'link': await loadLinks(); break;
+                 }
+                 await loadDashboardStats();
+
+             } catch (error) {
+                 console.error(`Error deleting ${itemToDelete.type}:`, error);
+                 alert(`Erro ao excluir ${itemToDelete.type}: ${error.message}`);
+             } finally {
+                 itemToDelete = { type: null, id: null }; // Limpa estado
+                 confirmDeleteBtn.disabled = false;
+                 confirmDeleteBtn.textContent = 'Excluir Permanentemente';
+             }
+        });
+
+        cancelConfirmBtn.addEventListener('click', closeModal);
+
+
+        // --- Change Password ---
+        changePasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            passwordSuccessMessage.classList.add('hidden');
+            passwordErrorMessage.classList.add('hidden');
+            const submitButton = changePasswordForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            const newPassword = newPasswordInput.value;
+
+             if (newPassword.length < 6) {
+                  passwordErrorMessage.textContent = 'A nova senha deve ter no mínimo 6 caracteres.';
+                  passwordErrorMessage.classList.remove('hidden');
+                  submitButton.disabled = false;
+                  return;
+             }
+
+            try {
+                const { error } = await sbClient.auth.updateUser({ password: newPassword });
+                if (error) throw error;
+
+                passwordSuccessMessage.classList.remove('hidden');
+                changePasswordForm.reset();
+                 // Esconde mensagem de sucesso após alguns segundos
+                 setTimeout(() => passwordSuccessMessage.classList.add('hidden'), 4000);
+            } catch (error) {
+                console.error("Error updating password:", error);
+                passwordErrorMessage.textContent = `Erro: ${error.message || 'Não foi possível atualizar a senha.'}`;
+                passwordErrorMessage.classList.remove('hidden');
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        // --- Filters & Search Event Listeners ---
+        projectSearch.addEventListener('input', debounce(loadProjects, 400));
+        projectSort.addEventListener('change', loadProjects);
+        snippetSearch.addEventListener('input', debounce(loadSnippets, 400));
+        snippetLangFilter.addEventListener('change', loadSnippets);
+        snippetSort.addEventListener('change', loadSnippets);
+        linkSearch.addEventListener('input', debounce(loadLinks, 400));
+        linkSort.addEventListener('change', loadLinks);
+        // Global search (exemplo simples - precisa implementar a lógica de busca global)
+        globalSearch.addEventListener('input', debounce((e) => {
+            const term = e.target.value.trim().toLowerCase();
+            console.log("Busca Global por:", term);
+            // Aqui você implementaria a lógica para buscar em todas as seções
+            // e talvez exibir resultados em um dropdown ou modal.
+             if (term) {
+                 // Exemplo: Filtra a seção atual se ela tiver busca
+                 if (!projectsSection.classList.contains('hidden')) projectSearch.value = term; loadProjects();
+                 if (!snippetsSection.classList.contains('hidden')) snippetSearch.value = term; loadSnippets();
+                 if (!linksSection.classList.contains('hidden')) linkSearch.value = term; loadLinks();
+             }
+        }, 500));
+
+
+        // --- Menu Customization (Settings Page) ---
+         function renderMenuItemsForSettings() {
+            menuItemsContainer.innerHTML = ''; // Limpa container
+            menuItemsOrder = []; // Reseta ordem local para renderização
+
+             // Combina todos os itens atuais para renderizar na ordem correta
+             const allCurrentItems = [
+                 ...customSites.map(item => ({ ...item, type: 'custom', isEditable: true, isDraggable: true })),
+                 ...navigationItems.map(item => ({ ...item, type: 'navigation', isEditable: true, isDraggable: true })),
+                 ...systemItems.map(item => ({ ...item, type: 'system', isEditable: (item.id !== 'logout-btn'), isDraggable: true })) // Logout não editável
+             ].sort((a, b) => (a.position ?? 999) - (b.position ?? 999)); // Ordena pela posição atual
+
+
+             allCurrentItems.forEach((item, index) => {
+                 const menuItemElement = document.createElement('div');
+                 menuItemElement.classList.add('menu-item');
+                 menuItemElement.draggable = item.isDraggable; // Controla se pode arrastar
+                 menuItemElement.dataset.originalIndex = index; // Guarda índice original na renderização
+                 menuItemElement.dataset.type = item.type;
+                 menuItemElement.dataset.key = item.section || item.id; // Chave única (section ou id)
+
+                 menuItemElement.innerHTML = `
+                     <i class="fas fa-grip-vertical fa-fw mr-3 text-gray-400 cursor-move"></i> <!-- Handle para D&D -->
+                     <i class="${item.icon} fa-fw mr-2 text-gray-600"></i>
+                     <input type="text" value="${sanitizeHTML(item.text)}" ${item.isEditable ? '' : 'readonly class="bg-gray-100 cursor-not-allowed"'} placeholder="Nome do item">
+                 `;
+                 menuItemsContainer.appendChild(menuItemElement);
+                 menuItemsOrder.push(item); // Adiciona à ordem local na ordem renderizada
+             });
+
+             if (allCurrentItems.length > 0) {
+                 addDragAndDropListenersForSettings(); // Adiciona listeners de D&D
+             } else {
+                 menuItemsContainer.innerHTML = '<p class="text-gray-500 text-sm">Nenhum item de menu para personalizar.</p>';
+             }
+        }
+
+        function addDragAndDropListenersForSettings() {
+            const items = menuItemsContainer.querySelectorAll('.menu-item');
+            let draggedItemElement = null;
+            let draggedItemData = null;
+
+            items.forEach(itemElement => {
+                 if (!itemElement.draggable) return; // Pula itens não arrastáveis
+
+                 itemElement.addEventListener('dragstart', (e) => {
+                     draggedItemElement = itemElement;
+                     const originalIndex = parseInt(itemElement.dataset.originalIndex);
+                     draggedItemData = menuItemsOrder[originalIndex]; // Pega os dados do item
+
+                     e.dataTransfer.effectAllowed = 'move';
+                     // e.dataTransfer.setData('text/plain', originalIndex); // Pode ser útil
+
+                     setTimeout(() => itemElement.classList.add('dragging'), 0); // Adiciona classe após iniciar o drag
+                 });
+
+                 itemElement.addEventListener('dragend', () => {
+                     if (draggedItemElement) {
+                         draggedItemElement.classList.remove('dragging');
+                     }
+                     items.forEach(i => i.classList.remove('drag-over')); // Limpa todos os drag-over
+                     draggedItemElement = null;
+                     draggedItemData = null;
+                 });
+
+                 itemElement.addEventListener('dragover', (e) => {
+                     e.preventDefault(); // Necessário para permitir o drop
+                     if (itemElement !== draggedItemElement) {
+                          // Remove de outros antes de adicionar
+                          items.forEach(i => { if (i !== itemElement) i.classList.remove('drag-over'); });
+                          itemElement.classList.add('drag-over');
+                          e.dataTransfer.dropEffect = 'move';
+                     }
+                 });
+
+                 itemElement.addEventListener('dragleave', () => {
+                     itemElement.classList.remove('drag-over');
+                 });
+
+                 itemElement.addEventListener('drop', (e) => {
+                     e.preventDefault();
+                     if (itemElement !== draggedItemElement && draggedItemElement) {
+                         // Determina a posição de soltar (antes ou depois do item alvo)
+                         const targetRect = itemElement.getBoundingClientRect();
+                         const dropBefore = e.clientY < targetRect.top + targetRect.height / 2;
+
+                         // Move o elemento no DOM
+                         if (dropBefore) {
+                             itemElement.parentNode.insertBefore(draggedItemElement, itemElement);
+                         } else {
+                              itemElement.parentNode.insertBefore(draggedItemElement, itemElement.nextSibling);
+                         }
+
+                         // Atualiza a ordem no array menuItemsOrder (lógica mais complexa)
+                         updateMenuItemsOrderArray();
+                     }
+                     itemElement.classList.remove('drag-over');
+                 });
+            });
+        }
+
+        // Função para atualizar o array menuItemsOrder com base na ordem atual do DOM
+        function updateMenuItemsOrderArray() {
+            const newOrder = [];
+            const itemElements = menuItemsContainer.querySelectorAll('.menu-item');
+
+             itemElements.forEach(element => {
+                 const key = element.dataset.key;
+                 const type = element.dataset.type;
+                  // Encontra o item original no array 'menuItemsOrder' pela chave e tipo
+                 const originalItem = menuItemsOrder.find(item => (item.section || item.id) === key && item.type === type);
+                 if (originalItem) {
+                     newOrder.push(originalItem);
+                 } else {
+                      console.warn("Could not find original item data for key:", key, type);
+                 }
+             });
+
+             menuItemsOrder = newOrder; // Atualiza o array principal
+            console.log("Updated menuItemsOrder:", menuItemsOrder.map(i => i.text)); // Log para debug
+         }
+
+
+        saveMenuChangesBtn.addEventListener('click', async () => {
+            menuSuccessMessage.classList.add('hidden');
+            menuErrorMessage.classList.add('hidden');
+            saveMenuChangesBtn.disabled = true;
+            saveMenuChangesBtn.textContent = 'Salvando...';
+
+             // 1. Atualiza os textos no array menuItemsOrder a partir dos inputs
+             const inputs = menuItemsContainer.querySelectorAll('.menu-item input[type="text"]');
+             inputs.forEach((input, index) => {
+                 const correspondingItem = menuItemsOrder[index]; // Assume que a ordem do DOM e do array coincidem
+                 if (correspondingItem && !input.readOnly) {
+                     correspondingItem.text = input.value.trim();
+                 }
+             });
+
+             // 2. Separa os itens de volta nos arrays originais (custom, nav, system)
+             //    A ordem dentro de cada tipo é preservada pela ordem em menuItemsOrder
+             const newCustomSites = [];
+             const newNavigationItems = [];
+             const newSystemItems = [];
+
+             menuItemsOrder.forEach((item, index) => {
+                  item.position = index; // Atualiza a posição baseado na ordem final
+                  if (item.type === 'custom') {
+                      newCustomSites.push(item);
+                  } else if (item.type === 'navigation') {
+                      newNavigationItems.push(item);
+                  } else if (item.type === 'system') {
+                      newSystemItems.push(item);
+                  }
+              });
+
+             // 3. Atualiza os arrays globais
+             customSites = newCustomSites;
+             navigationItems = newNavigationItems;
+             systemItems = newSystemItems;
+
+             // 4. Salva no Supabase
+             const success = await saveMenuSettings(); // saveMenuSettings agora usa os arrays globais atualizados
+
+             if (success) {
+                 renderSidebar(); // Re-renderiza a sidebar com a nova ordem/textos
+                 menuSuccessMessage.classList.remove('hidden');
+                 setTimeout(() => menuSuccessMessage.classList.add('hidden'), 3000);
+             } else {
+                 menuErrorMessage.textContent = 'Erro ao salvar as alterações no menu.';
+                 menuErrorMessage.classList.remove('hidden');
+             }
+
+             saveMenuChangesBtn.disabled = false;
+             saveMenuChangesBtn.textContent = 'Salvar Alterações no Menu';
+        });
+
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            applySidebarState(); // Aplica estado inicial da sidebar (antes de checar user)
+            checkUserSession(); // Verifica se usuário está logado
+        });
+
+    </script>
+</body>
+</html>
