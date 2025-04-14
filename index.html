@@ -27,59 +27,43 @@
     <style>
         /* --- Base & Configuration --- */
         :root {
-            --brand-brown: #A0522D; /* Sienna */
-            --brand-brown-dark: #8B4513; /* SaddleBrown */
+            --brand-brown: #A0522D;
+            --brand-brown-dark: #8B4513;
             --brand-gold: #D4AF37;
             --brand-light-bg: #F8F8F8;
-            --brand-dark-bg: #111827; /* Cor de fundo escura mais padrão tailwind */
+            --brand-dark-bg: #111827; /* bg-gray-900 */
             --brand-card-light: #FFFFFF;
-            --brand-card-dark: #1f2937; /* Cor de card escuro mais padrão tailwind */
-            --text-primary-light: #1f2937; /* cinza-800 */
-            --text-primary-dark: #f3f4f6; /* cinza-100 */
-            --text-secondary-light: #6b7280; /* cinza-500 */
-            --text-secondary-dark: #9ca3af; /* cinza-400 */
-            --border-light: #e5e7eb; /* cinza-200 */
-            --border-dark: #4b5563; /* cinza-600 */
-            --primary-action: #2563eb; /* Azul-600 */
-            --primary-action-dark: #1d4ed8; /* Azul-700 */
+            --brand-card-dark: #1f2937; /* bg-gray-800 */
+            --text-primary-light: #1f2937; /* text-gray-800 */
+            --text-primary-dark: #f3f4f6; /* text-gray-100 */
+            --text-secondary-light: #6b7280; /* text-gray-500 */
+            --text-secondary-dark: #9ca3af; /* text-gray-400 */
+            --border-light: #e5e7eb; /* border-gray-200 */
+            --border-dark: #4b5563; /* border-gray-600 */
+            --primary-action: #2563eb; /* bg-blue-600 */
+            --primary-action-dark: #1d4ed8; /* bg-blue-700 */
             --primary-action-alt-dark: var(--brand-gold);
-            --secondary-action: #4b5563; /* cinza-600 */
-            --secondary-action-dark: #9ca3af; /* cinza-400 */
-            --neutral-bg-light: #f3f4f6; /* cinza-100 */
-            --neutral-bg-dark: #4b5563; /* cinza-600 */
+            --secondary-action: #4b5563; /* bg-gray-600 */
+            --secondary-action-dark: #9ca3af; /* bg-gray-400 */
+            --neutral-bg-light: #f3f4f6; /* bg-gray-100 */
+            --neutral-bg-dark: #4b5563; /* bg-gray-600 */
             --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--brand-light-bg); color: var(--text-primary-light); margin: 0; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
         .dark body { background-color: var(--brand-dark-bg); color: var(--text-primary-dark); }
-        .container { width: 90%; max-width: 1280px; margin-left: auto; margin-right: auto; } /* Centraliza melhor */
-        main.container { padding-top: 2.5rem; padding-bottom: 2.5rem; flex-grow: 1; } /* Padding apenas no main */
+        .container { width: 90%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        main.container { padding-top: 2.5rem; padding-bottom: 2.5rem; flex-grow: 1; }
 
         /* --- Hero Section --- */
-        /* O estilo principal do Hero é feito com Tailwind */
-        .hero-section {
-             background-color: #0B0F19; /* Fundo escuro base para a seção */
-             color: var(--text-primary-dark); /* Texto claro por padrão no hero */
-        }
-        /* Estilo específico para o botão dark mode no hero */
-        .hero-darkmode-toggle {
-            color: #9ca3af; /* cinza-400 */
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-full);
-            width: 38px; height: 38px;
-            display: inline-flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .hero-darkmode-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: scale(1.1);
-        }
+        .hero-section { background-color: #0B0F19; color: var(--text-primary-dark); }
+        .hero-darkmode-toggle { color: #9ca3af; background-color: rgba(255, 255, 255, 0.1); border-radius: var(--radius-full); width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .hero-darkmode-toggle:hover { background-color: rgba(255, 255, 255, 0.2); color: white; transform: scale(1.1); }
 
         /* --- Filters --- */
-        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s; }
-        .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border: 1px solid var(--border-dark); } /* Adiciona borda sutil no dark mode */
+        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s; border: 1px solid transparent;}
+        .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border-color: var(--border-dark); }
         .controls-layout { display: flex; flex-direction: column; gap: 1.5rem; }
         @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem;} .search-layout-wrapper { flex-shrink: 0; } }
         .filter-section-wrapper { display: flex; flex-direction: column; gap: 1rem; }
@@ -93,13 +77,13 @@
         .dark .filter-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border-color: #555; }
         .filter-btn:hover { background-color: #E9E9E9; border-color: #ccc; color: var(--text-primary-light); transform: translateY(-1px); }
         .dark .filter-btn:hover { background-color: #5a5a5a; border-color: #777; color: var(--text-primary-dark); }
-        .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; } /* Usar azul como ativo */
+        .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; }
         .dark .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; }
         .filter-btn.active:hover { transform: none; box-shadow: none; filter: brightness(1.1); }
         .search-layout-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
         .filter-search-container { position: relative; flex-grow: 1; min-width: 200px; max-width: 350px; }
-        #filterSearchInput { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); background-color: var(--brand-card-light); color: var(--text-primary-light); font-size: 0.9rem; transition: all 0.2s; } /* Fundo branco no light mode */
-        .dark #filterSearchInput { background-color: #2d3748; border-color: var(--border-dark); color: var(--text-primary-dark); } /* Fundo mais escuro no dark */
+        #filterSearchInput { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); background-color: var(--brand-card-light); color: var(--text-primary-light); font-size: 0.9rem; transition: all 0.2s; }
+        .dark #filterSearchInput { background-color: #2d3748; border-color: var(--border-dark); color: var(--text-primary-dark); }
         #filterSearchInput:focus { outline: none; border-color: var(--primary-action); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
         .dark #filterSearchInput:focus { border-color: var(--primary-action); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
         .filter-search-container .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary-light); font-size: 0.9rem; pointer-events: none; }
@@ -114,28 +98,28 @@
         .layout-btn.active:hover { transform: none; filter: brightness(1.1); }
 
         /* --- Project Gallery & Cards --- */
-        #project-gallery { display: grid; gap: 24px; grid-template-columns: 1fr; }
+        #project-gallery { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
         @media (min-width: 640px) { #project-gallery { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { #project-gallery { grid-template-columns: repeat(3, 1fr); } }
-        .project-card { transition: all 0.3s ease; border-radius: var(--radius-lg); background-color: var(--brand-card-light); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); } /* Borda sutil padrão */
+        .project-card { transition: all 0.3s ease; border-radius: var(--radius-lg); background-color: var(--brand-card-light); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
         .dark .project-card { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border-color: var(--border-dark); }
-        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-action); } /* Highlight azul no hover */
+        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-action); }
         .dark .project-card:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); border-color: var(--primary-action); }
-        .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; background-color: var(--neutral-bg-light); } /* Fundo para imagem */
+        .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; background-color: var(--neutral-bg-light); }
         .dark .project-card figure { background-color: var(--neutral-bg-dark); }
         .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .project-card:hover img { transform: scale(1.05); }
         .project-card .card-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
         .project-card h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary-light); margin-bottom: 0.25rem; }
         .dark .project-card h3 { color: var(--text-primary-dark); }
-        .project-card .category-text { font-size: 0.75rem; color: var(--primary-action); margin-bottom: 0.75rem; text-transform: capitalize; font-weight: 500; } /* Categoria em azul */
-        .dark .project-card .category-text { color: #60a5fa; } /* Azul mais claro no dark */
+        .project-card .category-text { font-size: 0.75rem; color: var(--primary-action); margin-bottom: 0.75rem; text-transform: capitalize; font-weight: 500; }
+        .dark .project-card .category-text { color: #60a5fa; }
         .project-card .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.75rem; }
-        .project-card .tech-tag { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); font-size: 0.7rem; padding: 3px 8px; border-radius: var(--radius-full); display: inline-block; border: 1px solid var(--border-light); } /* Tag com borda */
+        .project-card .tech-tag { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); font-size: 0.7rem; padding: 3px 8px; border-radius: var(--radius-full); display: inline-block; border: 1px solid var(--border-light); }
         .dark .project-card .tech-tag { background-color: #374151; color: var(--text-secondary-dark); border-color: var(--border-dark); }
         .project-card .description-text { font-size: 0.875rem; color: var(--text-secondary-light); margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
         .dark .project-card .description-text { color: var(--text-secondary-dark); }
-        .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 1rem; } /* Separador de ações */
+        .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 1rem; }
         .dark .project-card .card-actions { border-top-color: var(--border-dark); }
         .project-card .card-button { font-size: 0.8rem; padding: 7px 12px; border-radius: var(--radius-md); transition: all 0.2s ease; border: none; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; flex: 1 1 auto; min-width: 80px; text-decoration: none; }
         .card-button.preview { background-color: var(--primary-action); color: white; }
@@ -153,7 +137,7 @@
         .card-button:disabled:hover { transform: none; box-shadow: none; }
 
         /* --- Hide/Show Logic & No Results --- */
-        .project-card.hidden-card { /* ... (mantido) ... */ opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
+        .project-card.hidden-card { opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
         @media (max-width: 639px) { .project-card.hidden-card { margin-top: 0 !important; margin-bottom: 0 !important; } }
         #no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); }
         .dark #no-results { color: var(--text-secondary-dark); }
@@ -161,13 +145,13 @@
         #no-results i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
 
         /* --- Preview Modal --- */
-        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(5px); } /* Adicionado blur */
+        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(17, 24, 39, 0.8); /* bg-gray-900/80 */ display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(4px); }
         #previewModal:not(.hidden) { opacity: 1; visibility: visible; }
         #previewModal .modal-content { background-color: var(--brand-card-light); border-radius: var(--radius-lg); width: 100%; height: 90%; max-width: 1200px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease-in-out; transform: scale(0.95); }
-        .dark #previewModal .modal-content { background-color: #2d3748; } /* Fundo escuro para modal */
+        .dark #previewModal .modal-content { background-color: #2d3748; border: 1px solid var(--border-dark);}
         #previewModal:not(.hidden) .modal-content { transform: scale(1); }
-        #previewModal.fullscreen .modal-content { width: 100%; height: 100%; max-width: none; border-radius: 0; }
-        #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: #f9fafb; } /* Fundo claro para header */
+        #previewModal.fullscreen .modal-content { width: 100%; height: 100%; max-width: none; border-radius: 0; border: none; }
+        #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: #f9fafb; }
         .dark #previewModal .modal-header { background-color: #374151; border-bottom-color: var(--border-dark); }
         #previewModal #modalTitle { font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 1rem; }
         .dark #previewModal #modalTitle { color: var(--text-primary-dark); }
@@ -178,94 +162,87 @@
         .dark #previewModal .modal-button:hover { background-color: #4b5563; color: #60a5fa; transform: scale(1.1); }
         #previewModal .modal-button.close-btn:hover { color: #EF4444; background-color: #fef2f2; transform: scale(1.1) rotate(90deg); }
         .dark #previewModal .modal-button.close-btn:hover { color: #F87171; background-color: #3f2a2a; transform: scale(1.1) rotate(90deg); }
-        #previewModal .modal-body { flex-grow: 1; overflow: hidden; background-color: #e5e7eb; } /* Fundo do iframe container */
+        #previewModal .modal-body { flex-grow: 1; overflow: hidden; background-color: #e5e7eb; }
         .dark #previewModal .modal-body { background-color: #111827; }
         #previewModal iframe { width: 100%; height: 100%; border: none; }
 
         /* --- Footer --- */
-        .site-footer { background-color: #1f2937; color: #9ca3af; padding: 2rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; } /* Footer mais escuro */
-        .dark .site-footer { background-color: #111827; }
+        .site-footer { background-color: #1f2937; color: #9ca3af; padding: 2rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; }
+        .dark .site-footer { background-color: #111827; border-top: 1px solid var(--border-dark);} /* Borda superior no dark */
         .site-footer p { margin-bottom: 0.5rem; line-height: 1.5; }
-        .site-footer a { color: #60a5fa; font-weight: 500; text-decoration: none; transition: color 0.2s; } /* Link azul claro */
+        .site-footer a { color: #60a5fa; font-weight: 500; text-decoration: none; transition: color 0.2s; }
         .site-footer a:hover { color: #93c5fd; text-decoration: underline;}
         .site-footer .instagram-link i { margin-right: 0.3rem; }
 
         /* --- Utilities --- */
-        #gallery-loading { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); font-size: 1.2rem; }
+        #gallery-loading { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-secondary-light); font-size: 1.2rem; } /* Mais padding */
         .dark #gallery-loading { color: var(--text-secondary-dark); }
-        #gallery-loading i { margin-right: 0.5rem; animation: spin 1.5s linear infinite; }
+        #gallery-loading i { margin-right: 0.75rem; font-size: 1.5rem; display: inline-block; animation: spin 1.5s linear infinite; } /* Ícone maior e animado */
         #gallery-error { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #dc2626; }
         .dark #gallery-error { color: #f87171; }
         #gallery-error i { margin-bottom: 1rem; }
-
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
     </style>
 </head>
 <body class="">
 
-     <!-- ======================================== -->
-    <!--              Hero Section                -->
+    <!-- ======================================== -->
+    <!--         Hero Section - ATUALIZADO        -->
     <!-- ======================================== -->
     <header class="hero-section relative overflow-hidden">
         <!-- Background Image & Overlay -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-40"
-                 style="background-image: url('https://i.ibb.co/pB9Xv8y4/hero-creative-agenc1.jpg');">
+                 style="background-image: url('https://i.ibb.co/pB9Xv8y4/hero-creative-agenc1.jpg');"> 
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent"></div>
         </div>
 
         <!-- Content Container -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-1 items-center text-center"> 
+            <div class="grid grid-cols-1 items-center text-center"> 
                 <!-- Text Content -->
                 <div class="max-w-3xl mx-auto">
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight md:leading-snug">
-                        <span class="block bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">Projeto Cloud foi</span>
-                        <span class="block bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">desenvolvido pelo</span>
-                        <span class="block bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">Engenheiro João Ricardo.</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight md:leading-snug mb-4">
+                        <span class="block bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">Engenheiro da Computação</span> 
                     </h1>
+                     <p class="mt-4 text-xl lg:text-2xl font-medium text-gray-200">
+                        Full Stack Developer | Android Developer | Perito Forense Computacional
+                     </p>
 
-                    <p class="mt-6 md:mt-8 text-base lg:text-lg text-gray-300 leading-relaxed">
-   Engenheiro da Computação com 38 anos e sólida trajetória profissional, atuando como Desenvolvedor Full Stack e Mobile Android. Minha expertise abrange desde a concepção e arquitetura de sistemas web robustos e escaláveis (front-end e back-end) até a criação de aplicativos Android nativos, intuitivos e performáticos. Complementarmente, possuo especialização em Perícia Forense Computacional, aplicando conhecimentos técnicos em investigações digitais e análise de dados para garantir a segurança e integridade de sistemas. Busco constantemente aplicar essa combinação única de habilidades para entregar soluções digitais completas e eficazes.     </p>
-                </p>
+                    <p class="mt-6 md:mt-8 text-base lg:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
+        Me chamo João Ricardo, 38 anos e sólida trajetória profissional, Minha expertise abrange desde a concepção e arquitetura de sistemas web robustos e escaláveis (front-end e back-end) até a criação de aplicativos Android nativos, intuitivos e performáticos. Complementarmente, possuo especialização em Perícia Forense Computacional, aplicando conhecimentos técnicos em investigações digitais e análise de dados para garantir a segurança e integridade de sistemas. Busco constantemente aplicar essa combinação única de habilidades para entregar soluções digitais completas e eficazes.     </p>
+                     </p>
                     <div class="mt-10 md:mt-12 flex flex-wrap justify-center gap-4">
-                        <a href="https://github.com/joaoricardobr" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                             GitHub >
+                        <a href="https://github.com/joaoricardobr" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
+                           <i class="fab fa-github mr-2"></i> GitHub
                         </a>
-                        <a href="https://www.linkedin.com" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                            Linkedin >
+                        <a href="https://www.linkedin.com/in/joaoricardope/" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
+                           <i class="fab fa-linkedin mr-2"></i> LinkedIn 
                         </a>
-                        <a href="#" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                            Suporte >
+                        <a href="mailto:contato@joaoricardo.dev" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
+                            <i class="fas fa-envelope mr-2"></i> Contato 
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-                 <!-- Coluna da Direita (pode ficar vazia ou ter outro elemento se necessário) -->
-                 <!-- <div class="hidden md:block"> -->
-                      <!-- Talvez um SVG ou outro elemento gráfico aqui -->
-                 <!-- </div> -->
-             </div>
+        <!-- Botão Dark Mode -->
+        <div class="absolute top-5 right-5 z-20">
+             <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle">
+                 <i class="fas fa-moon" id="darkModeIcon"></i>
+             </button>
          </div>
-         <!-- Botão Dark Mode (posicionado no canto superior direito) -->
-         <div class="absolute top-4 right-4 z-20">
-              <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle">
-                  <i class="fas fa-moon" id="darkModeIcon"></i>
-              </button>
-          </div>
     </header>
-    <!-- ======================= Fim Header / Hero Section ======================= -->
+    <!-- ======================= Fim Hero Section ======================= -->
 
 
-    <!-- ======================= Main Content (Filtros e Galeria) ======================= -->
+    <!-- ======================= Main Content ======================= -->
     <main class="container">
 
         <!-- Filtros -->
         <section id="controls">
-            <!-- ... seu código HTML dos filtros ... -->
+            <!-- ... código dos filtros mantido ... -->
              <div class="controls-layout">
                  <div class="filter-section-wrapper">
                      <div class="filter-group-container">
@@ -316,6 +293,7 @@
         <section id="project-gallery">
              <div id="gallery-loading" class="sm:col-span-2 lg:col-span-3"> <i class="fas fa-spinner fa-spin"></i> Carregando projetos... </div>
              <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10"> <i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i> <p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p> <p class="text-sm text-gray-500 dark:text-gray-500">Tente ajustar seus filtros.</p> </div>
+             <!-- Cards são inseridos aqui pelo JS -->
         </section>
 
     </main>
@@ -345,20 +323,19 @@
          <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
          <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
          <p class="mt-2">
-             <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="instagram-link">
-                 <i class="fab fa-instagram"></i> @joaoricardo.pe
-             </a>
+             <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="instagram-link inline-flex items-center"> {/* inline-flex para alinhar ícone */}
+                 <i class="fab fa-instagram mr-1.5"></i> @joaoricardo.pe              </a>
          </p>
     </footer>
     <!-- ======================= Fim Footer ======================= -->
 
 
-    <!-- ======================= JavaScript ======================= -->
+    <!-- ======================= JavaScript (FINAL DO BODY) ======================= -->
     <script>
         // --- Variáveis Globais ---
         let currentFilters = { tech: 'all', category: 'all', search: '' };
         let currentLayout = localStorage.getItem('layout') || 'grid';
-        let sbClient;
+        let sbClient; // Será inicializado
 
         // --- UTILITY FUNCTIONS ---
         function sanitizeHTML(str) { if (!str) return ''; const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; }
@@ -376,7 +353,7 @@
         function handleFullscreenChange() { const modal = document.getElementById('previewModal'); const fullscreenButton = document.getElementById('fullscreenButton'); if (!fullscreenButton || !modal) return; const isInFullscreen = !!document.fullscreenElement; fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand'; modal.classList.toggle('fullscreen', isInFullscreen); }
 
         // --- DATA FETCHING AND RENDERING ---
-        async function fetchProjectsFromSupabase() { /* ... (código mantido - igual anterior) ... */
+        async function fetchProjectsFromSupabase() {
              console.log("Attempting to fetch projects...");
              const galleryLoading = document.getElementById('gallery-loading');
              const gallery = document.getElementById('project-gallery');
@@ -389,10 +366,11 @@
 
              try {
                  console.log("Executing Supabase query: sbClient.from('projects').select(...)");
+                 // Otimização: Selecionar apenas as colunas necessárias
                  const { data: projects, error, status } = await sbClient
                      .from('projects')
-                     .select('id, name, url, description, image_url, category, technologies, code_url, created_at')
-                     .order('created_at', { ascending: false });
+                     .select('name, url, description, image_url, category, technologies, code_url') // Removido id, created_at se não usar no card
+                     .order('created_at', { ascending: false }); // Ordenação ainda precisa de created_at implicitamente ou explicitamente
 
                  console.log("Supabase response status:", status);
                  console.log("Supabase response error:", error);
@@ -404,13 +382,13 @@
                      else if (status === 401 || status === 403) { throw new Error("Acesso não autorizado. Verifique a Anon Key e as políticas RLS."); }
                      throw new Error(`Erro Supabase (${status}): ${error.message}`);
                  }
-                 renderProjects(projects); // Chama renderização se não houver erro
+                 renderProjects(projects);
              } catch (error) {
                  console.error("Error caught in fetchProjectsFromSupabase:", error);
                  if (gallery) { if (galleryLoading && gallery.contains(galleryLoading)) gallery.removeChild(galleryLoading); gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><i class="fas fa-exclamation-triangle fa-3x mb-4"></i><p class="text-lg font-semibold">Erro ao carregar projetos!</p><p class="text-sm mt-2">${sanitizeHTML(error.message)}</p></div>`; }
              } finally { if (galleryLoading && gallery && gallery.contains(galleryLoading)) { gallery.removeChild(galleryLoading); } }
          }
-        function renderProjects(projects) { /* ... (código mantido - igual anterior) ... */
+        function renderProjects(projects) {
             const gallery = document.getElementById('project-gallery');
             const noResultsDiv = document.getElementById('no-results');
             const defaultImageUrl = 'https://placehold.co/400x220/e0e7ff/4338ca/png?text=Projeto';
@@ -422,7 +400,7 @@
             console.log(`Rendering ${projects.length} projects.`);
             if (noResultsDiv) noResultsDiv.classList.add('hidden');
 
-            projects.forEach((project, index) => {
+            projects.forEach((project) => { // Removido index não utilizado
                 const techs = (project.technologies || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
                 const title = sanitizeHTML(project.name || 'Projeto Sem Título');
                 const category = sanitizeHTML(project.category || 'Outro');
@@ -433,7 +411,7 @@
                 const codeUrl = ensureUrlProtocol(project.code_url);
 
                 const card = document.createElement('article');
-                card.className = 'project-card';
+                card.className = 'project-card'; // Classe base para estilos e filtros
                 card.dataset.technologies = techs.join(',');
                 card.dataset.category = categorySlug;
                 card.dataset.title = title.toLowerCase();
@@ -457,7 +435,7 @@
                 gallery.appendChild(card);
             });
 
-            // Aplica layout e filtros DEPOIS de renderizar
+            // Aplica layout e filtros após renderizar
             if (typeof applyLayout === 'function' && typeof filterAndSearchProjects === 'function') {
                 applyLayout(localStorage.getItem('layout') || 'grid');
                 filterAndSearchProjects();
@@ -466,7 +444,7 @@
 
         // --- Event Listener Principal ---
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM fully loaded and parsed.");
+            console.log("DOM fully loaded.");
 
             // --- Inicializa Supabase Client ---
             const SUPABASE_URL_CONST = 'https://hqgcjyujpicmsbtfsbwv.supabase.co';
@@ -474,14 +452,14 @@
             try {
                 if (typeof supabase !== 'undefined') {
                     sbClient = supabase.createClient(SUPABASE_URL_CONST, SUPABASE_ANON_KEY_CONST);
-                    console.log("Supabase client initialized successfully.");
+                    console.log("Supabase client initialized.");
                 } else { throw new Error("'supabase' global object not found."); }
             } catch (error) {
                  console.error("Error initializing Supabase client:", error);
                  const gallery = document.getElementById('project-gallery');
                  const galleryLoading = document.getElementById('gallery-loading');
                  if (gallery) gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Não foi possível inicializar o Supabase.</p></div>`;
-                 if (galleryLoading) galleryLoading.classList.add('hidden');
+                 if (galleryLoading && gallery.contains(galleryLoading)) galleryLoading.remove(); // Remove o loading se deu erro na init
                  return;
             }
 
@@ -495,7 +473,6 @@
             const closeModalButton = document.getElementById('closeModalButton');
             const fullscreenButton = document.getElementById('fullscreenButton');
             const currentYearSpan = document.getElementById('currentYear');
-            // const galleryLoading = document.getElementById('gallery-loading'); // Obtido na função fetch
 
             // --- INITIALIZATION ---
             if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
@@ -503,7 +480,7 @@
             applyTheme(savedTheme);
 
             // --- FETCH DATA ---
-            fetchProjectsFromSupabase();
+            fetchProjectsFromSupabase(); // Chama aqui após ter certeza que sbClient existe
 
             // --- EVENT LISTENERS ---
             if (darkModeToggle) darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
@@ -518,16 +495,10 @@
                         if (!group) return;
                         const type = group.dataset.filterType;
                         const value = target.dataset.filter;
-                        if (currentFilters[type] !== value) {
-                            currentFilters[type] = value;
-                            updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
-                            filterAndSearchProjects();
-                        }
+                        if (currentFilters[type] !== value) { currentFilters[type] = value; updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter'); filterAndSearchProjects(); }
                     } else if (target.classList.contains('layout-btn')) {
                         const layout = target.dataset.layout;
-                        if (currentLayout !== layout) {
-                            applyLayout(layout);
-                        }
+                        if (currentLayout !== layout) { applyLayout(layout); }
                     }
                 });
             }
@@ -541,13 +512,7 @@
             if (gallery) {
                 gallery.addEventListener('click', (e) => {
                     const btn = e.target.closest('button.preview-button');
-                    if (btn && !btn.disabled) {
-                        e.preventDefault();
-                        const url = btn.dataset.previewUrl;
-                        const card = btn.closest('.project-card');
-                        const title = card?.querySelector('h3')?.textContent || 'Preview';
-                        openModal(url, title);
-                    }
+                    if (btn && !btn.disabled) { e.preventDefault(); const url = btn.dataset.previewUrl; const card = btn.closest('.project-card'); const title = card?.querySelector('h3')?.textContent || 'Preview'; openModal(url, title); }
                 });
             }
 
