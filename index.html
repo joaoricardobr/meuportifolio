@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="">
+<html lang="pt-BR" class=""> <!-- A classe 'dark' será adicionada/removida pelo JS -->
 <head>
     <!-- Meta Tags -->
     <meta charset="UTF-8">
@@ -13,17 +13,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Tailwind Reset (Optional, can remove if not needed) -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+
+    <!-- Tailwind CDN com defer -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio" defer></script>
+
+    <!-- Supabase Client com defer -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
 
     <!-- ======================================== -->
     <!--                   CSS                  -->
     <!-- ======================================== -->
     <style>
-        /* --- Base & Configuration (Kavian Colors) --- */
+        /* --- SEU CSS COMPLETO PERMANECE AQUI --- */
         :root {
-            --brand-brown: #A0522D; /* Sienna */
-            --brand-brown-dark: #8B4513; /* SaddleBrown */
+            --brand-brown: #050000; /* Sienna */
+            --brand-brown-dark: #050000; /* SaddleBrown */
             --brand-gold: #D4AF37;
             --brand-light-bg: #F8F8F8;
             --brand-dark-bg: #1a1a1a;
@@ -35,88 +39,37 @@
             --text-secondary-dark: #bbb;
             --border-light: #e5e7eb;
             --border-dark: #4b5563;
-            /* --primary-action: var(--brand-brown); */ /* Main action color (Original Brown) */
-            --primary-action: #2563eb; /* CHANGED TO BLUE for Preview Button */
-            --primary-action-dark: #1d4ed8; /* Darker Blue for Hover */
-            --primary-action-alt-dark: var(--brand-gold); /* Gold for dark mode actions if needed */
+            --primary-action: #2563eb; /* Azul para Preview */
+            --primary-action-dark: #1d4ed8; /* Azul Escuro Hover */
+            --primary-action-alt-dark: var(--brand-gold);
             --secondary-action: #555;
             --secondary-action-dark: #999;
             --neutral-bg-light: #F0F0F0;
             --neutral-bg-dark: #555;
-
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --radius-xl: 16px;
-            --radius-full: 9999px;
-
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--brand-light-bg); color: var(--text-primary-light);
-            margin: 0; min-height: 100vh; display: flex; flex-direction: column;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--brand-light-bg); color: var(--text-primary-light); margin: 0; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
         .dark body { background-color: var(--brand-dark-bg); color: var(--text-primary-dark); }
         .container { width: 90%; max-width: 1280px; margin: 0 auto; }
         main.container { padding: 2.5rem 1rem; flex-grow: 1; }
-
-        /* --- Header (Existing Structure - Considered "New" in style) --- */
-        .site-header {
-            background-color: var(--brand-card-light); box-shadow: var(--shadow-sm);
-            padding: 1rem 0; position: sticky; top: 0; z-index: 30;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
+        .site-header { background-color: var(--brand-card-light); box-shadow: var(--shadow-sm); padding: 1rem 0; position: sticky; top: 0; z-index: 30; transition: background-color 0.3s, box-shadow 0.3s; }
         .dark .site-header { background-color: var(--brand-card-dark); box-shadow: var(--shadow-md); }
         .header-container { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .logo { /* João Ricardo Portfólio */
-            font-weight: 700; font-size: 1.25rem; color: var(--brand-brown); text-decoration: none;
-            transition: color 0.2s;
-        }
+        .logo { font-weight: 700; font-size: 1.25rem; color: var(--brand-brown); text-decoration: none; transition: color 0.2s; }
         .dark .logo { color: var(--brand-gold); }
         .logo:hover { color: var(--brand-brown-dark); }
-        .dark .logo:hover { color: #f0e68c; } /* Lighter gold on hover */
-
+        .dark .logo:hover { color: #f0e68c; }
         .header-actions { display: flex; align-items: center; gap: 0.5rem; }
-        .header-button { /* For Dark Mode, Add Project */
-           display: inline-flex; align-items: center; justify-content: center;
-           background-color: transparent; border: none; border-radius: var(--radius-md);
-           width: 38px; height: 38px; cursor: pointer; color: #6b7280; /* Gray-500 */
-           transition: background-color 0.2s, color 0.2s, transform 0.1s; /* Added transform */
-           font-size: 1.1rem;
-        }
-        .header-button:hover {
-            background-color: #f3f4f6; /* Light gray background */
-            color: var(--brand-brown); /* Brand color on hover */
-            transform: scale(1.1); /* Subtle scale effect */
-        }
-        .dark .header-button { color: #9ca3af; /* Lighter gray in dark mode */ }
-        .dark .header-button:hover {
-            background-color: #374151; /* Darker gray background */
-            color: var(--brand-gold); /* Brand gold in dark mode hover */
-            transform: scale(1.1);
-         }
-        /* Specific colors for add button */
-        .header-button.add-project-btn { color: #16a34a; /* Green */ }
-        .dark .header-button.add-project-btn { color: #4ade80; /* Lighter Green */ }
-        .header-button.add-project-btn:hover { color: #15803d; } /* Darker Green Hover */
-        .dark .header-button.add-project-btn:hover { color: #86efac; } /* Brighter Green Hover */
-
-        /* --- Filter Controls (Redesigned with Horizontal Scroll) --- */
-        #controls {
-            background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg);
-            margin-bottom: 2.5rem; box-shadow: var(--shadow-md);
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
+        .header-button { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; border: none; border-radius: var(--radius-md); width: 38px; height: 38px; cursor: pointer; color: #6b7280; transition: background-color 0.2s, color 0.2s, transform 0.1s; font-size: 1.1rem; }
+        .header-button:hover { background-color: #f3f4f6; color: var(--brand-brown); transform: scale(1.1); }
+        .dark .header-button { color: #9ca3af; }
+        .dark .header-button:hover { background-color: #374151; color: var(--brand-gold); transform: scale(1.1); }
+        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s; }
         .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); }
-
         .controls-layout { display: flex; flex-direction: column; gap: 1.5rem; }
         @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem;} .search-layout-wrapper { flex-shrink: 0; } }
-
         .filter-section-wrapper { display: flex; flex-direction: column; gap: 1rem; }
         .filter-group-container { display: flex; flex-direction: column; gap: 0.5rem; }
         .filter-label { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary-light); margin-left: 4px; }
@@ -124,99 +77,39 @@
         .filter-scroll-wrapper { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
         .filter-scroll-wrapper::-webkit-scrollbar { display: none; }
         .filter-group { display: inline-flex; gap: 0.6rem; padding-bottom: 10px; white-space: nowrap; }
-
-        .filter-btn { /* Filter button style */
-            padding: 6px 14px; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 500;
-            transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer;
-            background-color: var(--neutral-bg-light); color: var(--text-secondary-light);
-            line-height: 1.4; flex-shrink: 0;
-        }
+        .filter-btn { padding: 6px 14px; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 500; transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer; background-color: var(--neutral-bg-light); color: var(--text-secondary-light); line-height: 1.4; flex-shrink: 0; }
         .dark .filter-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); }
-        /* HOVER for filter buttons */
-        .filter-btn:hover {
-            background-color: #E0E0E0; border-color: #ccc; color: var(--text-primary-light);
-            transform: translateY(-2px); /* Subtle lift */
-            box-shadow: var(--shadow-sm);
-        }
-        .dark .filter-btn:hover {
-             background-color: #666; border-color: #777; color: var(--text-primary-dark);
-             transform: translateY(-2px);
-             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-         }
-        /* Active state for filter buttons */
-        .filter-btn.active {
-            background-color: var(--brand-brown); color: white; border-color: var(--brand-brown);
-        }
-        .dark .filter-btn.active {
-            background-color: var(--brand-gold); color: #333; border-color: var(--brand-gold);
-        }
-        /* Prevent hover style override when active */
-        .filter-btn.active:hover {
-            transform: none; box-shadow: none;
-            filter: brightness(1.1); /* Slightly brighten active button on hover */
-        }
-
+        .filter-btn:hover { background-color: #E0E0E0; border-color: #ccc; color: var(--text-primary-light); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .dark .filter-btn:hover { background-color: #666; border-color: #777; color: var(--text-primary-dark); transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .filter-btn.active { background-color: var(--brand-brown); color: white; border-color: var(--brand-brown); }
+        .dark .filter-btn.active { background-color: var(--brand-gold); color: #333; border-color: var(--brand-gold); }
+        .filter-btn.active:hover { transform: none; box-shadow: none; filter: brightness(1.1); }
         .search-layout-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
         .filter-search-container { position: relative; flex-grow: 1; min-width: 200px; max-width: 350px; }
-        #filterSearchInput { /* Search bar within controls */
-            width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md);
-            border: 1px solid var(--border-light); background-color: var(--brand-light-bg); color: var(--text-primary-light);
-            font-size: 0.9rem; transition: all 0.2s;
-        }
+        #filterSearchInput { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); background-color: var(--brand-light-bg); color: var(--text-primary-light); font-size: 0.9rem; transition: all 0.2s; }
         .dark #filterSearchInput { background-color: var(--brand-dark-bg); border-color: var(--border-dark); color: var(--text-primary-dark); }
         #filterSearchInput:focus { outline: none; border-color: var(--brand-brown); box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.3); }
         .dark #filterSearchInput:focus { border-color: var(--brand-gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3); }
         .filter-search-container .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary-light); font-size: 0.9rem; pointer-events: none; }
         .dark .filter-search-container .search-icon { color: var(--text-secondary-dark); }
-
         .layout-group { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; }
-        .layout-btn { /* Layout button style */
-            padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
-            transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer;
-            background-color: var(--neutral-bg-light); color: var(--text-secondary-light); border-color: var(--border-light);
-        }
+        .layout-btn { padding: 7px 12px; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; border: 1px solid transparent; cursor: pointer; background-color: var(--neutral-bg-light); color: var(--text-secondary-light); border-color: var(--border-light); }
         .dark .layout-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border-color: var(--border-dark); }
-        /* HOVER for layout buttons */
-        .layout-btn:hover {
-            background-color: #E0E0E0; color: var(--text-primary-light);
-            transform: scale(1.05); /* Scale effect */
-        }
+        .layout-btn:hover { background-color: #E0E0E0; color: var(--text-primary-light); transform: scale(1.05); }
         .dark .layout-btn:hover { background-color: #666; color: var(--text-primary-dark); transform: scale(1.05); }
-        /* Active state for layout buttons */
         .layout-btn.active { background-color: var(--brand-brown); color: white; border-color: var(--brand-brown); }
         .dark .layout-btn.active { background-color: var(--brand-gold); color: #333; border-color: var(--brand-gold); }
-        /* Prevent hover style override when active */
         .layout-btn.active:hover { transform: none; filter: brightness(1.1); }
-
-        /* --- Project Gallery & Cards --- */
         #project-gallery { display: grid; gap: 24px; grid-template-columns: 1fr; }
         @media (min-width: 640px) { #project-gallery { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { #project-gallery { grid-template-columns: repeat(3, 1fr); } }
-
-        .project-card { /* Card styles with existing hover effect */
-            transition: all 0.3s ease; /* Existing transition */
-            border-radius: var(--radius-lg); background-color: var(--brand-card-light);
-            box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column;
-            border: 1px solid transparent; /* Add border for potential hover effect */
-        }
+        .project-card { transition: all 0.3s ease; border-radius: var(--radius-lg); background-color: var(--brand-card-light); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid transparent; }
         .dark .project-card { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); }
-        /* Existing hover effect for card */
-        .project-card:hover {
-            transform: translateY(-5px); /* Existing lift */
-            box-shadow: var(--shadow-lg); /* Existing shadow */
-            /* Optional: Add border highlight on hover */
-            /* border-color: var(--brand-brown); */
-        }
-        .dark .project-card:hover {
-             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-             /* border-color: var(--brand-gold); */
-        }
-
+        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .dark .project-card:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
         .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; }
         .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        /* Existing image scale effect */
         .project-card:hover img { transform: scale(1.05); }
-
         .project-card .card-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
         .project-card h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary-light); margin-bottom: 0.25rem; }
         .dark .project-card h3 { color: var(--text-primary-dark); }
@@ -228,127 +121,24 @@
         .project-card .description-text { font-size: 0.875rem; color: var(--text-secondary-light); margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
         .dark .project-card .description-text { color: var(--text-secondary-dark); }
         .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
-
-        .project-card .card-button { /* Base style for card buttons */
-             font-size: 0.8rem; padding: 7px 12px; border-radius: var(--radius-md);
-             transition: all 0.3s ease; /* Ensure transition for all buttons */
-             border: none; cursor: pointer; font-weight: 500; display: inline-flex;
-             align-items: center; justify-content: center; gap: 0.4rem; flex: 1 1 auto; min-width: 80px;
-             text-decoration: none;
-        }
-
-        /* == MODIFICATION: Preview Button == */
-        .card-button.preview {
-            background-color: var(--primary-action); /* Use BLUE variable */
-            color: white;
-        }
-        .card-button.preview:hover {
-            background-color: var(--primary-action-dark); /* Use DARKER BLUE variable */
-            transform: translateY(-2px); /* Add lift */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        /* ================================ */
-
-        /* Code Button */
+        .project-card .card-button { font-size: 0.8rem; padding: 7px 12px; border-radius: var(--radius-md); transition: all 0.3s ease; border: none; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; flex: 1 1 auto; min-width: 80px; text-decoration: none; }
+        .card-button.preview { background-color: var(--primary-action); color: white; }
+        .card-button.preview:hover { background-color: var(--primary-action-dark); transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .card-button.code { background-color: var(--secondary-action); color: white; }
         .dark .card-button.code { background-color: var(--secondary-action-dark); }
-        .card-button.code:hover {
-            background-color: #333; /* Darker gray */
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .dark .card-button.code:hover { background-color: #aaa; } /* Lighter gray for dark */
-
-        /* Visit Button */
+        .card-button.code:hover { background-color: #333; transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .dark .card-button.code:hover { background-color: #aaa; }
         .card-button.visit { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); border: 1px solid var(--border-light); }
         .dark .card-button.visit { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border: 1px solid var(--border-dark); }
-        .card-button.visit:hover {
-             background-color: #E0E0E0; color: var(--text-primary-light);
-             transform: translateY(-2px);
-             box-shadow: var(--shadow-sm);
-        }
-        .dark .card-button.visit:hover {
-             background-color: #666; color: var(--text-primary-dark);
-             transform: translateY(-2px);
-             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        /* Hide code button if href is "#" */
+        .card-button.visit:hover { background-color: #E0E0E0; color: var(--text-primary-light); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .dark .card-button.visit:hover { background-color: #666; color: var(--text-primary-dark); transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .card-button.code[href="#"] { display: none; }
-
-        /* --- Hide/Show Logic & No Results --- */
         .project-card.hidden-card { opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
         @media (max-width: 639px) { .project-card.hidden-card { margin-top: 0 !important; margin-bottom: 0 !important; } }
         #no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); }
         .dark #no-results { color: var(--text-secondary-dark); }
         #no-results.hidden { display: none; }
         #no-results i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
-
-        /* --- Add Project Panel --- */
-        #addProjectPanel { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; background-color: var(--brand-card-light); padding: 0; border-top: 1px solid var(--border-light); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto; transform: translateY(100%); opacity: 0; transition: transform 0.3s, opacity 0.3s, background-color 0.3s, border-color 0.3s; pointer-events: none; scrollbar-width: thin; scrollbar-color: var(--brand-brown) var(--border-light); }
-        #addProjectPanel:not(.hidden) { transform: translateY(0); opacity: 1; pointer-events: auto;}
-        .dark #addProjectPanel { background-color: var(--brand-card-dark); border-top-color: var(--border-dark); scrollbar-color: var(--brand-gold) #374151; }
-        #addProjectPanel::-webkit-scrollbar { width: 8px; }
-        #addProjectPanel::-webkit-scrollbar-thumb { background-color: var(--brand-brown); border-radius: 4px; }
-        #addProjectPanel::-webkit-scrollbar-track { background-color: var(--border-light); }
-        .dark #addProjectPanel::-webkit-scrollbar-thumb { background-color: var(--brand-gold); }
-        .dark #addProjectPanel::-webkit-scrollbar-track { background-color: #374151; }
-        .add-panel-content { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 2rem 1rem; }
-        .add-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;}
-        .add-panel-header h2 { font-size: 1.25rem; font-weight: 600; }
-        #hideAddPanelBtn { /* Uses header button style base */
-             display: inline-flex; align-items: center; justify-content: center; background-color: transparent; border: none;
-             border-radius: var(--radius-md); width: 38px; height: 38px; cursor: pointer; color: var(--text-secondary-light);
-             transition: background-color 0.2s, color 0.2s, transform 0.1s; font-size: 1.1rem;
-        }
-        /* Specific HOVER for close button */
-        #hideAddPanelBtn:hover {
-             background-color: #fef2f2; /* Light red background */
-             color: #ef4444; /* Red text */
-             transform: scale(1.1) rotate(90deg); /* Rotate on hover */
-        }
-        .dark #hideAddPanelBtn { color: var(--text-secondary-dark); }
-        .dark #hideAddPanelBtn:hover {
-             background-color: #3f2a2a; /* Dark red background */
-             color: #f87171; /* Lighter red text */
-             transform: scale(1.1) rotate(90deg);
-        }
-        /* Form Styles */
-        #addProjectForm { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        @media (min-width: 768px) { #addProjectForm { grid-template-columns: 1fr 1fr; gap: 1.5rem; } }
-        #addProjectForm .form-span-2 { grid-column: 1 / -1; }
-        #addProjectForm label { font-weight: 500; margin-bottom: 0.3rem; display: block; font-size: 0.9rem; color: var(--text-secondary-light); }
-        .dark #addProjectForm label { color: var(--text-secondary-dark); }
-        #addProjectForm input[type="text"], #addProjectForm input[type="url"],
-        #addProjectForm textarea, #addProjectForm select {
-             background-color: var(--brand-light-bg); border: 1px solid var(--border-light); border-radius: var(--radius-md);
-             padding: 0.6rem 0.8rem; transition: all 0.2s; width: 100%; font-size: 0.9rem; color: var(--text-primary-light);
-        }
-        .dark #addProjectForm input[type="text"], .dark #addProjectForm input[type="url"],
-        .dark #addProjectForm textarea, .dark #addProjectForm select {
-             background-color: var(--brand-dark-bg); border-color: var(--border-dark); color: var(--text-primary-dark);
-        }
-        #addProjectForm input:focus, #addProjectForm textarea:focus, #addProjectForm select:focus {
-             outline: none; border-color: var(--brand-brown); box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.3);
-        }
-        .dark #addProjectForm input:focus, .dark #addProjectForm textarea:focus, .dark #addProjectForm select:focus {
-             border-color: var(--brand-gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
-        }
-        #addProjectForm button[type="submit"] { /* Submit button */
-            background-color: #16a34a; color: white; font-weight: 600; padding: 0.7rem 1.5rem;
-            border-radius: var(--radius-md); transition: all 0.3s; border: none; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
-        }
-        /* HOVER for submit button */
-        #addProjectForm button[type="submit"]:hover {
-             background-color: #15803d; /* Darker green */
-             transform: scale(1.03); /* Slight grow effect */
-             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-         }
-        #formMessage { font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2em; }
-        #formMessage.error { color: #dc2626; font-weight: 500; }
-        #formMessage.success { color: #16a34a; font-weight: 500; }
-
-        /* --- Preview Modal --- */
         #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         #previewModal:not(.hidden) { opacity: 1; visibility: visible; }
         #previewModal .modal-content { background-color: var(--brand-card-light); border-radius: var(--radius-lg); width: 100%; height: 90%; max-width: 1200px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease-in-out; transform: scale(0.95); }
@@ -360,53 +150,33 @@
         #previewModal #modalTitle { font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 1rem; }
         .dark #previewModal #modalTitle { color: var(--text-primary-dark); }
         #previewModal .modal-actions { display: flex; gap: 0.5rem; }
-        #previewModal .modal-button { /* Base style for modal buttons */
-            display: inline-flex; align-items: center; justify-content: center; background-color: transparent;
-            border: none; border-radius: var(--radius-md); width: 36px; height: 36px; cursor: pointer;
-            color: #6b7280; transition: all 0.2s; font-size: 1rem;
-        }
-        /* HOVER for general modal buttons */
-        #previewModal .modal-button:hover {
-            background-color: #f3f4f6; /* Light gray */
-            color: var(--brand-brown); /* Use Brand color */
-            transform: scale(1.1);
-        }
+        #previewModal .modal-button { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; border: none; border-radius: var(--radius-md); width: 36px; height: 36px; cursor: pointer; color: #6b7280; transition: all 0.2s; font-size: 1rem; }
+        #previewModal .modal-button:hover { background-color: #f3f4f6; color: var(--brand-brown); transform: scale(1.1); }
         .dark #previewModal .modal-button { color: #9ca3af; }
-        .dark #previewModal .modal-button:hover {
-            background-color: #374151; /* Dark gray */
-            color: var(--primary-action-alt-dark); /* Use Gold */
-            transform: scale(1.1);
-        }
-        /* Specific HOVER for modal close button */
-        #previewModal .modal-button.close-btn:hover {
-            color: #EF4444; /* Red */
-            background-color: #fef2f2; /* Light red bg */
-            transform: scale(1.1) rotate(90deg); /* Rotate effect */
-        }
-        .dark #previewModal .modal-button.close-btn:hover {
-            color: #F87171; /* Lighter Red */
-            background-color: #3f2a2a; /* Dark red bg */
-            transform: scale(1.1) rotate(90deg);
-        }
+        .dark #previewModal .modal-button:hover { background-color: #374151; color: var(--primary-action-alt-dark); transform: scale(1.1); }
+        #previewModal .modal-button.close-btn:hover { color: #EF4444; background-color: #fef2f2; transform: scale(1.1) rotate(90deg); }
+        .dark #previewModal .modal-button.close-btn:hover { color: #F87171; background-color: #3f2a2a; transform: scale(1.1) rotate(90deg); }
         #previewModal .modal-body { flex-grow: 1; overflow: hidden; }
         #previewModal iframe { width: 100%; height: 100%; border: none; background-color: #f9fafb; }
         .dark #previewModal iframe { background-color: #111827; }
-
-        /* --- Footer --- */
-        .site-footer {
-            background-color: #333; color: #bbb; padding: 1.5rem 1rem;
-            text-align: center; margin-top: auto; font-size: 0.875rem;
-        }
+        .site-footer { background-color: #333; color: #bbb; padding: 1.5rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; }
         .dark .site-footer { background-color: #111; }
-        .site-footer p { margin-bottom: 0.25rem; }
+        .site-footer p { margin-bottom: 0.5rem; }
         .site-footer a { color: var(--brand-gold); font-weight: 500; text-decoration: none; transition: color 0.2s; }
         .site-footer a:hover { color: #F0E68C; text-decoration: underline;}
-
+        .site-footer .instagram-link i { margin-right: 0.3rem; }
+        #gallery-loading { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); font-size: 1.2rem; }
+        .dark #gallery-loading { color: var(--text-secondary-dark); }
+        #gallery-loading i { margin-right: 0.5rem; }
+        #gallery-error { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #dc2626; }
+        .dark #gallery-error { color: #f87171; }
+        #gallery-error i { margin-bottom: 1rem; }
     </style>
-    <!-- Tailwind Config -->
-    <script> tailwind.config = { darkMode: 'class' } </script>
+
+    <!-- Script Tailwind Config REMOVIDO -->
+    <!-- <script> tailwind.config = { darkMode: 'class' } </script> -->
 </head>
-<body class=""> <!-- Add "dark" class here manually if needed -->
+<body class="">
 
     <!-- ======================= Header ======================= -->
     <header class="site-header">
@@ -416,9 +186,7 @@
                 <button id="darkModeToggle" title="Alternar Tema" class="header-button">
                     <i class="fas fa-moon" id="darkModeIcon"></i>
                 </button>
-                <button id="showAddPanelBtn" title="Adicionar Novo Projeto" class="header-button add-project-btn">
-                    <i class="fas fa-plus-circle"></i>
-                </button>
+                <!-- Botão Adicionar Projeto REMOVIDO -->
             </div>
         </div>
     </header>
@@ -426,7 +194,7 @@
     <!-- ======================= Main Content ======================= -->
     <main class="container">
 
-        <!-- ======================= Filters (Redesigned) ======================= -->
+        <!-- ======================= Filters ======================= -->
         <section id="controls">
              <div class="controls-layout">
                  <div class="filter-section-wrapper">
@@ -439,6 +207,9 @@
                                  <button class="filter-btn tech-filter" data-filter="css">CSS</button>
                                  <button class="filter-btn tech-filter" data-filter="javascript">JavaScript</button>
                                  <button class="filter-btn tech-filter" data-filter="react">React</button>
+                                 <button class="filter-btn tech-filter" data-filter="vue">Vue</button>
+                                 <button class="filter-btn tech-filter" data-filter="angular">Angular</button>
+                                 <button class="filter-btn tech-filter" data-filter="python">Python</button>
                              </div>
                          </div>
                      </div>
@@ -449,7 +220,10 @@
                                  <button class="filter-btn cat-filter active" data-filter="all">Todas</button>
                                  <button class="filter-btn cat-filter" data-filter="landing-page">Landing Page</button>
                                  <button class="filter-btn cat-filter" data-filter="portfolio">Portfólio</button>
-                                 <button class="filter-btn cat-filter" data-filter="app">Aplicação</button>
+                                 <button class="filter-btn cat-filter" data-filter="aplicacao">Aplicação</button>
+                                 <button class="filter-btn cat-filter" data-filter="e-commerce">E-commerce</button>
+                                 <button class="filter-btn cat-filter" data-filter="api">API</button>
+                                 <button class="filter-btn cat-filter" data-filter="outro">Outro</button>
                               </div>
                          </div>
                      </div>
@@ -475,149 +249,10 @@
 
         <!-- ======================= Project Gallery ======================= -->
         <section id="project-gallery">
-             <!-- All 10 Project Cards (Kavian Structure) -->
-             <!-- Project 1 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="cloud engenharia" data-description="Projeto web para empresa de engenharia, demonstrando serviços e portfólio.">
-                <figure> <img src="https://plus.unsplash.com/premium_photo-1720551256796-624029b9dc84?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Cloud Engenharia" loading="lazy"> </figure>
-                <div class="card-content">
-                    <h3>Cloud Engenharia</h3> <p class="category-text">Aplicação</p>
-                    <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                    <p class="description-text">Projeto web para empresa de engenharia, demonstrando serviços e portfólio.</p>
-                    <div class="card-actions">
-                        <button class="card-button preview preview-button" data-preview-url="http://cloudeng.ezyro.com/"> <i class="fas fa-eye"></i> Preview </button>
-                        <a href="https://github.com/joaoricardobr/cloudeng" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                        <a href="http://cloudeng.ezyro.com/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                    </div>
-                </div>
-            </article>
-             <!-- Project 2 -->
-             <article class="project-card" data-technologies="html,css,javascript" data-category="portfolio" data-title="dra. soraya alaby" data-description="Website profissional para clínica de saúde integrativa.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1721225464945-97076602de73?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Dra. Soraya Alaby" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Dra. Soraya Alaby</h3> <p class="category-text">Portfólio</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Website profissional para clínica de saúde integrativa.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://sorayaalaby.vercel.app/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/biomedicaesteta" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://sorayaalaby.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-             </article>
-             <!-- Project 3 -->
-             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="formulário de paciente" data-description="Formulário interativo para coleta de informações de pacientes.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720201054067-adf2837be5e4?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Formulário de Paciente" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Formulário de Paciente</h3> <p class="category-text">Aplicação</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Formulário interativo para coleta de informações de pacientes.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/formularioclinica/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/formularioclinica" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://joaoricardobr.github.io/formularioclinica/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-             </article>
-             <!-- Project 4 -->
-             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="clima agora" data-description="Aplicação web para consultar condições climáticas.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1722209813944-a4ee13b7bfd8?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Clima Agora" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Clima Agora</h3> <p class="category-text">Aplicação</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Aplicação web para consultar condições climáticas.</p>
-                     <div class="card-actions">
-                          <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/climatempo/"> <i class="fas fa-eye"></i> Preview </button>
-                          <a href="https://github.com/joaoricardobr/climatempo" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                          <a href="https://joaoricardobr.github.io/climatempo/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                      </div>
-                 </div>
-             </article>
-             <!-- Project 5 -->
-             <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="sistema pagamento wi-fi" data-description="Sistema simulado de portal cativo para gerenciamento de pagamentos Wi-Fi.">
-                  <figure> <img src="https://plus.unsplash.com/premium_photo-1720448972956-843ac01a7c51?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Sistema Pagamento Wi-Fi" loading="lazy"> </figure>
-                  <div class="card-content">
-                      <h3>Sistema Pagamento Wi-Fi</h3> <p class="category-text">Aplicação</p>
-                      <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                      <p class="description-text">Sistema simulado de portal cativo para gerenciamento de pagamentos Wi-Fi.</p>
-                      <div class="card-actions">
-                          <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/captiveportal/"> <i class="fas fa-eye"></i> Preview </button>
-                          <a href="https://github.com/joaoricardobr/captiveportal" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                          <a href="https://joaoricardobr.github.io/captiveportal/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                      </div>
-                  </div>
-             </article>
-            <!-- Project 6 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="landing-page" data-title="lorraine botura" data-description="Landing page apresentando solução inovadora com tecnologia de vibração.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720448972787-3140916002b7?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Lorraine Botura" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Lorraine Botura</h3> <p class="category-text">Landing Page</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Landing page apresentando solução inovadora com tecnologia de vibração.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://lorrainebotura.com.br/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="#" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://lorrainebotura.com.br/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-            </article>
-            <!-- Project 7 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="vídeos surpresa" data-description="Site divertido que carrega vídeos aleatórios usando a API do YouTube.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1721080250995-5a83519eb2a0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Vídeos Surpresa" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Vídeos Surpresa</h3> <p class="category-text">Aplicação</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Site divertido que carrega vídeos aleatórios usando a API do YouTube.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/videosurpresa/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/videosurpresa" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://joaoricardobr.github.io/videosurpresa/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-            </article>
-            <!-- Project 8 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="filtros fotos" data-description="Aplicação web para aplicar efeitos de fotos.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1722169898948-5c7fa92f4042?q=80&w=1622&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Filtros Fotos" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Filtros Fotos</h3> <p class="category-text">Aplicação</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Aplicação web para aplicar efeitos de fotos.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://instafix-pi.vercel.app/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/instafix" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://instafix-pi.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-            </article>
-            <!-- Project 9 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="app" data-title="processador de planilhas" data-description="App web para upload e processamento de planilhas.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720210118027-19efec2959b4?q=80&w=1766&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Processador de Planilhas" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Processador de Planilhas</h3> <p class="category-text">Aplicação</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">App web para upload e processamento de planilhas.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/extratordedadosexcel/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/extratordedadosexcel" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://joaoricardobr.github.io/extratordedadosexcel/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-            </article>
-            <!-- Project 10 -->
-            <article class="project-card" data-technologies="html,css,javascript" data-category="portfolio" data-title="apostila concurso biomédico" data-description="Página de apresentação para apostila de concurso.">
-                 <figure> <img src="https://plus.unsplash.com/premium_photo-1720210118039-47390f1158a5?q=80&w=1604&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Preview Apostila Concurso Biomédico" loading="lazy"> </figure>
-                 <div class="card-content">
-                     <h3>Apostila Concurso Biomédico</h3> <p class="category-text">Portfólio</p>
-                     <div class="tech-tags"> <span class="tech-tag">html</span> <span class="tech-tag">css</span> <span class="tech-tag">javascript</span> </div>
-                     <p class="description-text">Página de apresentação para apostila de concurso.</p>
-                     <div class="card-actions">
-                         <button class="card-button preview preview-button" data-preview-url="https://joaoricardobr.github.io/apostilaconcurso/"> <i class="fas fa-eye"></i> Preview </button>
-                         <a href="https://github.com/joaoricardobr/apostilaconcurso" target="_blank" rel="noopener noreferrer" class="card-button code"> <i class="fab fa-github"></i> Código </a>
-                         <a href="https://joaoricardobr.github.io/apostilaconcurso/" target="_blank" rel="noopener noreferrer" class="card-button visit"> <i class="fas fa-external-link-alt"></i> Visitar </a>
-                     </div>
-                 </div>
-             </article>
-
-             <!-- Placeholder for No Results -->
+             <!-- Conteúdo será gerado pelo JS -->
+             <div id="gallery-loading" class="sm:col-span-2 lg:col-span-3">
+                 <i class="fas fa-spinner fa-spin"></i> Carregando projetos...
+             </div>
              <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10">
                  <i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i>
                  <p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p>
@@ -627,26 +262,7 @@
 
     </main>
 
-    <!-- ======================= Add Project Panel ======================= -->
-    <aside id="addProjectPanel" class="hidden">
-        <div class="add-panel-content">
-            <div class="add-panel-header">
-                <h2>Adicionar Novo Projeto</h2>
-                <button id="hideAddPanelBtn" title="Fechar Painel"> <i class="fas fa-times"></i> </button> <!-- Removed class="header-button" to use specific style -->
-            </div>
-            <form id="addProjectForm">
-                <div><label for="projectTitle">Título do Projeto</label><input type="text" id="projectTitle" name="title" required></div>
-                <div><label for="projectCategory">Categoria</label><select id="projectCategory" name="category" required><option value="" disabled selected>Selecione...</option><option value="landing-page">Landing Page</option><option value="portfolio">Portfólio</option><option value="app">Aplicação</option><option value="other">Outro</option></select></div>
-                <div class="form-span-2"><label for="projectDescription">Descrição Curta</label><textarea id="projectDescription" name="description" rows="3" required></textarea></div>
-                <div><label for="projectImageUrl">URL da Imagem de Preview</label><input type="url" id="projectImageUrl" name="imageUrl" required placeholder="https://images.unsplash.com/..."></div>
-                <div><label for="projectLiveUrl">URL do Site (Live)</label><input type="url" id="projectLiveUrl" name="liveUrl" required placeholder="https://meuprojeto.com"></div>
-                <div><label for="projectCodeUrl">URL do Repositório (Opcional)</label><input type="url" id="projectCodeUrl" name="codeUrl" placeholder="https://github.com/usuario/repo"></div>
-                <div><label for="projectTechs">Tecnologias (separadas por vírgula)</label><input type="text" id="projectTechs" name="technologies" required placeholder="Ex: html, css, javascript, react"></div>
-                <div class="form-span-2" style="text-align: right;"><button type="submit"><i class="fas fa-plus mr-2"></i>Adicionar Projeto</button></div>
-                <p id="formMessage" class="form-span-2"></p>
-            </form>
-        </div>
-    </aside>
+    <!-- Add Project Panel REMOVIDO -->
 
     <!-- ======================= Preview Modal ======================= -->
     <div id="previewModal" class="hidden">
@@ -666,80 +282,74 @@
 
     <!-- ======================= Footer ======================= -->
     <footer class="site-footer">
-        <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
-        <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
+         <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
+         <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
+         <p class="mt-2">
+             <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="instagram-link">
+                 <i class="fab fa-instagram"></i> @joaoricardo.pe
+             </a>
+         </p>
     </footer>
 
-    <!-- ======================= JavaScript ======================= -->
+    <!-- ======================= JavaScript (FINAL DO BODY) ======================= -->
     <script>
-    // O JavaScript permanece o mesmo, pois as classes e IDs que ele usa não foram alterados.
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- STATE ---
+        // --- Variáveis Globais ---
         let currentFilters = { tech: 'all', category: 'all', search: '' };
         let currentLayout = localStorage.getItem('layout') || 'grid';
+        let sbClient; // Será inicializado dentro do DOMContentLoaded
 
-        // --- DOM ELEMENTS ---
-        const gallery = document.getElementById('project-gallery');
-        const noResultsDiv = document.getElementById('no-results');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const controlsContainer = document.getElementById('controls');
-        const filterSearchInput = document.getElementById('filterSearchInput'); // SEARCH INPUT IN CONTROLS
-        const modal = document.getElementById('previewModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const fullscreenButton = document.getElementById('fullscreenButton');
-        const previewIframe = document.getElementById('previewIframe');
-        const addProjectPanel = document.getElementById('addProjectPanel');
-        const showAddPanelBtn = document.getElementById('showAddPanelBtn');
-        const hideAddPanelBtn = document.getElementById('hideAddPanelBtn');
-        const addProjectForm = document.getElementById('addProjectForm');
-        const formMessage = document.getElementById('formMessage');
-        const currentYearSpan = document.getElementById('currentYear');
+        // --- UTILITY FUNCTIONS ---
+        function sanitizeHTML(str) { /* ... (código) ... */
+            if (!str) return '';
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+        function ensureUrlProtocol(url) { /* ... (código) ... */
+            if (!url || url.trim() === '#' || url.trim() === '') return '#';
+            let trimmedUrl = url.trim();
+            if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) {
+                return `https://${trimmedUrl}`;
+            }
+            return trimmedUrl;
+        }
+        function debounce(func, wait) { /* ... (código) ... */
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func.apply(this, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        };
 
-         // --- Error Checks ---
-         if (!gallery) console.error("#project-gallery not found!");
-         if (!addProjectPanel) console.error("#addProjectPanel not found!");
-         if (!showAddPanelBtn) console.error("#showAddPanelBtn not found!");
-         if (!hideAddPanelBtn) console.error("#hideAddPanelBtn not found!");
-         if (!addProjectForm) console.error("#addProjectForm not found!");
-         if (!controlsContainer) console.error("#controls container not found!");
-         if (!filterSearchInput) console.warn("#filterSearchInput not found.");
-
-         // --- INITIALIZATION ---
-        if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        applyTheme(savedTheme);
-        applyLayout(currentLayout);
-        filterAndSearchProjects(); // Initial filter application
-
-        // --- FUNCTIONS ---
+        // --- FUNÇÕES DE UI (Definidas antes do DOMContentLoaded para serem acessíveis) ---
         function applyTheme(theme) {
+            const darkModeIcon = document.getElementById('darkModeIcon'); // Obter dentro da função
             document.documentElement.classList.toggle('dark', theme === 'dark');
             if (darkModeIcon) darkModeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
             localStorage.setItem('theme', theme);
         };
 
         function updateButtonActiveState(groupSelector, activeValue, dataAttr, activeClass = 'active') {
+            const controlsContainer = document.getElementById('controls');
             if (!controlsContainer) return;
             const buttons = controlsContainer.querySelectorAll(`${groupSelector} button[${dataAttr}]`);
             buttons.forEach(btn => btn.classList.toggle(activeClass, btn.getAttribute(dataAttr) === activeValue));
         };
 
         function applyLayout(layout) {
+            const gallery = document.getElementById('project-gallery');
             if (!gallery) return;
-            // Remove existing layout classes before applying new ones
             gallery.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'list-view', 'gap-6');
             if (layout === 'grid') {
-                gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6'); // Use gap-6 for consistency
+                gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6');
             } else if (layout === 'list') {
-                // For list view, you might need specific CSS rules (add a 'list-view' class and define styles in CSS)
-                // Example: Add a class and style it in CSS for larger images, text side-by-side etc.
-                // gallery.classList.add('list-view');
-                // For simplicity here, we'll just use a single column grid for list-like layout
-                 gallery.classList.add('grid', 'grid-cols-1', 'gap-6'); // Or adjust as needed
+                 gallery.classList.add('grid', 'grid-cols-1', 'gap-6');
             }
-            const layoutGroup = controlsContainer?.querySelector('.layout-group');
+            const layoutGroup = document.querySelector('#controls .layout-group'); // Obter dentro da função
             if(layoutGroup) {
                  updateButtonActiveState('.layout-group', layout, 'data-layout');
             }
@@ -748,238 +358,341 @@
         };
 
         function filterAndSearchProjects() {
+             const gallery = document.getElementById('project-gallery');
+             const filterSearchInput = document.getElementById('filterSearchInput');
+             const galleryLoading = document.getElementById('gallery-loading');
+             const noResultsDiv = document.getElementById('no-results');
+
              if (!gallery) return;
-             const searchVal = (filterSearchInput?.value || '').toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-             currentFilters.search = searchVal;
+             const searchVal = (filterSearchInput?.value || '').toLowerCase().trim();
+             currentFilters.search = searchVal; // Atualiza o filtro de busca
 
              const allCards = gallery.querySelectorAll(':scope > .project-card');
              let visibleCount = 0;
+
+             if (galleryLoading && !galleryLoading.classList.contains('hidden')) {
+                 galleryLoading.classList.add('hidden');
+             }
+
              allCards.forEach(card => {
                  try {
                     const techs = (card.dataset.technologies || '').toLowerCase().split(',');
-                    const category = (card.dataset.category || '').toLowerCase();
-                    const title = (card.dataset.title || card.querySelector('h3')?.textContent || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    const desc = (card.dataset.description || card.querySelector('.description-text')?.textContent || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    const categorySlug = (card.dataset.category || '').toLowerCase();
+                    const title = (card.dataset.title || '').toLowerCase();
+                    const desc = (card.dataset.description || '').toLowerCase();
 
                     const techMatch = currentFilters.tech === 'all' || techs.some(t => t.trim() === currentFilters.tech);
-                    const catMatch = currentFilters.category === 'all' || category === currentFilters.category;
-                    // Search matches title, description, or any technology tag
-                    const searchMatch = searchVal === '' || title.includes(searchVal) || desc.includes(searchVal) || techs.some(t => t.trim().includes(searchVal));
+                    const catMatch = currentFilters.category === 'all' || categorySlug === currentFilters.category;
+                    const normSearchVal = searchVal.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Normaliza busca
+                    const searchMatch = normSearchVal === '' ||
+                        title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) ||
+                        desc.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) ||
+                        techs.some(t => t.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal)) ||
+                        categorySlug.includes(normSearchVal.replace(/\s+/g, '-'));
 
                     const isVisible = techMatch && catMatch && searchMatch;
-                    // Use the specific hidden class defined in CSS
                     card.classList.toggle('hidden-card', !isVisible);
                     if (isVisible) visibleCount++;
                  } catch (error) {
                      console.error("Error filtering card:", card, error);
-                     card.classList.remove('hidden-card'); visibleCount++; // Show card if error occurs
+                     card.classList.remove('hidden-card'); visibleCount++;
                  }
              });
-             // Toggle the 'no results' message based on visibility
-             if (noResultsDiv) noResultsDiv.classList.toggle('hidden', visibleCount > 0);
+
+             const galleryHasCards = allCards.length > 0;
+             if (noResultsDiv) {
+                 noResultsDiv.classList.toggle('hidden', !galleryHasCards || visibleCount > 0);
+             }
         };
 
         function openModal(url, title) {
+            const modal = document.getElementById('previewModal');
+            const previewIframe = document.getElementById('previewIframe');
+            const modalTitle = document.getElementById('modalTitle');
             if (!modal || !previewIframe || !modalTitle) return;
-            if (!url || url === '#') { alert('Preview não disponível para este projeto.'); return; }
-            modalTitle.textContent = title || 'Preview do Projeto';
-            // Reset iframe src before setting new one to avoid potential issues
+            if (!url || url === '#') { console.warn("Preview URL is invalid:", url); return; }
+            modalTitle.textContent = title || 'Preview';
             previewIframe.src = 'about:blank';
-            // Use a small delay to ensure the src is cleared before loading the new URL
-            setTimeout(() => { previewIframe.src = url; }, 50);
+            setTimeout(() => {
+                console.log("Loading preview in iframe:", url);
+                previewIframe.src = url;
+                previewIframe.onerror = () => {
+                     console.error("Failed to load iframe content for:", url);
+                     modalTitle.textContent = `Erro ao carregar: ${title}`;
+                 };
+             }, 50);
             modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         };
 
         function closeModal() {
+            const modal = document.getElementById('previewModal');
+            const previewIframe = document.getElementById('previewIframe');
+            const fullscreenButton = document.getElementById('fullscreenButton');
              if (!modal || !previewIframe) return;
-             // Exit fullscreen if active
-             if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-                 if (document.exitFullscreen) document.exitFullscreen();
-                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                 else if (document.msExitFullscreen) document.msExitFullscreen();
-             }
+             if (document.fullscreenElement) { document.exitFullscreen(); }
              modal.classList.add('hidden');
-             if(fullscreenButton) fullscreenButton.querySelector('i').className = 'fas fa-expand'; // Reset icon
-             previewIframe.src = 'about:blank'; // Clear iframe content
-             document.body.style.overflow = ''; // Restore scrolling
+             if(fullscreenButton) fullscreenButton.querySelector('i').className = 'fas fa-expand';
+             previewIframe.src = 'about:blank';
+             document.body.style.overflow = '';
         };
 
         function toggleFullscreen() {
+            const modal = document.getElementById('previewModal');
             if (!modal) return;
-            const isInFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-            const elementToFullscreen = modal.querySelector('.modal-content') || modal; // Fullscreen the content area
-            if (!isInFullscreen) {
-                if (elementToFullscreen.requestFullscreen) elementToFullscreen.requestFullscreen();
-                else if (elementToFullscreen.webkitRequestFullscreen) elementToFullscreen.webkitRequestFullscreen();
-                else if (elementToFullscreen.msRequestFullscreen) elementToFullscreen.msRequestFullscreen();
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                else if (document.msExitFullscreen) document.msExitFullscreen();
+            const isInFullscreen = document.fullscreenElement;
+            const elementToFullscreen = modal.querySelector('.modal-content') || modal;
+            try {
+                if (!isInFullscreen) {
+                    if (elementToFullscreen.requestFullscreen) { elementToFullscreen.requestFullscreen(); }
+                    else if (elementToFullscreen.webkitRequestFullscreen) { elementToFullscreen.webkitRequestFullscreen(); }
+                    else if (elementToFullscreen.msRequestFullscreen) { elementToFullscreen.msRequestFullscreen(); }
+                } else {
+                    if (document.exitFullscreen) { document.exitFullscreen(); }
+                    else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+                    else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+                }
+            } catch (err) { console.error("Fullscreen API error:", err); }
+        }
+        function handleFullscreenChange() {
+            const modal = document.getElementById('previewModal');
+            const fullscreenButton = document.getElementById('fullscreenButton');
+            if (!fullscreenButton || !modal) return;
+            const isInFullscreen = !!document.fullscreenElement;
+            fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand';
+            modal.classList.toggle('fullscreen', isInFullscreen);
+        }
+
+
+        // --- DATA FETCHING AND RENDERING ---
+        async function fetchProjectsFromSupabase() { /* ... (código mantido) ... */
+            console.log("Attempting to fetch projects...");
+            const galleryLoading = document.getElementById('gallery-loading');
+            const gallery = document.getElementById('project-gallery');
+            const noResultsDiv = document.getElementById('no-results');
+
+            if (!sbClient) {
+                 console.error("Supabase client is not available when trying to fetch.");
+                 if (gallery) gallery.innerHTML = '<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Cliente Supabase não inicializado.</p></div>';
+                 if (galleryLoading) galleryLoading.classList.add('hidden');
+                 return;
+            }
+
+            if (galleryLoading) galleryLoading.classList.remove('hidden');
+            if (noResultsDiv) noResultsDiv.classList.add('hidden');
+            if (gallery) {
+                gallery.querySelectorAll('.project-card').forEach(card => card.remove());
+                 if (!gallery.contains(galleryLoading)) gallery.prepend(galleryLoading);
+            }
+
+            try {
+                console.log("Executing Supabase query: sbClient.from('projects').select(...)");
+                const { data: projects, error, status } = await sbClient
+                    .from('projects')
+                    .select('id, name, url, description, image_url, category, technologies, code_url, created_at')
+                    .order('created_at', { ascending: false });
+
+                 console.log("Supabase response status:", status);
+                 console.log("Supabase response error:", error);
+                 // console.log("Supabase response data:", projects);
+
+                if (error) {
+                    console.error("Supabase fetch error details:", error);
+                    if (error.message.includes("fetch failed") || status === 0) { throw new Error("Falha na conexão com o Supabase. Verifique sua rede ou a URL."); }
+                    else if (status === 404 || error.message.includes("does not exist")) {
+                         const missingMatch = error.message.match(/(?:column|relation) \"?(\w+(?:\.\w+)?)\"? does not exist/);
+                         const missingItem = missingMatch ? `'${missingMatch[1]}'` : "Tabela 'projects' ou coluna";
+                         throw new Error(`${missingItem} não encontrado. Verifique o schema.`);
+                     } else if (status === 401 || status === 403) { throw new Error("Acesso não autorizado. Verifique a Anon Key e as políticas RLS."); }
+                     throw new Error(`Erro Supabase (${status}): ${error.message}`);
+                }
+
+                renderProjects(projects);
+
+            } catch (error) {
+                console.error("Error caught in fetchProjectsFromSupabase:", error);
+                if (gallery) {
+                    if (galleryLoading && gallery.contains(galleryLoading)) gallery.removeChild(galleryLoading);
+                    gallery.innerHTML = `
+                        <div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600">
+                            <i class="fas fa-exclamation-triangle fa-3x mb-4"></i>
+                            <p class="text-lg font-semibold">Erro ao carregar projetos!</p>
+                            <p class="text-sm mt-2">${sanitizeHTML(error.message)}</p>
+                        </div>`;
+                }
+            } finally {
+                if (galleryLoading && gallery && gallery.contains(galleryLoading)) {
+                    gallery.removeChild(galleryLoading);
+                }
             }
         }
-        // Update fullscreen button icon based on state
-        function handleFullscreenChange() {
-            if (!fullscreenButton) return;
-            const isInFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-            fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand';
-        }
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
-        function showFormMsg(msg, type = 'info') {
-            if (!formMessage) return;
-            formMessage.textContent = msg;
-            // Reset classes and add the new type class
-            formMessage.className = 'form-span-2'; // Base class
-            if (type === 'error') formMessage.classList.add('error');
-            else if (type === 'success') formMessage.classList.add('success');
-        }
+        function renderProjects(projects) { /* ... (código mantido) ... */
+            const gallery = document.getElementById('project-gallery');
+            const noResultsDiv = document.getElementById('no-results');
+            const defaultImageUrl = 'https://placehold.co/400x220/e0e7ff/4338ca/png?text=Projeto';
 
-        // --- EVENT LISTENERS ---
-        if (darkModeToggle) darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+            if (!gallery) { console.error("renderProjects: #project-gallery not found!"); return; }
 
-        // Filter/Layout Button Listeners (using event delegation on controls container)
-        if (controlsContainer) {
-            controlsContainer.addEventListener('click', (e) => {
-                const target = e.target.closest('button'); // Find the nearest button clicked
-                if (!target) return; // Exit if click wasn't on or inside a button
+            gallery.querySelectorAll('.project-card').forEach(card => card.remove());
 
-                // Handle Filter Buttons
-                if (target.classList.contains('filter-btn')) {
-                    const group = target.closest('.filter-group');
-                    if (!group) return;
-                    const type = group.dataset.filterType; // 'tech' or 'category'
-                    const value = target.dataset.filter;
-                    if (currentFilters[type] !== value) {
-                        currentFilters[type] = value;
-                        // Update active state visually for the correct group
-                        updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
-                        filterAndSearchProjects(); // Re-apply filters
-                    }
-                }
-                // Handle Layout Buttons
-                else if (target.classList.contains('layout-btn')) {
-                    const layout = target.dataset.layout; // 'grid' or 'list'
-                    if (currentLayout !== layout) {
-                        applyLayout(layout); // Apply the new layout
-                    }
-                }
-            });
-        }
+            if (!projects || projects.length === 0) {
+                console.log("No projects received or array is empty.");
+                if (noResultsDiv) noResultsDiv.classList.remove('hidden');
+                return;
+            }
 
-        // Search Input Listener
-        if (filterSearchInput) filterSearchInput.addEventListener('input', filterAndSearchProjects);
+            console.log(`Rendering ${projects.length} projects.`);
+            if (noResultsDiv) noResultsDiv.classList.add('hidden');
 
-        // Preview Modal Listener (using event delegation on gallery)
-        if (gallery) {
-            gallery.addEventListener('click', (e) => {
-                // Check if the click was on a preview button
-                const btn = e.target.closest('button.preview-button');
-                if (btn) {
-                    e.preventDefault(); // Prevent default button action if any
-                    const url = btn.dataset.previewUrl;
-                    const card = btn.closest('.project-card');
-                    const title = card?.querySelector('h3')?.textContent || 'Preview';
-                    openModal(url, title);
-                }
-            });
-        }
+            projects.forEach((project, index) => {
+                const techs = (project.technologies || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+                const title = sanitizeHTML(project.name || 'Projeto Sem Título');
+                const category = sanitizeHTML(project.category || 'Outro');
+                const categorySlug = category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+                const description = sanitizeHTML(project.description || 'Sem descrição.');
+                const imageUrl = project.image_url || defaultImageUrl;
+                const liveUrl = ensureUrlProtocol(project.url);
+                const codeUrl = ensureUrlProtocol(project.code_url);
 
-        // Modal Close/Fullscreen Buttons
-        if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
-        if (fullscreenButton) fullscreenButton.addEventListener('click', toggleFullscreen);
-        // Close modal if clicking outside the content area
-        if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        // Close modal with Escape key
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
+                const card = document.createElement('article');
+                card.className = 'project-card';
+                card.dataset.technologies = techs.join(',');
+                card.dataset.category = categorySlug;
+                card.dataset.title = title.toLowerCase();
+                card.dataset.description = description.toLowerCase();
 
-        // Add Project Panel Show/Hide Listeners
-        if (showAddPanelBtn && addProjectPanel) {
-             showAddPanelBtn.addEventListener('click', (e) => {
-                 e.stopPropagation(); // Prevent triggering other listeners
-                 addProjectPanel.classList.remove('hidden'); // Show panel
-             });
-        }
-        if (hideAddPanelBtn && addProjectPanel) {
-             hideAddPanelBtn.addEventListener('click', (e) => {
-                 e.stopPropagation();
-                 addProjectPanel.classList.add('hidden'); // Hide panel
-                 addProjectForm?.reset(); // Reset form fields
-                 showFormMsg(''); // Clear any previous form messages
-             });
-        }
-
-        // Add Project Form Submission Logic
-        if (addProjectForm && gallery) {
-            addProjectForm.addEventListener('submit', (e) => {
-                e.preventDefault(); // Prevent standard form submission
-                showFormMsg(''); // Clear previous messages
-                const formData = new FormData(addProjectForm);
-                const project = Object.fromEntries(formData.entries());
-                // Process technologies string into an array, make lowercase, trim whitespace
-                const techs = (project.technologies || '').split(',')
-                                .map(t => t.trim().toLowerCase())
-                                .filter(t => t); // Remove empty tags
-
-                // Basic Validation
-                 let errors = [];
-                 if (!project.title) errors.push("Título");
-                 if (!project.liveUrl) errors.push("URL Site");
-                 if (!project.imageUrl) errors.push("URL Imagem");
-                 if (techs.length === 0) errors.push("Tecnologias");
-                 if (!project.category) errors.push("Categoria");
-                 if (!project.description) errors.push("Descrição");
-
-                 if (errors.length > 0) {
-                     showFormMsg(`Erro: Preencha os campos obrigatórios: ${errors.join(', ')}.`, 'error');
-                     return; // Stop submission
-                 }
-
-                 // Create New Project Card HTML
-                 const newCard = document.createElement('article');
-                 newCard.className = 'project-card'; // Base card class
-                 // Set data attributes for filtering/searching
-                 newCard.dataset.technologies = techs.join(',');
-                 newCard.dataset.category = project.category.toLowerCase();
-                 newCard.dataset.title = project.title.toLowerCase();
-                 newCard.dataset.description = project.description.toLowerCase();
-
-                 // Use template literal for cleaner HTML structure
-                 newCard.innerHTML = `
-                    <figure><img src="${project.imageUrl}" alt="Preview ${project.title}" loading="lazy"></figure>
+                card.innerHTML = `
+                    <figure>
+                        <img src="${imageUrl}" alt="Preview ${title}" loading="lazy" onerror="this.onerror=null; this.src='${defaultImageUrl}';">
+                    </figure>
                     <div class="card-content">
-                        <h3>${project.title}</h3>
-                        <p class="category-text">${project.category}</p> <!-- Display category text -->
+                        <h3>${title}</h3>
+                        <p class="category-text">${category}</p>
                         <div class="tech-tags">
-                            ${techs.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                            ${techs.length > 0 ? techs.map(t => `<span class="tech-tag">${sanitizeHTML(t)}</span>`).join('') : '<span class="tech-tag text-gray-500">N/A</span>'}
                         </div>
-                        <p class="description-text">${project.description}</p>
+                        <p class="description-text">${description}</p>
                         <div class="card-actions">
-                             <button class="card-button preview preview-button" data-preview-url="${project.liveUrl}"><i class="fas fa-eye"></i> Preview</button>
-                             <a href="${project.codeUrl || '#'}" target="_blank" rel="noopener noreferrer" class="card-button code" ${!project.codeUrl ? 'style="display:none;"' : ''}><i class="fab fa-github"></i> Código</a>
-                             <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="card-button visit"><i class="fas fa-external-link-alt"></i> Visitar</a>
+                            <button class="card-button preview preview-button" data-preview-url="${liveUrl}" ${liveUrl === '#' ? 'disabled title="Preview indisponível"' : ''}>
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                            <a href="${codeUrl}" target="_blank" rel="noopener noreferrer" class="card-button code" ${codeUrl === '#' ? 'style="display:none;"' : ''}>
+                                <i class="fab fa-github"></i> Código
+                            </a>
+                            <a href="${liveUrl}" target="_blank" rel="noopener noreferrer" class="card-button visit" ${liveUrl === '#' ? 'style="display:none;"' : ''}>
+                                <i class="fas fa-external-link-alt"></i> Visitar
+                            </a>
                         </div>
                     </div>`;
-
-                 // Add the new card to the top of the gallery
-                 gallery.insertBefore(newCard, gallery.firstChild);
-
-                 // Reset form, hide panel, show success message
-                 addProjectForm.reset();
-                 addProjectPanel?.classList.add('hidden');
-                 showFormMsg('Projeto adicionado com sucesso!', 'success');
-                 // Clear success message after a few seconds
-                 setTimeout(()=>showFormMsg(''), 3000);
-
-                 // Re-apply filters to ensure the new card is displayed correctly based on current filters
-                 filterAndSearchProjects();
+                gallery.appendChild(card);
             });
+
+            // Garante que applyLayout e filterAndSearchProjects estão definidas antes de chamar
+            if (typeof applyLayout === 'function' && typeof filterAndSearchProjects === 'function') {
+                applyLayout(localStorage.getItem('layout') || 'grid');
+                filterAndSearchProjects();
+            } else {
+                console.error("applyLayout or filterAndSearchProjects is not defined globally or in scope.");
+            }
         }
 
-    }); // End DOMContentLoaded
+        // --- Event Listener Principal ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM fully loaded and parsed.");
+
+            // --- Inicializa Supabase Client AQUI ---
+            const SUPABASE_URL = 'https://hqgcjyujpicmsbtfsbwv.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZ2NqeXVqcGljbXNidGZzYnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE5NDYxNTksImV4cCI6MjA1NzUyMjE1OX0.sWuvGLebMDsSo23iuzdci5utbfbqWEO_uPFl7ztQWFk';
+            try {
+                // Verifica se o objeto global 'supabase' existe (foi carregado pelo script deferido)
+                if (typeof supabase !== 'undefined') {
+                    sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log("Supabase client initialized successfully inside DOMContentLoaded.");
+                } else {
+                     throw new Error("'supabase' global object not found. Supabase library might not have loaded.");
+                }
+            } catch (error) {
+                 console.error("Error initializing Supabase client inside DOMContentLoaded:", error);
+                 const gallery = document.getElementById('project-gallery');
+                 const galleryLoading = document.getElementById('gallery-loading');
+                 if (gallery) gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Não foi possível inicializar o Supabase.</p></div>`;
+                 if (galleryLoading) galleryLoading.classList.add('hidden');
+                 return; // Interrompe a execução adicional se o Supabase falhar
+            }
+
+            // --- DOM ELEMENTS (Obter após DOM pronto) ---
+            const gallery = document.getElementById('project-gallery');
+            const noResultsDiv = document.getElementById('no-results');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const controlsContainer = document.getElementById('controls');
+            const filterSearchInput = document.getElementById('filterSearchInput');
+            const modal = document.getElementById('previewModal');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const fullscreenButton = document.getElementById('fullscreenButton');
+            const currentYearSpan = document.getElementById('currentYear');
+            const galleryLoading = document.getElementById('gallery-loading');
+
+            // --- INITIALIZATION ---
+            if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            // --- FETCH DATA ON LOAD ---
+            fetchProjectsFromSupabase(); // Agora chama com sbClient inicializado
+
+            // --- EVENT LISTENERS ---
+            if (darkModeToggle) darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+
+            if (controlsContainer) {
+                controlsContainer.addEventListener('click', (e) => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+                    if (target.classList.contains('filter-btn')) {
+                        const group = target.closest('.filter-group');
+                        if (!group) return;
+                        const type = group.dataset.filterType;
+                        const value = target.dataset.filter;
+                        if (currentFilters[type] !== value) {
+                            currentFilters[type] = value;
+                            updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
+                            filterAndSearchProjects();
+                        }
+                    } else if (target.classList.contains('layout-btn')) {
+                        const layout = target.dataset.layout;
+                        if (currentLayout !== layout) {
+                            applyLayout(layout);
+                        }
+                    }
+                });
+            }
+
+            if (filterSearchInput) {
+                filterSearchInput.addEventListener('input', debounce(filterAndSearchProjects, 350));
+            }
+
+            if (gallery) {
+                gallery.addEventListener('click', (e) => {
+                    const btn = e.target.closest('button.preview-button');
+                    if (btn && !btn.disabled) {
+                        e.preventDefault();
+                        const url = btn.dataset.previewUrl;
+                        const card = btn.closest('.project-card');
+                        const title = card?.querySelector('h3')?.textContent || 'Preview';
+                        openModal(url, title);
+                    }
+                });
+            }
+
+            if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
+            if (fullscreenButton) fullscreenButton.addEventListener('click', toggleFullscreen);
+            if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeModal(); });
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        }); // End DOMContentLoaded
     </script>
 
 </body>
