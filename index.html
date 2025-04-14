@@ -27,50 +27,59 @@
     <style>
         /* --- Base & Configuration --- */
         :root {
-            --brand-brown: #A0522D;
-            --brand-brown-dark: #8B4513;
+            --brand-brown: #A0522D; /* Sienna */
+            --brand-brown-dark: #8B4513; /* SaddleBrown */
             --brand-gold: #D4AF37;
             --brand-light-bg: #F8F8F8;
-            --brand-dark-bg: #111827; /* bg-gray-900 */
+            --brand-dark-bg: #111827; /* Cor de fundo escura mais padrão tailwind */
             --brand-card-light: #FFFFFF;
-            --brand-card-dark: #1f2937; /* bg-gray-800 */
-            --text-primary-light: #1f2937; /* text-gray-800 */
-            --text-primary-dark: #f3f4f6; /* text-gray-100 */
-            --text-secondary-light: #6b7280; /* text-gray-500 */
-            --text-secondary-dark: #9ca3af; /* text-gray-400 */
-            --border-light: #e5e7eb; /* border-gray-200 */
-            --border-dark: #4b5563; /* border-gray-600 */
-            --primary-action: #2563eb; /* bg-blue-600 */
-            --primary-action-dark: #1d4ed8; /* bg-blue-700 */
+            --brand-card-dark: #1f2937; /* Cor de card escuro mais padrão tailwind */
+            --text-primary-light: #1f2937; /* cinza-800 */
+            --text-primary-dark: #f3f4f6; /* cinza-100 */
+            --text-secondary-light: #6b7280; /* cinza-500 */
+            --text-secondary-dark: #9ca3af; /* cinza-400 */
+            --border-light: #e5e7eb; /* cinza-200 */
+            --border-dark: #4b5563; /* cinza-600 */
+            --primary-action: #2563eb; /* Azul-600 */
+            --primary-action-dark: #1d4ed8; /* Azul-700 */
             --primary-action-alt-dark: var(--brand-gold);
-            --secondary-action: #4b5563; /* bg-gray-600 */
-            --secondary-action-dark: #9ca3af; /* bg-gray-400 */
-            --neutral-bg-light: #f3f4f6; /* bg-gray-100 */
-            --neutral-bg-dark: #4b5563; /* bg-gray-600 */
+            --secondary-action: #4b5563; /* cinza-600 */
+            --secondary-action-dark: #9ca3af; /* cinza-400 */
+            --neutral-bg-light: #f3f4f6; /* cinza-100 */
+            --neutral-bg-dark: #4b5563; /* cinza-600 */
             --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--brand-light-bg); color: var(--text-primary-light); margin: 0; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
         .dark body { background-color: var(--brand-dark-bg); color: var(--text-primary-dark); }
-        .container { width: 90%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; } /* Adicionado padding ao container */
+        .container { width: 90%; max-width: 1280px; margin-left: auto; margin-right: auto; } /* Centraliza melhor */
         main.container { padding-top: 2.5rem; padding-bottom: 2.5rem; flex-grow: 1; } /* Padding apenas no main */
 
-        /* --- Hero Section Specific Styles --- */
+        /* --- Hero Section --- */
+        /* O estilo principal do Hero é feito com Tailwind */
         .hero-section {
-             background-color: #0B0F19; /* Fundo escuro base */
-             color: var(--text-primary-dark);
+             background-color: #0B0F19; /* Fundo escuro base para a seção */
+             color: var(--text-primary-dark); /* Texto claro por padrão no hero */
         }
-        .hero-darkmode-toggle { /* Estilo botão dark mode no hero */
-            color: #9ca3af; background-color: rgba(255, 255, 255, 0.1); border-radius: var(--radius-full);
-            width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+        /* Estilo específico para o botão dark mode no hero */
+        .hero-darkmode-toggle {
+            color: #9ca3af; /* cinza-400 */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            width: 38px; height: 38px;
+            display: inline-flex; align-items: center; justify-content: center;
             transition: all 0.2s ease;
         }
-        .hero-darkmode-toggle:hover { background-color: rgba(255, 255, 255, 0.2); color: white; transform: scale(1.1); }
+        .hero-darkmode-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: scale(1.1);
+        }
 
-        /* --- Filters Styles --- */
-        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s; border: 1px solid transparent;}
-        .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border-color: var(--border-dark); }
+        /* --- Filters --- */
+        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s; }
+        .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border: 1px solid var(--border-dark); } /* Adiciona borda sutil no dark mode */
         .controls-layout { display: flex; flex-direction: column; gap: 1.5rem; }
         @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem;} .search-layout-wrapper { flex-shrink: 0; } }
         .filter-section-wrapper { display: flex; flex-direction: column; gap: 1rem; }
@@ -84,13 +93,13 @@
         .dark .filter-btn { background-color: var(--neutral-bg-dark); color: var(--text-secondary-dark); border-color: #555; }
         .filter-btn:hover { background-color: #E9E9E9; border-color: #ccc; color: var(--text-primary-light); transform: translateY(-1px); }
         .dark .filter-btn:hover { background-color: #5a5a5a; border-color: #777; color: var(--text-primary-dark); }
-        .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; }
+        .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; } /* Usar azul como ativo */
         .dark .filter-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; }
         .filter-btn.active:hover { transform: none; box-shadow: none; filter: brightness(1.1); }
         .search-layout-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
         .filter-search-container { position: relative; flex-grow: 1; min-width: 200px; max-width: 350px; }
-        #filterSearchInput { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); background-color: var(--brand-card-light); color: var(--text-primary-light); font-size: 0.9rem; transition: all 0.2s; }
-        .dark #filterSearchInput { background-color: #2d3748; border-color: var(--border-dark); color: var(--text-primary-dark); }
+        #filterSearchInput { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); background-color: var(--brand-card-light); color: var(--text-primary-light); font-size: 0.9rem; transition: all 0.2s; } /* Fundo branco no light mode */
+        .dark #filterSearchInput { background-color: #2d3748; border-color: var(--border-dark); color: var(--text-primary-dark); } /* Fundo mais escuro no dark */
         #filterSearchInput:focus { outline: none; border-color: var(--primary-action); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
         .dark #filterSearchInput:focus { border-color: var(--primary-action); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
         .filter-search-container .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary-light); font-size: 0.9rem; pointer-events: none; }
@@ -105,28 +114,28 @@
         .layout-btn.active:hover { transform: none; filter: brightness(1.1); }
 
         /* --- Project Gallery & Cards --- */
-        #project-gallery { display: grid; gap: 1.5rem; grid-template-columns: 1fr; } /* gap-6 */
+        #project-gallery { display: grid; gap: 24px; grid-template-columns: 1fr; }
         @media (min-width: 640px) { #project-gallery { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { #project-gallery { grid-template-columns: repeat(3, 1fr); } }
-        .project-card { transition: all 0.3s ease; border-radius: var(--radius-lg); background-color: var(--brand-card-light); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
+        .project-card { transition: all 0.3s ease; border-radius: var(--radius-lg); background-color: var(--brand-card-light); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); } /* Borda sutil padrão */
         .dark .project-card { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border-color: var(--border-dark); }
-        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-action); }
+        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-action); } /* Highlight azul no hover */
         .dark .project-card:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); border-color: var(--primary-action); }
-        .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; background-color: var(--neutral-bg-light); }
+        .project-card figure { width: 100%; height: 220px; margin: 0; overflow: hidden; flex-shrink: 0; background-color: var(--neutral-bg-light); } /* Fundo para imagem */
         .dark .project-card figure { background-color: var(--neutral-bg-dark); }
         .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .project-card:hover img { transform: scale(1.05); }
         .project-card .card-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
         .project-card h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary-light); margin-bottom: 0.25rem; }
         .dark .project-card h3 { color: var(--text-primary-dark); }
-        .project-card .category-text { font-size: 0.75rem; color: var(--primary-action); margin-bottom: 0.75rem; text-transform: capitalize; font-weight: 500; }
-        .dark .project-card .category-text { color: #60a5fa; }
+        .project-card .category-text { font-size: 0.75rem; color: var(--primary-action); margin-bottom: 0.75rem; text-transform: capitalize; font-weight: 500; } /* Categoria em azul */
+        .dark .project-card .category-text { color: #60a5fa; } /* Azul mais claro no dark */
         .project-card .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.75rem; }
-        .project-card .tech-tag { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); font-size: 0.7rem; padding: 3px 8px; border-radius: var(--radius-full); display: inline-block; border: 1px solid var(--border-light); }
+        .project-card .tech-tag { background-color: var(--neutral-bg-light); color: var(--text-secondary-light); font-size: 0.7rem; padding: 3px 8px; border-radius: var(--radius-full); display: inline-block; border: 1px solid var(--border-light); } /* Tag com borda */
         .dark .project-card .tech-tag { background-color: #374151; color: var(--text-secondary-dark); border-color: var(--border-dark); }
         .project-card .description-text { font-size: 0.875rem; color: var(--text-secondary-light); margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
         .dark .project-card .description-text { color: var(--text-secondary-dark); }
-        .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 1rem; }
+        .project-card .card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 1rem; } /* Separador de ações */
         .dark .project-card .card-actions { border-top-color: var(--border-dark); }
         .project-card .card-button { font-size: 0.8rem; padding: 7px 12px; border-radius: var(--radius-md); transition: all 0.2s ease; border: none; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; flex: 1 1 auto; min-width: 80px; text-decoration: none; }
         .card-button.preview { background-color: var(--primary-action); color: white; }
@@ -144,7 +153,7 @@
         .card-button:disabled:hover { transform: none; box-shadow: none; }
 
         /* --- Hide/Show Logic & No Results --- */
-        .project-card.hidden-card { opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
+        .project-card.hidden-card { /* ... (mantido) ... */ opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
         @media (max-width: 639px) { .project-card.hidden-card { margin-top: 0 !important; margin-bottom: 0 !important; } }
         #no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); }
         .dark #no-results { color: var(--text-secondary-dark); }
@@ -152,13 +161,13 @@
         #no-results i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
 
         /* --- Preview Modal --- */
-        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(5px); }
+        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(5px); } /* Adicionado blur */
         #previewModal:not(.hidden) { opacity: 1; visibility: visible; }
         #previewModal .modal-content { background-color: var(--brand-card-light); border-radius: var(--radius-lg); width: 100%; height: 90%; max-width: 1200px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease-in-out; transform: scale(0.95); }
-        .dark #previewModal .modal-content { background-color: #2d3748; }
+        .dark #previewModal .modal-content { background-color: #2d3748; } /* Fundo escuro para modal */
         #previewModal:not(.hidden) .modal-content { transform: scale(1); }
         #previewModal.fullscreen .modal-content { width: 100%; height: 100%; max-width: none; border-radius: 0; }
-        #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: #f9fafb; }
+        #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: #f9fafb; } /* Fundo claro para header */
         .dark #previewModal .modal-header { background-color: #374151; border-bottom-color: var(--border-dark); }
         #previewModal #modalTitle { font-size: 1.1rem; font-weight: 600; color: var(--text-primary-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 1rem; }
         .dark #previewModal #modalTitle { color: var(--text-primary-dark); }
@@ -169,15 +178,15 @@
         .dark #previewModal .modal-button:hover { background-color: #4b5563; color: #60a5fa; transform: scale(1.1); }
         #previewModal .modal-button.close-btn:hover { color: #EF4444; background-color: #fef2f2; transform: scale(1.1) rotate(90deg); }
         .dark #previewModal .modal-button.close-btn:hover { color: #F87171; background-color: #3f2a2a; transform: scale(1.1) rotate(90deg); }
-        #previewModal .modal-body { flex-grow: 1; overflow: hidden; background-color: #e5e7eb; }
+        #previewModal .modal-body { flex-grow: 1; overflow: hidden; background-color: #e5e7eb; } /* Fundo do iframe container */
         .dark #previewModal .modal-body { background-color: #111827; }
         #previewModal iframe { width: 100%; height: 100%; border: none; }
 
         /* --- Footer --- */
-        .site-footer { background-color: #1f2937; color: #9ca3af; padding: 2rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; }
+        .site-footer { background-color: #1f2937; color: #9ca3af; padding: 2rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; } /* Footer mais escuro */
         .dark .site-footer { background-color: #111827; }
         .site-footer p { margin-bottom: 0.5rem; line-height: 1.5; }
-        .site-footer a { color: #60a5fa; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+        .site-footer a { color: #60a5fa; font-weight: 500; text-decoration: none; transition: color 0.2s; } /* Link azul claro */
         .site-footer a:hover { color: #93c5fd; text-decoration: underline;}
         .site-footer .instagram-link i { margin-right: 0.3rem; }
 
@@ -188,12 +197,14 @@
         #gallery-error { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #dc2626; }
         .dark #gallery-error { color: #f87171; }
         #gallery-error i { margin-bottom: 1rem; }
+
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
     </style>
 </head>
 <body class="">
 
-    <!-- ======================================== -->
+     <!-- ======================================== -->
     <!--              Hero Section                -->
     <!-- ======================================== -->
     <header class="hero-section relative overflow-hidden">
@@ -233,22 +244,28 @@
                 </div>
             </div>
         </div>
-        <!-- Botão Dark Mode -->
-        <div class="absolute top-5 right-5 z-20">
-             <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle">
-                 <i class="fas fa-moon" id="darkModeIcon"></i>
-             </button>
+                 <!-- Coluna da Direita (pode ficar vazia ou ter outro elemento se necessário) -->
+                 <!-- <div class="hidden md:block"> -->
+                      <!-- Talvez um SVG ou outro elemento gráfico aqui -->
+                 <!-- </div> -->
+             </div>
          </div>
+         <!-- Botão Dark Mode (posicionado no canto superior direito) -->
+         <div class="absolute top-4 right-4 z-20">
+              <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle">
+                  <i class="fas fa-moon" id="darkModeIcon"></i>
+              </button>
+          </div>
     </header>
-    <!-- ======================= Fim Hero Section ======================= -->
+    <!-- ======================= Fim Header / Hero Section ======================= -->
 
 
-    <!-- ======================= Main Content ======================= -->
+    <!-- ======================= Main Content (Filtros e Galeria) ======================= -->
     <main class="container">
 
         <!-- Filtros -->
         <section id="controls">
-            <!-- Código dos filtros mantido -->
+            <!-- ... seu código HTML dos filtros ... -->
              <div class="controls-layout">
                  <div class="filter-section-wrapper">
                      <div class="filter-group-container">
@@ -299,7 +316,6 @@
         <section id="project-gallery">
              <div id="gallery-loading" class="sm:col-span-2 lg:col-span-3"> <i class="fas fa-spinner fa-spin"></i> Carregando projetos... </div>
              <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10"> <i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i> <p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p> <p class="text-sm text-gray-500 dark:text-gray-500">Tente ajustar seus filtros.</p> </div>
-             <!-- Cards são inseridos aqui pelo JS -->
         </section>
 
     </main>
@@ -342,7 +358,7 @@
         // --- Variáveis Globais ---
         let currentFilters = { tech: 'all', category: 'all', search: '' };
         let currentLayout = localStorage.getItem('layout') || 'grid';
-        let sbClient; // Será inicializado
+        let sbClient;
 
         // --- UTILITY FUNCTIONS ---
         function sanitizeHTML(str) { if (!str) return ''; const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; }
@@ -360,7 +376,7 @@
         function handleFullscreenChange() { const modal = document.getElementById('previewModal'); const fullscreenButton = document.getElementById('fullscreenButton'); if (!fullscreenButton || !modal) return; const isInFullscreen = !!document.fullscreenElement; fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand'; modal.classList.toggle('fullscreen', isInFullscreen); }
 
         // --- DATA FETCHING AND RENDERING ---
-        async function fetchProjectsFromSupabase() {
+        async function fetchProjectsFromSupabase() { /* ... (código mantido - igual anterior) ... */
              console.log("Attempting to fetch projects...");
              const galleryLoading = document.getElementById('gallery-loading');
              const gallery = document.getElementById('project-gallery');
@@ -388,13 +404,13 @@
                      else if (status === 401 || status === 403) { throw new Error("Acesso não autorizado. Verifique a Anon Key e as políticas RLS."); }
                      throw new Error(`Erro Supabase (${status}): ${error.message}`);
                  }
-                 renderProjects(projects);
+                 renderProjects(projects); // Chama renderização se não houver erro
              } catch (error) {
                  console.error("Error caught in fetchProjectsFromSupabase:", error);
                  if (gallery) { if (galleryLoading && gallery.contains(galleryLoading)) gallery.removeChild(galleryLoading); gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><i class="fas fa-exclamation-triangle fa-3x mb-4"></i><p class="text-lg font-semibold">Erro ao carregar projetos!</p><p class="text-sm mt-2">${sanitizeHTML(error.message)}</p></div>`; }
              } finally { if (galleryLoading && gallery && gallery.contains(galleryLoading)) { gallery.removeChild(galleryLoading); } }
          }
-        function renderProjects(projects) {
+        function renderProjects(projects) { /* ... (código mantido - igual anterior) ... */
             const gallery = document.getElementById('project-gallery');
             const noResultsDiv = document.getElementById('no-results');
             const defaultImageUrl = 'https://placehold.co/400x220/e0e7ff/4338ca/png?text=Projeto';
@@ -441,7 +457,7 @@
                 gallery.appendChild(card);
             });
 
-            // Garante que applyLayout e filterAndSearchProjects estão definidas
+            // Aplica layout e filtros DEPOIS de renderizar
             if (typeof applyLayout === 'function' && typeof filterAndSearchProjects === 'function') {
                 applyLayout(localStorage.getItem('layout') || 'grid');
                 filterAndSearchProjects();
@@ -479,6 +495,7 @@
             const closeModalButton = document.getElementById('closeModalButton');
             const fullscreenButton = document.getElementById('fullscreenButton');
             const currentYearSpan = document.getElementById('currentYear');
+            // const galleryLoading = document.getElementById('gallery-loading'); // Obtido na função fetch
 
             // --- INITIALIZATION ---
             if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
@@ -501,10 +518,16 @@
                         if (!group) return;
                         const type = group.dataset.filterType;
                         const value = target.dataset.filter;
-                        if (currentFilters[type] !== value) { currentFilters[type] = value; updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter'); filterAndSearchProjects(); }
+                        if (currentFilters[type] !== value) {
+                            currentFilters[type] = value;
+                            updateButtonActiveState(`.filter-group[data-filter-type="${type}"]`, value, 'data-filter');
+                            filterAndSearchProjects();
+                        }
                     } else if (target.classList.contains('layout-btn')) {
                         const layout = target.dataset.layout;
-                        if (currentLayout !== layout) { applyLayout(layout); }
+                        if (currentLayout !== layout) {
+                            applyLayout(layout);
+                        }
                     }
                 });
             }
@@ -518,7 +541,13 @@
             if (gallery) {
                 gallery.addEventListener('click', (e) => {
                     const btn = e.target.closest('button.preview-button');
-                    if (btn && !btn.disabled) { e.preventDefault(); const url = btn.dataset.previewUrl; const card = btn.closest('.project-card'); const title = card?.querySelector('h3')?.textContent || 'Preview'; openModal(url, title); }
+                    if (btn && !btn.disabled) {
+                        e.preventDefault();
+                        const url = btn.dataset.previewUrl;
+                        const card = btn.closest('.project-card');
+                        const title = card?.querySelector('h3')?.textContent || 'Preview';
+                        openModal(url, title);
+                    }
                 });
             }
 
