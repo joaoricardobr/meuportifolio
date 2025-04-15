@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuropsicopedagogia Especializada | Dra. Liza Caris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f3fe 50%, #d8edff 100%);
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-brain text-blue-500 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-blue-800">Dra. Liza Caris</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link font-medium">Início</a>
+                <a href="#about" class="nav-link font-medium">Sobre</a>
+                <a href="#services" class="nav-link font-medium">Serviços</a>
+                <a href="#for-who" class="nav-link font-medium">Para Quem</a>
+                <a href="#contact" class="nav-link font-medium">Contato</a>
+            </nav>
+            <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition duration-300 md:ml-4">
+                Agende uma Consulta
+            </a>
+            <button class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    Neuropsicopedagogia Afetiva e Especializada: <span class="text-blue-600">Desbloqueando o Potencial</span> de Crianças Neurodivergentes
+                </h1>
+                <p class="text-lg text-gray-700 mb-8">
+                    Apoio individualizado para crianças com Autismo (TEA), TDAH, Dislexia, Discalculia, Disortografia e outras necessidades do neurodesenvolvimento.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium text-center transition duration-300">
+                        Agende uma Conversa Inicial
+                    </a>
+                    <a href="#services" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full font-medium text-center transition duration-300">
+                        Conheça Nossos Serviços
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1573497491208-6b1acb260507?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Criança aprendendo com profissional" 
+                         class="rounded-lg shadow-xl w-full max-w-md floating">
+                    <div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-lg shadow-md">
+                        <div class="flex items-center">
+                            <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-star text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold">+200</p>
+                                <p class="text-sm text-gray-600">Crianças atendidas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Highlights -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-6 rounded-xl shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-search text-blue-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Avaliação Neuropsicopedagógica</h3>
+                    <p class="text-gray-600">
+                        Investigação detalhada para compreender as necessidades e potencialidades individuais de cada criança.
+                    </p>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-6 rounded-xl shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-hands-helping text-purple-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Intervenção Personalizada</h3>
+                    <p class="text-gray-600">
+                        Planos terapêuticos focados nas dificuldades específicas (leitura, escrita, matemática, atenção).
+                    </p>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-6 rounded-xl shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-child text-green-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Apoio a TEA e TDAH</h3>
+                    <p class="text-gray-600">
+                        Estratégias para melhorar comunicação, interação social, foco e organização.
+                    </p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card bg-white p-6 rounded-xl shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-book-reader text-orange-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Superando Dislexia</h3>
+                    <p class="text-gray-600">
+                        Métodos eficazes para dificuldades específicas de aprendizagem e orientação a pais e escolas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Dra. Ana Silva" 
+                             class="rounded-lg shadow-xl w-full max-w-xs">
+                        <div class="absolute -bottom-5 -left-5 bg-white p-3 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-graduation-cap text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">15 anos</p>
+                                    <p class="text-sm text-gray-600">de experiência</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3 md:pl-12">
+                    <h2 class="text-3xl font-bold mb-6">Conheça a Dra. Ana Silva</h2>
+                    <p class="text-lg mb-6">
+                        Olá! Sou Ana Silva, Neuropsicopedagoga Clínica e Educacional, com 15 anos de experiência dedicados ao desenvolvimento infantil, com um olhar especial para as particularidades da neurodiversidade.
+                    </p>
+                    <p class="text-lg mb-8">
+                        Minha paixão é compreender como cada criança aprende e processa informações, transformando desafios em oportunidades de crescimento. Acredito firmemente que, com o apoio certo, toda criança pode alcançar marcos significativos em seu desenvolvimento.
+                    </p>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4 text-blue-800">Minha Formação</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Graduação em Pedagogia pela Universidade Federal de São Paulo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Pós-Graduação em Neuropsicopedagogia Clínica e Institucional pelo Instituto Brasileiro de Neuropsicopedagogia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Especialização em Intervenção ABA para Autismo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Registro Profissional na SBNPp (Sociedade Brasileira de Neuropsicopedagogia)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 text-blue-800">Minha Abordagem</h3>
+                        <p class="mb-4">
+                            Trabalho com uma abordagem humanizada, centrada na criança e em suas potencialidades. Utilizo estratégias baseadas em evidências científicas, adaptadas às necessidades individuais, sempre em colaboração estreita com a família e a escola.
+                        </p>
+                        <p>
+                            Meu objetivo não é apenas intervir nas dificuldades, mas também fortalecer a autoestima e a autonomia da criança.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Como Posso Ajudar Seu Filho(a)?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Ofereço um conjunto de serviços neuropsicopedagógicos desenhados para identificar e intervir nas dificuldades de aprendizagem e desenvolvimento, sempre com foco nas necessidades únicas de cada criança.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Service 1 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-clipboard-check text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Avaliação Neuropsicopedagógica Completa</h3>
+                            <p class="text-blue-600 font-medium">Processo investigativo detalhado</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Um processo investigativo detalhado que utiliza entrevistas com os pais/responsáveis, observação clínica, aplicação de testes e instrumentos específicos para mapear as habilidades cognitivas (atenção, memória, funções executivas), processamento sensorial, habilidades acadêmicas (leitura, escrita, matemática) e aspectos socioemocionais da criança.
+                        </p>
+                        <div class="bg-white p-4 rounded-lg mb-4">
+                            <h4 class="font-bold mb-2 text-gray-800">O que inclui?</h4>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Anamnese detalhada</li>
+                                <li>Sessões de avaliação com a criança</li>
+                                <li>Análise dos resultados</li>
+                                <li>Elaboração de relatório completo</li>
+                                <li>Sessão de devolutiva com os pais</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-2">
+                            Saiba Mais
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-hands-helping text-purple-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Intervenção Neuropsicopedagógica Individualizada</h3>
+                            <p class="text-purple-600 font-medium">Sessões terapêuticas regulares</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Sessões terapêuticas regulares, baseadas nos resultados da avaliação, com foco no desenvolvimento das habilidades que apresentam maior desafio.
+                        </p>
+                        <div class="bg-white p-4 rounded-lg mb-4">
+                            <h4 class="font-bold mb-2 text-gray-800">Áreas de Atuação:</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Atenção sustentada</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Memória de trabalho</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Funções Executivas</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Habilidades de leitura</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Raciocínio matemático</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>Comunicação social</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="font-medium">
+                            Frequência: Geralmente 1 ou 2 vezes por semana, com duração de 50 minutos por sessão.
+                        </p>
+                        <a href="#contact" class="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-4">
+                            Conheça a Intervenção
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Services -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Service 3 -->
+                <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-users text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Orientação a Pais e Responsáveis</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 pl-16">
+                        Sessões de aconselhamento e suporte para ajudar os pais a entenderem melhor as necessidades de seus filhos e a aplicarem estratégias eficazes em casa.
+                    </p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-orange-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-school text-orange-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Assessoria Escolar</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 pl-16">
+                        Colaboração com a equipe pedagógica para discutir o perfil de aprendizagem da criança, sugerir adaptações curriculares e estratégias em sala de aula.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Who Section -->
+    <section id="for-who" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Meu Apoio é Para Sua Criança?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Se você percebe que seu filho(a) enfrenta desafios persistentes na escola ou no dia a dia, a neuropsicopedagogia pode ser um caminho importante.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Condition 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-puzzle-piece text-blue-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Transtorno do Espectro Autista (TEA)</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-500 mr-2 mt-1"></i>
+                            <span>Dificuldades na comunicação e interação social</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-500 mr-2 mt-1"></i>
+                            <span>Interesses restritos e comportamentos repetitivos</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-500 mr-2 mt-1"></i>
+                            <span>Necessidade de rotina e previsibilidade</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-500 mr-2 mt-1"></i>
+                            <span>Desafios sensoriais</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-sm font-medium text-blue-600">
+                            <i class="fas fa-lightbulb mr-2"></i> Como ajudo: Desenvolvendo habilidades sociais, comunicação funcional, flexibilidade, e estratégias para lidar com questões sensoriais.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Condition 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                    <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-bolt text-purple-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Transtorno de Déficit de Atenção (TDAH)</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                            <span>Dificuldade em manter o foco e a atenção</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                            <span>Inquietação motora ou agitação</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                            <span>Impulsividade (agir sem pensar)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-purple-500 mr-2 mt-1"></i>
+                            <span>Dificuldades de organização</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-sm font-medium text-purple-600">
+                            <i class="fas fa-lightbulb mr-2"></i> Como ajudo: Treinando a atenção, desenvolvendo estratégias de organização e gerenciamento do tempo, controle inibitório e planejamento.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Condition 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-book text-green-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Dislexia e Disortografia</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Dificuldade acentuada na aprendizagem da leitura</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Trocas, omissões ou inversões de letras</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Leitura lenta e silabada</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Dificuldade na compreensão do que lê</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-sm font-medium text-green-600">
+                            <i class="fas fa-lightbulb mr-2"></i> Como ajudo: Intervenção focada na consciência fonológica, correspondência grafo-fonêmica, fluência leitora e estratégias de compreensão.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Condition 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                    <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-calculator text-yellow-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Discalculia</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                            <span>Dificuldade persistente em conceitos matemáticos</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                            <span>Problemas com senso numérico e contagem</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                            <span>Dificuldade em memorizar fatos matemáticos</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                            <span>Dificuldade em entender problemas matemáticos</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-sm font-medium text-yellow-600">
+                            <i class="fas fa-lightbulb mr-2"></i> Como ajudo: Trabalhando o senso numérico, conceitos matemáticos básicos, raciocínio lógico e estratégias para resolução de problemas.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Condition 5 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                    <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Dificuldades Gerais de Aprendizagem</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-500 mr-2 mt-1"></i>
+                            <span>Dificuldades persistentes na escola</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-500 mr-2 mt-1"></i>
+                            <span>Desafios relacionados a funções executivas</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-500 mr-2 mt-1"></i>
+                            <span>Atrasos no desenvolvimento</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-red-500 mr-2 mt-1"></i>
+                            <span>Baixo rendimento escolar inexplicado</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-sm font-medium text-red-600">
+                            <i class="fas fa-lightbulb mr-2"></i> Como ajudo: Avaliação detalhada para identificar causas e intervenção personalizada para superar desafios.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- CTA Card -->
+                <div class="bg-blue-600 p-6 rounded-xl shadow-md flex flex-col justify-center">
+                    <div class="text-white text-center">
+                        <h3 class="text-xl font-bold mb-3">Não tem certeza se é para seu filho(a)?</h3>
+                        <p class="mb-6">
+                            Se você tem dúvidas sobre o desenvolvimento do seu filho(a), entre em contato. Uma conversa inicial pode esclarecer muitas questões.
+                        </p>
+                        <a href="#contact" class="inline-block bg-white hover:bg-gray-100 text-blue-600 px-6 py-3 rounded-full font-medium transition duration-300">
+                            Agende Sua Conversa Inicial
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">O Que Dizem os Pais</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Depoimentos de famílias que já passaram pelo processo de avaliação e intervenção.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Márcia R.</h4>
+                            <p class="text-sm text-gray-500">Mãe do Pedro, 8 anos (TDAH)</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "A Dra. Ana transformou a vida escolar do meu filho. Em poucos meses, ele desenvolveu estratégias para se organizar e manter o foco. Hoje ele tem muito mais confiança em si mesmo."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-purple-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlos A.</h4>
+                            <p class="text-sm text-gray-500">Pai da Sofia, 7 anos (Dislexia)</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Depois da avaliação, finalmente entendemos as dificuldades da Sofia. A intervenção foi incrível - em um ano ela passou de não conseguir ler palavras simples para ler livros infantis com fluência."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-green-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Patrícia L.</h4>
+                            <p class="text-sm text-gray-500">Mãe do Lucas, 6 anos (TEA)</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "A abordagem da Dra. Ana fez toda a diferença para o Lucas. Ela entendeu suas necessidades sensoriais e criou um ambiente onde ele se sente seguro para aprender. Suas habilidades de comunicação melhoraram muito."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Perguntas Frequentes</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Respostas para as dúvidas mais comuns sobre neuropsicopedagogia e meus serviços.
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>O que exatamente faz um(a) Neuropsicopedagogo(a)?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            O Neuropsicopedagogo estuda a relação entre o cérebro e a aprendizagem. Ele avalia e intervém nas dificuldades de aprendizagem, considerando as funções cognitivas (atenção, memória, etc.) e as particularidades do desenvolvimento de cada indivíduo, especialmente em casos de neurodivergência.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Qual a diferença entre Neuropsicopedagogo, Psicopedagogo e Psicólogo?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            O Psicopedagogo trabalha com dificuldades de aprendizagem de forma geral. O Psicólogo atua em questões emocionais e comportamentais. Já o Neuropsicopedagogo tem um olhar aprofundado na relação cérebro-aprendizagem e utiliza instrumentos específicos para avaliar funções cognitivas, sendo especialmente capacitado para lidar com neurodivergências.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Meu filho precisa de uma avaliação? Quais são os sinais?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            Se seu filho apresenta dificuldades persistentes na escola (leitura, escrita, matemática), problemas de atenção, organização, ou características de TEA, TDAH, etc., uma avaliação pode ser muito útil para entender a causa e direcionar o apoio adequado. Sinais incluem: frustração com tarefas escolares, baixa autoestima relacionada à aprendizagem, dificuldade em acompanhar a turma, ou comportamentos que sugerem desafios no processamento de informações.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Como funciona o processo de avaliação? Quanto tempo leva?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            O processo inclui: 1) Anamnese (entrevista detalhada com os pais), 2) 3-5 sessões de avaliação com a criança (aplicação de testes e observação), 3) Análise dos resultados, 4) Elaboração de relatório, 5) Sessão de devolutiva com os pais. Geralmente leva de 4 a 6 semanas do início ao relatório final.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Quanto tempo dura a intervenção neuropsicopedagógica?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            A duração é variável e depende das necessidades individuais da criança, dos objetivos traçados e da resposta à intervenção. É um processo contínuo, reavaliado periodicamente. Em média, famílias costumam ver progressos significativos após 6 meses de intervenção consistente (1-2 sessões por semana), mas cada caso é único.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 6 -->
+                <div class="mb-6 bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Vocês aceitam convênio médico?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            Atualmente não trabalhamos diretamente com convênios médicos, mas fornecemos todos os documentos necessários (relatórios, recibos) para que os pais possam solicitar reembolso junto aos seus planos de saúde, quando este benefício estiver disponível em sua cobertura.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 7 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold text-lg">
+                        <span>Qual o primeiro passo para começar?</span>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-4 text-gray-600">
+                        <p>
+                            O primeiro passo é entrar em contato para agendarmos uma conversa inicial (sem compromisso) ou diretamente a sessão de anamnese para iniciar a avaliação. Você pode utilizar nosso formulário de contato, telefone ou email. Durante a conversa inicial, podemos esclarecer dúvidas e definir qual abordagem será mais adequada para seu filho(a).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Vamos Conversar?</h2>
+                <p class="text-lg max-w-3xl mx-auto">
+                    Estou à disposição para tirar suas dúvidas, entender suas necessidades e agendar uma primeira conversa ou avaliação.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Envie uma Mensagem</h3>
+                    <form>
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nome Completo</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefone/WhatsApp</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">Assunto</label>
+                            <select id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Selecione...</option>
+                                <option value="evaluation">Agendamento de Avaliação</option>
+                                <option value="intervention">Informações sobre Intervenção</option>
+                                <option value="questions">Dúvidas Gerais</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Mensagem</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input id="consent" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300">
+                                </div>
+                                <label for="consent" class="ml-2 text-sm text-gray-500">
+                                    Concordo com o uso dos meus dados para contato, conforme a <a href="#" class="text-blue-600 hover:underline">Política de Privacidade</a>.
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition duration-300">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Informações de Contato</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Phone -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-lg mr-4">
+                                <i class="fas fa-phone-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Telefone/WhatsApp</h4>
+                                <p class="text-blue-100">(11) 98765-4321</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-lg mr-4">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Email</h4>
+                                <p class="text-blue-100">contato@dranasilva.com.br</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-lg mr-4">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Consultório</h4>
+                                <p class="text-blue-100 mb-1">Rua das Flores, 123, Sala 502</p>
+                                <p class="text-blue-100">Jardim das Acácias - São Paulo/SP</p>
+                                <p class="text-blue-100">CEP: 01234-567</p>
+                                <a href="#" class="inline-block mt-2 text-blue-200 hover:text-white underline">
+                                    <i class="fas fa-map-marked-alt mr-1"></i> Ver no mapa
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Hours -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-lg mr-4">
+                                <i class="fas fa-clock text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Horário de Atendimento</h4>
+                                <p class="text-blue-100">Segunda a Sexta: 9h às 18h</p>
+                                <p class="text-blue-100">Sábado: 9h às 12h (plantão)</p>
+                                <p class="text-blue-100 text-sm mt-1">* Atendimento somente com agendamento prévio</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Social -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 p-3 rounded-lg mr-4">
+                                <i class="fas fa-share-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-3">Redes Sociais</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-400 flex items-center justify-center text-white">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-400 flex items-center justify-center text-white">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-400 flex items-center justify-center text-white">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-400 flex items-center justify-center text-white">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Emergency -->
+                    <div class="mt-10 bg-blue-700 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-white p-2 rounded-full mr-4">
+                                <i class="fas fa-exclamation-triangle text-blue-700"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">Atendimento Emergencial</h4>
+                                <p class="text-blue-100 mb-3">
+                                    Para situações de crise ou emergência, entre em contato com o CVV (188) ou procure o pronto-socorro mais próximo.
+                                </p>
+                                <p class="text-blue-100 text-sm">
+                                    Este serviço não substitui atendimento médico ou psicológico emergencial.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo/About -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Dra. Ana Silva</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Neuropsicopedagogia especializada em crianças neurodivergentes, com abordagem humanizada e baseada em evidências científicas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white">Início</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white">Sobre</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">Serviços</a></li>
+                        <li><a href="#for-who" class="text-gray-400 hover:text-white">Para Quem</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Serviços</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Avaliação Neuropsicopedagógica</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Intervenção Individualizada</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apoio a TEA e TDAH</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Orientação a Pais</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Assessoria Escolar</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">Rua das Flores, 123 - São Paulo/SP</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">(11) 987717280</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">contato@dranasilva.com.br</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    © 2023 Dra. Liza Caris  - Neuropsicopedagoga. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Política de Privacidade</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Termos de Serviço</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // FAQ Accordion
+        const faqButtons = document.querySelectorAll('#for-who button');
+        
+        faqButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                // Close all other items
+                document.querySelectorAll('#for-who .bg-white').forEach(item => {
+                    if (item !== faqItem) {
+                        const otherAnswer = item.querySelector('div[class*="mt-4"]');
+                        const otherIcon = item.querySelector('i');
+                        otherAnswer.classList.add('hidden');
+                        otherIcon.classList.remove('fa-chevron-up');
+                        otherIcon.classList.add('fa-chevron-down');
+                    }
+                });
+                
+                // Toggle current item
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-up');
+                icon.classList.toggle('fa-chevron-down');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu toggle (would need additional HTML and CSS)
+        const mobileMenuButton = document.querySelector('.md\\:hidden');
+        mobileMenuButton.addEventListener('click', () => {
+            // This would toggle a mobile menu - implementation depends on your design
+            alert('Mobile menu would open here in a full implementation');
+        });
+    </script>
+</body>
+</html>
