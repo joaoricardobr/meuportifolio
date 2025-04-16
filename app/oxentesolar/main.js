@@ -1,457 +1,469 @@
-// main.js - Logic for index.html
-
-// Import IndexedDB helpers (assuming db.js is loaded/available)
-// If using modules, you'd import explicitly: import { openDB, loadData, saveData, loadSingleSetting } from './db.js';
+javascript
+// admin.js - Logic for painel.html
 
 // --- Global Supabase Client (initialized if config is valid) ---
 let supabase = null;
 try {
-    // Access global vars defined in config.js (must be loaded first)
-    if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL && SUPABASE_URL !== 'YOUR_SUPABASE_URL' &&
-        typeof SUPABASE_ANON_KEY !== 'undefined' && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY')
-    {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log("Supabase client initialized for index.html.");
-    } else {
-        console.warn("SupABASE credentials missing in config.js. Offline mode only.");
+    // Access global vars defined in config.js (must be loaded first in HTML)
+    if (typeof SUPABASE_URL === 'undefined' || !SUPABASE_URL || SUPABASE_URL === 'YOUR_SUPABASE_URL' ||
+        typeof SUPABASE_ANON_KEY === 'undefined' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY' ||
+        typeof BUCKET_NAME === 'undefined' || !BUCKET_NAME || BUCKET_NAME === 'YOUR_BUCKET_NAME') {
+        throw new Error("Supabase credentials or Bucket Name missing/invalid in config.js.");
     }
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log("Supabase client initialized for painel.html.");
 } catch (error) {
-    console.error("Error initializing Supabase in index.html:", error);
-     // Display a more user-friendly error on the page?
-     // document.body.insertAdjacentHTML('afterbegin', '<p style="background:red;color:white;padding:1em;text-align:center;">Erro ao inicializar Supabase.</p>');
+    console.error("Error initializing Supabase in painel.html:", error);
+    document.body.innerHTML = `<div style="padding:2rem; text-align:center; color:red;"><h1>Erro Crítico</h1><p>Não foi possível conectar ao Supabase. Verifique as credenciais e o nome do bucket no arquivo config.js.</p><p>${error.message}</p></div>`;
 }
 
-// --- IndexedDB Initialization ---
-let db = null;
-async function initDB() {
+// --- UI Elements ---
+const authContainer = document.getElementById('auth-container');
+const adminContent = document.getElementById('admin-content');
+const loginForm = document.getElementById('login-form');
+const loginButton = document.getElementById('login-button');
+const logoutButton = document.getElementById('logout-button');
+const userEmailDisplay = document.getElementById('user-email-display');
+const authError = document.getElementById('auth-error');
+const loginSpinner = loginButton?.querySelector('.spinner');
+
+// --- Helper Functions ---
+function showStatus(elementOrId, message, type = 'loading') {
+    const el = typeof elementOrId === 'string' ? document.getElementById(elementOrId) : elementOrId;
+    if (el) {
+        el.textContent = message;
+        el.className = 'status-message'; // Reset classes
+        if (type === 'success') el.classList.add('success');
+        else if (type === 'error') el.classList.add('error');
+        else if (type === 'loading') el.classList.add('loading');
+        // Auto-clear message after a delay
+        if (type === 'success' || type === 'error') {
+            setTimeout(() => { if (el.textContent === message) { el.textContent = ''; el.className = 'status-message'; } }, 6000);
+        }
+    } else { console.warn(`Status element not found: ${elementOrId}`); }
+}
+
+function setLoading(buttonElement, isLoading) {
+    if (!buttonElement) return;
+    const spinner = buttonElement.querySelector('.spinner');
+    buttonElement.disabled = isLoading;
+    spinner?.classList.toggle('hidden', !isLoading);
+    buttonElement.classList.toggle('opacity-60', isLoading);
+    buttonElement.classList.toggle('cursor-not-allowed', isLoading);
+}
+
+// --- File Handling Functions ---
+async function uploadFile(file, pathPrefix) {
+    if (!file || !supabase || !BUCKET_NAME) return null;
+    const sanitizedPrefix = pathPrefix.replace(/^\/+|\/+$/g, '').replace(/\/+/g, '/');
+    const fileExt = file.name.split('.').pop()?.toLowerCase() || 'file';
+    const randomString = Math.random().toString(36).substring(2, 12);
+    const filePath = `${sanitizedPrefix}/${Date.now()}_${randomString}.${fileExt}`;
+    console.log(`Uploading to bucket '${BUCKET_NAME}', path: ${filePath}`);
+
+    const { data, error } = await supabase.storage
+        .from(BUCKET_NAME)
+        .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+    if (error) { console.error('Upload Error:', error); throw new Error(`Falha no upload: ${error.message}`); }
+
+    const { data: urlData } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filePath);
+    if (!urlData?.publicUrl) { console.error("Failed to get public URL after upload:", filePath); throw new Error("Falha ao obter URL pública."); }
+    console.log('Upload successful, Public URL:', urlData.publicUrl);
+    return urlData.publicUrl;
+}
+
+async function deleteFile(fileUrl) {
+    if (!fileUrl || !supabase || !BUCKET_NAME || !fileUrl.includes(BUCKET_NAME)) return;
     try {
-        // Use global constants from config.js
-        db = await openDB(DB_NAME, DB_VERSION, STORES);
-        console.log("IndexedDB initialized successfully.");
+        const url = new URL(fileUrl);
+        const pathSegments = url.pathname.split('/');
+        const bucketIndex = pathSegments.indexOf(BUCKET_NAME);
+        if (bucketIndex === -1 || bucketIndex + 1 >= pathSegments.length) { console.warn("Cannot extract file path:", fileUrl); return; }
+        const filePath = decodeURIComponent(pathSegments.slice(bucketIndex + 1).join('/')); // Decode URI component
+        if (!filePath) { console.warn("Empty file path extracted:", fileUrl); return; }
+
+        console.log(`Attempting to delete file from storage: ${filePath}`);
+        const { data, error } = await supabase.storage.from(BUCKET_NAME).remove([filePath]);
+        if (error) { console.error("Storage Delete Error:", error); /* Log only */ }
+        else { console.log("Storage file deleted successfully:", data); }
+    } catch (err) { console.error("Exception during storage delete:", err); }
+}
+
+// --- AUTH FUNCTIONS ---
+async function handleLogin(event) { /* ... (same as before) ... */
+    event.preventDefault();
+    if (!supabase || !loginForm) return alert('Erro interno: Supabase ou formulário não encontrado.');
+    setLoading(loginButton, true);
+    if(authError) authError.textContent = '';
+    const email = loginForm.querySelector('#admin-email').value;
+    const password = loginForm.querySelector('#admin-password').value;
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        // UI update is handled by onAuthStateChange
     } catch (error) {
-        console.error("Failed to initialize IndexedDB:", error);
-        // Decide how to handle this - maybe show a persistent error message
+        console.error('Login error:', error);
+        if(authError) authError.textContent = `Erro: ${error.message || 'Email ou senha inválidos.'}`;
+    } finally {
+        setLoading(loginButton, false);
+    }
+}
+async function handleLogout() { /* ... (same as before) ... */
+    if (!supabase || !logoutButton) return alert('Erro interno: Supabase ou botão não encontrado.');
+    logoutButton.disabled = true;
+    try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        // UI update is handled by onAuthStateChange, no reload needed here
+    } catch (error) {
+        alert(`Erro ao sair: ${error.message}`);
+    } finally {
+        logoutButton.disabled = false;
     }
 }
 
-// --- UI Elements & Status ---
-const offlineStatusIndicator = document.getElementById('offline-status');
-function updateOnlineStatus() {
-    if (navigator.onLine) {
-        if (offlineStatusIndicator) {
-            offlineStatusIndicator.textContent = 'Online';
-            offlineStatusIndicator.className = 'online';
-            // Hide after a delay
-            setTimeout(() => offlineStatusIndicator.style.display = 'none', 3000);
-        }
-        console.log("Status: Online");
-    } else {
-        if (offlineStatusIndicator) {
-            offlineStatusIndicator.textContent = 'Offline';
-            offlineStatusIndicator.className = 'offline';
-            offlineStatusIndicator.style.display = 'block'; // Ensure visible when offline
-        }
-        console.log("Status: Offline");
+// --- UI UPDATE FUNCTION (Defined globally) ---
+function updateUI(user) {
+    const isAdminSectionVisible = !!adminContent && !adminContent.classList.contains('hidden');
+    if (user) { // Logged In
+        authContainer?.classList.add('hidden');
+        adminContent?.classList.remove('hidden');
+        if (userEmailDisplay) userEmailDisplay.textContent = user.email;
+        if (!isAdminSectionVisible) loadAdminData(); // Load data only on initial login display
+    } else { // Logged Out
+        authContainer?.classList.remove('hidden');
+        adminContent?.classList.add('hidden');
+        if (userEmailDisplay) userEmailDisplay.textContent = '';
     }
 }
 
-// --- Load Website Content (with Offline First) ---
-async function loadWebsiteContent() {
-    console.log("Loading website content (Offline First)...");
-    updateOnlineStatus(); // Update status at the start of loading
+// --- DATA LOADING for Admin Panel ---
+async function loadAdminData() {
+    // ... (same as previous version - fetches data and populates forms/lists) ...
+     if (!supabase) return;
+     console.log("Loading admin data...");
+     const statusEl = document.querySelector('#admin-content h3 + p'); // Status below title
+     showStatus(statusEl, 'Carregando dados...', 'loading');
 
-    const elementsToUpdate = document.querySelectorAll('[data-content-key]');
-    const gridPlaceholders = document.querySelectorAll('.grid-placeholder');
+     document.getElementById('solutions-list-admin').innerHTML = '<p class="text-center text-gray-500 italic py-4">Carregando...</p>';
+     document.getElementById('projects-list-admin').innerHTML = '<p class="text-center text-gray-500 italic py-4">Carregando...</p>';
+     document.getElementById('testimonials-list-admin').innerHTML = '<p class="text-center text-gray-500 italic py-4">Carregando...</p>';
+     document.getElementById('reels-list-admin').innerHTML = '<p class="text-center text-gray-500 italic py-4">Carregando...</p>';
+     document.getElementById('blog-list-admin').innerHTML = '<p class="text-center text-gray-500 italic py-4">Carregando...</p>';
 
-    // Show loading state
-    elementsToUpdate.forEach(el => { if (el.tagName !== 'IMG') el.classList.add('loading-placeholder'); });
-    gridPlaceholders.forEach(el => { el.classList.remove('hidden'); el.innerHTML = el.innerHTML || '<p class="text-center text-gray-500 italic py-4">Carregando...</p>'});
+
+     try {
+         const [ settingsRes, solutionsRes, projectsRes, testimonialsRes, reelsRes, blogPostsRes ] = await Promise.all([
+             supabase.from('website_settings').select('*').eq('id', 1).maybeSingle(),
+             supabase.from('solutions').select('*').order('order_index'),
+             supabase.from('projects').select('*').order('order_index'),
+             supabase.from('testimonials').select('*').order('order_index'),
+             supabase.from('reels').select('*').order('order_index'),
+             supabase.from('blog_posts').select('*').order('published_at', { ascending: false })
+         ]);
+
+         if (settingsRes.error && settingsRes.error.code !== 'PGRST116') throw new Error(`Settings: ${settingsRes.error.message}`);
+         if (solutionsRes.error) throw new Error(`Solutions: ${solutionsRes.error.message}`);
+         if (projectsRes.error) throw new Error(`Projects: ${projectsRes.error.message}`);
+         if (testimonialsRes.error) throw new Error(`Testimonials: ${testimonialsRes.error.message}`);
+         if (reelsRes.error) throw new Error(`Reels: ${reelsRes.error.message}`);
+         if (blogPostsRes.error) throw new Error(`Blog: ${blogPostsRes.error.message}`);
+
+         const settings = settingsRes.data;
+         const solutions = solutionsRes.data;
+         const projects = projectsRes.data;
+         const testimonials = testimonialsRes.data;
+         const reels = reelsRes.data;
+         const blogPosts = blogPostsRes.data;
+         console.log("Admin data fetched.");
+
+         // Populate Settings & About Forms
+         if (settings) {
+             document.getElementById('admin-logo-preview').src = settings.site_logo_url || 'placeholder-logo.png';
+             document.getElementById('admin-logo-url').value = settings.site_logo_url || '';
+             document.getElementById('admin-hero-bg-preview').src = settings.hero_bg_image_url || 'placeholder-hero-bg.jpg';
+             document.getElementById('admin-hero-bg-url').value = settings.hero_bg_image_url || '';
+             document.getElementById('admin-hero-title').value = settings.hero_title || '';
+             document.getElementById('admin-hero-subtitle').value = settings.hero_subtitle || '';
+             document.getElementById('admin-hero-text').value = settings.hero_text || '';
+             document.getElementById('admin-about-preview').src = settings.about_image_url || 'placeholder-about.png';
+             document.getElementById('admin-about-image-url').value = settings.about_image_url || '';
+             document.getElementById('admin-about-title-input').value = settings.about_title || '';
+             document.getElementById('admin-about-text-input').value = settings.about_text || '';
+         }
+
+         // Render Lists
+         renderAdminList('solutions', solutions);
+         renderAdminList('projects', projects);
+         renderAdminList('testimonials', testimonials);
+         renderAdminList('reels', reels);
+         renderAdminList('blog', blogPosts);
+
+         showStatus(statusEl, '', ''); // Clear loading status
+
+     } catch (error) {
+         console.error("Error loading admin data:", error);
+         alert(`Erro ao carregar dados do painel: ${error.message}`);
+         showStatus(statusEl, `Erro ao carregar: ${error.message}`, 'error');
+         document.querySelectorAll('.admin-section-form [id$="-list-admin"]').forEach(el => el.innerHTML = `<p class="text-center text-red-500 italic py-4">Erro ao carregar itens.</p>`);
+     }
+}
+
+// --- RENDER LISTS in Admin Panel ---
+function renderAdminList(type, items) {
+    // ... (same as previous version - dynamically creates list items with Edit/Delete) ...
+     const listContainerId = `${type}-list-admin`;
+     const listContainer = document.getElementById(listContainerId);
+     if (!listContainer) { console.error(`List container not found: #${listContainerId}`); return; }
+     listContainer.innerHTML = '';
+
+     if (!items || items.length === 0) {
+         listContainer.innerHTML = `<p class="text-center text-gray-500 italic py-4">Nenhum item cadastrado.</p>`;
+         return;
+     }
+     const sortedItems = items[0]?.hasOwnProperty('order_index') ? [...items].sort((a, b) => (a.order_index || 0) - (b.order_index || 0)) : items;
+
+     sortedItems.forEach(item => {
+         const div = document.createElement('div');
+         div.className = 'list-item group relative'; div.dataset.id = item.id; div.dataset.type = type;
+         let imageUrl = item.image_url || item.thumbnail_url || null;
+         const tableName = type === 'blog' ? 'blog_posts' : type;
+
+         let itemContent = `<div class="item-content pr-20">`;
+         itemContent += `<h5 class="">${item.title || item.name || `Item [${item.id.substring(0, 6)}]`}</h5>`;
+         if (imageUrl) { itemContent += `<img src="${imageUrl}" alt="Preview" class="current-img-preview !max-w-[80px] !max-h-[60px] float-left mr-3 mb-1">`; }
+         if (type === 'solutions') itemContent += `<p class="text-xs text-gray-600 clear-left">Ordem: ${item.order_index || 0} | Feat: ${(item.features || []).length}</p>`;
+         if (type === 'projects') itemContent += `<p class="text-xs text-gray-600 clear-left">Ordem: ${item.order_index || 0} | KWP: ${item.kwp || '-'} | Econ: ${item.savings || '-'}</p>`;
+         if (type === 'testimonials') itemContent += `<p class="text-xs text-gray-600 clear-left">Ordem: ${item.order_index || 0} | Local: ${item.location || '-'} | Nota: ${item.rating || '-'}</p><p class="text-sm italic mt-1 clear-left">"${(item.quote || '').substring(0, 100)}..."</p>`;
+         if (type === 'reels') itemContent += `<p class="text-xs text-gray-600 clear-left">Ordem: ${item.order_index || 0} | Video URL: ${item.video_url ? 'Sim' : 'Não'}</p>`;
+         if (type === 'blog') itemContent += `<p class="text-xs text-gray-600 clear-left">Slug: ${item.slug} | Pub: ${item.published_at ? new Date(item.published_at).toLocaleDateString('pt-BR') : '-'}</p><p class="text-sm mt-1 text-gray-700 clear-left">${(item.excerpt || '').substring(0, 100)}...</p>`;
+         itemContent += `</div>`;
+
+         const buttonsContainer = `<div class="item-controls absolute top-2 right-2 flex gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <button class="edit-item-btn text-xs bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" data-type="${type}" data-id="${item.id}" title="Editar"><i class="fas fa-edit"></i></button>
+              <button class="delete-item-btn text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded" data-table="${tableName}" data-id="${item.id}" data-img-url="${imageUrl || ''}" title="Excluir"><i class="fas fa-trash"></i></button>
+          </div>`;
+
+         div.innerHTML = buttonsContainer + itemContent + `<div id="status-${type}-${item.id}" class="status-message mt-2 clear-left"></div>`;
+         listContainer.appendChild(div);
+     });
+
+    listContainer.querySelectorAll('.delete-item-btn').forEach(btn => btn.onclick = handleDeleteItem);
+    listContainer.querySelectorAll('.edit-item-btn').forEach(btn => btn.onclick = handleEditItem);
+}
 
 
-    // 1. Try loading from IndexedDB first
-    let isDataFromCache = false;
-    if (db) {
-        try {
-            console.log("Attempting to load from IndexedDB...");
-            const [cachedSettingsList, cachedSolutions, cachedProjects, cachedTestimonials, cachedReels, cachedBlogPosts] = await Promise.all([
-                loadData(db, 'website_settings'), // Load all settings (should be just one row)
-                loadData(db, 'solutions'),
-                loadData(db, 'projects'),
-                loadData(db, 'testimonials'),
-                loadData(db, 'reels'),
-                loadData(db, 'blog_posts')
-            ]);
+// --- CRUD FUNCTIONS ---
+function handleEditItem(event) {
+     // ... (Same placeholder as before - requires implementation) ...
+     const button = event.currentTarget;
+     const type = button.dataset.type;
+     const id = button.dataset.id;
+     const tableName = type === 'blog' ? 'blog_posts' : type;
+     alert(`Implementar Edição:\n1. Buscar dados (${tableName} ID: ${id})\n2. Preencher formulário/modal\n3. Salvar com supabase.update()`);
+}
 
-            const cachedSettings = cachedSettingsList?.[0]; // Get the single settings object
+async function handleDeleteItem(event) {
+    // ... (same as before - handles deletion) ...
+    const button = event.currentTarget;
+    const tableName = button.dataset.table;
+    const id = button.dataset.id;
+    const imageUrl = button.dataset.imgUrl;
+    const listItemElement = button.closest('.list-item');
+    const statusElement = listItemElement?.querySelector('.status-message');
 
-            // Check if essential data exists in cache
-            if (cachedSettings || cachedSolutions?.length > 0 || cachedProjects?.length > 0) {
-                 console.log("Data found in IndexedDB cache. Rendering cached content.");
-                 renderWebsiteContent(cachedSettings, cachedSolutions, cachedProjects, cachedTestimonials, cachedReels, cachedBlogPosts);
-                 isDataFromCache = true;
-                 // If offline, we stop here after rendering cache
-                 if (!navigator.onLine) {
-                     console.log("Offline: Content loaded from cache.");
-                     return; // Don't try to fetch from Supabase if offline
-                 }
-            } else {
-                 console.log("No significant data found in IndexedDB cache.");
-            }
+    if (!supabase || !id || !tableName || !listItemElement) return;
+    if (!confirm(`Tem certeza que deseja excluir este item da tabela "${tableName}"? A imagem associada (se houver) também será excluída do armazenamento.`)) return;
 
-        } catch (error) {
-            console.error("Error loading from IndexedDB:", error);
-            // Continue to try fetching from Supabase even if cache fails
-        }
-    } else {
-        console.warn("IndexedDB not available, skipping cache load.");
-    }
+    setLoading(button, true);
+    showStatus(statusElement, 'Excluindo...', 'loading');
 
-    // 2. If online, try fetching fresh data from Supabase
-    if (navigator.onLine && supabase) {
-        console.log("Online: Attempting to fetch fresh data from Supabase...");
-        try {
-            const [ settingsRes, solutionsRes, projectsRes, testimonialsRes, reelsRes, blogPostsRes ] = await Promise.all([
-                supabase.from('website_settings').select('*').eq('id', 1).maybeSingle(),
-                supabase.from('solutions').select('*').order('order_index'),
-                supabase.from('projects').select('*').order('order_index'),
-                supabase.from('testimonials').select('*').order('order_index'),
-                supabase.from('reels').select('*').order('order_index'),
-                supabase.from('blog_posts').select('*').order('published_at', { ascending: false })
-            ]);
-
-            // Check for errors
-            if (settingsRes.error && settingsRes.error.code !== 'PGRST116') throw new Error(`Settings: ${settingsRes.error.message}`);
-            if (solutionsRes.error) throw new Error(`Solutions: ${solutionsRes.error.message}`);
-            // ... (check other errors)
-
-            const settings = settingsRes.data;
-            const solutions = solutionsRes.data;
-            const projects = projectsRes.data;
-            const testimonials = testimonialsRes.data;
-            const reels = reelsRes.data;
-            const blogPosts = blogPostsRes.data;
-
-            console.log("Fresh data fetched from Supabase.");
-
-            // Render the fresh data
-            renderWebsiteContent(settings, solutions, projects, testimonials, reels, blogPosts);
-
-            // 3. Update IndexedDB with fresh data (do this *after* rendering)
-            if (db) {
-                console.log("Updating IndexedDB cache with fresh data...");
-                await Promise.all([
-                    settings ? saveData(db, 'website_settings', settings) : Promise.resolve(), // Save single object
-                    saveData(db, 'solutions', solutions || []),
-                    saveData(db, 'projects', projects || []),
-                    saveData(db, 'testimonials', testimonials || []),
-                    saveData(db, 'reels', reels || []),
-                    saveData(db, 'blog_posts', blogPosts || [])
-                ]).catch(cacheError => {
-                     console.error("Error updating IndexedDB cache:", cacheError);
-                     // Non-critical error, site is already rendered with fresh data
-                });
-            }
-
-        } catch (error) {
-            console.error("Error fetching from Supabase:", error);
-            if (!isDataFromCache) { // Only show error if nothing loaded from cache
-                alert(`Erro CRÍTICO ao carregar conteúdo: ${error.message}\nTente recarregar a página.`);
-                // Display error state on placeholders if cache didn't load
-                 elementsToUpdate.forEach(el => { if (el.tagName !== 'IMG') el.textContent = `[Erro DB]`; else {el.src='placeholder-error.png'; el.alt='Erro DB';} el.classList.remove('loading-placeholder');});
-                 gridPlaceholders.forEach(el => el.textContent = 'Erro ao carregar itens.');
-            } else {
-                console.warn("Supabase fetch failed, but showing cached data.");
-                // Keep showing cached data, maybe indicate staleness?
-                if (offlineStatusIndicator) {
-                    offlineStatusIndicator.textContent = 'Usando dados offline';
-                    offlineStatusIndicator.className = 'offline';
-                    offlineStatusIndicator.style.display = 'block';
-                }
-            }
-        }
-    } else if (!isDataFromCache) {
-        // Offline and no cache - show definitive error state
-        console.log("Offline and no cache available.");
-         elementsToUpdate.forEach(el => { if (el.tagName !== 'IMG') el.textContent = `[Offline - Sem Cache]`; else {el.src='placeholder-error.png'; el.alt='Offline - Sem Cache';} el.classList.remove('loading-placeholder');});
-         gridPlaceholders.forEach(el => el.textContent = 'Offline e sem dados locais.');
+    try {
+         const { error: dbError } = await supabase.from(tableName).delete().eq('id', id);
+         if (dbError) throw dbError;
+         if (imageUrl && imageUrl !== 'null' && imageUrl !== '') await deleteFile(imageUrl); // Delete associated image
+         console.log(`Item ${id} from ${tableName} deleted.`);
+         listItemElement.remove();
+    } catch (error) {
+        console.error(`Error deleting ${id} from ${tableName}:`, error);
+        showStatus(statusElement, `Erro: ${error.message}`, 'error');
+        setLoading(button, false); // Re-enable button on error
     }
 }
 
-// --- RENDER Website Content ---
-// This function takes the data (from cache or Supabase) and updates the DOM
-function renderWebsiteContent(settings, solutions, projects, testimonials, reels, blogPosts) {
-    console.log("Rendering website content...");
+async function handleAddItem(event) {
+    // ... (same as before - handles adding new items) ...
+     event.preventDefault();
+     if (!supabase) return;
+     const form = event.target;
+     const tableName = form.dataset.table;
+     const type = tableName === 'blog_posts' ? 'blog' : tableName;
+     const statusElementId = `status-add-${type}`;
+     const addButton = form.querySelector('button[type="submit"]');
+     setLoading(addButton, true);
+     showStatus(statusElementId, 'Adicionando...', 'loading');
 
-    // --- Update Single Elements ---
-    if (settings) {
-        const siteLogo = document.getElementById('site-logo');
-        const footerLogo = document.getElementById('footer-logo');
-        if (siteLogo) { siteLogo.src = settings.site_logo_url || 'placeholder-logo.png'; siteLogo.alt = 'Logo Fortlev Solar'; }
-        if (footerLogo) { footerLogo.src = settings.site_logo_url || 'placeholder-logo.png'; footerLogo.alt = 'Logo Fortlev Solar Footer'; }
+     try {
+         const formData = new FormData(form);
+         const itemData = {};
+         let imageFile = null;
+         let imageInputName = '';
 
-        const heroSection = document.getElementById('home');
-        if (heroSection && settings.hero_bg_image_url) {
-            heroSection.style.backgroundImage = `linear-gradient(rgba(0, 86, 179, 0.85), rgba(0, 86, 179, 0.85)), url('${settings.hero_bg_image_url}')`;
-        } else if (heroSection) {
-             heroSection.style.backgroundImage = `linear-gradient(rgba(0, 86, 179, 0.85), rgba(0, 86, 179, 0.85))`; // Color only
-             heroSection.style.backgroundColor = '#0056b3';
-        }
+          for (let [key, value] of formData.entries()) {
+              if (key.endsWith('_file') && value instanceof File && value.size > 0) {
+                  imageFile = value; imageInputName = key;
+              } else if (key === 'features_text') { // Handle features textarea
+                  itemData['features'] = value.split('\n').map(f => f.trim()).filter(Boolean);
+              } else if (key === 'published_at_input') {
+                  itemData['published_at'] = value ? new Date(value).toISOString() : null; // Use null if empty for publish now
+              } else if (!key.endsWith('_file') && !key.endsWith('_input')) {
+                 itemData[key] = value === '' ? null : value;
+              }
+          }
 
-        const heroTitleEl = document.getElementById('hero-title');
-        const heroSubtitleEl = document.getElementById('hero-subtitle');
-        const heroTextEl = document.getElementById('hero-text');
-        const aboutImageEl = document.getElementById('about-image');
-        const aboutTitleEl = document.getElementById('about-title');
-        const aboutTextEl = document.getElementById('about-text');
+         let imageUrlColumn = null;
+         if (imageInputName === 'image_file') imageUrlColumn = 'image_url';
+         else if (imageInputName === 'thumbnail_file') imageUrlColumn = 'thumbnail_url';
 
-        if(heroTitleEl) heroTitleEl.textContent = settings.hero_title || 'Título Principal';
-        if(heroSubtitleEl) heroSubtitleEl.textContent = settings.hero_subtitle || 'Subtítulo';
-        if(heroTextEl) heroTextEl.textContent = settings.hero_text || 'Texto Principal';
-        if(aboutImageEl) { aboutImageEl.src = settings.about_image_url || 'placeholder-about.png'; aboutImageEl.alt = settings.about_title || 'Consultor Rogério'; }
-        if(aboutTitleEl) aboutTitleEl.textContent = settings.about_title || 'Sobre Título';
-        if(aboutTextEl) aboutTextEl.textContent = settings.about_text || 'Sobre Texto';
+          if (imageFile && imageUrlColumn) {
+              const imageUrl = await uploadFile(imageFile, tableName); // Upload to folder named after table
+              itemData[imageUrlColumn] = imageUrl;
+          }
 
-    } else { // Handle case where settings might be null/undefined
-        console.warn("Settings data is missing, using defaults.");
-        document.getElementById('hero-title').textContent = 'Título Principal Padrão';
-        // ... set other defaults ...
-    }
-     document.querySelectorAll('#hero-title, #hero-subtitle, #hero-text, #about-title, #about-text').forEach(el => el?.classList.remove('loading-placeholder'));
+         if (itemData.order_index) itemData.order_index = parseInt(itemData.order_index, 10) || 0;
+         if (itemData.rating) itemData.rating = parseInt(itemData.rating, 10) || 5;
+         if(tableName === 'blog_posts' && !itemData.slug && itemData.title) { // Auto-generate slug
+             itemData.slug = itemData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+             if(!itemData.slug) itemData.slug = `post-${Date.now()}`; // Fallback slug
+         }
 
+          const { data, error } = await supabase.from(tableName).insert([itemData]).select();
+          if (error) {
+              if (error.code === '23505' && error.message.includes('slug')) { throw new Error('O "Slug (URL amigável)" já existe. Escolha outro.'); }
+              if (error.code === '23502') { const match = error.message.match(/null value in column "(\w+)"/); throw new Error(`Campo obrigatório "${match ? match[1] : 'desconhecido'}" não pode ser vazio.`); }
+              throw error;
+          }
 
-    // --- Update Lists ---
-    renderListItems('solutions-grid', solutions, createSolutionHTML);
-    renderListItems('projects-grid', projects, createProjectHTML);
-    renderListItems('testimonials-grid', testimonials, createTestimonialHTML);
-    renderListItems('reels-grid', reels, createReelHTML);
-    renderListItems('blog-grid', blogPosts, createBlogPostHTML);
+          console.log(`New ${type} added:`, data);
+          showStatus(statusElementId, 'Item adicionado!', 'success');
+          form.reset();
+          loadAdminData(); // Reload list
 
-    // --- Re-initialize scroll animations after content is potentially updated ---
-    setupScrollAnimations();
-    // Re-initialize stats counter if needed (it's static in this version)
-    setupStatsCounters();
-
+     } catch (error) {
+          console.error(`Error adding ${type}:`, error);
+          showStatus(statusElementId, `Erro: ${error.message}`, 'error');
+     } finally {
+          setLoading(addButton, false);
+          const fileInput = form.querySelector('input[type="file"]');
+          if (fileInput) fileInput.value = '';
+     }
 }
 
-// --- Helper Functions for Rendering Lists ---
-function renderListItems(gridId, items, createHTMLFunc) {
-    const grid = document.getElementById(gridId);
-    if (!grid) return;
+async function handleSaveSettings(event) {
+    // ... (same as before - handles saving settings/about sections) ...
+      event.preventDefault();
+      if (!supabase) return;
+      const form = event.target;
+      const tableName = form.dataset.table; // 'website_settings'
+      const recordId = parseInt(form.dataset.id, 10); // 1
+      const statusElementId = form.id.replace('admin-form-', 'status-');
+      const saveButton = form.querySelector('button[type="submit"]');
+      if (!tableName || isNaN(recordId)) { alert("Erro: Formulário sem config."); return; }
 
-    grid.innerHTML = ''; // Clear placeholder or previous content
-    grid.classList.remove('grid-placeholder');
+      setLoading(saveButton, true);
+      showStatus(statusElementId, 'Salvando...', 'loading');
 
-    if (!items || items.length === 0) {
-        grid.innerHTML = `<p class="text-center text-gray-500 col-span-full py-8">Nenhum item encontrado.</p>`;
+      try {
+          const formData = new FormData(form);
+          const updates = {};
+          let fileToUpload = null;
+          let dbImageColumn = null;
+          let currentImageUrl = form.querySelector(`input[type="hidden"][name$="_url"]`)?.value || '';
+
+          for (let [key, value] of formData.entries()) {
+              if (key.endsWith('_file') && value instanceof File && value.size > 0) {
+                  fileToUpload = value;
+                  dbImageColumn = key.replace('_file', '_url');
+                   if (dbImageColumn === 'hero_bg_url') dbImageColumn = 'hero_bg_image_url';
+                   currentImageUrl = form.querySelector(`input[name="${dbImageColumn}"]`)?.value || '';
+              } else if (!key.endsWith('_file') && !key.endsWith('_url')) {
+                  updates[key] = value === '' ? null : value;
+              }
+          }
+
+          let newImageUrl = null; // Define outside the if block
+          if (fileToUpload && dbImageColumn) {
+               if (currentImageUrl) await deleteFile(currentImageUrl);
+               newImageUrl = await uploadFile(fileToUpload, dbImageColumn.replace('_url','').replace('_image',''));
+               updates[dbImageColumn] = newImageUrl;
+               // Update hidden input immediately
+               const hiddenUrlInput = form.querySelector(`input[name="${dbImageColumn}"]`);
+               if(hiddenUrlInput) hiddenUrlInput.value = newImageUrl;
+               // Update preview immediately
+               const previewImg = form.querySelector(`#admin-${dbImageColumn.replace('_url','').replace('_image','')}-preview`);
+               if(previewImg) previewImg.src = newImageUrl;
+          }
+
+          if (Object.keys(updates).length > 0 || newImageUrl) { // Check if there are text updates OR a new image was uploaded
+              console.log(`Updating ${tableName} (ID: ${recordId}):`, updates);
+              const { data, error } = await supabase.from(tableName).update(updates).eq('id', recordId).select();
+              if (error) throw error;
+              console.log("Update successful:", data);
+          } else {
+              console.log("Nenhuma alteração detectada para salvar.");
+          }
+
+          showStatus(statusElementId, 'Salvo com sucesso!', 'success');
+
+      } catch (error) {
+           console.error(`Error saving ${form.id}:`, error);
+           showStatus(statusElementId, `Erro: ${error.message}`, 'error');
+      } finally {
+           setLoading(saveButton, false);
+           const fileInput = form.querySelector('input[type="file"]');
+           if(fileInput) fileInput.value = '';
+      }
+}
+
+// --- Initial Setup for Admin Panel ---
+document.addEventListener('DOMContentLoaded', () => {
+    const currentYearAdmin = document.getElementById('current-year-admin');
+    if(currentYearAdmin) currentYearAdmin.textContent = new Date().getFullYear();
+
+    if (!supabase) { // Early exit if Supabase failed
+        authContainer.innerHTML = '<p class="text-red-500 text-center font-bold">Erro: Supabase não configurado. Verifique config.js.</p>';
         return;
     }
 
-    // Sort items if order_index exists
-    const sortedItems = items[0]?.hasOwnProperty('order_index')
-        ? [...items].sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
-        : items;
-
-    sortedItems.forEach(item => {
-        grid.innerHTML += createHTMLFunc(item);
-    });
-}
-
-function createSolutionHTML(item) {
-    const featuresHtml = (item.features || []).map(f => `<li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>${sanitizeHTML(f)}</span></li>`).join('');
-    return `<div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up">
-                <img src="${sanitizeHTML(item.image_url || 'placeholder-solution.png')}" loading="lazy" alt="${sanitizeHTML(item.title || 'Solução')}" class="w-full h-52 object-cover content-img">
-                <div class="p-6 flex flex-col flex-grow">
-                    <div class="flex items-center mb-3">
-                        <div class="bg-fortlevBlue bg-opacity-10 p-2 rounded-full mr-3"><i class="fas fa-puzzle-piece text-fortlevBlue text-lg"></i></div>
-                        <h3 class="text-xl font-semibold text-fortlevDark">${sanitizeHTML(item.title || '')}</h3>
-                    </div>
-                    <p class="text-gray-600 text-sm mb-4 flex-grow">${sanitizeHTML(item.description || '')}</p>
-                    <ul class="text-gray-600 text-xs space-y-2 mb-4">${featuresHtml}</ul>
-                </div>
-            </div>`;
-}
-
-function createProjectHTML(item) {
-    return `<div class="relative rounded-lg overflow-hidden shadow-md project-card group animate-on-scroll" data-animation="fade-in">
-                <img src="${sanitizeHTML(item.image_url || 'placeholder-project.png')}" loading="lazy" alt="${sanitizeHTML(item.title || 'Projeto')}" class="w-full h-72 object-cover transform group-hover:scale-105 transition duration-300 content-img">
-                <div class="absolute inset-0 project-overlay flex flex-col justify-end p-6 text-white">
-                    <h3 class="text-xl font-bold mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">${sanitizeHTML(item.title || '')}</h3>
-                    <p class="text-sm mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200"><i class="fas fa-solar-panel mr-1 opacity-70"></i> ${sanitizeHTML(item.kwp || '')}</p>
-                    <p class="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-300"><i class="fas fa-coins mr-1 opacity-70"></i> ${sanitizeHTML(item.savings || '')}</p>
-                </div>
-            </div>`;
-}
-
-function createTestimonialHTML(item) {
-    let starsHtml = Array(5).fill(0).map((_, i) => `<i class="fas fa-star ${i < (item.rating || 0) ? 'text-yellow-400' : 'text-gray-300'} ml-1"></i>`).join('');
-    return `<div class="bg-white p-6 rounded-lg testimonial-card animate-on-scroll" data-animation="slide-up">
-                <div class="flex items-center mb-4">
-                    <img src="${sanitizeHTML(item.image_url || 'placeholder-person.png')}" loading="lazy" alt="Cliente ${sanitizeHTML(item.name || '')}" class="w-14 h-14 rounded-full mr-4 border-2 border-fortlevOrange p-0.5 object-cover content-img">
-                    <div>
-                        <h4 class="font-semibold text-fortlevDark">${sanitizeHTML(item.name || '')}</h4>
-                        <p class="text-sm text-gray-500">${sanitizeHTML(item.location || '')}</p>
-                        <div class="flex text-sm mt-1">${starsHtml}</div>
-                    </div>
-                </div>
-                <p class="text-gray-600 italic text-sm leading-relaxed">"${sanitizeHTML(item.quote || '')}"</p>
-            </div>`;
-}
-
-function createReelHTML(item) {
-    return `<div class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-reel-url="${sanitizeHTML(item.video_url || '#')}">
-                <img src="${sanitizeHTML(item.thumbnail_url || 'placeholder-reel.png')}" loading="lazy" alt="${sanitizeHTML(item.title || 'Reel')}" class="w-full h-full object-cover content-img">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                    <h3 class="text-white font-medium text-xs truncate">${sanitizeHTML(item.title || '')}</h3>
-                </div>
-            </div>`;
-}
-
-function createBlogPostHTML(item) {
-     const pubDate = item.published_at ? new Date(item.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric'}) : 'N/A';
-     const words = item.excerpt?.split(' ').length || 0;
-     const readTime = Math.ceil(words / 200);
-     // IMPORTANT: Replace href="#" with actual link structure, e.g., `blog/${item.slug}.html` if using static generation
-     return `<article class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up">
-                 <a href="#" class="block">
-                    <img src="${sanitizeHTML(item.image_url || 'placeholder-blog.png')}" loading="lazy" alt="${sanitizeHTML(item.title || 'Blog Post')}" class="w-full h-52 object-cover content-img">
-                 </a>
-                 <div class="p-6 flex flex-col flex-grow">
-                     <div class="flex items-center text-xs text-gray-500 mb-3">
-                         <span class="mr-3"><i class="far fa-calendar-alt mr-1"></i>${pubDate}</span>
-                         <span><i class="far fa-clock mr-1"></i>${readTime} min</span>
-                     </div>
-                     <h3 class="text-lg font-semibold text-fortlevDark mb-3 flex-grow"><a href="#" class="hover:text-fortlevOrange transition">${sanitizeHTML(item.title || '')}</a></h3>
-                     <p class="text-gray-600 text-sm mb-4">${sanitizeHTML(item.excerpt || '')}</p>
-                     <a href="#" class="text-fortlevOrange font-medium inline-flex items-center text-sm mt-auto"> Ler Mais <i class="fas fa-arrow-right ml-2 text-xs"></i> </a>
-                 </div>
-             </article>`;
-}
-
-// Basic HTML Sanitizer (prevent XSS from DB content)
-function sanitizeHTML(str) {
-    if (!str) return '';
-    const temp = document.createElement('div');
-    temp.textContent = str;
-    return temp.innerHTML;
-}
-
-// --- Scroll Animation Setup ---
-function setupScrollAnimations() {
-    const animatedElements = document.querySelectorAll(".animate-on-scroll");
-    if (!animatedElements.length) return;
-
-    const scrollObserverOptions = { threshold: 0.1, rootMargin: "0px 0px -30px 0px" };
-    const scrollObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.classList.contains('animated-fade-in') && !entry.target.classList.contains('animated-slide-up')) {
-                const element = entry.target;
-                const animationType = element.dataset.animation || "fade-in";
-                const delay = element.dataset.animationDelay || "0";
-                element.style.transitionDelay = `${delay}ms`;
-                element.classList.add(animationType === "slide-up" ? "animated-slide-up" : "animated-fade-in");
-                element.style.opacity = 1;
-                observer.unobserve(element);
-            }
-        });
-    }, scrollObserverOptions);
-    animatedElements.forEach(el => { scrollObserver.observe(el); });
-}
-
-// --- Stats Counter Setup ---
-function setupStatsCounters() {
-     const statsCounters = document.querySelectorAll("[data-count]");
-     if (!statsCounters.length) return;
-
-     const countUp = (element, target, duration = 2000) => {
-         let start = 0;
-         const increment = target / (duration / 16); // Calculate increment per frame (approx 60fps)
-         const timer = setInterval(() => {
-             start += increment;
-             if (start >= target) {
-                 clearInterval(timer);
-                 element.textContent = target; // Ensure final value is exact
-             } else {
-                 element.textContent = Math.ceil(start);
-             }
-         }, 16); // Run roughly every frame
-     };
-
-     const statsObserver = new IntersectionObserver((entries, observer) => {
-         entries.forEach(entry => {
-             if (entry.isIntersecting) {
-                 const counter = entry.target;
-                 // Check if already counted to prevent re-triggering
-                 if(counter.dataset.counted) return;
-
-                 const targetCount = +counter.dataset.count;
-                 if (!isNaN(targetCount)) {
-                      countUp(counter, targetCount);
-                      counter.dataset.counted = 'true'; // Mark as counted
-                 }
-                 observer.unobserve(counter); // Unobserve after counting
-             }
-         });
-     }, { threshold: 0.5 });
-
-     statsCounters.forEach(counter => {
-         counter.textContent = '0'; // Reset to 0 initially
-         delete counter.dataset.counted; // Ensure it can count again if observed again (though we unobserve)
-         statsObserver.observe(counter);
-     });
-}
-
-// --- Other Event Listeners and Initializations ---
-document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize IndexedDB
-    await initDB();
-
-    // Load content (tries cache first, then Supabase)
-    await loadWebsiteContent();
-
-    // Setup non-Supabase JS after initial content might be rendered
-    // Mobile Menu
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-    menuToggle?.addEventListener("click", () => { mobileMenu.classList.toggle("hidden"); menuToggle.querySelector("i").classList.toggle("fa-bars"); menuToggle.querySelector("i").classList.toggle("fa-times"); });
-    mobileMenu?.querySelectorAll("a").forEach(e => { e.addEventListener("click", () => { mobileMenu.classList.add("hidden"); menuToggle.querySelector("i").classList.remove("fa-times"); menuToggle.querySelector("i").classList.add("fa-bars"); }) });
-
-    // FAQ Accordion
-    const faqQuestions = document.querySelectorAll(".faq-question");
-    faqQuestions.forEach(e => { e.addEventListener("click", () => { const t = e.nextElementSibling, o = e.classList.contains("open"); e.classList.toggle("open", !o); t.classList.toggle("hidden", o); }) });
-
-    // Footer Year
-    const currentYearEl = document.getElementById("current-year");
-    if (currentYearEl) currentYearEl.textContent = (new Date).getFullYear();
-
-    // Calculator
-    const calculateBtn = document.getElementById("calculate-btn");
-    calculateBtn?.addEventListener("click", () => { const e = document.getElementById("calc-consumption"), t = document.getElementById("calc-tariff"), o = document.getElementById("calculator-result"), n = document.getElementById("savings-result"), a = document.getElementById("system-size"), l = document.getElementById("payback"), s = parseFloat(e.value), i = parseFloat(t.value); if (!isNaN(s) && s > 0 && !isNaN(i) && i > 0) { const c = 115, d = Math.ceil(s / c * 10) / 10, r = s * i * .93, u = 4800, m = d * u, f = 12 * r, p = (m / f).toFixed(1); n.textContent = `R$ ${r.toFixed(2).replace(".", ",")}`, a.textContent = `${d.toFixed(1).replace(".", ",")} kWp`, l.textContent = `${p.replace(".", ",")} anos`, o.classList.remove("hidden") } else o.classList.add("hidden"), isNaN(s) || s <= 0 ? (e.focus(), alert("Insira consumo válido.")) : (isNaN(i) || i <= 0) && (t.focus(), alert("Insira tarifa válida.")) });
-
-    // Video Modal Placeholder Click (needs real implementation)
-    document.body.addEventListener('click', function(event) {
-        const thumb = event.target.closest('.video-thumbnail, .reel-thumbnail');
-        if(thumb) {
-            const videoUrl = thumb.dataset.reelUrl || thumb.dataset.videoUrl; // Get URL from appropriate attribute
-            if (videoUrl && videoUrl !== '#') {
-                console.log("Open video modal for:", videoUrl);
-                // Replace alert with your lightbox/modal library initialization
-                alert(`Simulação: Abrir vídeo ${videoUrl}\n(Implementar Lightbox/Modal)`);
-            } else {
-                console.warn("No valid video URL found for this thumbnail.");
-            }
-        }
+    // Check initial auth state & Set up listener
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        updateUI(session?.user ?? null);
+    }).catch(err => {
+        console.error("Error getting initial session:", err);
+        updateUI(null);
     });
 
-    // Contact Form Submission (Static - No DB interaction here)
-    const contactForm = document.getElementById("contact-form"), formStatus = document.getElementById("form-status");
-    contactForm?.addEventListener("submit", (async e => { e.preventDefault(), formStatus.textContent = "Enviando...", formStatus.className = "text-sm mt-4 text-center text-gray-600"; const t = contactForm.querySelector('button[type="submit"]'); t.disabled = !0, t.classList.add("opacity-50", "cursor-not-allowed"); new FormData(contactForm); try { await new Promise((e => setTimeout(e, 1500))), formStatus.textContent = "Mensagem enviada!", formStatus.className = "text-sm mt-4 text-center text-green-600", contactForm.reset() } catch (e) { console.error("Form error:", e), formStatus.textContent = "Erro ao enviar.", formStatus.className = "text-sm mt-4 text-center text-red-600" } finally { t.disabled = !1, t.classList.remove("opacity-50", "cursor-not-allowed") } }));
+    supabase.auth.onAuthStateChange((_event, session) => {
+        console.log("Admin auth state changed:", _event);
+        updateUI(session?.user ?? null);
+    });
 
-     // Listen to online/offline changes
-     window.addEventListener('online', updateOnlineStatus);
-     window.addEventListener('offline', updateOnlineStatus);
-     updateOnlineStatus(); // Initial check
+    // --- Form Event Listeners ---
+    loginForm?.addEventListener('submit', handleLogin);
+    logoutButton?.addEventListener('click', handleLogout);
+
+    // Settings Forms
+    document.getElementById('admin-form-settings')?.addEventListener('submit', handleSaveSettings);
+    document.getElementById('admin-form-about')?.addEventListener('submit', handleSaveSettings);
+
+    // "Add New" Forms for Lists
+    document.getElementById('add-solution-form')?.addEventListener('submit', (e) => handleAddItem(e, 'solutions'));
+    document.getElementById('add-project-form')?.addEventListener('submit', (e) => handleAddItem(e, 'projects'));
+    document.getElementById('add-testimonial-form')?.addEventListener('submit', (e) => handleAddItem(e, 'testimonials'));
+    document.getElementById('add-reel-form')?.addEventListener('submit', (e) => handleAddItem(e, 'reels'));
+    document.getElementById('add-blog-form')?.addEventListener('submit', (e) => handleAddItem(e, 'blog'));
+
+    // Edit/Delete listeners are added dynamically in renderAdminList
 
 }); // End DOMContentLoaded
