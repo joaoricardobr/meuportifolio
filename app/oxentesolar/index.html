@@ -1,176 +1,1177 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rogério - Consultor Oficial Fortlev Solar</title>
-    <meta name="description" content="Consultor oficial Fortlev Solar (28) 99966-2264. Projetos de energia solar, vídeos, blog e mais.">
-    <!-- Tailwind CSS via CDN -->
+    <title>Oxente Energia Solar</title> <!-- Título simplificado -->
+    <meta name="description" content="Consultor Fortlev Solar (28) 99966-2264. Energia solar residencial e comercial. Orçamento gratuito."> <!-- Descrição mais direta -->
+    <!-- Scripts and Links (Tailwind, Font Awesome, Fonts) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome via CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Link to Shared CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Supabase JS Library via CDN (needed before main.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Tailwind Config (Keep it here or move to a separate config if Tailwind CLI is used) -->
-    <script> tailwind.config = { theme: { extend: { colors: { fortlevBlue: '#0056b3', fortlevOrange: '#ff6d00', fortlevDark: '#1a2b3c', }, animation: { 'fade-in': 'fadeIn 1s ease-in-out forwards', 'slide-up': 'slideUp 0.8s ease-out forwards', 'pulse': 'pulse 2s infinite', }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }, pulse: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.05)' } } }, aspectRatio: { '9/16': '9 / 16', }, } } } </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fortlevBlue: '#0056b3',
+                        fortlevOrange: '#ff6d00',
+                        fortlevDark: '#1a2b3c',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-in-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'pulse': 'pulse 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulse: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        }
+                    },
+                    aspectRatio: {
+                        '9/16': '9 / 16',
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; overflow-x: hidden; background-color: #f8f9fa; color: #1a2b3c; position: relative; }
+        .hero-section { background: linear-gradient(rgba(0, 86, 179, 0.85), rgba(0, 86, 179, 0.85)), var(--hero-bg-image, url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')) no-repeat center center/cover; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+        .project-card .project-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%); opacity: 0; transition: opacity 0.3s ease-in-out; } /* Overlay padrão */
+        .project-card:hover .project-overlay { opacity: 1; }
+        .video-thumbnail:hover .play-icon, .reel-thumbnail:hover .play-icon { transform: scale(1.1); opacity: 1; }
+        .video-thumbnail:hover img, .reel-thumbnail:hover img { filter: brightness(0.7); }
+        .testimonial-card:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+        .nav-link:hover { color: #ff6d00; }
+        .animate-on-scroll { opacity: 0; transition: opacity 1s ease-in-out, transform 0.8s ease-out; }
+        .animated-fade-in { animation-name: fadeIn; animation-duration: 1s; animation-timing-function: ease-in-out; animation-fill-mode: forwards; }
+        .animated-slide-up { animation-name: slideUp; animation-duration: 0.8s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
+        input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 2px #ff6d00; border-color: #ff6d00; }
+        .faq-question.open i { transform: rotate(180deg); }
+        img { display: block; max-width: 100%; height: auto; } /* Improved img defaults */
+        img[data-real-src] { background-color: #e9ecef; min-height: 50px; } /* Placeholder style */
+
+        /* REMOVIDO: Estilos do painel de admin (#admin-icon, #admin-panel, etc.) */
+    </style>
 </head>
 <body class="bg-gray-100 text-fortlevDark">
-    <!-- Header/Navigation -->
+
+    <!-- ========================== -->
+    <!--          CABEÇALHO         -->
+    <!-- ========================== -->
     <header id="main-header" class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#home" class="flex items-center">
-                <img id="site-logo" src="placeholder-logo.png" data-content-key="site_logo_url" alt=" Logo" class="h-10 md:h-12 content-img">
-                <span class="ml-3 text-lg md:text-xl font-semibold text-fortlevDark">Rogério <span class="font-light text-sm block text-gray-500 -mt-1">Consultor Oficial</span></span>
+            <a href="#inicio" class="flex items-center">
+                <!-- LOGO -->
+                <img id="site-logo" src="https://images.unsplash.com/photo-1631771819642-90cee9a2ccac?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Logo Fortlev Solar" class="h-10 md:h-12"> <!-- Adicionado alt text -->
+                <span class="ml-3 text-lg md:text-xl font-semibold text-fortlevDark">Oxente <span class="font-light text-sm block text-gray-500 -mt-1">Energia Solar</span></span>
             </a>
+            <!-- Links de Navegação (Desktop) -->
             <nav class="hidden md:flex space-x-6 lg:space-x-8">
-                <a href="#home" class="nav-link text-fortlevDark font-medium">Início</a>
-                <a href="#about" class="nav-link text-fortlevDark font-medium">Sobre</a>
-                <a href="#solutions" class="nav-link text-fortlevDark font-medium">Soluções</a>
-                <a href="#projects" class="nav-link text-fortlevDark font-medium">Projetos</a>
-                <a href="#reels" class="nav-link text-fortlevDark font-medium">Vídeos</a>
-                <a href="#blog" class="nav-link text-fortlevDark font-medium">Blog</a>
-                <a href="#contact" class="nav-link text-fortlevDark font-medium">Contato</a>
-                <a href="painel.html" target="_blank" class="nav-link text-sm text-gray-500 hover:text-fortlevOrange" title="Acesso Administrativo"><i class="fas fa-cog"></i></a>
+                 <a href="#inicio" class="nav-link text-fortlevDark font-medium">Início</a>
+                 <a href="#sobre" class="nav-link text-fortlevDark font-medium">Sobre</a>
+                 <a href="#solucoes" class="nav-link text-fortlevDark font-medium">Soluções</a>
+                 <a href="#projetos" class="nav-link text-fortlevDark font-medium">Projetos</a>
+                 <a href="#videos" class="nav-link text-fortlevDark font-medium">Vídeos</a>
+                 <a href="#blog" class="nav-link text-fortlevDark font-medium">Blog</a>
+                 <a href="#contato" class="nav-link text-fortlevDark font-medium">Contato</a>
             </nav>
-             <div class="flex items-center">
-                <div class="md:hidden"> <button id="menu-toggle" aria-label="Toggle Menu" class="text-fortlevDark focus:outline-none p-2"> <i class="fas fa-bars text-xl"></i> </button> </div>
-                 <a href="painel.html" target="_blank" class="md:hidden nav-link text-sm text-gray-500 hover:text-fortlevOrange ml-3" title="Acesso Administrativo"><i class="fas fa-cog"></i></a>
-             </div>
+            <div class="flex items-center">
+                <!-- REMOVIDO: Ícone de Admin -->
+                <!-- Botão Menu Mobile -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" aria-label="Abrir Menu" class="text-fortlevDark focus:outline-none p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+         <!-- Menu Mobile -->
         <div id="mobile-menu" class="hidden md:hidden bg-white absolute top-full left-0 right-0 shadow-lg border-t border-gray-200 z-40">
-            <a href="#home" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Início</a>
-            <a href="#about" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Sobre</a>
-            <a href="#solutions" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Soluções</a>
-            <a href="#projects" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Projetos</a>
-            <a href="#reels" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Vídeos</a>
-            <a href="#blog" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Blog</a>
-            <a href="#contact" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Contato</a>
-             <a href="painel.html" target="_blank" class="block py-3 px-4 text-sm text-gray-600 font-medium hover:bg-gray-100 hover:text-fortlevOrange transition"><i class="fas fa-cog mr-2"></i>Admin</a>
+             <a href="#inicio" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Início</a>
+             <a href="#sobre" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Sobre</a>
+             <a href="#solucoes" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Soluções</a>
+             <a href="#projetos" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Projetos</a>
+             <a href="#videos" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Vídeos</a>
+             <a href="#blog" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Blog</a>
+             <a href="#contato" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">Contato</a>
+             <a href="#faq" class="block py-3 px-4 text-fortlevDark font-medium hover:bg-gray-100 hover:text-fortlevOrange transition">FAQ</a>
         </div>
     </header>
 
-    <main id="main-content">
-        <!-- Hero Section -->
-        <section id="home" class="hero-section text-white pt-24 pb-20 md:pt-32 md:pb-28">
-             <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12"> <div class="md:w-1/2 text-center md:text-left animate-on-scroll" data-animation="fade-in"> <h1 id="hero-title" data-content-key="hero_title" class="loading-placeholder text-4xl lg:text-5xl font-bold mb-4 leading-tight"></h1> <h2 id="hero-subtitle" data-content-key="hero_subtitle" class="loading-placeholder text-2xl lg:text-3xl font-semibold mb-6 text-orange-300"></h2> <p id="hero-text" data-content-key="hero_text" class="loading-placeholder text-lg mb-8 opacity-90"></p> <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"> <a href="#contact" class="bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 transform hover:scale-105 pulse-animation inline-flex items-center justify-center"> <i class="fas fa-solar-panel mr-2"></i> Solicite Orçamento Gratuito </a> <a href="https://wa.me/5528999662264?text=Olá%20Rogério,%20vi%20seu%20site%20e%20gostaria%20de%20mais%20informações%20sobre%20energia%20solar%20Fortlev." target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 transform hover:scale-105 inline-flex items-center justify-center"> <i class="fab fa-whatsapp mr-2"></i> Fale Agora (WhatsApp) </a> </div> </div> <div class="md:w-1/2 flex justify-center w-full max-w-md mx-auto animate-on-scroll" data-animation="slide-up" data-animation-delay="200"> <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full text-fortlevDark"> <div class="bg-fortlevBlue text-white py-3 px-5"> <h3 class="font-bold text-lg text-center">Calculadora Solar Rápida</h3> <p class="text-sm text-center opacity-80">Descubra sua economia potencial</p> </div> <div class="p-5"> <div class="mb-4"> <label class="block text-gray-700 text-sm font-medium mb-1" for="calc-consumption">Consumo mensal (kWh)</label> <input type="number" id="calc-consumption" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ex: 300"> </div> <div class="mb-4"> <label class="block text-gray-700 text-sm font-medium mb-1" for="calc-tariff">Tarifa (R$/kWh)</label> <input type="number" step="0.01" id="calc-tariff" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ex: 0.85"> </div> <button id="calculate-btn" class="w-full bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-2.5 px-4 rounded-md transition duration-300"> Calcular Economia Estimada </button> <div id="calculator-result" class="mt-4 p-3 bg-gray-100 rounded-md hidden border border-gray-200"> <h4 class="font-semibold text-fortlevBlue mb-2">Estimativa:</h4> <p class="text-gray-700 text-sm"><strong class="text-lg text-green-600" id="savings-result">R$ 0,00</strong> economia/mês</p> <p class="text-gray-600 text-xs mt-1">Sistema: ~<span id="system-size">0</span> kWp | Retorno: ~<span id="payback">0</span> anos</p> <p class="text-xs text-gray-500 mt-2">*Valores aproximados.</p> </div> </div> </div> </div> </div>
+    <!-- REMOVIDO: Painel de Admin Visual -->
+
+    <main>
+        <!-- ========================== -->
+        <!--         SEÇÃO: INÍCIO       -->
+        <!-- ========================== -->
+        <section id="inicio" class="hero-section text-white pt-24 pb-20 md:pt-32 md:pb-28">
+             <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+                 <!-- Coluna de Texto -->
+                 <div class="md:w-1/2 text-center md:text-left animate-on-scroll" data-animation="fade-in">
+                     <h1 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Transforme Sol em Economia</h1>
+                     <h2 class="text-2xl lg:text-3xl font-semibold mb-6 text-orange-300">Com a Oxente Energia Solar, seu Consultor Oficial Fortlev Solar</h2>
+                     <p class="text-lg mb-8 opacity-90">Soluções personalizadas em energia solar para residências e empresas. Economize até 95% na sua conta de luz com tecnologia de ponta.</p>
+                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                         <a href="#contato" class="bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 transform hover:scale-105 pulse-animation inline-flex items-center justify-center">
+                             <i class="fas fa-solar-panel mr-2"></i> Solicite Orçamento Gratuito
+                         </a>
+                         <a href="https://wa.me/5528999662264?text=Olá%20Rogério,%20vi%20seu%20site%20e%20gostaria%20de%20mais%20informações%20sobre%20energia%20solar%20Fortlev." target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-center transition duration-300 transform hover:scale-105 inline-flex items-center justify-center">
+                             <i class="fab fa-whatsapp mr-2"></i> Fale Agora (WhatsApp)
+                         </a>
+                     </div>
+                 </div>
+                 <!-- Coluna da Calculadora -->
+                 <div class="md:w-1/2 flex justify-center w-full max-w-md mx-auto animate-on-scroll" data-animation="slide-up" data-animation-delay="200">
+                     <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full text-fortlevDark">
+                         <div class="bg-fortlevBlue text-white py-3 px-5">
+                             <h3 class="font-bold text-lg text-center">Calculadora Solar Rápida</h3>
+                             <p class="text-sm text-center opacity-80">Descubra sua economia potencial</p>
+                         </div>
+                         <div class="p-5">
+                             <div class="mb-4">
+                                 <label class="block text-gray-700 text-sm font-medium mb-1" for="calc-consumption">Consumo mensal (kWh)</label>
+                                 <input type="number" id="calc-consumption" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ex: 300">
+                             </div>
+                             <div class="mb-4">
+                                 <label class="block text-gray-700 text-sm font-medium mb-1" for="calc-tariff">Tarifa (R$/kWh)</label>
+                                 <input type="number" step="0.01" id="calc-tariff" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Ex: 0.85">
+                             </div>
+                             <button id="calculate-btn" class="w-full bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-2.5 px-4 rounded-md transition duration-300">
+                                Calcular Economia Estimada
+                             </button>
+                             <div id="calculator-result" class="mt-4 p-3 bg-gray-100 rounded-md hidden border border-gray-200">
+                                 <h4 class="font-semibold text-fortlevBlue mb-2">Estimativa:</h4>
+                                 <p class="text-gray-700 text-sm"><strong class="text-lg text-green-600" id="savings-result">R$ 0,00</strong> economia/mês</p>
+                                 <p class="text-gray-600 text-xs mt-1">Sistema: ~<span id="system-size">0</span> kWp | Retorno: ~<span id="payback">0</span> anos</p>
+                                 <p class="text-xs text-gray-500 mt-2">*Valores aproximados para sistema conectado à rede (on-grid).</p> <!-- Nota adicionada -->
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-16 lg:py-20 bg-white">
+        <!-- ========================== -->
+        <!--       SEÇÃO: SOBRE MIM      -->
+        <!-- ========================== -->
+        <section id="sobre" class="py-16 lg:py-20 bg-white">
              <div class="container mx-auto px-4">
-                <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Consultoria Especializada Fortlev Solar</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Ofereço soluções personalizadas com tecnologia de ponta e suporte completo.</p> </div>
+                <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Consultoria Especializada Fortlev Solar</h2>
+                    <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                    <p class="text-gray-600 max-w-3xl mx-auto text-lg">Ofereço soluções personalizadas com tecnologia de ponta e suporte completo.</p>
+                </div>
                 <div class="flex flex-col md:flex-row items-center gap-8 lg:gap-16">
+                    <!-- Imagem do Consultor -->
                     <div class="md:w-1/3 flex justify-center animate-on-scroll" data-animation="fade-in">
                         <div class="relative">
-                            <img id="about-image" data-content-key="about_image_url" src="placeholder-about.png" loading="lazy" alt="Rogério - Consultor Fortlev Solar" class="rounded-lg shadow-xl w-full max-w-xs mx-auto object-cover aspect-square content-img">
-                            <div class="absolute -bottom-4 -right-4 bg-fortlevOrange text-white py-2 px-4 rounded-lg shadow-lg text-center"> <p class="font-bold text-sm">Consultor Oficial</p> <p class="text-xs opacity-90">Certificado Fortlev</p> </div>
+                            <img id="about-image" data-real-src="https://images.unsplash.com/photo-1672863542525-33ce46829448?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Rogério - Consultor Fortlev Solar profissional" class="rounded-lg shadow-xl w-full max-w-xs mx-auto object-cover aspect-square">
+                            <div class="absolute -bottom-4 -right-4 bg-fortlevOrange text-white py-2 px-4 rounded-lg shadow-lg text-center">
+                                <p class="font-bold text-sm">Consultor Oficial</p>
+                                <p class="text-xs opacity-90">Certificado Fortlev</p>
+                            </div>
                         </div>
                     </div>
+                    <!-- Texto Sobre -->
                     <div class="md:w-2/3 animate-on-scroll" data-animation="slide-up" data-animation-delay="200">
-                         <h3 id="about-title" data-content-key="about_title" class="loading-placeholder text-2xl font-bold text-fortlevDark mb-4"></h3>
-                         <p id="about-text" data-content-key="about_text" class="loading-placeholder text-gray-600 mb-6 text-base leading-relaxed"></p>
-                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8"> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-medal text-fortlevBlue text-xl"></i></div> <div> <h4 class="font-semibold text-fortlevDark mb-1">Certificação Oficial</h4> <p class="text-gray-600 text-sm">Profissional treinado.</p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-home text-fortlevBlue text-xl"></i></div> <div> <h4 class="font-semibold text-fortlevDark mb-1">+250 Projetos</h4> <p class="text-gray-600 text-sm">Sistemas instalados.</p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-shield-alt text-fortlevBlue text-xl"></i></div> <div> <h4 class="font-semibold text-fortlevDark mb-1">Garantia e Suporte</h4> <p class="text-gray-600 text-sm">Acompanhamento Fortlev.</p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-leaf text-fortlevBlue text-xl"></i></div> <div> <h4 class="font-semibold text-fortlevDark mb-1">Sustentabilidade</h4> <p class="text-gray-600 text-sm">Reduza sua pegada.</p> </div> </div> </div> <a href="#contact" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-phone-alt mr-2"></i> Agende Consultoria </a>
+                         <h3 id="about-title" class="text-2xl font-bold text-fortlevDark mb-4">Olá, somos a Oxente Energia Solar</h3>
+                         <p id="about-text" class="text-gray-600 mb-6 text-base leading-relaxed">Com experiência no setor de energia solar, sou especialista em projetos residenciais e comerciais, certificado pela Fortlev Solar. Meu compromisso é entregar um sistema eficiente que traga economia real e sustentabilidade para você e sua família ou negócio.</p>
+                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                             <div class="flex items-start">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-medal text-fortlevBlue text-xl"></i></div>
+                                 <div> <h4 class="font-semibold text-fortlevDark mb-1">Certificação Oficial</h4> <p class="text-gray-600 text-sm">Profissional treinado e homologado pela Fortlev.</p> </div>
+                             </div>
+                             <div class="flex items-start">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-clipboard-check text-fortlevBlue text-xl"></i></div> <!-- Ícone alterado -->
+                                 <div> <h4 class="font-semibold text-fortlevDark mb-1">+250 Projetos</h4> <p class="text-gray-600 text-sm">Sistemas instalados com sucesso em diversas localidades.</p> </div>
+                             </div>
+                             <div class="flex items-start">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-shield-alt text-fortlevBlue text-xl"></i></div>
+                                 <div> <h4 class="font-semibold text-fortlevDark mb-1">Garantia e Suporte</h4> <p class="text-gray-600 text-sm">Acompanhamento completo e garantia Fortlev de fábrica.</p> </div>
+                             </div>
+                             <div class="flex items-start">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 shrink-0"><i class="fas fa-leaf text-fortlevBlue text-xl"></i></div>
+                                 <div> <h4 class="font-semibold text-fortlevDark mb-1">Compromisso Sustentável</h4> <p class="text-gray-600 text-sm">Reduza sua pegada de carbono com energia limpa.</p> </div>
+                             </div>
+                         </div>
+                         <a href="#contato" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                             <i class="fas fa-phone-alt mr-2"></i> Agende uma Consultoria
+                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Benefits Section (Static) -->
-        <section class="py-16 lg:py-20 bg-gray-100">
-             <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Vantagens da Energia Solar Fortlev</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Invista em um sistema fotovoltaico com a qualidade e tecnologia Fortlev.</p> </div> <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"> <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up"> <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-money-bill-wave text-fortlevOrange text-3xl"></i></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Economia Imediata</h3> <p class="text-gray-600 text-sm">Reduza sua conta em até 95%.</p> </div> <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="150"> <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-chart-line text-fortlevOrange text-3xl"></i></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Valorização do Imóvel</h3> <p class="text-gray-600 text-sm">Valorize seu patrimônio.</p> </div> <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="300"> <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-leaf text-fortlevOrange text-3xl"></i></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Sustentabilidade Real</h3> <p class="text-gray-600 text-sm">Gere energia 100% limpa.</p> </div> <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="450"> <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-tools text-fortlevOrange text-3xl"></i></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Baixa Manutenção</h3> <p class="text-gray-600 text-sm">Sistemas duráveis e confiáveis.</p> </div> </div> </div>
+        <!-- ========================== -->
+        <!--       SEÇÃO: VANTAGENS      -->
+        <!-- ========================== -->
+        <section id="vantagens" class="py-16 lg:py-20 bg-gray-100">
+              <div class="container mx-auto px-4">
+                  <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                      <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Vantagens da Oxente Energia Solar</h2>
+                      <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                      <p class="text-gray-600 max-w-3xl mx-auto text-lg">Invista em um sistema fotovoltaico com a qualidade e tecnologia Fortlev e comece a economizar.</p>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                      <!-- Card Vantagem 1 -->
+                      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up">
+                          <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-money-bill-wave text-fortlevOrange text-3xl"></i></div>
+                          <h3 class="text-xl font-semibold text-fortlevDark mb-2">Economia Imediata</h3>
+                          <p class="text-gray-600 text-sm">Reduza sua conta de energia em até 95%.</p>
+                      </div>
+                      <!-- Card Vantagem 2 -->
+                      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="150">
+                          <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-chart-line text-fortlevOrange text-3xl"></i></div>
+                          <h3 class="text-xl font-semibold text-fortlevDark mb-2">Valorização do Imóvel</h3>
+                          <p class="text-gray-600 text-sm">Um diferencial que aumenta o valor do seu patrimônio.</p>
+                      </div>
+                      <!-- Card Vantagem 3 -->
+                      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="300">
+                          <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-leaf text-fortlevOrange text-3xl"></i></div>
+                          <h3 class="text-xl font-semibold text-fortlevDark mb-2">Sustentabilidade Real</h3>
+                          <p class="text-gray-600 text-sm">Gere sua própria energia 100% limpa e renovável.</p>
+                      </div>
+                      <!-- Card Vantagem 4 -->
+                      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 card-hover animate-on-scroll text-center" data-animation="slide-up" data-animation-delay="450">
+                          <div class="bg-fortlevOrange bg-opacity-10 p-4 rounded-full inline-block mb-4"><i class="fas fa-tools text-fortlevOrange text-3xl"></i></div>
+                          <h3 class="text-xl font-semibold text-fortlevDark mb-2">Baixa Manutenção</h3>
+                          <p class="text-gray-600 text-sm">Sistemas projetados para durar décadas com mínima intervenção.</p>
+                      </div>
+                  </div>
+              </div>
         </section>
 
-        <!-- How It Works Section (Static) -->
-        <section class="py-16 lg:py-20 bg-white">
-              <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Nosso Processo Simplificado</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Guiamos você em cada etapa sem complicações.</p> </div> <div class="flex flex-col md:flex-row justify-between items-center gap-12"> <div class="md:w-5/12 animate-on-scroll" data-animation="fade-in"> <img src="https://images.unsplash.com/photo-1596008610919-8a18d4c573d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" loading="lazy" alt="Equipe instalando painéis solares no telhado de uma casa" class="rounded-lg shadow-xl w-full"> </div> <div class="md:w-6/12 animate-on-scroll" data-animation="slide-up" data-animation-delay="200"> <div class="relative"> <div class="border-l-2 border-fortlevOrange pl-10 space-y-10"> <div class="relative step-item"> <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">1</span></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Consulta e Análise</h3> <p class="text-gray-600">Avaliamos consumo e local para a solução ideal.</p> </div> <div class="relative step-item"> <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">2</span></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Projeto e Documentação</h3> <p class="text-gray-600">Desenvolvemos o projeto e cuidamos da burocracia.</p> </div> <div class="relative step-item"> <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">3</span></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Instalação Profissional</h3> <p class="text-gray-600">Equipe certificada instala com segurança e agilidade.</p> </div> <div class="relative step-item"> <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">4</span></div> <h3 class="text-xl font-semibold text-fortlevDark mb-2">Ativação e Monitoramento</h3> <p class="text-gray-600">Conectamos à rede e você acompanha pelo app.</p> </div> </div> </div> </div> </div> <div class="text-center mt-12 animate-on-scroll" data-animation="fade-in"> <a href="#contact" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-calendar-check mr-2"></i> Agendar Consultoria Gratuita </a> </div> </div>
+         <!-- ========================== -->
+         <!--      SEÇÃO: PROCESSO       -->
+         <!-- ========================== -->
+        <section id="processo" class="py-16 lg:py-20 bg-white">
+              <div class="container mx-auto px-4">
+                  <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                      <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Nosso Processo Simplificado</h2>
+                      <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                      <p class="text-gray-600 max-w-3xl mx-auto text-lg">Guiamos você em cada etapa, desde a análise inicial até a ativação do seu sistema.</p>
+                  </div>
+                  <div class="flex flex-col md:flex-row justify-between items-center gap-12">
+                      <!-- Imagem do Processo -->
+                      <div class="md:w-5/12 animate-on-scroll" data-animation="fade-in">
+                          <img id="process-image" data-real-src="https://images.unsplash.com/photo-1668097613572-40b7c11c8727?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Equipe instalando painéis solares no telhado de uma casa" class="rounded-lg shadow-xl w-full">
+                      </div>
+                      <!-- Etapas do Processo -->
+                      <div class="md:w-6/12 animate-on-scroll" data-animation="slide-up" data-animation-delay="200">
+                          <div class="relative">
+                              <div class="border-l-2 border-fortlevOrange pl-10 space-y-10">
+                                  <!-- Etapa 1 -->
+                                  <div class="relative step-item">
+                                      <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">1</span></div>
+                                      <h3 class="text-xl font-semibold text-fortlevDark mb-2">Consulta e Análise</h3>
+                                      <p class="text-gray-600">Avaliamos seu consumo, local de instalação e necessidades para definir a solução ideal.</p>
+                                  </div>
+                                  <!-- Etapa 2 -->
+                                  <div class="relative step-item">
+                                      <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">2</span></div>
+                                      <h3 class="text-xl font-semibold text-fortlevDark mb-2">Projeto e Documentação</h3>
+                                      <p class="text-gray-600">Desenvolvemos o projeto técnico detalhado e cuidamos de toda a burocracia com a concessionária.</p>
+                                  </div>
+                                  <!-- Etapa 3 -->
+                                  <div class="relative step-item">
+                                      <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">3</span></div>
+                                      <h3 class="text-xl font-semibold text-fortlevDark mb-2">Instalação Profissional</h3>
+                                      <p class="text-gray-600">Nossa equipe certificada realiza a instalação com segurança, agilidade e qualidade Fortlev.</p>
+                                  </div>
+                                  <!-- Etapa 4 -->
+                                  <div class="relative step-item">
+                                      <div class="absolute -left-[44px] top-0 w-10 h-10 rounded-full bg-fortlevOrange flex items-center justify-center text-white ring-4 ring-white shadow"><span class="font-bold text-lg">4</span></div>
+                                      <h3 class="text-xl font-semibold text-fortlevDark mb-2">Ativação e Monitoramento</h3>
+                                      <p class="text-gray-600">Conectamos seu sistema à rede e você passa a acompanhar a geração de energia pelo aplicativo.</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="text-center mt-12 animate-on-scroll" data-animation="fade-in">
+                      <a href="#contato" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                          <i class="fas fa-calendar-check mr-2"></i> Agendar Consultoria Gratuita
+                      </a>
+                  </div>
+              </div>
         </section>
 
-        <!-- Solutions Section -->
-        <section id="solutions" class="py-16 lg:py-20 bg-gray-100">
-             <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Soluções Completas Fortlev Solar</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Tecnologia de ponta para máxima eficiência e durabilidade.</p> </div>
-                 <div id="solutions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-placeholder">
-                     <!-- Items Loaded Here by main.js -->
+        <!-- ========================== -->
+        <!--       SEÇÃO: SOLUÇÕES       -->
+        <!-- ========================== -->
+        <section id="solucoes" class="py-16 lg:py-20 bg-gray-100">
+             <div class="container mx-auto px-4">
+                 <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                     <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Soluções Completas Oxente Energia Solar</h2>
+                     <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                     <p class="text-gray-600 max-w-3xl mx-auto text-lg">Utilizamos equipamentos de ponta para garantir máxima eficiência, durabilidade e segurança.</p>
                  </div>
-                  <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in"> <a href="#contact" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-info-circle mr-2"></i> Quero Saber Mais Detalhes </a> </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     <!-- Card Solução 1: Painéis -->
+                     <div id="solution-item-1" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up">
+                         <img data-real-src="https://images.unsplash.com/photo-1617269778723-73a40cf299bd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Close-up Painel Solar Fotovoltaico" class="w-full h-52 object-cover">
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center mb-3">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-2 rounded-full mr-3"><i class="fas fa-solar-panel text-fortlevBlue text-lg"></i></div>
+                                 <h3 class="text-xl font-semibold text-fortlevDark">Painéis Solares Premium</h3>
+                             </div>
+                             <p class="text-gray-600 text-sm mb-4 flex-grow">Módulos fotovoltaicos de alta eficiência e durabilidade, com garantia de performance de 25 anos.</p>
+                             <ul class="text-gray-600 text-xs space-y-2 mb-4">
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Tecnologia PERC ou N-Type</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Alta resistência a condições climáticas</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Certificações internacionais (INMETRO, etc.)</span></li>
+                             </ul>
+                         </div>
+                     </div>
+                     <!-- Card Solução 2: Inversores -->
+                     <div id="solution-item-2" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up" data-animation-delay="150">
+                         <img data-real-src="https://images.unsplash.com/photo-1497440001374-f26997328c1b?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Inversor Solar moderno instalado na parede" class="w-full h-52 object-cover">
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center mb-3">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-2 rounded-full mr-3"><i class="fas fa-microchip text-fortlevBlue text-lg"></i></div>
+                                 <h3 class="text-xl font-semibold text-fortlevDark">Inversores Inteligentes</h3>
+                             </div>
+                             <p class="text-gray-600 text-sm mb-4 flex-grow">Equipamentos eficientes (string ou microinversores) que convertem a energia solar com monitoramento integrado.</p>
+                             <ul class="text-gray-600 text-xs space-y-2 mb-4">
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Monitoramento online via App/Web</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Proteções elétricas integradas</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Longa garantia de fábrica (5 a 15 anos)</span></li>
+                             </ul>
+                         </div>
+                     </div>
+                     <!-- Card Solução 3: Estruturas -->
+                     <div id="solution-item-3" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up" data-animation-delay="300">
+                         <img data-real-src="https://images.unsplash.com/photo-1628206554201-41ebb06ef313?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D " loading="lazy" alt="Estrutura de montagem de painel solar no telhado" class="w-full h-52 object-cover">
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center mb-3">
+                                 <div class="bg-fortlevBlue bg-opacity-10 p-2 rounded-full mr-3"><i class="fas fa-cogs text-fortlevBlue text-lg"></i></div>
+                                 <h3 class="text-xl font-semibold text-fortlevDark">Estruturas e Acessórios</h3>
+                             </div>
+                             <p class="text-gray-600 text-sm mb-4 flex-grow">Sistemas de fixação robustos e adequados para cada tipo de telhado, além de cabos e proteções.</p>
+                             <ul class="text-gray-600 text-xs space-y-2 mb-4">
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Estruturas em alumínio ou aço galv.</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Resistência a corrosão e ventos fortes</span></li>
+                                 <li class="flex items-start"><i class="fas fa-check text-fortlevOrange mr-2 mt-1 shrink-0"></i><span>Cabos solares e conectores MC4</span></li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in">
+                     <a href="#contato" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                         <i class="fas fa-info-circle mr-2"></i> Quero Saber Mais Detalhes
+                     </a>
+                 </div>
              </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="py-16 lg:py-20 bg-white">
-              <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Projetos de Sucesso</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Inspire-se com alguns dos nossos projetos reais.</p> </div>
-                  <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 grid-placeholder">
-                      <!-- Items Loaded Here by main.js -->
+         <!-- ========================== -->
+         <!--       SEÇÃO: PROJETOS       -->
+         <!-- ========================== -->
+        <section id="projetos" class="py-16 lg:py-20 bg-white">
+              <div class="container mx-auto px-4">
+                  <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                      <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Projetos de Sucesso</h2>
+                      <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                      <p class="text-gray-600 max-w-3xl mx-auto text-lg">Inspire-se com alguns dos nossos projetos reais e veja os resultados alcançados.</p>
                   </div>
-                 <div class="text-center animate-on-scroll" data-animation="fade-in"> <a href="#contact" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-images mr-2"></i> Peça Seu Orçamento Também </a> </div>
-             </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="py-16 lg:py-20 bg-gray-100">
-              <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">O Que Nossos Clientes Dizem</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">A confiança e satisfação de quem escolheu a consultoria Rogério Fortlev Solar.</p> </div>
-                  <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 grid-placeholder">
-                       <!-- Items Loaded Here by main.js -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                      <!-- Card Projeto 1 -->
+                      <div id="project-item-1" class="relative rounded-lg overflow-hidden shadow-md project-card group animate-on-scroll" data-animation="fade-in">
+                          <img data-real-src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Projeto Residencial Casa Suburbana com Painéis Solares no telhado" class="w-full h-72 object-cover transform group-hover:scale-105 transition duration-300">
+                          <div class="absolute inset-0 project-overlay flex flex-col justify-end p-6 text-white">
+                              <h3 class="text-xl font-bold mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Residência em Vila Velha - ES</h3>
+                              <p class="text-sm mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200"><i class="fas fa-solar-panel mr-1 opacity-70"></i> 5.2 kWp</p>
+                              <p class="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-300"><i class="fas fa-coins mr-1 opacity-70"></i> Economia Estimada: R$ 450/mês</p>
+                          </div>
+                      </div>
+                      <!-- Card Projeto 2 -->
+                      <div id="project-item-2" class="relative rounded-lg overflow-hidden shadow-md project-card group animate-on-scroll" data-animation="fade-in" data-animation-delay="150">
+                          <img data-real-src="https://images.unsplash.com/photo-1589201529153-5297335c1684?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Projeto Comercial Prédio Urbano com Painéis Solares no telhado plano" class="w-full h-72 object-cover transform group-hover:scale-105 transition duration-300">
+                          <div class="absolute inset-0 project-overlay flex flex-col justify-end p-6 text-white">
+                              <h3 class="text-xl font-bold mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Comércio em Linhares - ES</h3>
+                              <p class="text-sm mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200"><i class="fas fa-solar-panel mr-1 opacity-70"></i> 22.5 kWp</p>
+                              <p class="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-300"><i class="fas fa-coins mr-1 opacity-70"></i> Economia Estimada: R$ 1.800/mês</p>
+                          </div>
+                      </div>
+                      <!-- Card Projeto 3 -->
+                      <div id="project-item-3" class="relative rounded-lg overflow-hidden shadow-md project-card group animate-on-scroll" data-animation="fade-in" data-animation-delay="300">
+                          <img data-real-src="https://images.unsplash.com/photo-1545208942-e1c9c916524b?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Vista Aérea de Propriedade Rural com Painéis Solares instalados" class="w-full h-72 object-cover transform group-hover:scale-105 transition duration-300">
+                          <div class="absolute inset-0 project-overlay flex flex-col justify-end p-6 text-white">
+                              <h3 class="text-xl font-bold mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Propriedade Rural - ES</h3>
+                              <p class="text-sm mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200"><i class="fas fa-solar-panel mr-1 opacity-70"></i> 15.8 kWp</p>
+                              <p class="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-300"><i class="fas fa-coins mr-1 opacity-70"></i> Economia Estimada: R$ 1.200/mês</p>
+                          </div>
+                      </div>
                   </div>
-                 <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in"> <a href="#contact" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-comment-dots mr-2"></i> Seja o Próximo Cliente Satisfeito </a> </div>
-             </div>
-        </section>
-
-        <!-- Reels/Short Videos Section -->
-        <section id="reels" class="py-16 lg:py-20 bg-white">
-              <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Vídeos Rápidos (Reels)</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Dicas, instalações e o dia a dia da energia solar em formato de vídeo curto.</p> </div>
-                  <div id="reels-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 grid-placeholder">
-                       <!-- Items Loaded Here by main.js -->
+                  <div class="text-center animate-on-scroll" data-animation="fade-in">
+                      <a href="#contato" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                          <i class="fas fa-calculator mr-2"></i> Peça Seu Orçamento Também
+                      </a>
                   </div>
-                 <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in"> <a href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg"> <i class="fab fa-instagram mr-2"></i> Ver Mais Reels </a> </div>
-             </div>
+              </div>
         </section>
 
-        <!-- Blog Section -->
+        <!-- ========================== -->
+        <!--     SEÇÃO: DEPOIMENTOS     -->
+        <!-- ========================== -->
+        <section id="depoimentos" class="py-16 lg:py-20 bg-gray-100">
+              <div class="container mx-auto px-4">
+                  <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                      <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">O Que Nossos Clientes Dizem</h2>
+                      <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                      <p class="text-gray-600 max-w-3xl mx-auto text-lg">A confiança e satisfação de quem escolheu a consultoria Oxente Solar.</p>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      <!-- Card Depoimento 1 -->
+                      <div id="testimonial-1" class="bg-white p-6 rounded-lg testimonial-card animate-on-scroll" data-animation="slide-up">
+                          <div class="flex items-center mb-4">
+                              <img data-real-src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Cliente Ana Paula Sorrindo Feliz" class="w-14 h-14 rounded-full mr-4 border-2 border-fortlevOrange p-0.5 object-cover">
+                              <div>
+                                  <h4 class="font-semibold text-fortlevDark">Ana Paula R.</h4>
+                                  <p class="text-sm text-gray-500">Residencial - Vila Velha, ES</p>
+                                  <div class="flex text-yellow-400 text-sm mt-1"> <i class="fas fa-star"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i> </div>
+                              </div>
+                          </div>
+                          <p class="text-gray-600 italic text-sm leading-relaxed">"Minha conta de luz caiu drasticamente! com a Oxente Energia Solar foi extremamente profissional, explicou tudo com clareza e o sistema funciona perfeitamente. Recomendo de olhos fechados!"</p>
+                      </div>
+                      <!-- Card Depoimento 2 -->
+                      <div id="testimonial-2" class="bg-white p-6 rounded-lg testimonial-card animate-on-scroll" data-animation="slide-up" data-animation-delay="150">
+                          <div class="flex items-center mb-4">
+                              <img data-real-src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80" loading="lazy" alt="Cliente Carlos Eduardo Empresário Satisfeito" class="w-14 h-14 rounded-full mr-4 border-2 border-fortlevOrange p-0.5 object-cover">
+                              <div>
+                                  <h4 class="font-semibold text-fortlevDark">Carlos Eduardo M.</h4>
+                                  <p class="text-sm text-gray-500">Comercial - Linhares, ES</p>
+                                  <div class="flex text-yellow-400 text-sm mt-1"> <i class="fas fa-star"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i> </div>
+                              </div>
+                          </div>
+                          <p class="text-gray-600 italic text-sm leading-relaxed">"Instalamos na minha loja e a economia mensal é real e significativa. A equipe foi muito competente durante a instalação a Oxente Energia Solar sempre esteve disponível no pós-venda. Excelente investimento!"</p>
+                      </div>
+                      <!-- Card Depoimento 3 -->
+                      <div id="testimonial-3" class="bg-white p-6 rounded-lg testimonial-card animate-on-scroll" data-animation="slide-up" data-animation-delay="300">
+                          <div class="flex items-center mb-4">
+                              <img data-real-src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=461&q=80" loading="lazy" alt="Cliente Fernanda Agricultora Confiante" class="w-14 h-14 rounded-full mr-4 border-2 border-fortlevOrange p-0.5 object-cover"> <!-- Alterado -->
+                              <div>
+                                  <h4 class="font-semibold text-fortlevDark">Fernanda S.</h4> <!-- Alterado -->
+                                  <p class="text-sm text-gray-500">Produtora Rural - ES</p> <!-- Alterado -->
+                                  <div class="flex text-yellow-400 text-sm mt-1"> <i class="fas fa-star"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="fas fa-star ml-1"></i><i class="far fa-star ml-1"></i> </div> <!-- Ajustado rating -->
+                              </div>
+                          </div>
+                          <p class="text-gray-600 italic text-sm leading-relaxed">"Para a fazenda, a energia solar foi uma mão na roda. A Oxente Energia Solar entendeu nossa necessidade de energia para irrigação e apresentou a melhor solução. O processo foi tranquilo e o suporte foi ótimo."</p> <!-- Alterado -->
+                      </div>
+                  </div>
+                  <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in">
+                      <a href="#contato" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                          <i class="fas fa-comment-dots mr-2"></i> Seja o Próximo Cliente Satisfeito
+                      </a>
+                  </div>
+              </div>
+        </section>
+
+        <!-- ================================== -->
+        <!-- SEÇÃO: VÍDEOS CURTOS (REELS/SHORTS) -->
+        <!-- ================================== -->
+        <section id="videos" class="py-16 lg:py-20 bg-white">
+              <div class="container mx-auto px-4">
+                  <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                      <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Vídeos Rápidos</h2>
+                      <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                      <p class="text-gray-600 max-w-3xl mx-auto text-lg">Dicas, instalações e o dia a dia da energia solar.</p>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                      <!-- Reel 1 -->
+                      <div id="reel-item-1" class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-reel-url="#"> <!-- URL do vídeo aqui -->
+                          <img data-real-src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Dica Rápida Limpeza Painel Solar" class="w-full h-full object-cover">
+                          <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
+                          </div>
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                              <h3 class="text-white font-medium text-xs truncate">Dica Rápida: Limpeza</h3>
+                          </div>
+                      </div>
+                      <!-- Reel 2 -->
+                      <div id="reel-item-2" class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-animation-delay="100" data-reel-url="#">
+                          <img data-real-src="https://images.unsplash.com/photo-1592833159057-6faf163494a9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Instalação Timelapse Painel Solar" class="w-full h-full object-cover">
+                           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
+                          </div>
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                              <h3 class="text-white font-medium text-xs truncate">Instalação em 30s</h3>
+                          </div>
+                      </div>
+                      <!-- Reel 3 -->
+                      <div id="reel-item-3" class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-animation-delay="200" data-reel-url="#">
+                          <img data-real-src="   https://images.unsplash.com/photo-1574360757149-514a449c5a05?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Economia Conta Luz Energia Solar Porquinho" class="w-full h-full object-cover">
+                           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
+                          </div>
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                              <h3 class="text-white font-medium text-xs truncate">Economia na Conta</h3>
+                          </div>
+                      </div>
+                      <!-- Reel 4 -->
+                      <div id="reel-item-4" class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-animation-delay="300" data-reel-url="#">
+                          <img data-real-src="  https://images.unsplash.com/photo-1724041875334-0a6397111c7e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Depoimento Cliente Rápido Energia Solar Feliz" class="w-full h-full object-cover">
+                           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
+                          </div>
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                              <h3 class="text-white font-medium text-xs truncate">Cliente Satisfeito</h3>
+                          </div>
+                      </div>
+                      <!-- Reel 5 -->
+                      <div id="reel-item-5" class="reel-thumbnail relative rounded-lg overflow-hidden shadow-md group cursor-pointer aspect-w-9 aspect-h-16 animate-on-scroll" data-animation="fade-in" data-animation-delay="400" data-reel-url="#">
+                          <img data-real-src="  https://images.unsplash.com/photo-1649200333315-513e8dd60c18?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Detalhe Instalação Painel Solar Conexão" class="w-full h-full object-cover">
+                           <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div class="play-icon bg-white bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-fortlevDark transition duration-300"><i class="fas fa-play"></i></div>
+                          </div>
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                              <h3 class="text-white font-medium text-xs truncate">Detalhe da Instalação</h3>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in">
+                      <a href="https://www.instagram.com/SEU_INSTAGRAM_AQUI" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                          <i class="fab fa-instagram mr-2"></i> Ver Mais Vídeos no Instagram
+                      </a>
+                  </div>
+              </div>
+        </section>
+
+        <!-- ========================== -->
+        <!--        SEÇÃO: BLOG         -->
+        <!-- ========================== -->
         <section id="blog" class="py-16 lg:py-20 bg-gray-100">
-            <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Fique Por Dentro</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Novidades do setor solar, dicas de economia e informações relevantes.</p> </div>
-                 <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-placeholder">
-                      <!-- Items Loaded Here by main.js -->
+             <div class="container mx-auto px-4">
+                 <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                     <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Fique Por Dentro</h2>
+                     <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                     <p class="text-gray-600 max-w-3xl mx-auto text-lg">Novidades do setor solar, dicas de economia e informações relevantes para você.</p>
                  </div>
-                <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in"> <a href="#blog" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-newspaper mr-2"></i> Ver Todos os Artigos </a> </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     <!-- Post Blog 1 -->
+                     <article id="blog-post-1" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up">
+                         <a href="#" class="block"> <!-- Link para o post completo -->
+                             <img data-real-src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" loading="lazy" alt="Tecnologia Solar Avançada Futurista com painéis brilhando" class="w-full h-52 object-cover">
+                         </a>
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center text-xs text-gray-500 mb-3">
+                                 <span class="mr-3"><i class="far fa-calendar-alt mr-1"></i>15 Jun 2025</span>
+                                 <span><i class="far fa-clock mr-1"></i>Leitura de 3 min</span>
+                             </div>
+                             <h3 class="text-lg font-semibold text-fortlevDark mb-3 flex-grow"><a href="#" class="hover:text-fortlevOrange transition">Novas Tecnologias em Painéis Solares Chegando ao Mercado</a></h3>
+                             <p class="text-gray-600 text-sm mb-4">Conheça as inovações que estão aumentando ainda mais a eficiência e a durabilidade dos sistemas.</p>
+                             <a href="#" class="text-fortlevOrange font-medium inline-flex items-center text-sm mt-auto"> Ler Mais <i class="fas fa-arrow-right ml-2 text-xs"></i> </a>
+                         </div>
+                     </article>
+                     <!-- Post Blog 2 -->
+                     <article id="blog-post-2" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up" data-animation-delay="150">
+                         <a href="#" class="block">
+                             <img data-real-src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" loading="lazy" alt="Calculadora e Gráfico de Financiamento com moedas" class="w-full h-52 object-cover">
+                         </a>
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center text-xs text-gray-500 mb-3">
+                                 <span class="mr-3"><i class="far fa-calendar-alt mr-1"></i>02 Jun 2025</span>
+                                 <span><i class="far fa-clock mr-1"></i>Leitura de 5 min</span>
+                             </div>
+                             <h3 class="text-lg font-semibold text-fortlevDark mb-3 flex-grow"><a href="#" class="hover:text-fortlevOrange transition">Financiamento para Energia Solar: Como Funciona?</a></h3>
+                             <p class="text-gray-600 text-sm mb-4">Descubra as principais linhas de crédito disponíveis para viabilizar seu investimento em energia solar.</p>
+                             <a href="#" class="text-fortlevOrange font-medium inline-flex items-center text-sm mt-auto"> Ler Mais <i class="fas fa-arrow-right ml-2 text-xs"></i> </a>
+                         </div>
+                     </article>
+                     <!-- Post Blog 3 -->
+                     <article id="blog-post-3" class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 card-hover flex flex-col animate-on-scroll" data-animation="slide-up" data-animation-delay="300">
+                         <a href="#" class="block">
+                             <img data-real-src="https://images.unsplash.com/photo-1631771819642-90cee9a2ccac?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" loading="lazy" alt="Pessoa limpando painel solar em telhado" class="w-full h-52 object-cover">
+                         </a>
+                         <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center text-xs text-gray-500 mb-3">
+                                 <span class="mr-3"><i class="far fa-calendar-alt mr-1"></i>25 Mai 2025</span>
+                                 <span><i class="far fa-clock mr-1"></i>Leitura de 4 min</span>
+                             </div>
+                             <h3 class="text-lg font-semibold text-fortlevDark mb-3 flex-grow"><a href="#" class="hover:text-fortlevOrange transition">Manutenção Preventiva: Garanta a Máxima Eficiência do Seu Sistema</a></h3>
+                             <p class="text-gray-600 text-sm mb-4">Saiba como cuidados simples, como a limpeza periódica, podem manter a performance do seu sistema em dia.</p>
+                             <a href="#" class="text-fortlevOrange font-medium inline-flex items-center text-sm mt-auto"> Ler Mais <i class="fas fa-arrow-right ml-2 text-xs"></i> </a>
+                         </div>
+                     </article>
+                 </div>
+                 <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in">
+                     <a href="#blog" class="inline-flex items-center bg-fortlevBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                         <i class="fas fa-newspaper mr-2"></i> Ver Todos os Artigos
+                     </a>
+                 </div>
+             </div>
+        </section>
+
+        <!-- =============================== -->
+        <!-- SEÇÃO: NÚMEROS / ESTATÍSTICAS -->
+        <!-- =============================== -->
+        <section id="numeros" class="py-16 lg:py-20 bg-fortlevBlue text-white">
+             <div class="container mx-auto px-4">
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                     <!-- Número 1 -->
+                     <div class="animate-on-scroll" data-animation="fade-in">
+                         <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="250">0</div>
+                         <p class="text-sm uppercase tracking-wider opacity-80">Projetos Concluídos</p>
+                     </div>
+                     <!-- Número 2 -->
+                     <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="150">
+                         <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="95">0</div>
+                         <p class="text-sm uppercase tracking-wider opacity-80">Economia Média (%)</p>
+                     </div>
+                     <!-- Número 3 -->
+                     <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="300">
+                         <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="1200">0</div>
+                         <p class="text-sm uppercase tracking-wider opacity-80">Ton CO₂ Evitadas/Ano*</p> <!-- Adicionado '*' e nota -->
+                     </div>
+                     <!-- Número 4 -->
+                     <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="450">
+                         <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="100">0</div>
+                         <p class="text-sm uppercase tracking-wider opacity-80">Satisfação Garantida (%)</p>
+                     </div>
+                 </div>
+                  <p class="text-center text-xs opacity-70 mt-8">*Estimativa baseada na média dos projetos instalados.</p> <!-- Nota adicionada -->
+             </div>
+        </section>
+
+        <!-- ========================== -->
+        <!--       SEÇÃO: CONTATO       -->
+        <!-- ========================== -->
+        <section id="contato" class="py-16 lg:py-20 bg-white">
+             <div class="container mx-auto px-4">
+                 <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                     <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Fale Comigo e Comece a Economizar</h2>
+                     <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                     <p class="text-gray-600 max-w-3xl mx-auto text-lg">Solicite um orçamento gratuito e personalizado para sua residência ou empresa.</p>
+                 </div>
+                 <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
+                     <!-- Formulário de Contato -->
+                     <div class="md:w-1/2 animate-on-scroll" data-animation="slide-up">
+                         <form id="contact-form" action="#" method="POST" class="bg-gray-50 p-6 lg:p-8 rounded-lg shadow-md border border-gray-200">
+                             <h3 class="text-xl font-semibold text-fortlevDark mb-6 text-center md:text-left">Solicite seu Orçamento</h3>
+                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                 <div>
+                                     <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nome Completo*</label>
+                                     <input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" autocomplete="name">
+                                 </div>
+                                 <div>
+                                     <label for="phone" class="block text-gray-700 text-sm font-medium mb-1">WhatsApp/Telefone*</label>
+                                     <input type="tel" id="phone" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="(XX) XXXXX-XXXX" autocomplete="tel">
+                                 </div>
+                             </div>
+                             <div class="mb-4">
+                                 <label for="email" class="block text-gray-700 text-sm font-medium mb-1">E-mail*</label>
+                                 <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" autocomplete="email">
+                             </div>
+                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                 <div>
+                                     <label for="property" class="block text-gray-700 text-sm font-medium mb-1">Tipo de Imóvel*</label>
+                                     <select id="property" name="property" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white appearance-none"> <!-- Melhorado select -->
+                                         <option value="" disabled selected>Selecione...</option>
+                                         <option value="residencial">Residencial</option>
+                                         <option value="comercial">Comercial</option>
+                                         <option value="rural">Rural</option>
+                                         <option value="condominio">Condomínio</option>
+                                         <option value="industrial">Industrial</option>
+                                         <option value="outro">Outro</option>
+                                     </select>
+                                 </div>
+                                 <div>
+                                     <label for="form-consumption" class="block text-gray-700 text-sm font-medium mb-1">Consumo Médio (kWh)</label>
+                                     <input type="number" id="form-consumption" name="consumption" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Opcional">
+                                 </div>
+                             </div>
+                             <div class="mb-4">
+                                 <label for="message" class="block text-gray-700 text-sm font-medium mb-1">Mensagem (Opcional)</label>
+                                 <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Descreva sua necessidade ou dúvida..."></textarea>
+                             </div>
+                             <button type="submit" class="w-full bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 transform hover:scale-105">
+                                 <i class="fas fa-paper-plane mr-2"></i> Enviar e Solicitar Orçamento
+                             </button>
+                             <p id="form-status" class="text-sm mt-4 text-center"></p>
+                         </form>
+                     </div>
+                     <!-- Informações de Contato Direto -->
+                     <div class="md:w-1/2 animate-on-scroll" data-animation="slide-up" data-animation-delay="150">
+                         <div class="bg-gray-50 p-6 lg:p-8 rounded-lg shadow-md h-full border border-gray-200 flex flex-col"> <!-- Adjust height -->
+                             <h3 class="text-xl font-semibold text-fortlevDark mb-6">Contato Direto</h3>
+                             <div class="space-y-5 flex-grow"> <!-- Make this div grow -->
+                                 <div class="flex items-start">
+                                     <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-map-marker-alt text-fortlevBlue text-lg"></i></div>
+                                     <div>
+                                         <h4 class="font-medium text-fortlevDark mb-1">Área de Atuação</h4>
+                                         <p class="text-gray-600 text-sm">Principalmente Petrolina e Região (PE).</p>
+                                         <p class="text-gray-500 text-xs">(Consulte para outras regiões)</p>
+                                     </div>
+                                 </div>
+                                 <div class="flex items-start">
+                                     <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fab fa-whatsapp text-fortlevBlue text-lg"></i></div>
+                                     <div>
+                                         <h4 class="font-medium text-fortlevDark mb-1">WhatsApp</h4>
+                                         <p class="text-gray-600 text-sm">
+                                             <a href="https://wa.me/5528999662264?text=Olá%20Oxente Energia Solar,%20vi%20seu%20site%20e%20gostaria%20de%20mais%20informações%20sobre%20energia%20solar%20Fortlev." target="_blank" rel="noopener noreferrer" class="text-fortlevBlue hover:text-fortlevOrange hover:underline font-medium">(28) 99966-2264</a>
+                                             <span class="block text-xs text-gray-500">(Clique para chamar)</span>
+                                         </p>
+                                     </div>
+                                 </div>
+                                 <div class="flex items-start">
+                                     <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-envelope text-fortlevBlue text-lg"></i></div>
+                                     <div>
+                                         <h4 class="font-medium text-fortlevDark mb-1">E-mail</h4>
+                                         <p class="text-gray-600 text-sm">
+                                             <a href="mailto:contato@oxenteenergiasolar.com.br" class="text-fortlevBlue hover:text-fortlevOrange hover:underline break-all">contato@oxenteenergiasolar.com.br</a> <!-- Email de exemplo, substituir -->
+                                         </p>
+                                     </div>
+                                 </div>
+                                 <div class="flex items-start">
+                                     <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-clock text-fortlevBlue text-lg"></i></div>
+                                     <div>
+                                         <h4 class="font-medium text-fortlevDark mb-1">Horário de Atendimento</h4>
+                                         <p class="text-gray-600 text-sm">Segunda a Sexta: 8h às 18h</p>
+                                         <p class="text-gray-600 text-sm">Sábado: 9h às 13h</p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="mt-8 pt-6 border-t border-gray-200">
+                                 <h4 class="font-medium text-fortlevDark mb-3 text-center">Siga-me nas Redes Sociais</h4>
+                                 <div class="flex justify-center space-x-4">
+                                     <a href="https://facebook.com/SEU_FACEBOOK" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                                     <a href="https://instagram.com/SEU_INSTAGRAM" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                                     <a href="https://linkedin.com/in/SEU_LINKEDIN" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-linkedin-in"></i></a>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- ====================================== -->
+        <!-- SEÇÃO: PERGUNTAS FREQUENTES (FAQ) -->
+        <!-- ====================================== -->
+        <section id="faq" class="py-16 lg:py-20 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Perguntas Frequentes (FAQ)</h2>
+                    <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div>
+                    <p class="text-gray-600 max-w-3xl mx-auto text-lg">Respondendo às dúvidas mais comuns sobre energia solar fotovoltaica.</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in">
+                        <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer">
+                            <span>Qual o investimento inicial aproximado?</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i>
+                        </button>
+                        <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>O valor varia muito conforme o consumo de energia e as características do local. Um sistema residencial pequeno pode começar em torno de R$12.000 a R$15.000, mas o ideal é solicitar um orçamento personalizado. O retorno do investimento (payback) costuma ocorrer entre 3 a 5 anos, e existem ótimas opções de financiamento.</p></div>
+                    </div>
+                    <!-- FAQ Item 2 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="100">
+                        <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer">
+                            <span>Quanto tempo leva para instalar o sistema?</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i>
+                        </button>
+                        <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>O processo completo envolve a visita técnica, projeto, homologação na concessionária e instalação. Após a aprovação da concessionária (que pode levar algumas semanas), a instalação física em uma residência geralmente leva de 1 a 3 dias, dependendo da complexidade.</p></div>
+                    </div>
+                    <!-- FAQ Item 3 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="200">
+                        <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer">
+                            <span>O sistema exige muita manutenção?</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i>
+                        </button>
+                        <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>A manutenção é mínima. Recomenda-se a limpeza dos painéis solares anualmente ou quando houver acúmulo visível de sujeira (a própria chuva ajuda na limpeza). Uma inspeção visual periódica e a verificação do sistema pelo aplicativo também são boas práticas. Os equipamentos Fortlev são projetados para alta durabilidade.</p></div>
+                    </div>
+                    <!-- FAQ Item 4 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="300">
+                        <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer">
+                            <span>Energia solar funciona em dias nublados ou à noite?</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i>
+                        </button>
+                        <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Sim, o sistema continua gerando energia em dias nublados, embora com menor intensidade. À noite, não há geração. No sistema conectado à rede (on-grid), a energia excedente gerada durante o dia é injetada na rede da concessionária, gerando créditos que são utilizados para abater o consumo noturno ou em dias de baixa geração.</p></div>
+                    </div>
+                    <!-- FAQ Item 5 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="400">
+                        <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer">
+                            <span>Qual a durabilidade e a garantia dos equipamentos?</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i>
+                        </button>
+                        <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Os painéis solares Fortlev possuem garantia de performance de 25 anos (garantindo mais de 80% da eficiência original). Os inversores geralmente têm garantia de 5 a 15 anos, dependendo do modelo. A vida útil estimada de todo o sistema fotovoltaico ultrapassa os 25 anos, tornando-o um investimento de longo prazo.</p></div>
+                    </div>
+                </div>
+                <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in">
+                    <a href="#contato" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-question-circle mr-2"></i> Tem Outra Dúvida? Fale Comigo
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- Stats Section (Static) -->
-        <section class="py-16 lg:py-20 bg-fortlevBlue text-white">
-              <div class="container mx-auto px-4"> <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"> <div class="animate-on-scroll" data-animation="fade-in"> <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="250">0</div> <p class="text-sm uppercase tracking-wider opacity-80">Projetos Concluídos</p> </div> <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="150"> <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="95">0</div> <p class="text-sm uppercase tracking-wider opacity-80">Economia Média (%)</p> </div> <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="300"> <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="1200">0</div> <p class="text-sm uppercase tracking-wider opacity-80">Ton CO₂ Evitadas/Ano</p> </div> <div class="animate-on-scroll" data-animation="fade-in" data-animation-delay="450"> <div class="text-4xl lg:text-5xl font-bold mb-2" data-count="100">0</div> <p class="text-sm uppercase tracking-wider opacity-80">Satisfação Garantida (%)</p> </div> </div> </div>
+        <!-- ================================== -->
+        <!-- SEÇÃO: CHAMADA FINAL (CTA) -->
+        <!-- ================================== -->
+        <section id="chamada-final" class="py-16 lg:py-20 bg-gradient-to-r from-fortlevBlue to-blue-700 text-white">
+             <div class="container mx-auto px-4 text-center animate-on-scroll" data-animation="fade-in">
+                 <h2 class="text-3xl lg:text-4xl font-bold mb-6">Pronto para Gerar Sua Própria Energia Limpa e Renóvavel?</h2>
+                 <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">Não espere mais para reduzir sua conta de luz. Solicite agora um orçamento gratuito e descubra o potencial de economia com a Fortlev Solar.</p>
+                 <div class="flex flex-col sm:flex-row justify-center gap-4">
+                     <a href="#contato" class="bg-white hover:bg-gray-100 text-fortlevBlue font-bold py-3 px-8 rounded-lg transition duration-300 inline-flex items-center justify-center transform hover:scale-105 shadow-md">
+                         <i class="fas fa-envelope mr-2"></i> Solicitar Orçamento Detalhado
+                     </a>
+                     <a href="https://wa.me/5528999662264?text=Olá%20Oxente Energia Solar,%20quero%20um%20orçamento%20Fortlev%20Solar!" target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 inline-flex items-center justify-center transform hover:scale-105 shadow-md">
+                         <i class="fab fa-whatsapp mr-2"></i> Chamar Agora no WhatsApp
+                     </a>
+                 </div>
+             </div>
         </section>
 
-        <!-- Contact Section (Static Form) -->
-        <section id="contact" class="py-16 lg:py-20 bg-white">
-              <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Fale Comigo e Economize</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Solicite um orçamento gratuito e personalizado.</p> </div> <div class="flex flex-col md:flex-row gap-8 lg:gap-12"> <div class="md:w-1/2 animate-on-scroll" data-animation="slide-up"> <form id="contact-form" action="#" method="POST" class="bg-gray-50 p-6 lg:p-8 rounded-lg shadow-md border border-gray-200"> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4"> <div> <label for="name" class="block text-gray-700 text-sm font-medium mb-1">Nome*</label> <input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"> </div> <div> <label for="phone" class="block text-gray-700 text-sm font-medium mb-1">WhatsApp*</label> <input type="tel" id="phone" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="(XX) XXXXX-XXXX"> </div> </div> <div class="mb-4"> <label for="email" class="block text-gray-700 text-sm font-medium mb-1">E-mail*</label> <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"> </div> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4"> <div> <label for="property" class="block text-gray-700 text-sm font-medium mb-1">Imóvel*</label> <select id="property" name="property" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white"> <option value="">Selecione...</option> <option value="residencial">Residencial</option> <option value="comercial">Comercial</option> <option value="rural">Rural</option> <option value="condominio">Condomínio</option> <option value="industrial">Industrial</option> </select> </div> <div> <label for="form-consumption" class="block text-gray-700 text-sm font-medium mb-1">Consumo (kWh)</label> <input type="number" id="form-consumption" name="consumption" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Opcional"> </div> </div> <div class="mb-4"> <label for="message" class="block text-gray-700 text-sm font-medium mb-1">Mensagem</label> <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm" placeholder="Sua necessidade..."></textarea> </div> <button type="submit" class="w-full bg-fortlevOrange hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 transform hover:scale-105"> <i class="fas fa-paper-plane mr-2"></i> Enviar e Solicitar Orçamento </button> <p id="form-status" class="text-sm mt-4 text-center"></p> </form> </div> <div class="md:w-1/2 animate-on-scroll" data-animation="slide-up" data-animation-delay="150"> <div class="bg-gray-50 p-6 lg:p-8 rounded-lg shadow-md h-full border border-gray-200"> <h3 class="text-xl font-semibold text-fortlevDark mb-6">Contato Direto</h3> <div class="space-y-5"> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-map-marker-alt text-fortlevBlue text-lg"></i></div> <div> <h4 class="font-medium text-fortlevDark mb-1">Atuação</h4> <p class="text-gray-600 text-sm">Espírito Santo (ES) e Região.</p> <p class="text-gray-500 text-xs">(Consulte)</p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fab fa-whatsapp text-fortlevBlue text-lg"></i></div> <div> <h4 class="font-medium text-fortlevDark mb-1">WhatsApp</h4> <p class="text-gray-600 text-sm"> <a href="https://wa.me/5528999662264?text=Olá%20Rogério,%20vi%20seu%20site%20e%20gostaria%20de%20mais%20informações%20sobre%20energia%20solar%20Fortlev." target="_blank" rel="noopener noreferrer" class="text-fortlevBlue hover:text-fortlevOrange hover:underline font-medium">(28) 99966-2264</a> </p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-envelope text-fortlevBlue text-lg"></i></div> <div> <h4 class="font-medium text-fortlevDark mb-1">E-mail</h4> <p class="text-gray-600 text-sm"> <a href="mailto:contato@rogeriofortlevsolar.com.br" class="text-fortlevBlue hover:text-fortlevOrange hover:underline break-all">contato@...</a> </p> </div> </div> <div class="flex items-start"> <div class="bg-fortlevBlue bg-opacity-10 p-3 rounded-full mr-4 mt-1 shrink-0"><i class="fas fa-clock text-fortlevBlue text-lg"></i></div> <div> <h4 class="font-medium text-fortlevDark mb-1">Atendimento</h4> <p class="text-gray-600 text-sm">Seg-Sex: 8h-18h | Sáb: 9h-13h</p> </div> </div> </div> <div class="mt-8 pt-6 border-t border-gray-200"> <h4 class="font-medium text-fortlevDark mb-3 text-center">Redes Sociais</h4> <div class="flex justify-center space-x-4"> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-facebook-f"></i></a> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-instagram"></i></a> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="bg-fortlevBlue hover:bg-blue-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition duration-300 transform hover:scale-110"><i class="fab fa-linkedin-in"></i></a> </div> </div> </div> </div> </div>
-        </section>
-
-        <!-- FAQ Section (Static) -->
-        <section id="faq" class="py-16 lg:py-20 bg-gray-100">
-             <div class="container mx-auto px-4"> <div class="text-center mb-12 lg:mb-16 animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold text-fortlevDark mb-3">Perguntas Frequentes (FAQ)</h2> <div class="w-20 h-1 bg-fortlevOrange mx-auto mb-6"></div> <p class="text-gray-600 max-w-3xl mx-auto text-lg">Respondendo às dúvidas mais comuns sobre energia solar.</p> </div> <div class="max-w-3xl mx-auto space-y-4"> <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in"> <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer"> <span>Qual o investimento inicial?</span> <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i> </button> <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Varia conforme consumo. Residenciais partem de ~R$12.000, payback de 3-5 anos. Peça orçamento e veja opções de financiamento.</p></div> </div> <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="100"> <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer"> <span>Quanto tempo leva para instalar?</span> <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i> </button> <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Após aprovação da concessionária, a instalação residencial leva de 1 a 3 dias.</p></div> </div> <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="200"> <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer"> <span>Precisa de muita manutenção?</span> <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i> </button> <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Mínima. Limpeza anual dos painéis (a chuva ajuda) e inspeção periódica. Equipamentos Fortlev são feitos para durar.</p></div> </div> <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="300"> <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer"> <span>Funciona em dias nublados/noite?</span> <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i> </button> <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Gera menos em dias nublados, mas ainda produz. À noite não gera. O excedente de dia vira crédito para usar à noite (sistema on-grid).</p></div> </div> <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-on-scroll" data-animation="fade-in" data-animation-delay="400"> <button class="faq-question w-full text-left p-4 font-medium text-fortlevDark hover:bg-gray-50 transition duration-300 flex justify-between items-center cursor-pointer"> <span>Qual a durabilidade e garantia?</span> <i class="fas fa-chevron-down transition-transform duration-300 text-fortlevOrange"></i> </button> <div class="faq-answer hidden p-4 pt-0 border-t border-gray-200 text-gray-600 text-sm leading-relaxed"><p>Painéis Fortlev têm garantia de 25 anos (>80% eficiência). Inversores 5-10 anos. Vida útil do sistema +25 anos.</p></div> </div> </div> <div class="mt-12 text-center animate-on-scroll" data-animation="fade-in"> <a href="#contact" class="inline-flex items-center bg-fortlevOrange hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"> <i class="fas fa-question-circle mr-2"></i> Tem Outra Dúvida? Fale Comigo </a> </div> </div>
-        </section>
-
-        <!-- Final CTA Section (Static) -->
-        <section class="py-16 lg:py-20 bg-gradient-to-r from-fortlevBlue to-blue-700 text-white">
-             <div class="container mx-auto px-4 text-center animate-on-scroll" data-animation="fade-in"> <h2 class="text-3xl lg:text-4xl font-bold mb-6">Pronto para Gerar Sua Própria Energia?</h2> <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">Solicite agora um orçamento gratuito e descubra o potencial de economia com a Fortlev Solar.</p> <div class="flex flex-col sm:flex-row justify-center gap-4"> <a href="#contact" class="bg-white hover:bg-gray-100 text-fortlevBlue font-bold py-3 px-8 rounded-lg transition duration-300 inline-flex items-center justify-center transform hover:scale-105 shadow-md"> <i class="fas fa-envelope mr-2"></i> Solicitar Orçamento Detalhado </a> <a href="https://wa.me/5528999662264?text=Olá%20Rogério,%20quero%20um%20orçamento%20Fortlev%20Solar!" target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 inline-flex items-center justify-center transform hover:scale-105 shadow-md"> <i class="fab fa-whatsapp mr-2"></i> Chamar Agora no WhatsApp </a> </div> </div>
-        </section>
     </main>
 
-    <!-- Footer -->
+    <!-- ========================== -->
+    <!--          RODAPÉ            -->
+    <!-- ========================== -->
     <footer class="bg-fortlevDark text-gray-300 py-12">
-        <div class="container mx-auto px-4"> <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8"> <div class="md:col-span-1"> <a href="#home" class="flex items-center mb-4"><img id="footer-logo" src="placeholder-logo.png" data-content-key="site_logo_url" alt=" Logo" class="h-10 filter brightness-0 invert content-img"><span class="ml-3 text-lg font-semibold text-white">Rogério</span></a> <p class="text-sm leading-relaxed">Consultor Oficial Fortlev Solar.</p> </div> <div> <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Navegação</h4> <ul class="space-y-2 text-sm"> <li><a href="#home" class="hover:text-fortlevOrange transition">Início</a></li> <li><a href="#about" class="hover:text-fortlevOrange transition">Sobre</a></li> <li><a href="#solutions" class="hover:text-fortlevOrange transition">Soluções</a></li> <li><a href="#projects" class="hover:text-fortlevOrange transition">Projetos</a></li> <li><a href="#reels" class="hover:text-fortlevOrange transition">Vídeos</a></li> <li><a href="#blog" class="hover:text-fortlevOrange transition">Blog</a></li> <li><a href="#contact" class="hover:text-fortlevOrange transition">Contato</a></li> <li><a href="#faq" class="hover:text-fortlevOrange transition">FAQ</a></li> </ul> </div> <div> <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Contato</h4> <ul class="space-y-2 text-sm"> <li class="flex items-start"><i class="fab fa-whatsapp mt-1 mr-2 text-fortlevOrange"></i><a href="https://wa.me/5528999662264?text=Vi%20seu%20site%20e%20gostaria%20de%20mais%20informações." target="_blank" rel="noopener noreferrer" class="hover:text-fortlevOrange transition">(28) 99966-2264</a></li> <li class="flex items-start"><i class="fas fa-envelope mt-1 mr-2 text-fortlevOrange"></i><a href="mailto:contato@rogeriofortlevsolar.com.br" class="hover:text-fortlevOrange transition break-all">contato@...</a></li> <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-2 text-fortlevOrange"></i><span>Atendimento: ES</span></li> </ul> </div> <div> <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Redes</h4> <div class="flex space-x-3"> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-facebook-f text-sm"></i></a> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-instagram text-sm"></i></a> <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-linkedin-in text-sm"></i></a> </div> <a href="https://www.fortlevsolar.com.br" target="_blank" rel="noopener noreferrer" class="block mt-6 text-xs hover:text-fortlevOrange transition"> Site Oficial Fortlev Solar <i class="fas fa-external-link-alt ml-1"></i> </a> </div> </div> <div class="border-t border-gray-700 pt-6 text-center text-xs"> <p>&copy; <span id="current-year"></span> Rogério - Consultor Oficial Fortlev Solar. Todos os direitos reservados.</p> <p class="mt-2 text-gray-400">Desenvolvido por Joao Ricardo - Engenheiro da Computação - <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-fortlevOrange transition"> Instagram @joaoricardo.pe <i class="fab fa-instagram text-xs ml-1"></i> </a> </p> </div> </div>
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Coluna 1: Logo e Descrição -->
+                <div class="md:col-span-1">
+                    <a href="#inicio" class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1631771819642-90cee9a2ccac?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="h-10 filter brightness-0 invert"> <!-- Usando o mesmo logo -->
+                        <span class="ml-3 text-lg font-semibold text-white">Oxente Energia Solar</span> <!-- Nome completo -->
+                    </a>
+                    <p class="text-sm leading-relaxed">Empresa Oficial Parceira da Fortlev Solar.<br>Energia limpa e economia para você.</p>
+                </div>
+                <!-- Coluna 2: Navegação -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Navegação</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#inicio" class="hover:text-fortlevOrange transition">Início</a></li>
+                        <li><a href="#sobre" class="hover:text-fortlevOrange transition">Sobre</a></li>
+                        <li><a href="#vantagens" class="hover:text-fortlevOrange transition">Vantagens</a></li>
+                        <li><a href="#processo" class="hover:text-fortlevOrange transition">Processo</a></li>
+                        <li><a href="#solucoes" class="hover:text-fortlevOrange transition">Soluções</a></li>
+                        <li><a href="#projetos" class="hover:text-fortlevOrange transition">Projetos</a></li>
+                        <li><a href="#depoimentos" class="hover:text-fortlevOrange transition">Depoimentos</a></li>
+                        <li><a href="#videos" class="hover:text-fortlevOrange transition">Vídeos</a></li>
+                        <li><a href="#blog" class="hover:text-fortlevOrange transition">Blog</a></li>
+                        <li><a href="#contato" class="hover:text-fortlevOrange transition">Contato</a></li>
+                        <li><a href="#faq" class="hover:text-fortlevOrange transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <!-- Coluna 3: Contato -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Contato</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start">
+                            <i class="fab fa-whatsapp mt-1 mr-2 text-fortlevOrange"></i>
+                            <a href="https://wa.me/5528999662264?text=Vi%20seu%20site%20e%20gostaria%20de%20mais%20informações." target="_blank" rel="noopener noreferrer" class="hover:text-fortlevOrange transition">(28) 99966-2264</a>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-fortlevOrange"></i>
+                            <a href="mailto:contato@oxentesolar.com.br" class="hover:text-fortlevOrange transition break-all">contato@oxenteenergiasolar...</a> <!-- Manter email curto se preferir -->
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-fortlevOrange"></i>
+                            <span>Atendimento: Petrolina (PE)</span>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-2 text-fortlevOrange"></i>
+                            <span>Seg-Sex: 8h-18h | Sáb: 9h-13h</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Coluna 4: Redes Sociais e Site Oficial -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Redes Sociais</h4>
+                    <div class="flex space-x-3 mb-6">
+                        <a href="https://facebook.com/SEU_FACEBOOK" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-facebook-f text-sm"></i></a>
+                        <a href="https://instagram.com/SEU_INSTAGRAM" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-instagram text-sm"></i></a>
+                        <a href="https://linkedin.com/in/SEU_LINKEDIN" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="bg-gray-700 hover:bg-fortlevOrange text-white w-8 h-8 flex items-center justify-center rounded-full transition duration-300"><i class="fab fa-linkedin-in text-sm"></i></a>
+                    </div>
+                    <h4 class="text-white font-semibold mb-2 uppercase text-sm tracking-wider">Site Oficial</h4>
+                    <a href="https://www.fortlevsolar.com.br" target="_blank" rel="noopener noreferrer" class="text-sm hover:text-fortlevOrange transition">
+                        oxenteenergiasolar <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Direitos Autorais -->
+            <div class="border-t border-gray-700 pt-6 text-center text-xs">
+                <p>© <span id="current-year"></span> Oxente Energia Solar. Todos os direitos reservados.</p>
+                <p class="mt-2 text-gray-400">Desenvolvido por João Ricardo - Engenheiro da Computação 
+                    <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-fortlevOrange transition">  @joaoricardo.pe <i class="fab fa-instagram text-xs ml-1"></i> </a>
+                </p>
+            </div>
+        </div>
     </footer>
 
-    <!-- Offline Status Indicator -->
-    <div id="offline-status">Offline Mode</div>
+    <!-- ========================== -->
+    <!--         JAVASCRIPT         -->
+    <!-- ========================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-    <!-- Load Config First -->
-    <script src="config.js"></script>
-    <!-- Load IndexedDB Helper (Optional but Recommended) -->
-    <script src="db.js"></script>
-    <!-- Load Main Page Logic -->
-    <script type="module" src="main.js"></script>
+            // --- Lazy Load Imagens Reais ---
+            const realImages = document.querySelectorAll('img[data-real-src]');
+            const imgObserverOptions = { rootMargin: "100px" }; // Carrega um pouco antes de entrar na viewport
+            const imgObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.realSrc;
+                        img.removeAttribute('data-real-src'); // Remove o atributo após carregar
+                        img.onload = () => img.style.backgroundColor = 'transparent'; // Remove fundo cinza após carregar
+                        observer.unobserve(img); // Para de observar a imagem
+                    }
+                });
+            }, imgObserverOptions);
+            realImages.forEach(img => { imgObserver.observe(img); });
+
+            // --- Toggle Menu Mobile ---
+            const menuToggle = document.getElementById("menu-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            const menuIcon = menuToggle.querySelector("i");
+
+            menuToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+                menuIcon.classList.toggle("fa-bars");
+                menuIcon.classList.toggle("fa-times");
+                menuToggle.setAttribute('aria-label', menuIcon.classList.contains('fa-bars') ? 'Abrir Menu' : 'Fechar Menu');
+            });
+
+            // Fechar menu mobile ao clicar em um link
+            mobileMenu.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    mobileMenu.classList.add("hidden");
+                    menuIcon.classList.remove("fa-times");
+                    menuIcon.classList.add("fa-bars");
+                    menuToggle.setAttribute('aria-label', 'Abrir Menu');
+                });
+            });
+
+            // --- Acordeão FAQ ---
+            const faqQuestions = document.querySelectorAll(".faq-question");
+            faqQuestions.forEach(button => {
+                button.addEventListener("click", () => {
+                    const answer = button.nextElementSibling;
+                    const isOpen = button.classList.contains("open");
+
+                    // Fecha todos os outros answers antes de abrir o clicado (opcional)
+                    // faqQuestions.forEach(otherButton => {
+                    //     if (otherButton !== button && otherButton.classList.contains("open")) {
+                    //         otherButton.classList.remove("open");
+                    //         otherButton.nextElementSibling.classList.add("hidden");
+                    //     }
+                    // });
+
+                    button.classList.toggle("open", !isOpen);
+                    answer.classList.toggle("hidden", isOpen);
+                });
+            });
+
+            // --- Animações ao Rolar ---
+            const animatedElements = document.querySelectorAll(".animate-on-scroll");
+            const scrollObserverOptions = {
+                threshold: 0.15, // % do elemento visível para disparar
+                rootMargin: "0px 0px -50px 0px" // Dispara um pouco antes de entrar totalmente
+            };
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const animationType = element.dataset.animation || "fade-in";
+                        const animationDelay = element.dataset.animationDelay || "0";
+                        element.style.transitionDelay = `${animationDelay}ms`;
+                        element.classList.add(animationType === "slide-up" ? "animated-slide-up" : "animated-fade-in");
+                        element.style.opacity = 1; // Garante visibilidade
+                        observer.unobserve(element); // Anima apenas uma vez
+                    }
+                });
+            }, scrollObserverOptions);
+            animatedElements.forEach(element => { scrollObserver.observe(element); });
+
+            // --- Ano Atual no Rodapé ---
+            document.getElementById("current-year").textContent = new Date().getFullYear();
+
+            // --- Lógica da Calculadora Solar ---
+            const calculateBtn = document.getElementById("calculate-btn");
+            if (calculateBtn) {
+                calculateBtn.addEventListener("click", () => {
+                    const consumptionInput = document.getElementById("calc-consumption");
+                    const tariffInput = document.getElementById("calc-tariff");
+                    const resultDiv = document.getElementById("calculator-result");
+                    const savingsSpan = document.getElementById("savings-result");
+                    const systemSizeSpan = document.getElementById("system-size");
+                    const paybackSpan = document.getElementById("payback");
+
+                    const consumption = parseFloat(consumptionInput.value);
+                    const tariff = parseFloat(tariffInput.value);
+
+                    if (!isNaN(consumption) && consumption > 0 && !isNaN(tariff) && tariff > 0) {
+                        // Fatores de cálculo (simplificados - ajustar conforme necessário)
+                        const KWH_PER_KWP_MONTH = 115; // Geração média mensal por kWp (varia por região)
+                        const SAVING_PERCENTAGE = 0.93; // % de economia real após taxas mínimas etc.
+                        const SYSTEM_COST_PER_KWP = 4500; // Custo aproximado por kWp instalado (varia muito)
+
+                        const estimatedSystemSize = Math.ceil((consumption / KWH_PER_KWP_MONTH) * 10) / 10; // kWp, arredondado para 1 decimal
+                        const estimatedMonthlySavings = consumption * tariff * SAVING_PERCENTAGE;
+                        const estimatedSystemCost = estimatedSystemSize * SYSTEM_COST_PER_KWP;
+                        const estimatedAnnualSavings = estimatedMonthlySavings * 12;
+                        const estimatedPaybackYears = (estimatedSystemCost / estimatedAnnualSavings).toFixed(1);
+
+                        savingsSpan.textContent = `R$ ${estimatedMonthlySavings.toFixed(2).replace(".", ",")}`;
+                        systemSizeSpan.textContent = `${estimatedSystemSize.toFixed(1).replace(".", ",")} kWp`;
+                        paybackSpan.textContent = `${estimatedPaybackYears.replace(".", ",")} anos`;
+                        resultDiv.classList.remove("hidden");
+
+                    } else {
+                        resultDiv.classList.add("hidden");
+                        if (isNaN(consumption) || consumption <= 0) {
+                            consumptionInput.focus();
+                            alert("Por favor, insira um valor de consumo mensal válido.");
+                        } else if (isNaN(tariff) || tariff <= 0) {
+                            tariffInput.focus();
+                            alert("Por favor, insira um valor de tarifa de energia válido.");
+                        }
+                    }
+                });
+            }
+
+            // --- Animação Contadora de Estatísticas ---
+            const statsCounters = document.querySelectorAll("[data-count]");
+            const countUp = (element, targetValue, duration = 2000) => {
+                let startValue = 0;
+                const increment = targetValue / (duration / 16); // ~60fps
+                const updateCount = () => {
+                    startValue += increment;
+                    if (startValue >= targetValue) {
+                        element.textContent = targetValue;
+                        return;
+                    }
+                    element.textContent = Math.ceil(startValue);
+                    requestAnimationFrame(updateCount);
+                };
+                requestAnimationFrame(updateCount);
+            };
+
+            const statsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counterElement = entry.target;
+                        const target = parseInt(counterElement.dataset.count, 10);
+                        if (!isNaN(target) && counterElement.textContent === '0') { // Anima só se for 0
+                             countUp(counterElement, target);
+                             observer.unobserve(counterElement); // Anima apenas uma vez
+                        }
+                    }
+                });
+            }, { threshold: 0.5 }); // Metade do elemento visível
+
+            statsCounters.forEach(counter => { statsObserver.observe(counter); });
+
+            // --- Simulação de Modal/Lightbox para Vídeos ---
+            const videoThumbnails = document.querySelectorAll(".video-thumbnail, .reel-thumbnail");
+            videoThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener("click", () => {
+                    const videoUrl = thumbnail.dataset.videoUrl || thumbnail.dataset.reelUrl;
+                    if (videoUrl && videoUrl !== '#') {
+                        // Em um projeto real, aqui você abriria um modal/lightbox com um player de vídeo
+                        console.log("Abrir vídeo:", videoUrl);
+                        alert(`Simulação: Abrindo vídeo em um modal.\nURL: ${videoUrl}\n(Implementar um componente de lightbox/modal para funcionalidade real)`);
+                    } else {
+                        console.warn("URL do vídeo não encontrada ou inválida para esta miniatura.");
+                        alert("Simulação: URL do vídeo não configurada.");
+                    }
+                });
+            });
+
+            // --- Tratamento do Envio do Formulário de Contato (Simulação) ---
+            const contactForm = document.getElementById("contact-form");
+            const formStatus = document.getElementById("form-status");
+
+            if (contactForm && formStatus) {
+                contactForm.addEventListener("submit", async (event) => {
+                    event.preventDefault(); // Impede o envio padrão do formulário
+                    formStatus.textContent = "Enviando sua mensagem...";
+                    formStatus.className = "text-sm mt-4 text-center text-gray-600"; // Estilo de "enviando"
+                    const submitButton = contactForm.querySelector('button[type="submit"]');
+                    submitButton.disabled = true;
+                    submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
+                    const formData = new FormData(contactForm);
+                    // const data = Object.fromEntries(formData.entries()); // Converte para objeto se necessário
+
+                    // --- Simulação de Envio (Substitua por sua lógica de envio real) ---
+                    try {
+                        // console.log("Dados do formulário:", data); // Para depuração
+                        // Simula um tempo de espera da rede
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+
+                        // Simulação de sucesso
+                        formStatus.textContent = "Mensagem enviada com sucesso! Entraremos em contato em breve.";
+                        formStatus.className = "text-sm mt-4 text-center text-green-600"; // Estilo de sucesso
+                        contactForm.reset(); // Limpa o formulário
+
+                        // Simulação de Erro (descomente para testar)
+                        // throw new Error("Falha simulada no servidor");
+
+                    } catch (error) {
+                        console.error("Erro no envio do formulário:", error);
+                        formStatus.textContent = "Erro ao enviar a mensagem. Por favor, tente novamente ou utilize o WhatsApp.";
+                        formStatus.className = "text-sm mt-4 text-center text-red-600"; // Estilo de erro
+                    } finally {
+                        // Reabilita o botão após o envio (sucesso ou falha)
+                        submitButton.disabled = false;
+                        submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+                    }
+                    // --- Fim da Simulação ---
+
+                    /* Lógica de Envio Real (Exemplo usando fetch):
+                    try {
+                        const response = await fetch('URL_DO_SEU_BACKEND_AQUI', {
+                            method: 'POST',
+                            body: formData // Ou JSON.stringify(data) se o backend esperar JSON
+                            // headers: { 'Content-Type': 'application/json' }, // Se enviar JSON
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        // const result = await response.json(); // Se o backend retornar JSON
+                        formStatus.textContent = "Mensagem enviada com sucesso!";
+                        formStatus.className = "text-sm mt-4 text-center text-green-600";
+                        contactForm.reset();
+
+                    } catch (error) {
+                         console.error("Erro no envio do formulário:", error);
+                         formStatus.textContent = "Erro ao enviar. Tente novamente ou use o WhatsApp.";
+                         formStatus.className = "text-sm mt-4 text-center text-red-600";
+                    } finally {
+                        submitButton.disabled = false;
+                        submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+                    }
+                    */
+                });
+            }
+
+            // REMOVIDO: Lógica JavaScript do Painel de Admin (toggle, populate, CSV)
+
+        }); // Fim DOMContentLoaded
+    </script>
+
 </body>
 </html>
