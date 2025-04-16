@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - Rogério Fortlev Solar</title>
-    <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing -->
+    <meta name="robots" content="noindex, nofollow">
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome via CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Link to Shared CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- Supabase JS Library via CDN (needed before admin.js) -->
+    <!-- Supabase JS Library via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-     <!-- Tailwind Config (Keep it here or move to a separate config if Tailwind CLI is used) -->
+     <!-- Tailwind Config -->
      <script> tailwind.config = { theme: { extend: { colors: { fortlevBlue: '#0056b3', fortlevOrange: '#ff6d00', fortlevDark: '#1a2b3c', }, aspectRatio: { '9/16': '9 / 16', }, } } } </script>
 </head>
 <body>
@@ -23,46 +23,63 @@
 
             <!-- Login Form -->
             <div id="auth-container">
-                <div class="text-center mb-4">
-                    <!-- You can replace this with the actual logo URL from config if needed, but static is fine here -->
-                    <img src="https://fortlev.com.br/wp-content/uploads/2021/10/logo-fortlev.png" alt="Logo" class="h-16 mx-auto">
-                </div>
-                <h3>Acesso Administrativo</h3>
-                <form id="login-form">
-                    <div class="mb-4">
-                        <label for="admin-email">Email:</label>
-                        <input type="email" id="admin-email" required autocomplete="email" class="border">
-                    </div>
-                    <div class="mb-6">
-                        <label for="admin-password">Senha:</label>
-                        <input type="password" id="admin-password" required autocomplete="current-password" class="border">
-                    </div>
-                    <button type="submit" id="login-button" class="bg-fortlevOrange hover:bg-orange-600">
-                        Entrar <span class="spinner hidden"></span>
-                    </button>
-                    <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
-                </form>
+                 <div class="text-center mb-4">
+                     <img src="https://fortlev.com.br/wp-content/uploads/2021/10/logo-fortlev.png" alt="Logo" class="h-16 mx-auto">
+                 </div>
+                 <h3>Acesso Administrativo</h3>
+                 <form id="login-form">
+                     <div class="mb-4"> <label for="admin-email">Email:</label> <input type="email" id="admin-email" required autocomplete="email"> </div>
+                     <div class="mb-6"> <label for="admin-password">Senha:</label> <input type="password" id="admin-password" required autocomplete="current-password"> </div>
+                     <button type="submit" id="login-button"> Entrar <span class="spinner hidden"></span> </button>
+                     <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
+                 </form>
             </div>
 
             <!-- Admin Content Editing Panel (Shown after login) -->
             <div id="admin-content" class="hidden">
                  <h3>Painel Administrativo <button id="logout-button" class="logout-btn text-sm">Sair</button></h3>
                  <p class="text-center text-gray-600 mb-6 text-sm -mt-4">Logado como: <span id="user-email-display" class="font-medium"></span></p>
+                 <p id="admin-loading-status" class="status-message loading text-center mb-4">Carregando dados...</p>
 
                  <!-- Form for General Settings -->
                  <form id="admin-form-settings" class="admin-section-form" data-table="website_settings" data-id="1">
                     <h4><i class="fas fa-cog fa-fw mr-2"></i>Configurações Gerais</h4>
+
                     <!-- Logo -->
-                    <label for="admin-logo-upload">Logo do Site:</label>
-                    <img id="admin-logo-preview" src="placeholder-logo.png" alt="Preview Logo" class="current-img-preview">
-                    <input type="file" id="admin-logo-upload" name="site_logo_file" accept="image/*">
-                    <input type="hidden" id="admin-logo-url" name="site_logo_url"> <!-- Store current URL -->
+                    <div class="mb-4 border-b pb-4">
+                        <label class="block font-semibold mb-2">Logo do Site:</label>
+                        <div class="image-source-selector mb-2">
+                            <label><input type="radio" name="logo_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="logo_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                        </div>
+                        <div class="image-file-input">
+                             <img id="admin-logo-preview" src="placeholder-logo.png" alt="Preview Logo" class="current-img-preview">
+                             <input type="file" id="admin-logo-upload" name="site_logo_file" accept="image/*">
+                        </div>
+                         <div class="image-url-input">
+                             <label for="admin-logo-link-input">URL do Logo:</label>
+                             <input type="url" id="admin-logo-link-input" name="site_logo_link" placeholder="https://...">
+                         </div>
+                         <input type="hidden" id="admin-logo-current-url" name="site_logo_url"> <!-- Stores CURRENT saved URL -->
+                    </div>
 
                     <!-- Hero Background -->
-                    <label for="admin-hero-bg-upload" class="mt-4">Imagem de Fundo (Hero):</label>
-                    <img id="admin-hero-bg-preview" src="placeholder-hero-bg.jpg" alt="Preview Hero BG" class="current-img-preview">
-                     <input type="file" id="admin-hero-bg-upload" name="hero_bg_file" accept="image/*">
-                     <input type="hidden" id="admin-hero-bg-url" name="hero_bg_image_url">
+                     <div class="mb-4 border-b pb-4">
+                         <label class="block font-semibold mb-2">Imagem de Fundo (Hero):</label>
+                         <div class="image-source-selector mb-2">
+                            <label><input type="radio" name="hero_bg_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="hero_bg_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                        </div>
+                         <div class="image-file-input">
+                            <img id="admin-hero-bg-preview" src="placeholder-hero-bg.jpg" alt="Preview Hero BG" class="current-img-preview">
+                            <input type="file" id="admin-hero-bg-upload" name="hero_bg_file" accept="image/*">
+                        </div>
+                        <div class="image-url-input">
+                            <label for="admin-hero-bg-link-input">URL da Imagem de Fundo:</label>
+                            <input type="url" id="admin-hero-bg-link-input" name="hero_bg_link" placeholder="https://...">
+                        </div>
+                        <input type="hidden" id="admin-hero-bg-current-url" name="hero_bg_image_url">
+                     </div>
 
                      <!-- Hero Text -->
                      <label for="admin-hero-title" class="mt-4">Título Principal (Hero):</label>
@@ -79,15 +96,29 @@
                  <!-- Form for About Section -->
                  <form id="admin-form-about" class="admin-section-form" data-table="website_settings" data-id="1">
                     <h4><i class="fas fa-user fa-fw mr-2"></i>Seção Sobre</h4>
-                    <label for="admin-about-image-upload">Foto do Consultor:</label>
-                    <img id="admin-about-preview" src="placeholder-about.png" alt="Preview Sobre" class="current-img-preview">
-                    <input type="file" id="admin-about-image-upload" name="about_image_file" accept="image/*">
-                     <input type="hidden" id="admin-about-image-url" name="about_image_url">
+                     <!-- About Image -->
+                     <div class="mb-4 border-b pb-4">
+                         <label class="block font-semibold mb-2">Foto do Consultor:</label>
+                         <div class="image-source-selector mb-2">
+                             <label><input type="radio" name="about_image_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                             <label><input type="radio" name="about_image_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                         </div>
+                         <div class="image-file-input">
+                             <img id="admin-about-preview" src="placeholder-about.png" alt="Preview Sobre" class="current-img-preview">
+                             <input type="file" id="admin-about-image-upload" name="about_image_file" accept="image/*">
+                         </div>
+                         <div class="image-url-input">
+                              <label for="admin-about-link-input">URL da Foto:</label>
+                             <input type="url" id="admin-about-link-input" name="about_image_link" placeholder="https://...">
+                         </div>
+                          <input type="hidden" id="admin-about-current-url" name="about_image_url">
+                     </div>
 
+                    <!-- About Text -->
                     <label for="admin-about-title-input">Título:</label>
-                    <input type="text" id="admin-about-title-input" name="about_title"> <!-- Use DB column name -->
+                    <input type="text" id="admin-about-title-input" name="about_title">
                     <label for="admin-about-text-input">Texto:</label>
-                    <textarea id="admin-about-text-input" name="about_text" rows="5"></textarea> <!-- Use DB column name -->
+                    <textarea id="admin-about-text-input" name="about_text" rows="5"></textarea>
 
                     <div id="status-about" class="status-message"></div>
                     <button type="submit" class="save-btn"><i class="fas fa-save fa-fw mr-1"></i>Salvar Seção Sobre <span class="spinner hidden"></span></button>
@@ -97,7 +128,6 @@
                 <div id="admin-section-solutions" class="admin-section-form">
                     <h4><i class="fas fa-puzzle-piece fa-fw mr-2"></i>Soluções</h4>
                     <div id="solutions-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
-                        <!-- List items are rendered here by admin.js -->
                         <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                     </div>
                     <hr class="my-6">
@@ -107,11 +137,22 @@
                         <input type="text" id="add-solution-title" name="title" required>
                         <label for="add-solution-desc">Descrição:</label>
                         <textarea id="add-solution-desc" name="description" rows="3"></textarea>
-                        <label for="add-solution-image">Imagem:</label>
-                        <input type="file" id="add-solution-image" name="image_file" accept="image/*">
+                         <!-- Add Solution Image Source Selection -->
+                        <div class="image-source-selector my-4">
+                            <label class="block mb-2 font-medium">Imagem da Solução:</label>
+                            <label><input type="radio" name="add_solution_image_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="add_solution_image_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                            <div class="image-file-input">
+                                <label for="add-solution-image">Selecionar Arquivo:</label>
+                                <input type="file" id="add-solution-image" name="image_file" accept="image/*">
+                            </div>
+                            <div class="image-url-input">
+                                <label for="add-solution-link-input">URL da Imagem:</label>
+                                <input type="url" id="add-solution-link-input" name="image_link" placeholder="https://...">
+                            </div>
+                         </div>
                          <label for="add-solution-features">Características (uma por linha):</label>
-                        <textarea id="add-solution-features" name="features_text" rows="3" placeholder="Tecnologia avançada
-Resistência superior"></textarea>
+                        <textarea id="add-solution-features" name="features_text" rows="3" placeholder="Tecnologia avançada&#10;Resistência superior"></textarea>
                         <label for="add-solution-order">Ordem (Ex: 10, 20):</label>
                         <input type="number" id="add-solution-order" name="order_index" value="0" class="w-24">
                         <div id="status-add-solution" class="status-message"></div>
@@ -131,8 +172,20 @@ Resistência superior"></textarea>
                      <form id="add-project-form" data-table="projects">
                          <label for="add-project-title">Título*:</label>
                          <input type="text" id="add-project-title" name="title" required>
-                         <label for="add-project-image">Imagem:</label>
-                         <input type="file" id="add-project-image" name="image_file" accept="image/*">
+                          <!-- Add Project Image Source Selection -->
+                         <div class="image-source-selector my-4">
+                            <label class="block mb-2 font-medium">Imagem do Projeto:</label>
+                            <label><input type="radio" name="add_project_image_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="add_project_image_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                            <div class="image-file-input">
+                                <label for="add-project-image">Selecionar Arquivo:</label>
+                                <input type="file" id="add-project-image" name="image_file" accept="image/*">
+                            </div>
+                            <div class="image-url-input">
+                                <label for="add-project-link-input">URL da Imagem:</label>
+                                <input type="url" id="add-project-link-input" name="image_link" placeholder="https://...">
+                            </div>
+                         </div>
                          <label for="add-project-kwp">kWp:</label>
                          <input type="text" id="add-project-kwp" name="kwp" placeholder="Ex: 5.2 kWp">
                          <label for="add-project-savings">Economia:</label>
@@ -159,8 +212,20 @@ Resistência superior"></textarea>
                          <input type="text" id="add-testimonial-location" name="location" placeholder="Ex: Residencial - SP">
                          <label for="add-testimonial-quote">Depoimento*:</label>
                          <textarea id="add-testimonial-quote" name="quote" rows="4" required></textarea>
-                         <label for="add-testimonial-image">Foto:</label>
-                         <input type="file" id="add-testimonial-image" name="image_file" accept="image/*">
+                           <!-- Add Testimonial Image Source Selection -->
+                         <div class="image-source-selector my-4">
+                            <label class="block mb-2 font-medium">Foto do Cliente:</label>
+                            <label><input type="radio" name="add_testimonial_image_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="add_testimonial_image_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                            <div class="image-file-input">
+                                <label for="add-testimonial-image">Selecionar Arquivo:</label>
+                                <input type="file" id="add-testimonial-image" name="image_file" accept="image/*">
+                            </div>
+                            <div class="image-url-input">
+                                <label for="add-testimonial-link-input">URL da Foto:</label>
+                                <input type="url" id="add-testimonial-link-input" name="image_link" placeholder="https://...">
+                            </div>
+                         </div>
                          <label for="add-testimonial-rating">Avaliação (1-5):</label>
                          <input type="number" id="add-testimonial-rating" name="rating" min="1" max="5" value="5" class="w-20">
                          <label for="add-testimonial-order">Ordem:</label>
@@ -181,8 +246,20 @@ Resistência superior"></textarea>
                      <form id="add-reel-form" data-table="reels">
                          <label for="add-reel-title">Título:</label>
                          <input type="text" id="add-reel-title" name="title" placeholder="Ex: Dica Rápida">
-                         <label for="add-reel-thumbnail">Imagem Thumbnail:</label>
-                         <input type="file" id="add-reel-thumbnail" name="thumbnail_file" accept="image/*">
+                          <!-- Add Reel Thumbnail Source Selection -->
+                         <div class="image-source-selector my-4">
+                            <label class="block mb-2 font-medium">Imagem Thumbnail:</label>
+                            <label><input type="radio" name="add_reel_thumbnail_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="add_reel_thumbnail_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                            <div class="image-file-input">
+                                <label for="add-reel-thumbnail-file">Selecionar Arquivo:</label>
+                                <input type="file" id="add-reel-thumbnail-file" name="thumbnail_file" accept="image/*">
+                            </div>
+                            <div class="image-url-input">
+                                <label for="add-reel-thumbnail-link">URL da Thumbnail:</label>
+                                <input type="url" id="add-reel-thumbnail-link" name="thumbnail_link" placeholder="https://...">
+                            </div>
+                         </div>
                          <label for="add-reel-video-url">URL do Vídeo* (YouTube, Vimeo, etc.):</label>
                          <input type="url" id="add-reel-video-url" name="video_url" placeholder="https://..." required>
                          <label for="add-reel-order">Ordem:</label>
@@ -209,10 +286,22 @@ Resistência superior"></textarea>
                          <textarea id="add-blog-excerpt" name="excerpt" rows="3"></textarea>
                          <label for="add-blog-content">Conteúdo Principal (HTML ou Markdown):</label>
                          <textarea id="add-blog-content" name="content" rows="10" placeholder="Escreva o conteúdo aqui..."></textarea>
-                         <label for="add-blog-image">Imagem Principal:</label>
-                         <input type="file" id="add-blog-image" name="image_file" accept="image/*">
+                          <!-- Add Blog Image Source Selection -->
+                         <div class="image-source-selector my-4">
+                            <label class="block mb-2 font-medium">Imagem Principal:</label>
+                            <label><input type="radio" name="add_blog_image_source_type" value="upload" checked class="image-source-radio"> Upload</label>
+                            <label><input type="radio" name="add_blog_image_source_type" value="link" class="image-source-radio"> Link Externo</label>
+                            <div class="image-file-input">
+                                <label for="add-blog-image">Selecionar Arquivo:</label>
+                                <input type="file" id="add-blog-image" name="image_file" accept="image/*">
+                            </div>
+                            <div class="image-url-input">
+                                <label for="add-blog-link-input">URL da Imagem:</label>
+                                <input type="url" id="add-blog-link-input" name="image_link" placeholder="https://...">
+                            </div>
+                         </div>
                          <label for="add-blog-publish-date">Data Publicação (deixar em branco para publicar agora):</label>
-                         <input type="datetime-local" id="add-blog-publish-date" name="published_at_input"> <!-- Use _input suffix -->
+                         <input type="datetime-local" id="add-blog-publish-date" name="published_at_input">
 
                          <div id="status-add-blog" class="status-message"></div>
                          <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Post <span class="spinner hidden"></span></button>
@@ -225,7 +314,7 @@ Resistência superior"></textarea>
 
     <!-- Footer (Minimal for Admin Panel) -->
     <footer class="text-center py-4 text-xs text-gray-600 bg-gray-200 mt-10">
-        Painel Administrativo - Rogério Fortlev Solar © <span id="current-year-admin"></span> | Desenvolvido por Joao Ricardo
+        Painel Administrativo - Rogério Fortlev Solar &copy; <span id="current-year-admin"></span> | Desenvolvido por Joao Ricardo
     </footer>
 
     <!-- Load Config First -->
