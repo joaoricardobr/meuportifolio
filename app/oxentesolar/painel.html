@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Rogério Fortlev Solar</title>
+    <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing -->
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+     <!-- Tailwind Configuration -->
+     <script> tailwind.config = { theme: { extend: { colors: { fortlevBlue: '#0056b3', fortlevOrange: '#ff6d00', fortlevDark: '#1a2b3c', }, aspectRatio: { '9/16': '9 / 16', }, } } } </script>
+     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #e9ecef; }
+        /* Admin Section Styles - Copied from index.html styles */
+        #admin-content h3 { font-size: 1.5rem; font-weight: 600; color: var(--fortlevDark, #1a2b3c); margin-bottom: 1.5rem; text-align: center; border-bottom: 1px solid #dee2e6; padding-bottom: 1rem; }
+        #admin-content .admin-section-form { background-color: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+        #admin-content h4 { font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: var(--fortlevBlue, #0056b3); border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        #admin-content label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 500; color: #495057; }
+        #admin-content input[type="file"],
+        #admin-content input[type="text"],
+        #admin-content input[type="url"],
+        #admin-content input[type="email"],
+        #admin-content input[type="password"],
+        #admin-content input[type="number"], /* Added for number inputs */
+        #admin-content textarea { font-size: 0.9rem; border: 1px solid #ced4da; padding: 0.6rem; border-radius: 0.25rem; width: 100%; margin-bottom: 1rem; }
+        #admin-content input:focus, #admin-content textarea:focus { outline: none; box-shadow: 0 0 0 2px var(--fortlevOrange, #ff6d00); border-color: var(--fortlevOrange, #ff6d00); }
+        #admin-content textarea { min-height: 100px; }
+        #admin-content button { font-size: 0.9rem; padding: 0.6rem 1.2rem; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s ease; border: none; }
+        #admin-content button.save-btn { background-color: #28a745; color: white; }
+        #admin-content button.save-btn:hover:not(:disabled) { background-color: #218838; }
+        #admin-content button.delete-btn { background-color: #dc3545; color: white; margin-left: 0.5rem; }
+        #admin-content button.delete-btn:hover:not(:disabled) { background-color: #c82333; }
+         #admin-content button.add-btn { background-color: #007bff; color: white; margin-top: 1rem; width: 100%;}
+        #admin-content button.add-btn:hover:not(:disabled) { background-color: #0056b3; }
+        #admin-content button:disabled { opacity: 0.6; cursor: not-allowed; }
+        #admin-content button.logout-btn { background-color: #6c757d; color: white; float: right; }
+        #admin-content button.logout-btn:hover { background-color: #5a6268; }
+        #admin-content .status-message { font-size: 0.85rem; margin-top: 0.75rem; padding: 0.5rem; border-radius: 0.25rem; text-align: left; }
+        #admin-content .status-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        #admin-content .status-message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        #admin-content .status-message.loading { background-color: #e2e3e5; color: #383d41; border: 1px solid #d6d8db; }
+        #admin-content .current-img-preview { max-width: 150px; max-height: 100px; display: block; margin-top: 5px; margin-bottom: 10px; border: 1px solid #eee; object-fit: contain; background-color: #f8f9fa; }
+        #auth-container { max-width: 400px; margin: 4rem auto; background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #auth-container h3 { text-align: center; margin-bottom: 1.5rem; font-size: 1.4rem; }
+        #auth-container button { width: 100%; background-color: var(--fortlevOrange, #ff6d00); color: white; font-weight: 500; padding-top: 0.7rem; padding-bottom: 0.7rem; }
+        #auth-container button:hover:not(:disabled) { background-color: #e66000; }
+        #admin-content .list-item { border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background-color: #fdfdfd;}
+        #admin-content .list-item h5 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: #495057;}
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 20px; height: 20px; border-radius: 50%; border-left-color: #fff; animation: spin 1s ease infinite; display: inline-block; margin-left: 10px; vertical-align: middle; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <!-- Admin Section Container -->
+    <section id="admin-section" class="py-8 min-h-screen">
+        <div class="container mx-auto px-4">
+
+            <!-- Login Form -->
+            <div id="auth-container">
+                <div class="text-center mb-4">
+                    <img src="https://fortlev.com.br/wp-content/uploads/2021/10/logo-fortlev.png" alt="Logo" class="h-16 mx-auto">
+                </div>
+                <h3>Acesso Administrativo</h3>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="admin-email">Email:</label>
+                        <input type="email" id="admin-email" required autocomplete="email">
+                    </div>
+                    <div class="mb-6">
+                        <label for="admin-password">Senha:</label>
+                        <input type="password" id="admin-password" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" id="login-button">
+                        Entrar <span class="spinner hidden"></span>
+                    </button>
+                    <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
+                </form>
+            </div>
+
+            <!-- Admin Content Editing Panel (Shown after login) -->
+            <div id="admin-content" class="hidden">
+                 <h3>Painel Administrativo <button id="logout-button" class="logout-btn text-sm">Sair</button></h3>
+                 <p class="text-center text-gray-600 mb-6 text-sm -mt-4">Logado como: <span id="user-email-display" class="font-medium"></span></p>
+
+                 <!-- Form for General Settings -->
+                 <form id="admin-form-settings" class="admin-section-form">
+                    <h4><i class="fas fa-cog mr-2"></i>Configurações Gerais</h4>
+                    <!-- Logo -->
+                    <label for="admin-logo-upload">Logo do Site:</label>
+                    <img id="admin-logo-preview" src="placeholder-logo.png" alt="Preview Logo" class="current-img-preview">
+                    <input type="file" id="admin-logo-upload" name="site_logo_file" accept="image/*">
+                    <input type="hidden" id="admin-logo-url" name="site_logo_url"> <!-- Store current URL -->
+
+                    <!-- Hero Background -->
+                    <label for="admin-hero-bg-upload" class="mt-4">Imagem de Fundo (Hero):</label>
+                    <img id="admin-hero-bg-preview" src="placeholder-hero-bg.jpg" alt="Preview Hero BG" class="current-img-preview">
+                     <input type="file" id="admin-hero-bg-upload" name="hero_bg_file" accept="image/*">
+                     <input type="hidden" id="admin-hero-bg-url" name="hero_bg_image_url">
+
+                     <!-- Hero Text -->
+                     <label for="admin-hero-title" class="mt-4">Título Principal (Hero):</label>
+                     <input type="text" id="admin-hero-title" name="hero_title">
+                     <label for="admin-hero-subtitle">Subtítulo (Hero):</label>
+                     <input type="text" id="admin-hero-subtitle" name="hero_subtitle">
+                     <label for="admin-hero-text">Texto (Hero):</label>
+                     <textarea id="admin-hero-text" name="hero_text" rows="3"></textarea>
+
+                     <div id="status-settings" class="status-message"></div>
+                     <button type="submit" class="save-btn"><i class="fas fa-save mr-1"></i>Salvar Configurações Gerais</button>
+                 </form>
+
+                 <!-- Form for About Section -->
+                 <form id="admin-form-about" class="admin-section-form">
+                    <h4><i class="fas fa-user mr-2"></i>Seção Sobre</h4>
+                    <label for="admin-about-image-upload">Foto do Consultor:</label>
+                    <img id="admin-about-preview" src="placeholder-about.png" alt="Preview Sobre" class="current-img-preview">
+                    <input type="file" id="admin-about-image-upload" name="about_image_file" accept="image/*">
+                     <input type="hidden" id="admin-about-image-url" name="about_image_url">
+
+                    <label for="admin-about-title-input">Título:</label>
+                    <input type="text" id="admin-about-title-input" name="about_title">
+                    <label for="admin-about-text-input">Texto:</label>
+                    <textarea id="admin-about-text-input" name="about_text" rows="5"></textarea>
+
+                    <div id="status-about" class="status-message"></div>
+                    <button type="submit" class="save-btn"><i class="fas fa-save mr-1"></i>Salvar Seção Sobre</button>
+                 </form>
+
+                <!-- Section for Solutions (List Management) -->
+                <div id="admin-section-solutions" class="admin-section-form">
+                    <h4><i class="fas fa-puzzle-piece mr-2"></i>Soluções</h4>
+                    <div id="solutions-list-admin" class="mb-6">
+                        <!-- Existing solutions will be loaded here by JS -->
+                        <p class="text-center text-gray-500 italic">Carregando soluções...</p>
+                    </div>
+                    <hr class="my-6">
+                    <h5>Adicionar Nova Solução</h5>
+                    <form id="add-solution-form">
+                        <label for="add-solution-title">Título*:</label>
+                        <input type="text" id="add-solution-title" name="title" required>
+                        <label for="add-solution-desc">Descrição:</label>
+                        <textarea id="add-solution-desc" name="description" rows="3"></textarea>
+                        <label for="add-solution-image">Imagem:</label>
+                        <input type="file" id="add-solution-image" name="image_file" accept="image/*">
+                         <label for="add-solution-features">Características (uma por linha):</label>
+                        <textarea id="add-solution-features" name="features" rows="3" placeholder="Tecnologia avançada&#10;Resistência superior"></textarea>
+                        <label for="add-solution-order">Ordem (Ex: 10, 20):</label>
+                        <input type="number" id="add-solution-order" name="order_index" value="0">
+                        <div id="status-add-solution" class="status-message"></div>
+                        <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Solução</button>
+                    </form>
+                </div>
+
+
+                <!-- Section for Projects (List Management) -->
+                <div id="admin-section-projects" class="admin-section-form">
+                    <h4><i class="fas fa-drafting-compass mr-2"></i>Projetos</h4>
+                     <div id="projects-list-admin" class="mb-6">
+                         <p class="text-center text-gray-500 italic">Carregando projetos...</p>
+                     </div>
+                      <hr class="my-6">
+                     <h5>Adicionar Novo Projeto</h5>
+                     <form id="add-project-form">
+                         <label for="add-project-title">Título*:</label>
+                         <input type="text" id="add-project-title" name="title" required>
+                         <label for="add-project-image">Imagem:</label>
+                         <input type="file" id="add-project-image" name="image_file" accept="image/*">
+                         <label for="add-project-kwp">kWp:</label>
+                         <input type="text" id="add-project-kwp" name="kwp" placeholder="Ex: 5.2 kWp">
+                         <label for="add-project-savings">Economia:</label>
+                         <input type="text" id="add-project-savings" name="savings" placeholder="Ex: Economia ~R$ 450/mês">
+                         <label for="add-project-order">Ordem:</label>
+                         <input type="number" id="add-project-order" name="order_index" value="0">
+                         <div id="status-add-project" class="status-message"></div>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Projeto</button>
+                     </form>
+                </div>
+
+                 <!-- Section for Testimonials (List Management) -->
+                 <div id="admin-section-testimonials" class="admin-section-form">
+                     <h4><i class="fas fa-comments mr-2"></i>Depoimentos</h4>
+                     <div id="testimonials-list-admin" class="mb-6">
+                         <p class="text-center text-gray-500 italic">Carregando depoimentos...</p>
+                     </div>
+                     <hr class="my-6">
+                     <h5>Adicionar Novo Depoimento</h5>
+                     <form id="add-testimonial-form">
+                         <label for="add-testimonial-name">Nome*:</label>
+                         <input type="text" id="add-testimonial-name" name="name" required>
+                         <label for="add-testimonial-location">Localização:</label>
+                         <input type="text" id="add-testimonial-location" name="location" placeholder="Ex: Residencial - SP">
+                         <label for="add-testimonial-quote">Depoimento*:</label>
+                         <textarea id="add-testimonial-quote" name="quote" rows="4" required></textarea>
+                         <label for="add-testimonial-image">Foto:</label>
+                         <input type="file" id="add-testimonial-image" name="image_file" accept="image/*">
+                         <label for="add-testimonial-rating">Avaliação (1-5):</label>
+                         <input type="number" id="add-testimonial-rating" name="rating" min="1" max="5" value="5">
+                         <label for="add-testimonial-order">Ordem:</label>
+                         <input type="number" id="add-testimonial-order" name="order_index" value="0">
+                         <div id="status-add-testimonial" class="status-message"></div>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Depoimento</button>
+                     </form>
+                 </div>
+
+                 <!-- Section for Reels (List Management) -->
+                 <div id="admin-section-reels" class="admin-section-form">
+                     <h4><i class="fas fa-film mr-2"></i>Vídeos (Reels)</h4>
+                     <div id="reels-list-admin" class="mb-6">
+                         <p class="text-center text-gray-500 italic">Carregando reels...</p>
+                     </div>
+                     <hr class="my-6">
+                     <h5>Adicionar Novo Reel</h5>
+                     <form id="add-reel-form">
+                         <label for="add-reel-title">Título:</label>
+                         <input type="text" id="add-reel-title" name="title" placeholder="Ex: Dica Rápida">
+                         <label for="add-reel-thumbnail">Imagem Thumbnail:</label>
+                         <input type="file" id="add-reel-thumbnail" name="thumbnail_file" accept="image/*">
+                         <label for="add-reel-video-url">URL do Vídeo (YouTube, Vimeo, etc.):</label>
+                         <input type="url" id="add-reel-video-url" name="video_url" placeholder="https://...">
+                         <label for="add-reel-order">Ordem:</label>
+                         <input type="number" id="add-reel-order" name="order_index" value="0">
+                         <div id="status-add-reel" class="status-message"></div>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Reel</button>
+                     </form>
+                 </div>
+
+                <!-- Section for Blog Posts (List Management) -->
+                 <div id="admin-section-blog" class="admin-section-form">
+                     <h4><i class="fas fa-newspaper mr-2"></i>Blog Posts</h4>
+                     <div id="blog-list-admin" class="mb-6">
+                          <p class="text-center text-gray-500 italic">Carregando posts...</p>
+                     </div>
+                      <hr class="my-6">
+                     <h5>Adicionar Novo Post</h5>
+                     <form id="add-blog-form">
+                         <label for="add-blog-title">Título*:</label>
+                         <input type="text" id="add-blog-title" name="title" required>
+                          <label for="add-blog-slug">Slug (URL amigável)*:</label>
+                         <input type="text" id="add-blog-slug" name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="exemplo-de-post-slug">
+                         <label for="add-blog-excerpt">Resumo (Excerpt):</label>
+                         <textarea id="add-blog-excerpt" name="excerpt" rows="3"></textarea>
+                         <label for="add-blog-content">Conteúdo Principal:</label>
+                         <textarea id="add-blog-content" name="content" rows="10" placeholder="Escreva o conteúdo aqui..."></textarea>
+                         <label for="add-blog-image">Imagem Principal:</label>
+                         <input type="file" id="add-blog-image" name="image_file" accept="image/*">
+                         <label for="add-blog-publish-date">Data Publicação (opcional):</label>
+                         <input type="datetime-local" id="add-blog-publish-date" name="published_at">
+
+                         <div id="status-add-blog" class="status-message"></div>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Post</button>
+                     </form>
+                 </div>
+
+            </div> <!-- End Admin Content -->
+        </div>
+    </section>
+
+    <!-- Footer (Minimal for Admin Panel) -->
+    <footer class="text-center py-4 text-xs text-gray-600 bg-gray-200">
+        Painel Administrativo - Rogério Fortlev Solar &copy; <span id="current-year-admin"></span>
+    </footer>
+
+     <!-- JavaScript -->
+    <script type="module">
+        // --- SUPABASE CLIENT SETUP ---
+        const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co'; // !!! REPLACE !!!
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o'; // !!! REPLACE !!!
+        const BUCKET_NAME = 'public-assets'; // !!! REPLACE with your bucket name !!!
+
+        let supabase = null;
+        try {
+             if (!SUPABASE_URL || SUPABASE_URL === 'YOUR_SUPABASE_URL' || !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+                alert("ERRO CRÍTICO: Credenciais do Supabase não configuradas neste arquivo painel.html.");
+                throw new Error("Supabase credentials missing.");
+             }
+             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+             console.log("Supabase client initialized for painel.html.");
+        } catch (error) {
+            console.error("Error initializing Supabase:", error);
+            document.body.innerHTML = '<p style="color: red; text-align: center; padding: 2rem;">Erro ao inicializar a conexão com o banco de dados. Verifique as credenciais do Supabase no código.</p>';
+        }
+
+        // --- UI Elements ---
+        const authContainer = document.getElementById('auth-container');
+        const adminContent = document.getElementById('admin-content');
+        const loginForm = document.getElementById('login-form');
+        const loginButton = document.getElementById('login-button');
+        const logoutButton = document.getElementById('logout-button');
+        const userEmailDisplay = document.getElementById('user-email-display');
+        const authError = document.getElementById('auth-error');
+        const loginSpinner = loginButton?.querySelector('.spinner');
+
+        // --- Helper Functions ---
+        function showStatus(elementId, message, type = 'loading') {
+            const el = document.getElementById(elementId);
+            if (el) {
+                el.textContent = message;
+                el.className = 'status-message'; // Reset classes
+                if (type === 'success') el.classList.add('success');
+                else if (type === 'error') el.classList.add('error');
+                else if (type === 'loading') el.classList.add('loading');
+                 // Auto-clear message after a few seconds?
+                if(type === 'success' || type === 'error') {
+                    setTimeout(() => { if(el.textContent === message) el.textContent = ''; }, 5000);
+                }
+            } else {
+                 console.warn(`Status element not found: ${elementId}`);
+            }
+        }
+
+        function setLoading(buttonElement, isLoading) {
+            const spinner = buttonElement?.querySelector('.spinner');
+            if (buttonElement) buttonElement.disabled = isLoading;
+            spinner?.classList.toggle('hidden', !isLoading);
+        }
+
+        async function uploadFile(file, pathPrefix) {
+            if (!file || !supabase) return null;
+            const fileExt = file.name.split('.').pop();
+            const filePath = `${pathPrefix}/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            console.log(`Uploading to: ${filePath}`);
+
+            const { data, error } = await supabase.storage
+                .from(BUCKET_NAME)
+                .upload(filePath, file);
+
+            if (error) {
+                console.error('Upload Error:', error);
+                throw new Error(`Falha no upload: ${error.message}`);
+            }
+
+            // Get public URL
+            const { data: urlData } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filePath);
+            console.log('Upload successful, Public URL:', urlData?.publicUrl);
+            return urlData?.publicUrl;
+        }
+
+         async function deleteFile(fileUrl) {
+             if (!fileUrl || !supabase || !fileUrl.includes(BUCKET_NAME)) return; // Basic check
+
+             // Extract file path from URL
+            const urlParts = fileUrl.split(`${BUCKET_NAME}/`);
+             if (urlParts.length < 2) {
+                 console.warn("Could not extract file path from URL:", fileUrl);
+                 return; // Cannot determine path
+             }
+             const filePath = urlParts[1];
+             console.log(`Attempting to delete file from storage: ${filePath}`);
+
+             try {
+                 const { data, error } = await supabase.storage
+                    .from(BUCKET_NAME)
+                    .remove([filePath]);
+
+                 if (error) {
+                    console.error("Storage Delete Error:", error);
+                    // Don't throw an error here, maybe just log it, deletion might fail but update can proceed
+                 } else {
+                    console.log("Storage file deleted successfully:", data);
+                 }
+             } catch (err) {
+                  console.error("Exception during storage delete:", err);
+             }
+         }
+
+        // --- AUTH FUNCTIONS ---
+        async function handleLogin(event) {
+            event.preventDefault();
+            if (!supabase) return alert('Supabase não configurado.');
+            setLoading(loginButton, true);
+            authError.textContent = '';
+            const email = loginForm.querySelector('#admin-email').value;
+            const password = loginForm.querySelector('#admin-password').value;
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+            } catch (error) {
+                console.error('Login error:', error);
+                authError.textContent = `Erro: ${error.message || 'Falha no login'}`;
+            } finally {
+                setLoading(loginButton, false);
+            }
+        }
+
+        async function handleLogout() {
+            if (!supabase) return alert('Supabase não configurado.');
+            logoutButton.disabled = true;
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+            } catch (error) {
+                alert(`Erro ao sair: ${error.message}`);
+            } finally {
+                 logoutButton.disabled = false;
+            }
+        }
+
+         // --- DATA LOADING for Admin Panel ---
+         async function loadAdminData() {
+             if (!supabase) return;
+             console.log("Loading admin data...");
+             // Show loading states for sections
+             document.getElementById('solutions-list-admin').innerHTML = '<p class="text-center text-gray-500 italic">Carregando soluções...</p>';
+             document.getElementById('projects-list-admin').innerHTML = '<p class="text-center text-gray-500 italic">Carregando projetos...</p>';
+             document.getElementById('testimonials-list-admin').innerHTML = '<p class="text-center text-gray-500 italic">Carregando depoimentos...</p>';
+             document.getElementById('reels-list-admin').innerHTML = '<p class="text-center text-gray-500 italic">Carregando reels...</p>';
+              document.getElementById('blog-list-admin').innerHTML = '<p class="text-center text-gray-500 italic">Carregando posts...</p>';
+
+
+             try {
+                 // 1. Fetch Settings
+                 const { data: settings, error: settingsError } = await supabase
+                     .from('website_settings')
+                     .select('*')
+                     .eq('id', 1)
+                     .single(); // Expect single row
+                 if (settingsError && settingsError.code !== 'PGRST116') throw settingsError; // Ignore 'not found' error, means no settings yet
+
+                 if (settings) {
+                     document.getElementById('admin-logo-preview').src = settings.site_logo_url || 'placeholder-logo.png';
+                     document.getElementById('admin-logo-url').value = settings.site_logo_url || ''; // Store current URL
+                     document.getElementById('admin-hero-bg-preview').src = settings.hero_bg_image_url || 'placeholder-hero-bg.jpg';
+                     document.getElementById('admin-hero-bg-url').value = settings.hero_bg_image_url || '';
+                     document.getElementById('admin-hero-title').value = settings.hero_title || '';
+                     document.getElementById('admin-hero-subtitle').value = settings.hero_subtitle || '';
+                     document.getElementById('admin-hero-text').value = settings.hero_text || '';
+                     document.getElementById('admin-about-preview').src = settings.about_image_url || 'placeholder-about.png';
+                     document.getElementById('admin-about-image-url').value = settings.about_image_url || '';
+                     document.getElementById('admin-about-title-input').value = settings.about_title || '';
+                     document.getElementById('admin-about-text-input').value = settings.about_text || '';
+                 }
+
+                // 2. Fetch Solutions
+                 const { data: solutions, error: solutionsError } = await supabase.from('solutions').select('*').order('order_index');
+                 if (solutionsError) throw solutionsError;
+                 renderAdminList('solutions', solutions);
+
+                 // 3. Fetch Projects
+                 const { data: projects, error: projectsError } = await supabase.from('projects').select('*').order('order_index');
+                 if (projectsError) throw projectsError;
+                 renderAdminList('projects', projects);
+
+                 // 4. Fetch Testimonials
+                  const { data: testimonials, error: testimonialsError } = await supabase.from('testimonials').select('*').order('order_index');
+                 if (testimonialsError) throw testimonialsError;
+                 renderAdminList('testimonials', testimonials);
+
+                 // 5. Fetch Reels
+                  const { data: reels, error: reelsError } = await supabase.from('reels').select('*').order('order_index');
+                 if (reelsError) throw reelsError;
+                 renderAdminList('reels', reels);
+
+                  // 6. Fetch Blog Posts
+                  const { data: blogPosts, error: blogPostsError } = await supabase.from('blog_posts').select('*').order('published_at', { ascending: false });
+                  if (blogPostsError) throw blogPostsError;
+                  renderAdminList('blog', blogPosts);
+
+
+             } catch (error) {
+                 console.error("Error loading admin data:", error);
+                 alert(`Erro ao carregar dados do painel: ${error.message}`);
+             }
+         }
+
+        // --- RENDER LISTS in Admin Panel ---
+        function renderAdminList(type, items) {
+            const listContainerId = `${type}-list-admin`; // e.g., projects-list-admin
+            const listContainer = document.getElementById(listContainerId);
+            if (!listContainer) return;
+
+            listContainer.innerHTML = ''; // Clear loading/previous items
+
+            if (!items || items.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-gray-500 italic">Nenhum item encontrado.</p>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                div.dataset.id = item.id; // Store ID for deletion/editing
+
+                // Simplified display - enhance this with actual edit forms per item if needed
+                let contentHtml = `<h5>${item.title || item.name || `Item ${item.id.substring(0, 6)}`}</h5>`;
+                if (type === 'projects') {
+                     contentHtml += `<p class="text-xs">KWP: ${item.kwp || 'N/A'} | Economia: ${item.savings || 'N/A'}</p>`;
+                }
+                 if (type === 'testimonials') {
+                     contentHtml += `<p class="text-xs">Local: ${item.location || 'N/A'} | Rating: ${item.rating || 'N/A'}</p><p class="text-sm italic mt-1">"${item.quote}"</p>`;
+                }
+                 if (type === 'reels') {
+                      contentHtml += `<p class="text-xs">Thumbnail: ${item.thumbnail_url ? 'Sim' : 'Não'} | Vídeo: ${item.video_url ? 'Sim' : 'Não'}</p>`;
+                 }
+                 if (type === 'blog') {
+                      contentHtml += `<p class="text-xs">Slug: ${item.slug} | Publicado: ${item.published_at ? new Date(item.published_at).toLocaleDateString('pt-BR') : 'N/A'}</p><p class="text-sm mt-1">${item.excerpt || ''}</p>`;
+                 }
+                // Add Edit button (placeholder action)
+                contentHtml += `<button class="edit-item-btn text-xs bg-yellow-500 text-white px-2 py-1 rounded mr-2 mt-2" data-type="${type}" data-id="${item.id}"><i class="fas fa-edit mr-1"></i>Editar</button>`;
+                // Add Delete button
+                contentHtml += `<button class="delete-item-btn text-xs px-2 py-1 rounded" data-type="${type}" data-id="${item.id}" data-img-url="${item.image_url || item.thumbnail_url || ''}"><i class="fas fa-trash mr-1"></i>Excluir</button>`;
+                contentHtml += `<div id="status-${type}-${item.id}" class="status-message"></div>`;
+
+                div.innerHTML = contentHtml;
+                listContainer.appendChild(div);
+            });
+
+             // Add event listeners for the new buttons
+             listContainer.querySelectorAll('.delete-item-btn').forEach(btn => {
+                 btn.onclick = handleDeleteItem; // Use onclick for dynamically added elements
+             });
+             listContainer.querySelectorAll('.edit-item-btn').forEach(btn => {
+                 btn.onclick = handleEditItem; // Define handleEditItem function
+             });
+        }
+
+        // --- CRUD FUNCTIONS ---
+
+        // Placeholder Edit Function
+        function handleEditItem(event) {
+             const button = event.currentTarget;
+             const type = button.dataset.type;
+             const id = button.dataset.id;
+             alert(`Funcionalidade "Editar" para ${type} ID: ${id} não implementada nesta demo.\n\nEm uma aplicação real, isso abriria um modal ou preencheria um formulário de edição com os dados do item.`);
+             // TODO: Implement fetching item data and populating an edit form/modal.
+        }
+
+
+        // Handle Delete Item
+        async function handleDeleteItem(event) {
+            const button = event.currentTarget;
+            const type = button.dataset.type; // e.g., 'projects', 'solutions'
+            const id = button.dataset.id;
+            const imageUrl = button.dataset.imgUrl; // Get image URL if present
+            const tableName = type === 'blog' ? 'blog_posts' : type; // Map type to table name
+
+            if (!supabase || !id || !tableName) return;
+
+            if (!confirm(`Tem certeza que deseja excluir este item (${type})? Esta ação não pode ser desfeita.`)) {
+                return;
+            }
+
+            setLoading(button, true);
+            showStatus(`status-${type}-${id}`, 'Excluindo...', 'loading');
+
+            try {
+                 // 1. Delete from Database
+                 const { error: dbError } = await supabase
+                    .from(tableName)
+                    .delete()
+                    .eq('id', id);
+
+                 if (dbError) throw dbError;
+
+                 // 2. Delete Image from Storage (if URL exists)
+                 if (imageUrl) {
+                    await deleteFile(imageUrl); // Call helper function
+                 }
+
+                 console.log(`Item ${type} ID: ${id} deleted successfully.`);
+                 showStatus(`status-${type}-${id}`, 'Excluído com sucesso!', 'success');
+                 // Remove element from the list visually
+                 button.closest('.list-item')?.remove();
+                 // You might want to reload the entire list for consistency: loadAdminData();
+
+            } catch (error) {
+                console.error(`Error deleting item ${type} ID ${id}:`, error);
+                showStatus(`status-${type}-${id}`, `Erro ao excluir: ${error.message}`, 'error');
+            } finally {
+                 setLoading(button, false);
+            }
+
+        }
+
+
+        // Handle Adding New Item (Generic for lists)
+        async function handleAddItem(event, type) {
+            event.preventDefault();
+            if (!supabase) return;
+
+            const form = event.target;
+            const tableName = type === 'blog' ? 'blog_posts' : type; // Map type to table name
+            const statusElementId = `status-add-${type}`;
+            const addButton = form.querySelector('button[type="submit"]');
+
+            setLoading(addButton, true);
+            showStatus(statusElementId, 'Adicionando...', 'loading');
+
+            try {
+                const formData = new FormData(form);
+                const itemData = {};
+                let imageFile = null;
+                let imageUrl = null;
+
+                // Extract data and identify file input
+                for (let [key, value] of formData.entries()) {
+                     if (key.endsWith('_file') && value instanceof File && value.size > 0) {
+                         imageFile = value;
+                     } else if (key === 'features') { // Handle feature list for solutions
+                         itemData[key] = value.split('\n').map(f => f.trim()).filter(f => f); // Split by newline, trim, remove empty
+                     } else if (!key.endsWith('_file')) { // Don't save the file input key itself
+                        itemData[key] = value;
+                     }
+                 }
+
+                 // 1. Upload Image if present
+                 if (imageFile) {
+                     imageUrl = await uploadFile(imageFile, tableName); // Use table name as folder prefix
+                     // Decide which field gets the URL (image_url or thumbnail_url)
+                     if (type === 'reels') {
+                         itemData['thumbnail_url'] = imageUrl;
+                     } else {
+                         itemData['image_url'] = imageUrl;
+                     }
+                 }
+
+
+                 // 2. Insert into Database
+                 console.log("Inserting data:", itemData);
+                 const { data, error } = await supabase
+                    .from(tableName)
+                    .insert([itemData]) // Insert expects an array
+                    .select(); // Return the inserted data
+
+                 if (error) throw error;
+
+                 console.log(`New ${type} added successfully:`, data);
+                 showStatus(statusElementId, 'Item adicionado com sucesso!', 'success');
+                 form.reset(); // Clear the form
+                 // Reload the list to show the new item
+                 loadAdminData(); // Or specifically reload just this list type
+
+            } catch (error) {
+                 console.error(`Error adding ${type}:`, error);
+                 showStatus(statusElementId, `Erro ao adicionar: ${error.message}`, 'error');
+            } finally {
+                 setLoading(addButton, false);
+            }
+        }
+
+        // Handle Saving Single Settings (Website Settings, About)
+        async function handleSaveSettings(event, settingsKeyPrefix, formElementId) {
+             event.preventDefault();
+             if (!supabase) return;
+
+             const form = event.target; // The submitted form
+             const statusElementId = `status-${settingsKeyPrefix}`; // e.g., status-settings, status-about
+             const saveButton = form.querySelector('button[type="submit"]');
+
+             setLoading(saveButton, true);
+             showStatus(statusElementId, 'Salvando...', 'loading');
+
+             try {
+                 const formData = new FormData(form);
+                 const updates = {};
+                 let imageFile = null;
+                 let imageFieldName = null; // e.g., 'site_logo_url', 'hero_bg_image_url', 'about_image_url'
+                 let currentImageUrl = null;
+
+                 // Process form data
+                 for (let [key, value] of formData.entries()) {
+                     if (key.endsWith('_file') && value instanceof File && value.size > 0) {
+                         imageFile = value;
+                         // Determine the corresponding URL field name based on the file input name
+                         imageFieldName = key.replace('_file', '_url'); // e.g., site_logo_file -> site_logo_url
+                          if (imageFieldName === 'hero_bg_url') imageFieldName = 'hero_bg_image_url'; // Adjust for hero bg
+                          if (imageFieldName === 'about_image_url') {
+                             // Get current URL to potentially delete old image
+                             currentImageUrl = document.getElementById('admin-about-image-url')?.value;
+                         } else if (imageFieldName === 'site_logo_url') {
+                             currentImageUrl = document.getElementById('admin-logo-url')?.value;
+                         } else if (imageFieldName === 'hero_bg_image_url') {
+                             currentImageUrl = document.getElementById('admin-hero-bg-url')?.value;
+                         }
+
+                     } else if (!key.endsWith('_file') && !key.endsWith('_url')) { // Store text/other fields
+                         // Ensure key matches database column if form name differs
+                         let dbKey = key;
+                         if(key === 'admin-about-title-input') dbKey = 'about_title';
+                         if(key === 'admin-about-text-input') dbKey = 'about_text';
+                         updates[dbKey] = value;
+                     }
+                 }
+
+                 // 1. Upload new image if provided
+                 let newImageUrl = null;
+                 if (imageFile && imageFieldName) {
+                      // Delete old image *before* uploading new one (optional, depends on workflow)
+                      if (currentImageUrl) {
+                         await deleteFile(currentImageUrl);
+                      }
+                      newImageUrl = await uploadFile(imageFile, settingsKeyPrefix); // e.g., upload to 'settings/' or 'about/' folder
+                      updates[imageFieldName] = newImageUrl;
+                 } else {
+                      // If no new file, check if a direct URL was provided (e.g., for Hero BG)
+                      const directUrlInput = form.querySelector(`#admin-${settingsKeyPrefix}-bg-url`); // Check if URL input exists
+                      if (directUrlInput && directUrlInput.value && imageFieldName) {
+                          updates[imageFieldName] = directUrlInput.value;
+                          // Optionally delete old image if direct URL is different from current hidden URL
+                          const hiddenUrlInput = form.querySelector(`#admin-${settingsKeyPrefix}-url`) || form.querySelector(`#admin-${settingsKeyPrefix}-bg-url`);
+                          if (hiddenUrlInput && hiddenUrlInput.value && hiddenUrlInput.value !== directUrlInput.value) {
+                              await deleteFile(hiddenUrlInput.value);
+                          }
+                      }
+                 }
+
+
+                 // 2. Update Database (website_settings table, row id=1)
+                 if (Object.keys(updates).length > 0) {
+                      console.log("Updating settings:", updates);
+                     const { data, error } = await supabase
+                         .from('website_settings')
+                         .update(updates)
+                         .eq('id', 1) // Update the single settings row
+                         .select(); // Return the updated data
+
+                     if (error) throw error;
+                     console.log("Settings updated successfully:", data);
+                 } else {
+                      console.log("No changes detected to save.");
+                 }
+
+
+                 showStatus(statusElementId, 'Salvo com sucesso!', 'success');
+                 // Reload data in admin panel to reflect potential new image URLs
+                 await loadAdminPanelData();
+
+             } catch (error) {
+                  console.error(`Error saving ${settingsKeyPrefix}:`, error);
+                  showStatus(statusElementId, `Erro ao salvar: ${error.message}`, 'error');
+             } finally {
+                  setLoading(saveButton, false);
+                  // Clear file input
+                   const fileInput = form.querySelector('input[type="file"]');
+                   if(fileInput) fileInput.value = '';
+             }
+         }
+
+
+        // --- Initial Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year-admin').textContent = new Date().getFullYear();
+
+            if (!supabase) {
+                authContainer.innerHTML = '<p class="text-red-600 text-center font-bold">Erro: Supabase não está configurado corretamente neste arquivo.</p>';
+                return;
+            }
+
+            // Check initial auth state
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                updateUI(session?.user ?? null);
+            });
+
+            // Listen for auth changes
+            supabase.auth.onAuthStateChange((_event, session) => {
+                updateUI(session?.user ?? null);
+                if (session?.user) {
+                    loadAdminData(); // Load data when user logs in
+                }
+            });
+
+            // --- Form Event Listeners ---
+            loginForm?.addEventListener('submit', handleLogin);
+            logoutButton?.addEventListener('click', handleLogout);
+
+            // Add listeners for the main settings forms
+            document.getElementById('admin-form-settings')?.addEventListener('submit', (e) => handleSaveSettings(e, 'settings', 'admin-form-settings'));
+            document.getElementById('admin-form-about')?.addEventListener('submit', (e) => handleSaveSettings(e, 'about', 'admin-form-about'));
+
+            // Add listeners for the "Add New" list item forms
+            document.getElementById('add-solution-form')?.addEventListener('submit', (e) => handleAddItem(e, 'solutions'));
+            document.getElementById('add-project-form')?.addEventListener('submit', (e) => handleAddItem(e, 'projects'));
+            document.getElementById('add-testimonial-form')?.addEventListener('submit', (e) => handleAddItem(e, 'testimonials'));
+            document.getElementById('add-reel-form')?.addEventListener('submit', (e) => handleAddItem(e, 'reels'));
+            document.getElementById('add-blog-form')?.addEventListener('submit', (e) => handleAddItem(e, 'blog')); // Note: table name is 'blog_posts'
+
+            // Listeners for Edit/Delete buttons are added dynamically in renderAdminList
+
+        }); // End DOMContentLoaded
+
+    </script>
+
+</body>
+</html>
