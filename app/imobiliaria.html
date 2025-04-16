@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christine Mourão Imóveis - Encontrando o Lar dos Seus Sonhos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        .search-tab.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-home text-blue-500 text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-blue-800">Christine Mourão Imóveis</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link font-medium">Início</a>
+                <a href="#buy" class="nav-link font-medium">Comprar</a>
+                <a href="#rent" class="nav-link font-medium">Alugar</a>
+                <a href="#sell" class="nav-link font-medium">Vender</a>
+                <a href="#about" class="nav-link font-medium">Sobre</a>
+                <a href="#testimonials" class="nav-link font-medium">Depoimentos</a>
+                <a href="#contact" class="nav-link font-medium">Contato</a>
+            </nav>
+            <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition duration-300 md:ml-4">
+                Anuncie Seu Imóvel
+            </a>
+            <button class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg py-20 md:py-32 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Christine Mourão Imóveis: <br>Encontrando o Lar dos Seus Sonhos
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                Sua especialista em imóveis residenciais em São Paulo. Compra, Venda e Aluguel com segurança e expertise.
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="bg-white rounded-lg shadow-xl p-6 max-w-4xl mx-auto">
+                <div class="flex mb-4">
+                    <button class="search-tab active px-6 py-2 rounded-l-lg font-medium border border-blue-600">Comprar</button>
+                    <button class="search-tab px-6 py-2 rounded-r-lg font-medium border border-blue-600 bg-gray-100">Alugar</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Tipo de Imóvel</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                            <option>Todos</option>
+                            <option>Apartamento</option>
+                            <option>Casa</option>
+                            <option>Cobertura</option>
+                            <option>Terreno</option>
+                            <option>Studio/Kitnet</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Localização</label>
+                        <input type="text" placeholder="Bairro, Cidade ou Código" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Quartos</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                            <option>Indiferente</option>
+                            <option>1+</option>
+                            <option>2+</option>
+                            <option>3+</option>
+                            <option>4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+                    Buscar Imóveis
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Imóveis em Destaque para Você</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Confira nossas melhores oportunidades no mercado imobiliário de São Paulo
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Property 1 -->
+                <div class="property-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Apartamento Reformado no Jardins" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            NOVO
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Apartamento Reformado - Jardins</h3>
+                        <p class="text-gray-600 mb-4">Rua Augusta, Jardins - São Paulo/SP</p>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex space-x-4">
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bed mr-1 text-blue-500"></i> 3
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bath mr-1 text-blue-500"></i> 2
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-car mr-1 text-blue-500"></i> 1
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-ruler-combined mr-1 text-blue-500"></i> 85m²
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <p class="text-2xl font-bold text-blue-600">R$ 950.000</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                                Ver Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Property 2 -->
+                <div class="property-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Casa com Piscina - Moema" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            OPORTUNIDADE
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Casa com Piscina - Moema</h3>
+                        <p class="text-gray-600 mb-4">Rua Moema, Moema - São Paulo/SP</p>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex space-x-4">
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bed mr-1 text-blue-500"></i> 4
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bath mr-1 text-blue-500"></i> 3
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-car mr-1 text-blue-500"></i> 2
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-ruler-combined mr-1 text-blue-500"></i> 220m²
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <p class="text-2xl font-bold text-blue-600">R$ 1.850.000</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                                Ver Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Property 3 -->
+                <div class="property-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Apartamento para Alugar - Vila Olímpia" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4 bg-yellow-600 text-white px-2 py-1 rounded text-xs font-bold">
+                            ALUGUEL
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Apartamento - Vila Olímpia</h3>
+                        <p class="text-gray-600 mb-4">Rua Funchal, Vila Olímpia - São Paulo/SP</p>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex space-x-4">
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bed mr-1 text-blue-500"></i> 2
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-bath mr-1 text-blue-500"></i> 2
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-car mr-1 text-blue-500"></i> 1
+                                </span>
+                                <span class="flex items-center text-gray-600">
+                                    <i class="fas fa-ruler-combined mr-1 text-blue-500"></i> 75m²
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <p class="text-2xl font-bold text-blue-600">R$ 3.800/mês</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                                Ver Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="inline-block border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full font-medium transition duration-300">
+                    Ver Todos os Imóveis à Venda
+                </a>
+                <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition duration-300 ml-4">
+                    Ver Todos os Imóveis para Alugar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Por Que Escolher Christine Mourão?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Experiência e confiança ao seu lado em todas as etapas do processo imobiliário
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-tie text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Atendimento Personalizado</h3>
+                    <p class="text-gray-600">
+                        Entendemos suas necessidades para encontrar o imóvel perfeito ou a melhor estratégia de venda.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marked-alt text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Conhecimento Local</h3>
+                    <p class="text-gray-600">
+                        Especialista no mercado imobiliário de São Paulo, garantindo as melhores oportunidades.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-handshake text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Assessoria Completa</h3>
+                    <p class="text-gray-600">
+                        Acompanhamento em todas as etapas, da busca à documentação, com transparência e segurança.
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Marketing Eficaz</h3>
+                    <p class="text-gray-600">
+                        Utilizamos fotos profissionais, vídeos e as melhores plataformas para destacar seu imóvel.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#about" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition duration-300">
+                    Conheça Nossos Serviços
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">O Que Nossos Clientes Dizem</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Histórias reais de clientes satisfeitos com nossos serviços imobiliários
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlos Eduardo</h4>
+                            <p class="text-sm text-gray-500">Venda de Apartamento</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Christine foi incrível na venda do meu apartamento. Conseguiu um ótimo preço em pouco tempo e cuidou de todos os detalhes. Recomendo totalmente seu trabalho!"
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Fernanda Lima</h4>
+                            <p class="text-sm text-gray-500">Compra de Casa</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Encontrei a casa dos meus sonhos com a ajuda da Christine. Ela entendeu exatamente o que eu procurava e me guiou em todo o processo. Profissionalismo e atenção aos detalhes!"
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Roberto Almeida</h4>
+                            <p class="text-sm text-gray-500">Aluguel de Apartamento</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Precisava alugar um apartamento rápido e a Christine encontrou exatamente o que eu precisava, no bairro que eu queria e dentro do meu orçamento. Excelente atendimento!"
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#testimonials" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition duration-300">
+                    Veja Mais Depoimentos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sell CTA -->
+    <section id="sell" class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Pensando em Vender Seu Imóvel?</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Conte com nossa expertise para avaliar seu imóvel corretamente e criar uma estratégia de venda vencedora.
+            </p>
+            <a href="#contact" class="inline-block bg-white hover:bg-gray-100 text-blue-600 px-8 py-4 rounded-full font-bold text-lg transition duration-300">
+                Avalie Meu Imóvel Gratuitamente
+            </a>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Fique por Dentro do Mercado Imobiliário</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Artigos e dicas para te ajudar na compra, venda ou aluguel de imóveis
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80" 
+                         alt="5 Dicas para Comprar seu Primeiro Imóvel" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm text-blue-600 font-medium">Comprar</span>
+                        <h3 class="text-xl font-bold my-2">5 Dicas para Comprar seu Primeiro Imóvel</h3>
+                        <p class="text-gray-600 mb-4">
+                            Guia completo para quem está dando o primeiro passo no mercado imobiliário...
+                        </p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                            Ler Artigo <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Tendências do Mercado em São Paulo" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm text-blue-600 font-medium">Mercado</span>
+                        <h3 class="text-xl font-bold my-2">Tendências do Mercado em São Paulo</h3>
+                        <p class="text-gray-600 mb-4">
+                            Análise atualizada dos bairros em alta e o que esperar nos próximos meses...
+                        </p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                            Ler Artigo <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Como Valorizar seu Imóvel para Venda" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm text-blue-600 font-medium">Vender</span>
+                        <h3 class="text-xl font-bold my-2">Como Valorizar seu Imóvel para Venda</h3>
+                        <p class="text-gray-600 mb-4">
+                            Pequenas reformas e ajustes que podem aumentar significativamente o valor de venda...
+                        </p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">
+                            Ler Artigo <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="inline-block border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full font-medium transition duration-300">
+                    Acessar Blog Completo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/3 mb-10 lg:mb-0 flex justify-center">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a05d044d00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Christine Mourão" 
+                             class="rounded-lg shadow-xl w-full max-w-xs">
+                        <div class="absolute -bottom-5 -left-5 bg-white p-3 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-award text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">12 anos</p>
+                                    <p class="text-sm text-gray-600">de experiência</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-2/3 lg:pl-12">
+                    <h2 class="text-3xl font-bold mb-6">Conheça Christine Mourão</h2>
+                    <p class="text-lg mb-6">
+                        Olá! Sou Christine Mourão, corretora de imóveis apaixonada por conectar pessoas aos seus lares ideais em São Paulo.
+                    </p>
+                    <p class="text-lg mb-8">
+                        Com 12 anos de experiência no mercado imobiliário, meu foco é oferecer um atendimento personalizado e eficiente, seja na compra, venda ou aluguel de imóveis residenciais.
+                    </p>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4 text-blue-800">Meu Compromisso</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                <span>Ética e transparência em todas as negociações</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                <span>Atendimento personalizado para entender suas necessidades</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                <span>Conhecimento profundo do mercado imobiliário de São Paulo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                <span>Assessoria completa em todas as etapas do processo</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 text-blue-800">Minha Missão</h3>
+                        <p>
+                            Tornar a jornada de compra, venda ou aluguel do seu imóvel uma experiência tranquila, positiva e bem-sucedida. Com profissionalismo e dedicação, trabalho para superar suas expectativas e alcançar os melhores resultados.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p class="font-medium">
+                            <i class="fas fa-id-card text-blue-500 mr-2"></i> CRECI: 123456-PE
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium text-center transition duration-300">
+                            Fale Comigo
+                        </a>
+                        <a href="#buy" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-full font-medium text-center transition duration-300">
+                            Veja Meus Imóveis
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Soluções Imobiliárias Completas</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Serviços especializados para atender todas as suas necessidades no mercado imobiliário
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Service 1 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-home text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Compra de Imóveis</h3>
+                            <p class="text-blue-600 font-medium">Encontre o imóvel perfeito com nossa ajuda</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Oferecemos uma busca personalizada baseada em suas necessidades, preferências e orçamento. Com nosso conhecimento do mercado, identificamos as melhores oportunidades e negociamos as melhores condições para você.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2 mb-4">
+                            <li>Entendimento detalhado das suas necessidades</li>
+                            <li>Busca direcionada nos melhores bairros</li>
+                            <li>Agendamento e acompanhamento em visitas</li>
+                            <li>Análise técnica e documental dos imóveis</li>
+                            <li>Negociação estratégica para o melhor preço</li>
+                            <li>Acompanhamento até a escritura e entrega das chaves</li>
+                        </ul>
+                        <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-2">
+                            Quero Comprar
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-sign text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Venda de Imóveis</h3>
+                            <p class="text-blue-600 font-medium">Venda com rapidez e segurança</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Desenvolvemos uma estratégia personalizada para valorizar seu imóvel e alcançar o melhor preço de mercado no menor tempo possível. Utilizamos as melhores ferramentas de marketing e uma rede qualificada de compradores.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2 mb-4">
+                            <li>Avaliação de mercado precisa</li>
+                            <li>Estratégia de marketing personalizada</li>
+                            <li>Fotos e vídeos profissionais</li>
+                            <li>Divulgação nos principais portais imobiliários</li>
+                            <li>Gestão de visitas e negociações</li>
+                            <li>Assessoria jurídica e documental</li>
+                        </ul>
+                        <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-2">
+                            Quero Vender
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-key text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Aluguel de Imóveis</h3>
+                            <p class="text-blue-600 font-medium">Para proprietários e inquilinos</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Oferecemos soluções completas tanto para quem deseja alugar seu imóvel quanto para quem busca um lugar para morar. Garantimos segurança e tranquilidade em todo o processo.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 text-blue-800">Para Proprietários:</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Divulgação ampla do imóvel</li>
+                                    <li>Seleção criteriosa de inquilinos</li>
+                                    <li>Análise de crédito e documentação</li>
+                                    <li>Elaboração de contrato</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-bold mb-2 text-blue-800">Para Inquilinos:</h4>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Busca direcionada</li>
+                                    <li>Visitas agendadas</li>
+                                    <li>Orientação contratual</li>
+                                    <li>Mediação com proprietários</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-2">
+                            Quero Alugar
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-chart-pie text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">Avaliação de Imóveis</h3>
+                            <p class="text-blue-600 font-medium">Saiba o valor real do seu patrimônio</p>
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p class="mb-4">
+                            Oferecemos avaliação de mercado criteriosa para venda, financiamento, inventário ou outras finalidades. Utilizamos metodologia profissional e dados atualizados do mercado.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2 mb-4">
+                            <li>Análise comparativa de mercado</li>
+                            <li>Avaliação presencial do imóvel</li>
+                            <li>Consideração de características e diferenciais</li>
+                            <li>Relatório detalhado com justificativas</li>
+                            <li>Orientação sobre possíveis valorizações</li>
+                        </ul>
+                        <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition duration-300 mt-2">
+                            Solicitar Avaliação
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Fale com Christine Mourão</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Pronto para dar o próximo passo? Estou à disposição para ajudar com compra, venda, aluguel ou qualquer dúvida sobre o mercado imobiliário.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Envie uma Mensagem</h3>
+                    <form>
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nome Completo*</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email*</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefone/WhatsApp*</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">Assunto*</label>
+                            <select id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" required>
+                                <option value="">Selecione...</option>
+                                <option>Comprar Imóvel</option>
+                                <option>Vender Imóvel</option>
+                                <option>Alugar Imóvel</option>
+                                <option>Avaliação de Imóvel</option>
+                                <option>Outros</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Mensagem*</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input id="consent" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" required>
+                                </div>
+                                <label for="consent" class="ml-2 text-sm text-gray-500">
+                                    Concordo com o uso dos meus dados para contato, conforme a <a href="#" class="text-blue-600 hover:underline">Política de Privacidade</a>.
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition duration-300">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Informações de Contato</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Phone -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-phone-alt text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Telefone/WhatsApp</h4>
+                                <p class="text-gray-700">(74) 8849-6751</p>
+                                <a href="https://wa.me/5511987654321" class="inline-block mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-full text-sm">
+                                    <i class="fab fa-whatsapp mr-1"></i> Enviar Mensagem
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-envelope text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Email</h4>
+                                <p class="text-gray-700">christinelimamourao1@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-map-marker-alt text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Escritório</h4>
+                                <p class="text-gray-700 mb-1">Av. Paulista, 1000, Sala 123</p>
+                                <p class="text-gray-700">Centro - Petrolina/PE</p>
+                                <p class="text-gray-700">CEP: 56300000</p>
+                                <a href="#" class="inline-block mt-2 text-blue-600 hover:text-blue-800 underline">
+                                    <i class="fas fa-map-marked-alt mr-1"></i> Ver no mapa
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Hours -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-clock text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Horário de Atendimento</h4>
+                                <p class="text-gray-700">Segunda a Sexta: 9h às 18h</p>
+                                <p class="text-gray-700">Sábado: 9h às 13h</p>
+                                <p class="text-gray-500 text-sm mt-1">* Atendimento somente com agendamento prévio</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Social -->
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                <i class="fas fa-share-alt text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-3">Redes Sociais</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-white">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-400 hover:bg-blue-500 flex items-center justify-center text-white">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 flex items-center justify-center text-white">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-full bg-blue-700 hover:bg-blue-800 flex items-center justify-center text-white">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Map -->
+                    <div class="mt-10 bg-white p-4 rounded-lg shadow-md">
+                        <h4 class="font-bold mb-3">Localização</h4>
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.287480589044!2d-46.66370392423912!3d-23.55815627874811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59d2b063f661%3A0xc567c0d16d0bc582!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1sen!2sbr!4v1689871234567!5m2!1sen!2sbr" 
+                                    width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade" class="rounded-lg"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo/About -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3">
+                            <i class="fas fa-home text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Christine Mourão Imóveis</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Especialista em compra, venda e aluguel de imóveis residenciais em São Paulo. CRECI: 123456-SP
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white">Início</a></li>
+                        <li><a href="#buy" class="text-gray-400 hover:text-white">Comprar</a></li>
+                        <li><a href="#rent" class="text-gray-400 hover:text-white">Alugar</a></li>
+                        <li><a href="#sell" class="text-gray-400 hover:text-white">Vender</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white">Sobre</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white">Depoimentos</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Serviços</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Compra de Imóveis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Venda de Imóveis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Aluguel de Imóveis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Avaliação de Imóveis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Consultoria Imobiliária</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">Av. Paulista, 1000, Sala 123 - São Paulo/SP</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">(11) 98765-4321</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-gray-400 mt-1 mr-2"></i>
+                            <span class="text-gray-400">contato@christinemourao.com.br</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    © 2023 Christine Mourão Imóveis. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Política de Privacidade</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Termos de Serviço</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Search Tabs
+        const searchTabs = document.querySelectorAll('.search-tab');
+        searchTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                searchTabs.forEach(t => t.classList.remove('active', 'text-white'));
+                searchTabs.forEach(t => t.classList.add('bg-gray-100', 'text-gray-700'));
+                
+                tab.classList.remove('bg-gray-100', 'text-gray-700');
+                tab.classList.add('active', 'text-white');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu toggle (would need additional HTML and CSS)
+        const mobileMenuButton = document.querySelector('.md\\:hidden');
+        mobileMenuButton.addEventListener('click', () => {
+            // This would toggle a mobile menu - implementation depends on your design
+            alert('Mobile menu would open here in a full implementation');
+        });
+    </script>
+</body>
+</html>
