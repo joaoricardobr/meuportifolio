@@ -24,19 +24,20 @@
             <!-- Login Form -->
             <div id="auth-container">
                 <div class="text-center mb-4">
+                    <!-- You can replace this with the actual logo URL from config if needed, but static is fine here -->
                     <img src="https://fortlev.com.br/wp-content/uploads/2021/10/logo-fortlev.png" alt="Logo" class="h-16 mx-auto">
                 </div>
                 <h3>Acesso Administrativo</h3>
                 <form id="login-form">
                     <div class="mb-4">
                         <label for="admin-email">Email:</label>
-                        <input type="email" id="admin-email" required autocomplete="email">
+                        <input type="email" id="admin-email" required autocomplete="email" class="border">
                     </div>
                     <div class="mb-6">
                         <label for="admin-password">Senha:</label>
-                        <input type="password" id="admin-password" required autocomplete="current-password">
+                        <input type="password" id="admin-password" required autocomplete="current-password" class="border">
                     </div>
-                    <button type="submit" id="login-button">
+                    <button type="submit" id="login-button" class="bg-fortlevOrange hover:bg-orange-600">
                         Entrar <span class="spinner hidden"></span>
                     </button>
                     <p id="auth-error" class="text-red-500 text-sm mt-4 text-center"></p>
@@ -50,7 +51,7 @@
 
                  <!-- Form for General Settings -->
                  <form id="admin-form-settings" class="admin-section-form" data-table="website_settings" data-id="1">
-                    <h4><i class="fas fa-cog mr-2"></i>Configurações Gerais</h4>
+                    <h4><i class="fas fa-cog fa-fw mr-2"></i>Configurações Gerais</h4>
                     <!-- Logo -->
                     <label for="admin-logo-upload">Logo do Site:</label>
                     <img id="admin-logo-preview" src="placeholder-logo.png" alt="Preview Logo" class="current-img-preview">
@@ -72,12 +73,12 @@
                      <textarea id="admin-hero-text" name="hero_text" rows="3"></textarea>
 
                      <div id="status-settings" class="status-message"></div>
-                     <button type="submit" class="save-btn"><i class="fas fa-save mr-1"></i>Salvar Configurações Gerais</button>
+                     <button type="submit" class="save-btn"><i class="fas fa-save fa-fw mr-1"></i>Salvar Configurações Gerais <span class="spinner hidden"></span></button>
                  </form>
 
                  <!-- Form for About Section -->
                  <form id="admin-form-about" class="admin-section-form" data-table="website_settings" data-id="1">
-                    <h4><i class="fas fa-user mr-2"></i>Seção Sobre</h4>
+                    <h4><i class="fas fa-user fa-fw mr-2"></i>Seção Sobre</h4>
                     <label for="admin-about-image-upload">Foto do Consultor:</label>
                     <img id="admin-about-preview" src="placeholder-about.png" alt="Preview Sobre" class="current-img-preview">
                     <input type="file" id="admin-about-image-upload" name="about_image_file" accept="image/*">
@@ -89,17 +90,18 @@
                     <textarea id="admin-about-text-input" name="about_text" rows="5"></textarea> <!-- Use DB column name -->
 
                     <div id="status-about" class="status-message"></div>
-                    <button type="submit" class="save-btn"><i class="fas fa-save mr-1"></i>Salvar Seção Sobre</button>
+                    <button type="submit" class="save-btn"><i class="fas fa-save fa-fw mr-1"></i>Salvar Seção Sobre <span class="spinner hidden"></span></button>
                  </form>
 
                 <!-- Section for Solutions (List Management) -->
                 <div id="admin-section-solutions" class="admin-section-form">
-                    <h4><i class="fas fa-puzzle-piece mr-2"></i>Soluções</h4>
+                    <h4><i class="fas fa-puzzle-piece fa-fw mr-2"></i>Soluções</h4>
                     <div id="solutions-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
+                        <!-- List items are rendered here by admin.js -->
                         <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                     </div>
                     <hr class="my-6">
-                    <h5>Adicionar Nova Solução</h5>
+                    <h5><i class="fas fa-plus-circle fa-fw mr-1 text-blue-500"></i>Adicionar Nova Solução</h5>
                     <form id="add-solution-form" data-table="solutions">
                         <label for="add-solution-title">Título*:</label>
                         <input type="text" id="add-solution-title" name="title" required>
@@ -113,19 +115,19 @@ Resistência superior"></textarea>
                         <label for="add-solution-order">Ordem (Ex: 10, 20):</label>
                         <input type="number" id="add-solution-order" name="order_index" value="0" class="w-24">
                         <div id="status-add-solution" class="status-message"></div>
-                        <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Solução <span class="spinner hidden"></span></button>
+                        <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Solução <span class="spinner hidden"></span></button>
                     </form>
                 </div>
 
 
                 <!-- Section for Projects (List Management) -->
                 <div id="admin-section-projects" class="admin-section-form">
-                    <h4><i class="fas fa-drafting-compass mr-2"></i>Projetos</h4>
+                    <h4><i class="fas fa-drafting-compass fa-fw mr-2"></i>Projetos</h4>
                      <div id="projects-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
                          <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                      </div>
                       <hr class="my-6">
-                     <h5>Adicionar Novo Projeto</h5>
+                     <h5><i class="fas fa-plus-circle fa-fw mr-1 text-blue-500"></i>Adicionar Novo Projeto</h5>
                      <form id="add-project-form" data-table="projects">
                          <label for="add-project-title">Título*:</label>
                          <input type="text" id="add-project-title" name="title" required>
@@ -138,18 +140,18 @@ Resistência superior"></textarea>
                          <label for="add-project-order">Ordem:</label>
                          <input type="number" id="add-project-order" name="order_index" value="0" class="w-24">
                          <div id="status-add-project" class="status-message"></div>
-                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Projeto <span class="spinner hidden"></span></button>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Projeto <span class="spinner hidden"></span></button>
                      </form>
                 </div>
 
                  <!-- Section for Testimonials (List Management) -->
                  <div id="admin-section-testimonials" class="admin-section-form">
-                     <h4><i class="fas fa-comments mr-2"></i>Depoimentos</h4>
+                     <h4><i class="fas fa-comments fa-fw mr-2"></i>Depoimentos</h4>
                      <div id="testimonials-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
                          <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                      </div>
                      <hr class="my-6">
-                     <h5>Adicionar Novo Depoimento</h5>
+                     <h5><i class="fas fa-plus-circle fa-fw mr-1 text-blue-500"></i>Adicionar Novo Depoimento</h5>
                      <form id="add-testimonial-form" data-table="testimonials">
                          <label for="add-testimonial-name">Nome*:</label>
                          <input type="text" id="add-testimonial-name" name="name" required>
@@ -164,18 +166,18 @@ Resistência superior"></textarea>
                          <label for="add-testimonial-order">Ordem:</label>
                          <input type="number" id="add-testimonial-order" name="order_index" value="0" class="w-24">
                          <div id="status-add-testimonial" class="status-message"></div>
-                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Depoimento <span class="spinner hidden"></span></button>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Depoimento <span class="spinner hidden"></span></button>
                      </form>
                  </div>
 
                  <!-- Section for Reels (List Management) -->
                  <div id="admin-section-reels" class="admin-section-form">
-                     <h4><i class="fas fa-film mr-2"></i>Vídeos (Reels)</h4>
+                     <h4><i class="fas fa-film fa-fw mr-2"></i>Vídeos (Reels)</h4>
                      <div id="reels-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
                          <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                      </div>
                      <hr class="my-6">
-                     <h5>Adicionar Novo Reel</h5>
+                     <h5><i class="fas fa-plus-circle fa-fw mr-1 text-blue-500"></i>Adicionar Novo Reel</h5>
                      <form id="add-reel-form" data-table="reels">
                          <label for="add-reel-title">Título:</label>
                          <input type="text" id="add-reel-title" name="title" placeholder="Ex: Dica Rápida">
@@ -186,18 +188,18 @@ Resistência superior"></textarea>
                          <label for="add-reel-order">Ordem:</label>
                          <input type="number" id="add-reel-order" name="order_index" value="0" class="w-24">
                          <div id="status-add-reel" class="status-message"></div>
-                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Reel <span class="spinner hidden"></span></button>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Reel <span class="spinner hidden"></span></button>
                      </form>
                  </div>
 
                 <!-- Section for Blog Posts (List Management) -->
                  <div id="admin-section-blog" class="admin-section-form">
-                     <h4><i class="fas fa-newspaper mr-2"></i>Blog Posts</h4>
+                     <h4><i class="fas fa-newspaper fa-fw mr-2"></i>Blog Posts</h4>
                      <div id="blog-list-admin" class="mb-6 max-h-96 overflow-y-auto pr-2 border rounded p-2 bg-gray-50">
                           <p class="text-center text-gray-500 italic py-4">Carregando...</p>
                      </div>
                       <hr class="my-6">
-                     <h5>Adicionar Novo Post</h5>
+                     <h5><i class="fas fa-plus-circle fa-fw mr-1 text-blue-500"></i>Adicionar Novo Post</h5>
                      <form id="add-blog-form" data-table="blog_posts">
                          <label for="add-blog-title">Título*:</label>
                          <input type="text" id="add-blog-title" name="title" required>
@@ -210,10 +212,10 @@ Resistência superior"></textarea>
                          <label for="add-blog-image">Imagem Principal:</label>
                          <input type="file" id="add-blog-image" name="image_file" accept="image/*">
                          <label for="add-blog-publish-date">Data Publicação (deixar em branco para publicar agora):</label>
-                         <input type="datetime-local" id="add-blog-publish-date" name="published_at_input">
+                         <input type="datetime-local" id="add-blog-publish-date" name="published_at_input"> <!-- Use _input suffix -->
 
                          <div id="status-add-blog" class="status-message"></div>
-                         <button type="submit" class="add-btn"><i class="fas fa-plus mr-1"></i>Adicionar Post <span class="spinner hidden"></span></button>
+                         <button type="submit" class="add-btn"><i class="fas fa-plus fa-fw mr-1"></i>Adicionar Post <span class="spinner hidden"></span></button>
                      </form>
                  </div>
 
