@@ -1,34 +1,32 @@
+css
 /* style.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-body{font-family:'Poppins',sans-serif;scroll-behavior:smooth;overflow-x:hidden;background-color:#f8f9fa;color:#1a2b3c;position:relative}
-.hero-section{background:linear-gradient(rgba(0, 86, 179, 0.85), rgba(0, 86, 179, 0.85)), var(--hero-bg-image, url('placeholder-hero-bg.jpg')) no-repeat center center/cover;background-color:#e9ecef}
-.card-hover{transition:transform .3s ease,box-shadow .3s ease}
-.card-hover:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
-.project-card .project-overlay{background:linear-gradient(to top, rgba(0, 86, 179, 0.95), rgba(0, 86, 179, 0.1));opacity:0;transition:opacity .4s ease}
-.project-card:hover .project-overlay{opacity:1}
-.video-thumbnail .play-icon,.reel-thumbnail .play-icon{transition:transform .3s ease,opacity .3s ease;opacity:0}
-.video-thumbnail:hover .play-icon,.reel-thumbnail:hover .play-icon{transform:scale(1.1);opacity:1}
-.video-thumbnail:hover img,.reel-thumbnail:hover img{filter:brightness(.7)}
-.testimonial-card{box-shadow:0 4px 12px rgba(0,0,0,.06);transition:box-shadow .3s ease}
-.testimonial-card:hover{box-shadow:0 8px 20px rgba(0,0,0,.1)}
-.nav-link{transition:color .3s ease}
-.nav-link:hover{color:#ff6d00}
-.animate-on-scroll{opacity:0;transition:opacity 1s ease-in-out,transform .8s ease-out}
-.animated-fade-in{animation-name:fadeIn;animation-duration:1s;animation-timing-function:ease-in-out;animation-fill-mode:forwards}
-.animated-slide-up{animation-name:slideUp;animation-duration:.8s;animation-timing-function:ease-out;animation-fill-mode:forwards}
+/* --- Base Styles (Same as before) --- */
+body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; overflow-x: hidden; background-color: #f8f9fa; color: #1a2b3c; position: relative; }
+.hero-section { background: linear-gradient(rgba(0, 86, 179, 0.85), rgba(0, 86, 179, 0.85)), var(--hero-bg-image, url('placeholder-hero-bg.jpg')) no-repeat center center/cover; background-color: #e9ecef; }
+.card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+.project-card:hover .project-overlay { opacity: 1; }
+.video-thumbnail:hover .play-icon, .reel-thumbnail:hover .play-icon { transform: scale(1.1); opacity: 1; }
+.video-thumbnail:hover img, .reel-thumbnail:hover img { filter: brightness(0.7); }
+.testimonial-card:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+.nav-link:hover { color: #ff6d00; }
+.animate-on-scroll { opacity: 0; transition: opacity 1s ease-in-out, transform 0.8s ease-out; }
+.animated-fade-in { animation-name: fadeIn; animation-duration: 1s; animation-timing-function: ease-in-out; animation-fill-mode: forwards; }
+.animated-slide-up { animation-name: slideUp; animation-duration: 0.8s; animation-timing-function: ease-out; animation-fill-mode: forwards; }
 @keyframes fadeIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{0%{transform:translateY(30px);opacity:0}100%{transform:translateY(0);opacity:1}}
-input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 2px #ff6d00;border-color:#ff6d00!important}
-.faq-question i{transition:transform .3s ease}
-.faq-question.open i{transform:rotate(180deg)}
-img{display:block;max-width:100%;height:auto}
-img.content-img{background-color:#e9ecef;min-height:50px;object-fit:cover}
-img.current-img-preview{background-color:#f8f9fa;object-fit:contain}
+input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 2px #ff6d00; border-color: #ff6d00 !important; }
+.faq-question.open i { transform: rotate(180deg); }
+img { display: block; max-width: 100%; height: auto; }
+img.content-img { background-color: #e9ecef; min-height: 50px; object-fit: cover; }
+img.current-img-preview { background-color: #f8f9fa; object-fit: contain; }
 .loading-placeholder::before{content:'Carregando...';color:#6c757d;font-style:italic;font-size:.9em;min-height:1.2em;display:inline-block}
 .grid-placeholder{min-height:150px;display:flex;align-items:center;justify-content:center;width:100%}
 .grid-placeholder::before{content:'Carregando itens...';display:block;text-align:center;padding:2rem;color:#6c757d;font-style:italic}
-#admin-section{border-top:4px solid #ff6d00;background-color:#f1f3f5}
+
+/* --- Admin Panel Specific Styles --- */
+#admin-section { border-top: 4px solid #ff6d00; background-color: #f1f3f5; }
 #admin-content h3{font-size:1.5rem;font-weight:600;color:#1a2b3c;margin-bottom:1.5rem;text-align:center;border-bottom:1px solid #dee2e6;padding-bottom:1rem;position:relative}
 #admin-content .admin-section-form{background-color:#fff;padding:1.5rem;border-radius:8px;margin-bottom:2rem;box-shadow:0 2px 10px rgba(0,0,0,.07)}
 #admin-content h4{font-size:1.2rem;font-weight:600;margin-bottom:1rem;color:#0056b3;border-bottom:1px solid #eee;padding-bottom:.5rem;display:flex;align-items:center}
@@ -67,10 +65,12 @@ img.current-img-preview{background-color:#f8f9fa;object-fit:contain}
 #admin-content .list-item p{margin-bottom:.25rem}
 .spinner{border:3px solid rgba(255,255,255,.3);width:16px;height:16px;border-radius:50%;border-left-color:#fff;animation:spin 1s linear infinite;display:inline-block;margin-left:8px;vertical-align:middle}
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-#offline-status { position: fixed; bottom: 10px; right: 10px; background-color: #6c757d; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; z-index: 1000; display: none; /* Hidden by default */ }
+#offline-status { position: fixed; bottom: 10px; right: 10px; background-color: #6c757d; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; z-index: 1000; display: none; }
 #offline-status.online { background-color: #28a745; }
-#offline-status.offline { background-color: #dc3545; display: block; } /* Show when offline */
-#admin-content .image-source-selector label { display: inline-block; margin-right: 1rem; font-weight: normal; font-size: 0.85rem; }
-#admin-content .image-source-selector input[type=radio] { margin-right: 0.25rem; }
-#admin-content .image-url-input, #admin-content .image-file-input { display: none; /* Hide by default */ margin-top: 0.5rem;}
-#admin-content .image-source-selector input[type=radio]:checked + label + div { display: block; } /* Show corresponding input */
+#offline-status.offline { background-color: #dc3545; display: block; }
+/* Styles for Image Source Selector in Admin */
+#admin-content .image-source-selector label { display: inline-block; margin-right: 1rem; font-weight: normal; font-size: 0.85rem; cursor: pointer; }
+#admin-content .image-source-selector input[type=radio] { margin-right: 0.25rem; vertical-align: middle; }
+#admin-content .image-url-input { display: none; /* Hide by default */ margin-top: 0.5rem; }
+#admin-content .image-file-input { display: block; /* Show by default */ margin-top: 0.5rem; }
+/* JS will toggle display based on checked radio */
