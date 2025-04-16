@@ -8,7 +8,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // --- SUPABASE STORAGE CONFIG ---
 // !!! IMPORTANT: REPLACE 'public-assets' with the actual name of your PUBLIC Supabase Storage bucket !!!
 // Make sure RLS policies allow authenticated users to upload/delete in this bucket.
-const BUCKET_NAME = 'oxentesolar01';
+const BUCKET_NAME = 'oxentesolar';
 
 // --- IndexedDB Config ---
 const DB_NAME = 'RogerioSolarSiteDB';
