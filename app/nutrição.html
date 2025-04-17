@@ -7,6 +7,17 @@
     <meta name="description" content="Consultório de nutrição especializado em saúde, bem-estar e qualidade de vida. Agende sua consulta!">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Função para simular o require('@tailwindcss/aspect-ratio') no navegador
+        function aspectRatioPlugin({ addUtilities, theme }) {
+            const utilities = {
+                '.aspect-w-16': { 'padding-bottom': '56.25%' }, // 16:9
+                '.aspect-h-9': { /* Não precisa de regra específica aqui, o w- define */ },
+                '.aspect-square': { 'padding-bottom': '100%' },
+                // Adicione outras proporções se necessário
+            };
+            addUtilities(utilities, ['responsive']);
+        }
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -42,7 +53,8 @@
                 }
             },
             plugins: [
-                require('@tailwindcss/aspect-ratio'),
+                // Substituímos o require pela função simulada
+                // aspectRatioPlugin // Comentado pois Tailwind CDN >= v3 já inclui aspect-ratio
             ],
         }
     </script>
@@ -57,12 +69,14 @@
             font-family: 'Poppins', sans-serif;
             color: #333;
             scroll-behavior: smooth;
-            background-color: #f8fafc;
+            background-color: #f8fafc; /* bg-gray-50 */
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(244,249,244,0.95) 100%),
-                        url('https://images.unsplash.com/photo-1490645935967-2debedc0ecc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            /* ======> BACKGROUND ATUALIZADO AQUI <====== */
+           background: linear-gradient(135deg, rgba(255,255,255, 0.75) 0%, rgba(244,249,244, 0.75) 100%),
+     
+           url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -80,7 +94,7 @@
             height: 3px;
             bottom: -5px;
             left: 0;
-            background-color: #76c893;
+            background-color: #76c893; /* primary */
             transition: width 0.3s ease;
             border-radius: 3px;
         }
@@ -97,7 +111,7 @@
 
         .service-card:hover {
             transform: translateY(-10px) scale(1.03) rotateX(5deg);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); /* Tailwind shadow-2xl */
         }
 
         .service-card:hover .card-icon {
@@ -116,13 +130,14 @@
 
         .testimonial-card:hover {
             transform: translateY(-5px) rotateY(5deg);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Tailwind shadow-xl */
         }
 
         .whatsapp-btn {
             animation: pulse 2s infinite, float 4s ease-in-out infinite;
         }
 
+        /* Animações de flutuação definidas nas keyframes do Tailwind */
         .floating-element {
             animation: float 6s ease-in-out infinite;
         }
@@ -150,7 +165,7 @@
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 10px;
+            border-radius: 10px; /* rounded-lg */
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
@@ -171,7 +186,7 @@
 
         .border-gradient {
             position: relative;
-            border-radius: 0.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
         }
 
         .border-gradient::before {
@@ -181,10 +196,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 0.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
             padding: 2px;
             background: linear-gradient(135deg, #76c893, #34d399);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
@@ -200,12 +216,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #76c893;
+            background: #76c893; /* primary */
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #5cb081;
+            background: #5cb081; /* Um tom um pouco mais escuro de primary */
         }
 
         /* Scroll reveal animations */
@@ -231,6 +247,12 @@
             opacity: 1;
             transform: translate(0);
         }
+
+        /* Adicionando estilos base para aspect-ratio (Tailwind CDN v3 já inclui) */
+        .aspect-w-16 { position: relative; padding-bottom: 56.25%; } /* 16:9 */
+        .aspect-h-9 > * { position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0; left: 0; }
+        .aspect-square { position: relative; padding-bottom: 100%; }
+        .aspect-square > * { position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0; left: 0; }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -244,24 +266,24 @@
     <header class="fixed w-full bg-white/90 shadow-md z-40 backdrop-blur-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="#home" class="flex items-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg p-1">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#76c893] to-[#34d399] flex items-center justify-center text-white font-bold text-xl mr-3 shadow-md hover:shadow-lg transition-all duration-300">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-white font-bold text-xl mr-3 shadow-md hover:shadow-lg transition-all duration-300">
                     AC
                 </div>
                 <h1 class="text-xl font-bold text-gray-800">Dra. Ana Clara</h1>
             </a>
 
             <nav class="hidden md:flex space-x-8">
-                <a href="#home" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Início</a>
-                <a href="#about" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Sobre</a>
-                <a href="#services" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Serviços</a>
-                <a href="#videos" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Vídeos</a>
-                <a href="#instagram" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Instagram</a>
-                <a href="#appointment" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Agendamento</a>
-                <a href="#testimonials" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Depoimentos</a>
-                <a href="#contact" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Contato</a>
+                <a href="#home" class="nav-link text-gray-800 hover:text-primary font-medium">Início</a>
+                <a href="#about" class="nav-link text-gray-800 hover:text-primary font-medium">Sobre</a>
+                <a href="#services" class="nav-link text-gray-800 hover:text-primary font-medium">Serviços</a>
+                <a href="#videos" class="nav-link text-gray-800 hover:text-primary font-medium">Vídeos</a>
+                <a href="#instagram" class="nav-link text-gray-800 hover:text-primary font-medium">Instagram</a>
+                <a href="#appointment" class="nav-link text-gray-800 hover:text-primary font-medium">Agendamento</a>
+                <a href="#testimonials" class="nav-link text-gray-800 hover:text-primary font-medium">Depoimentos</a>
+                <a href="#contact" class="nav-link text-gray-800 hover:text-primary font-medium">Contato</a>
             </nav>
 
-            <button id="mobile-menu-button" aria-label="Abrir menu" class="md:hidden text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded p-1">
+            <button id="mobile-menu-button" aria-label="Abrir menu" aria-expanded="false" class="md:hidden text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded p-1">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
@@ -269,14 +291,14 @@
         <!-- Menu Mobile -->
         <div id="mobile-menu" class="hidden md:hidden bg-white/95 w-full py-4 px-4 shadow-lg backdrop-blur-md absolute top-full left-0">
             <div class="flex flex-col space-y-4">
-                <a href="#home" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Início</a>
-                <a href="#about" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Sobre</a>
-                <a href="#services" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Serviços</a>
-                <a href="#videos" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Vídeos</a>
-                <a href="#instagram" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Instagram</a>
-                <a href="#appointment" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Agendamento</a>
-                <a href="#testimonials" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Depoimentos</a>
-                <a href="#contact" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Contato</a>
+                <a href="#home" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Início</a>
+                <a href="#about" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Sobre</a>
+                <a href="#services" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Serviços</a>
+                <a href="#videos" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Vídeos</a>
+                <a href="#instagram" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Instagram</a>
+                <a href="#appointment" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Agendamento</a>
+                <a href="#testimonials" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Depoimentos</a>
+                <a href="#contact" class="nav-link text-gray-800 hover:text-primary font-medium py-2">Contato</a>
             </div>
         </div>
     </header>
@@ -284,9 +306,9 @@
     <!-- Seção Hero (Principal) -->
     <section id="home" class="hero pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-20 left-10 w-16 h-16 rounded-full bg-[#76c893]/20 blur-xl floating-element" aria-hidden="true"></div>
-        <div class="absolute bottom-20 right-10 w-24 h-24 rounded-full bg-[#b5ead7]/30 blur-xl floating-element-reverse" aria-hidden="true"></div>
-        <div class="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-[#76c893]/15 blur-lg floating-element" style="animation-delay: 1s;" aria-hidden="true"></div>
+        <div class="absolute top-20 left-10 w-16 h-16 rounded-full bg-primary/20 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-20 right-10 w-24 h-24 rounded-full bg-accent/30 blur-xl floating-element-reverse" aria-hidden="true"></div>
+        <div class="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-primary/15 blur-lg floating-element" style="animation-delay: 1s;" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-2xl mx-auto text-center" data-scroll="fadeIn">
@@ -295,7 +317,7 @@
                 </h1>
                 <p class="text-lg md:text-xl text-gray-600 mb-8">Transforme sua relação com a comida e alcance seus objetivos de saúde com acompanhamento personalizado e baseado em evidências científicas.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#appointment" class="bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    <a href="#appointment" class="bg-gradient-to-r from-primary to-green-400 hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         <i class="fas fa-calendar-check mr-2"></i>
                         Agendar Consulta
                     </a>
@@ -305,27 +327,19 @@
                     </a>
                 </div>
             </div>
-
-            <div class="mt-16 flex justify-center" data-scroll="fadeIn" data-scroll-delay="200">
-                <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-2xl hover-zoom">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nutricionista Dra. Ana Clara sorrindo" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#76c893]/40 to-transparent" aria-hidden="true"></div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Seção Sobre -->
     <section id="about" class="py-16 bg-white relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/4 left-1/4 w-20 h-20 rounded-full bg-[#b5ead7]/20 blur-xl floating-element" aria-hidden="true"></div>
-        <div class="absolute bottom-1/3 right-1/3 w-16 h-16 rounded-full bg-[#76c893]/15 blur-lg floating-element-reverse" aria-hidden="true"></div>
+        <div class="absolute top-1/4 left-1/4 w-20 h-20 rounded-full bg-accent/20 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-16 h-16 rounded-full bg-primary/15 blur-lg floating-element-reverse" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Sobre Nós</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Sobre Nós</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Conheça a Dra. Ana Clara</h2>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="flex flex-col lg:flex-row items-center gap-12">
@@ -335,7 +349,7 @@
                             <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Foto profissional da Dra. Ana Clara" class="w-full h-full object-cover">
                         </div>
                         <div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-                            <div class="text-3xl font-bold text-[#76c893]">10+</div>
+                            <div class="text-3xl font-bold text-primary">10+</div>
                             <div class="text-sm text-gray-600">Anos de Experiência</div>
                         </div>
                     </div>
@@ -346,24 +360,24 @@
                     <p class="text-gray-600 mb-6">Formada pela Universidade de São Paulo (USP), com especialização em Nutrição Clínica e Esportiva. Mestra em Ciências da Saúde com foco em Comportamento Alimentar e atuação em diversos centros de referência em nutrição.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
-                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-primary/30 glow-card">
+                            <div class="text-primary text-3xl mb-3 card-icon">
                                 <i class="fas fa-heartbeat" aria-hidden="true"></i>
                             </div>
                             <h4 class="font-bold mb-2 text-gray-800">Missão</h4>
                             <p class="text-sm text-gray-600">Promover saúde através da alimentação consciente e personalizada, com foco em resultados sustentáveis.</p>
                         </div>
 
-                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
-                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-primary/30 glow-card">
+                            <div class="text-primary text-3xl mb-3 card-icon">
                                 <i class="fas fa-eye" aria-hidden="true"></i>
                             </div>
                             <h4 class="font-bold mb-2 text-gray-800">Visão</h4>
                             <p class="text-sm text-gray-600">Ser referência em nutrição humanizada e baseada em evidências científicas, com atendimento diferenciado.</p>
                         </div>
 
-                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
-                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-primary/30 glow-card">
+                            <div class="text-primary text-3xl mb-3 card-icon">
                                 <i class="fas fa-hand-holding-heart" aria-hidden="true"></i>
                             </div>
                             <h4 class="font-bold mb-2 text-gray-800">Valores</h4>
@@ -372,10 +386,10 @@
                     </div>
 
                     <div class="flex flex-wrap gap-3">
-                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Clínica</span>
-                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Esportiva</span>
-                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Comportamento Alimentar</span>
-                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Vegetariana</span>
+                        <span class="bg-accent text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Clínica</span>
+                        <span class="bg-accent text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Esportiva</span>
+                        <span class="bg-accent text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Comportamento Alimentar</span>
+                        <span class="bg-accent text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Vegetariana</span>
                     </div>
                 </div>
             </div>
@@ -383,88 +397,88 @@
     </section>
 
     <!-- Seção Serviços -->
-    <section id="services" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+    <section id="services" class="py-16 bg-secondary relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/3 right-1/4 w-24 h-24 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
-        <div class="absolute bottom-1/4 left-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/20 blur-lg floating-element-reverse" aria-hidden="true"></div>
+        <div class="absolute top-1/3 right-1/4 w-24 h-24 rounded-full bg-primary/15 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-16 h-16 rounded-full bg-accent/20 blur-lg floating-element-reverse" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Nossos Serviços</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Nossos Serviços</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Atendimento Personalizado</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-4">Oferecemos diversos serviços especializados para atender às suas necessidades nutricionais.</p>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Serviço 1 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-running" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Esportiva</h3>
                     <p class="text-gray-600 mb-4">Planejamento alimentar para melhorar performance, recuperação e composição corporal de atletas e praticantes de atividade física.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Serviço 2 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="100">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-stethoscope" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Clínica</h3>
                     <p class="text-gray-600 mb-4">Tratamento e prevenção de doenças através da alimentação, com abordagem individualizada para cada condição de saúde.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Serviço 3 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="200">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-weight" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Emagrecimento Saudável</h3>
                     <p class="text-gray-600 mb-4">Programas de reeducação alimentar para perda de peso sustentável, sem dietas restritivas ou modismos passageiros.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Serviço 4 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-leaf" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Vegetariana</h3>
                     <p class="text-gray-600 mb-4">Acompanhamento para vegetarianos e veganos, garantindo nutrição adequada e balanceada sem produtos animais.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Serviço 5 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="100">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-child" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Infantil</h3>
                     <p class="text-gray-600 mb-4">Desenvolvimento de hábitos alimentares saudáveis desde a infância, com abordagem lúdica e educativa para as crianças.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Serviço 6 -->
-                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="200">
-                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-primary/50" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="text-primary text-4xl mb-4 card-icon">
                         <i class="fas fa-baby" aria-hidden="true"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Materno-Infantil</h3>
                     <p class="text-gray-600 mb-4">Acompanhamento nutricional na gestação, lactação e introdução alimentar, garantindo saúde para mãe e bebê.</p>
-                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                    <a href="#appointment" class="text-primary font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
                         Saiba mais <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -473,7 +487,7 @@
     </section>
 
     <!-- Seção Estatísticas -->
-    <section class="py-16 bg-gradient-to-r from-[#76c893] to-[#34d399] text-white">
+    <section class="py-16 bg-gradient-to-r from-primary to-green-400 text-white">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div class="p-6" data-scroll="fadeIn">
@@ -499,14 +513,14 @@
     <!-- Seção Vídeos -->
     <section id="videos" class="py-16 bg-white relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-primary/15 blur-xl floating-element" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Conteúdo Educativo</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Conteúdo Educativo</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Vídeos sobre Nutrição</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-4">Aprenda mais sobre nutrição e saúde com nossos conteúdos exclusivos.</p>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -515,7 +529,7 @@
                     <a href="#" class="block relative aspect-w-16 aspect-h-9">
                         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Prato com salada colorida e saudável" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-primary text-2xl group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-play"></i>
                             </div>
                         </div>
@@ -535,7 +549,7 @@
                      <a href="#" class="block relative aspect-w-16 aspect-h-9">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mesa com diversas frutas, verduras e grãos" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-primary text-2xl group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-play"></i>
                             </div>
                         </div>
@@ -555,7 +569,7 @@
                     <a href="#" class="block relative aspect-w-16 aspect-h-9">
                         <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bowl com salmão grelhado, abacate e vegetais" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-primary text-2xl group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-play"></i>
                             </div>
                         </div>
@@ -572,7 +586,7 @@
             </div>
 
             <div class="text-center mt-12" data-scroll="fadeIn">
-                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-white text-[#76c893] font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-white text-primary font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                     <i class="fab fa-youtube mr-2 text-xl"></i>
                     Ver mais vídeos
                 </a>
@@ -581,16 +595,16 @@
     </section>
 
     <!-- Seção Instagram -->
-    <section id="instagram" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+    <section id="instagram" class="py-16 bg-secondary relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/3 left-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/20 blur-lg floating-element" aria-hidden="true"></div>
+        <div class="absolute top-1/3 left-1/4 w-16 h-16 rounded-full bg-accent/20 blur-lg floating-element" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Redes Sociais</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Redes Sociais</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Siga-nos no Instagram</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-4">Acompanhe nosso dia a dia, dicas de nutrição e receitas saudáveis.</p>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
@@ -650,20 +664,20 @@
     <!-- Seção Agendamento -->
     <section id="appointment" class="py-16 bg-white relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-primary/15 blur-xl floating-element" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-16" data-scroll="fadeIn">
-                    <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Agendamento</span>
+                    <span class="text-sm font-semibold tracking-wider text-primary uppercase">Agendamento</span>
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Agende sua Consulta</h2>
                     <p class="text-gray-600 max-w-2xl mx-auto mt-4">Preencha o formulário abaixo e entraremos em contato para confirmar seu agendamento.</p>
-                    <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                    <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-2xl overflow-hidden" data-scroll="fadeIn">
                     <div class="md:flex">
-                        <div class="md:w-1/3 bg-gradient-to-b from-[#76c893] to-[#34d399] p-8 text-white flex flex-col justify-center">
+                        <div class="md:w-1/3 bg-gradient-to-b from-primary to-green-400 p-8 text-white flex flex-col justify-center">
                             <h3 class="text-2xl font-bold mb-4">Informações</h3>
                             <p class="mb-6">Agende sua consulta presencial ou online e dê o primeiro passo para uma vida mais saudável.</p>
                             <address class="not-italic space-y-4">
@@ -696,22 +710,22 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo*</label>
-                                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="name">
+                                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="name">
                                     </div>
 
                                     <div>
                                         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
-                                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="email">
+                                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="email">
                                     </div>
 
                                     <div>
                                         <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone*</label>
-                                        <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="tel">
+                                        <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="tel">
                                     </div>
 
                                     <div>
                                         <label for="service" class="block text-sm font-medium text-gray-700 mb-1">Serviço de Interesse*</label>
-                                        <select id="service" name="service" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300 bg-white">
+                                        <select id="service" name="service" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white appearance-none">
                                             <option value="">Selecione...</option>
                                             <option value="Nutrição Clínica">Nutrição Clínica</option>
                                             <option value="Nutrição Esportiva">Nutrição Esportiva</option>
@@ -724,12 +738,12 @@
 
                                     <div>
                                         <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Data Preferencial*</label>
-                                        <input type="date" id="date" name="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" min="2023-01-01">
+                                        <input type="date" id="date" name="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 appearance-none" min="2023-01-01"> <!-- Ajuste o min para data atual dinamicamente com JS se precisar -->
                                     </div>
 
                                     <div>
                                         <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Horário Preferencial*</label>
-                                        <select id="time" name="time" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300 bg-white">
+                                        <select id="time" name="time" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white appearance-none">
                                             <option value="">Selecione...</option>
                                             <option value="Manhã (8h-12h)">Manhã (8h-12h)</option>
                                             <option value="Tarde (13h-18h)">Tarde (13h-18h)</option>
@@ -740,20 +754,20 @@
 
                                 <div>
                                     <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem ou Observações</label>
-                                    <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300"></textarea>
+                                    <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"></textarea>
                                 </div>
 
                                 <div class="flex items-start">
-                                    <input type="checkbox" id="consent" name="consent" required class="h-5 w-5 text-[#76c893] focus:ring-[#76c893] border-gray-300 rounded mt-0.5 flex-shrink-0">
+                                    <input type="checkbox" id="consent" name="consent" required class="h-5 w-5 text-primary focus:ring-primary border-gray-300 rounded mt-0.5 flex-shrink-0">
                                     <label for="consent" class="ml-2 block text-sm text-gray-700">
-                                        Concordo com o tratamento dos meus dados conforme a <a href="#" class="text-[#76c893] hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded">Política de Privacidade</a>.
+                                        Concordo com o tratamento dos meus dados conforme a <a href="#" class="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded">Política de Privacidade</a>.
                                     </label>
                                 </div>
 
                                 <div id="appointment-form-message" class="hidden p-4 rounded-lg text-sm"></div>
 
                                 <div class="pt-2">
-                                    <button type="submit" class="w-full bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <button type="submit" class="w-full bg-gradient-to-r from-primary to-green-400 hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                                         <i class="fas fa-paper-plane mr-2"></i>
                                         Enviar Agendamento
                                     </button>
@@ -767,23 +781,23 @@
     </section>
 
     <!-- Seção Depoimentos -->
-    <section id="testimonials" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+    <section id="testimonials" class="py-16 bg-secondary relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-[#b5ead7]/20 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-accent/20 blur-xl floating-element" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Depoimentos</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Depoimentos</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">O que nossos pacientes dizem</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-4">Veja a transformação na vida de quem já passou por nosso acompanhamento nutricional.</p>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Depoimento 1 -->
                 <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn">
                     <div class="flex items-center mb-6">
-                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-primary flex-shrink-0">
                             <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Foto de Maria Silva" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -800,7 +814,7 @@
                     <blockquote class="text-gray-600 italic mb-6">
                         <p>"Com o acompanhamento da Dra. Ana Clara, consegui perder 12kg de forma saudável e sustentável. Aprendi a me alimentar melhor sem dietas restritivas. Recomendo muito!"</p>
                     </blockquote>
-                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                    <div class="text-primary text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
                         <i class="fas fa-quote-right"></i>
                     </div>
                 </div>
@@ -808,7 +822,7 @@
                 <!-- Depoimento 2 -->
                 <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn" data-scroll-delay="100">
                     <div class="flex items-center mb-6">
-                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-primary flex-shrink-0">
                             <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de Carlos Oliveira" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -825,7 +839,7 @@
                     <blockquote class="text-gray-600 italic mb-6">
                         <p>"Como atleta amador, a nutrição esportiva fez toda a diferença na minha performance. Melhorei meus tempos e minha recuperação pós-treino. A Dra. Ana é excelente profissional!"</p>
                     </blockquote>
-                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                    <div class="text-primary text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
                         <i class="fas fa-quote-right"></i>
                     </div>
                 </div>
@@ -833,7 +847,7 @@
                 <!-- Depoimento 3 -->
                 <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn" data-scroll-delay="200">
                     <div class="flex items-center mb-6">
-                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-primary flex-shrink-0">
                             <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de Fernanda Costa" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -850,7 +864,7 @@
                     <blockquote class="text-gray-600 italic mb-6">
                         <p>"Acompanhamento durante toda minha gestação foi fundamental para minha saúde e do bebê. Aprendi a me alimentar melhor e hoje continuo com os hábitos adquiridos. Gratidão!"</p>
                      </blockquote>
-                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                    <div class="text-primary text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
                         <i class="fas fa-quote-right"></i>
                     </div>
                 </div>
@@ -861,24 +875,24 @@
     <!-- Seção Contato -->
     <section id="contact" class="py-16 bg-white relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-primary/15 blur-xl floating-element" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-scroll="fadeIn">
-                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Contato</span>
+                <span class="text-sm font-semibold tracking-wider text-primary uppercase">Contato</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Entre em Contato</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mt-4">Estamos à disposição para tirar suas dúvidas e agendar sua consulta.</p>
-                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-green-400 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/2" data-scroll="fadeInLeft">
-                    <div class="bg-white rounded-2xl shadow-xl p-8 h-full border border-gray-700">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 h-full border border-gray-100">
                         <h3 class="text-2xl font-bold mb-6 text-gray-800">Informações de Contato</h3>
 
                         <address class="not-italic space-y-6">
                             <div class="flex items-start">
-                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                <div class="text-primary text-xl mr-4 mt-1 flex-shrink-0 w-5 text-center">
                                     <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                                 </div>
                                 <div>
@@ -888,7 +902,7 @@
                             </div>
 
                             <div class="flex items-start">
-                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                <div class="text-primary text-xl mr-4 mt-1 flex-shrink-0 w-5 text-center">
                                     <i class="fas fa-phone-alt" aria-hidden="true"></i>
                                 </div>
                                 <div>
@@ -898,7 +912,7 @@
                             </div>
 
                             <div class="flex items-start">
-                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                <div class="text-primary text-xl mr-4 mt-1 flex-shrink-0 w-5 text-center">
                                     <i class="fas fa-envelope" aria-hidden="true"></i>
                                 </div>
                                 <div>
@@ -908,7 +922,7 @@
                             </div>
 
                             <div class="flex items-start">
-                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                <div class="text-primary text-xl mr-4 mt-1 flex-shrink-0 w-5 text-center">
                                     <i class="fas fa-clock" aria-hidden="true"></i>
                                 </div>
                                 <div>
@@ -921,17 +935,17 @@
                         <div class="mt-8">
                             <h4 class="font-bold mb-4 text-gray-800">Redes Sociais</h4>
                             <div class="flex space-x-4">
-                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no Instagram" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    <i class="fab fa-instagram"></i>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no Instagram" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-instagram text-xl"></i>
                                 </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Página no Facebook" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    <i class="fab fa-facebook-f"></i>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Página no Facebook" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-facebook-f text-xl"></i>
                                 </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Canal no Youtube" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    <i class="fab fa-youtube"></i>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Canal no Youtube" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-youtube text-xl"></i>
                                 </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no LinkedIn" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                    <i class="fab fa-linkedin-in"></i>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no LinkedIn" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-linkedin-in text-xl"></i>
                                 </a>
                             </div>
                         </div>
@@ -945,33 +959,33 @@
                         <form id="contact-form" class="space-y-4">
                             <div>
                                 <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Nome*</label>
-                                <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="name">
+                                <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="name">
                             </div>
 
                             <div>
                                 <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
-                                <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="email">
+                                <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="email">
                             </div>
 
                             <div>
                                 <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                                <input type="tel" id="contact-phone" name="contact-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="tel">
+                                <input type="tel" id="contact-phone" name="contact-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300" autocomplete="tel">
                             </div>
 
                             <div>
                                 <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-1">Assunto*</label>
-                                <input type="text" id="contact-subject" name="contact-subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300">
+                                <input type="text" id="contact-subject" name="contact-subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                             </div>
 
                             <div>
                                 <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem*</label>
-                                <textarea id="contact-message" name="contact-message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300"></textarea>
+                                <textarea id="contact-message" name="contact-message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"></textarea>
                             </div>
 
                             <div id="contact-form-message" class="hidden p-4 rounded-lg text-sm"></div>
 
                             <div class="pt-2">
-                                <button type="submit" class="w-full bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                <button type="submit" class="w-full bg-gradient-to-r from-primary to-green-400 hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                                     <i class="fas fa-paper-plane mr-2"></i>
                                     Enviar Mensagem
                                 </button>
@@ -990,15 +1004,15 @@
     <!-- Rodapé -->
     <footer class="bg-gray-900 text-gray-400 py-12 relative overflow-hidden">
         <!-- Elementos Flutuantes Decorativos -->
-        <div class="absolute top-1/4 left-1/4 w-24 h-24 rounded-full bg-[#76c893]/10 blur-xl floating-element" aria-hidden="true"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/5 blur-lg floating-element-reverse" aria-hidden="true"></div>
+        <div class="absolute top-1/4 left-1/4 w-24 h-24 rounded-full bg-primary/10 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-16 h-16 rounded-full bg-accent/5 blur-lg floating-element-reverse" aria-hidden="true"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <!-- Sobre (Rodapé) -->
                 <div>
                     <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#76c893] to-[#34d399] flex items-center justify-center text-white font-bold text-lg mr-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-green-400 flex items-center justify-center text-white font-bold text-lg mr-3">
                             AC
                         </div>
                         <span class="text-lg font-bold text-white">Dra. Ana Clara</span>
@@ -1023,9 +1037,9 @@
                 <div>
                     <h4 class="text-lg font-semibold text-white mb-4">Contato</h4>
                      <address class="not-italic space-y-2 text-sm">
-                         <p><i class="fas fa-map-marker-alt w-4 mr-2 text-primary"></i> Rua das Flores, 123 - São Paulo/SP</p>
-                         <p><i class="fas fa-phone-alt w-4 mr-2 text-primary"></i> <a href="tel:+5511999999999" class="hover:text-white transition duration-300">(11) 9999-9999</a></p>
-                         <p><i class="fas fa-envelope w-4 mr-2 text-primary"></i> <a href="mailto:contato@draanaclara.com.br" class="hover:text-white transition duration-300 break-all">contato@draanaclara.com.br</a></p>
+                         <p><i class="fas fa-map-marker-alt w-4 mr-2 text-primary inline-block text-center"></i> Rua das Flores, 123 - São Paulo/SP</p>
+                         <p><i class="fas fa-phone-alt w-4 mr-2 text-primary inline-block text-center"></i> <a href="tel:+5511999999999" class="hover:text-white transition duration-300">(11) 9999-9999</a></p>
+                         <p><i class="fas fa-envelope w-4 mr-2 text-primary inline-block text-center"></i> <a href="mailto:contato@draanaclara.com.br" class="hover:text-white transition duration-300 break-all">contato@draanaclara.com.br</a></p>
                      </address>
                       <div class="flex space-x-3 mt-4">
                           <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no Instagram" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-primary transition-all duration-300">
@@ -1046,7 +1060,7 @@
 
             <div class="border-t border-gray-700 pt-8 text-center text-sm">
                 <p>© <span id="current-year"></span> Dra. Ana Clara Nutricionista. Todos os direitos reservados.</p>
-                <p class="mt-1">Desenvolvido com <i class="fas fa-heart text-primary"></i> por <a href="https://instagram.com/joaoricardo.pe" class="text-primary hover:text-white font-medium">João Ricardo | Engenheiro da Computação</a></p>
+                <p class="mt-1">Desenvolvido com <i class="fas fa-heart text-primary"></i> por <a href="https://instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-white font-medium">João Ricardo | Engenheiro da Computação</a></p>
             </div>
         </div>
     </footer>
@@ -1065,9 +1079,11 @@
 
         // Inicializa Firebase (apenas se a configuração for fornecida)
         let db;
-        if (firebaseConfig.apiKey !== "YOUR_API_KEY") { // Verificação básica se a config foi preenchida
+        if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") { // Verificação básica se a config foi preenchida
             try {
-                firebase.initializeApp(firebaseConfig);
+                if (!firebase.apps.length) { // Evita reinicialização
+                   firebase.initializeApp(firebaseConfig);
+                }
                 db = firebase.firestore();
                 console.log("Firebase Inicializado");
             } catch (error) {
@@ -1075,7 +1091,7 @@
                 // Tratar erro de inicialização (ex: mostrar mensagem ao usuário)
             }
         } else {
-            console.warn("Configuração do Firebase faltando. Submissões de formulário serão apenas logadas no console.");
+            console.warn("Configuração do Firebase faltando ou inválida. Submissões de formulário serão apenas logadas no console.");
         }
 
 
@@ -1083,41 +1099,52 @@
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileNavLinks = mobileMenu.querySelectorAll('a'); // Pega todos os links no menu mobile
+        const menuIcon = menuButton.querySelector('i');
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            menuButton.setAttribute('aria-expanded', 'false'); // Reseta atributo aria
+            // Reseta ícone
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+        }
 
         menuButton.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
             mobileMenu.classList.toggle('hidden');
-            // Alterna atributo aria-expanded para acessibilidade
-            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-            menuButton.setAttribute('aria-expanded', !isExpanded);
+            menuButton.setAttribute('aria-expanded', !isHidden);
              // Muda ícone
-            const icon = menuButton.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
         });
 
         // Fecha menu mobile quando um link é clicado
         mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                menuButton.setAttribute('aria-expanded', 'false'); // Reseta atributo aria
-                // Reseta ícone
-                 const icon = menuButton.querySelector('i');
-                 icon.classList.remove('fa-times');
-                 icon.classList.add('fa-bars');
-            });
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Fecha menu mobile se clicar fora dele
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnButton = menuButton.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && !mobileMenu.classList.contains('hidden')) {
+                closeMobileMenu();
+            }
         });
 
 
-        // --- Rolagem Suave & Destaque de Link Ativo (Opcional, mas boa UX) ---
+        // --- Rolagem Suave & Destaque de Link Ativo ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // Só previne o padrão para links internos reais, não hashes vazios
-                if (this.getAttribute('href') !== '#') {
+                const href = this.getAttribute('href');
+                // Só previne o padrão para links internos reais, não hashes vazios ou links externos
+                if (href && href.startsWith('#') && href !== '#') {
                     e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
+                    const targetElement = document.querySelector(href);
                     if(targetElement) {
-                        const headerOffset = document.querySelector('header').offsetHeight + 20; // Ajuste o deslocamento conforme necessário
+                        const header = document.querySelector('header');
+                        const headerOffset = header ? header.offsetHeight + 20 : 80; // Valor padrão se header não encontrado
                         const elementPosition = targetElement.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -1126,83 +1153,155 @@
                             behavior: "smooth"
                         });
 
-                        // Opcional: fecha menu mobile se estiver aberto
-                        if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                            menuButton.setAttribute('aria-expanded', 'false');
-                             const icon = menuButton.querySelector('i');
-                             icon.classList.remove('fa-times');
-                             icon.classList.add('fa-bars');
+                        // Fecha menu mobile se estiver aberto e for um link mobile
+                        if(this.closest('#mobile-menu')) {
+                           closeMobileMenu();
                         }
                     }
                 }
             });
         });
 
+        // Destaque de Link Ativo (Opcional, mas boa UX)
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('header nav a');
+        const mobileLinks = document.querySelectorAll('#mobile-menu a');
+
+        function changeLinkState() {
+            let index = sections.length;
+            const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+
+            while(--index && window.scrollY + headerHeight + 50 < sections[index].offsetTop) {}
+
+            navLinks.forEach((link) => link.classList.remove('text-primary', 'font-semibold'));
+            mobileLinks.forEach((link) => link.classList.remove('text-primary', 'font-semibold'));
+
+            const activeLinkSelector = `a[href="#${sections[index].id}"]`;
+            const activeNavLinks = document.querySelectorAll(`header nav ${activeLinkSelector}`);
+            const activeMobileLinks = document.querySelectorAll(`#mobile-menu ${activeLinkSelector}`);
+
+            activeNavLinks.forEach(link => link.classList.add('text-primary', 'font-semibold'));
+            activeMobileLinks.forEach(link => link.classList.add('text-primary', 'font-semibold'));
+        }
+
+        changeLinkState(); // Define o estado inicial
+        window.addEventListener('scroll', changeLinkState);
+
+
         // --- Revelar ao Rolar (Scroll Reveal) ---
         const scrollElements = document.querySelectorAll("[data-scroll]");
 
-        const elementInView = (el, dividend = 1) => {
+        const elementInView = (el, percentageScroll = 100) => {
             const elementTop = el.getBoundingClientRect().top;
-            return (
-                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-            );
-        };
+            const elementBottom = el.getBoundingClientRect().bottom;
+            const distance = elementTop - window.innerHeight * (percentageScroll / 100);
 
-        const elementOutOfView = (el) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (
-                elementTop > (window.innerHeight || document.documentElement.clientHeight)
-            );
+            // É visível se o topo estiver acima do ponto percentual E o fundo estiver abaixo do topo da viewport
+            return distance < 0 && elementBottom > 0;
         };
 
         const displayScrollElement = (element) => {
             element.classList.add("is-visible");
         };
 
-        const hideScrollElement = (element) => {
-            // Opcional: remove a classe se quiser que a animação repita ao rolar para cima
-            // element.classList.remove("is-visible");
-        };
-
         const handleScrollAnimation = () => {
             scrollElements.forEach((el) => {
                 // Verifica se há delay definido
                 const delay = parseInt(el.getAttribute('data-scroll-delay')) || 0;
+                const triggerPoint = parseInt(el.getAttribute('data-scroll-trigger')) || 85; // Ponto de gatilho (85% da altura da janela)
 
-                if (elementInView(el, 1.15)) { // Ajuste o divisor para o ponto de gatilho
+                // Adiciona a classe is-visible apenas uma vez
+                if (elementInView(el, triggerPoint) && !el.classList.contains('is-visible')) {
                     setTimeout(() => {
                          displayScrollElement(el);
                     }, delay);
-                } else if (elementOutOfView(el)) {
-                    // Opcional: esconde o elemento novamente
-                    // hideScrollElement(el);
                 }
+                 // Opcional: remover 'is-visible' se sair da tela (para repetir animação)
+                 // else if (!elementInView(el, 0) && el.classList.contains('is-visible')) {
+                 //    el.classList.remove("is-visible");
+                 // }
             })
         }
 
-        // Verificação inicial
-        handleScrollAnimation();
-        // Adiciona listener de scroll
+        // Otimização do scroll listener
+        let ticking = false;
         window.addEventListener("scroll", () => {
-            handleScrollAnimation();
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    handleScrollAnimation();
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
 
+        // Verificação inicial após um pequeno delay para garantir que tudo carregou
+        setTimeout(handleScrollAnimation, 100);
 
-        // --- Tratamento de Submissão de Formulário (Placeholders) ---
 
+        // --- Tratamento de Submissão de Formulário ---
         function handleFormSubmit(formId, messageDivId, formType) {
             const form = document.getElementById(formId);
+            if (!form) {
+                console.error(`Formulário com ID ${formId} não encontrado.`);
+                return;
+            }
             const messageDiv = document.getElementById(messageDivId);
+            if (!messageDiv) {
+                console.error(`Div de mensagem com ID ${messageDivId} não encontrada.`);
+                return;
+            }
             const submitButton = form.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.innerHTML;
+            if (!submitButton) {
+                console.error(`Botão de submit não encontrado no formulário ${formId}.`);
+                return;
+            }
+            const originalButtonHTML = submitButton.innerHTML;
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault(); // Previne submissão padrão do navegador
-                messageDiv.textContent = ''; // Limpa mensagens anteriores
-                messageDiv.classList.add('hidden');
 
-                // Desabilita botão e mostra estado de carregamento
+                // Validação Simples (pode ser expandida)
+                let isValid = true;
+                form.querySelectorAll('[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        // Adicionar feedback visual de erro se desejar
+                        input.classList.add('border-red-500');
+                        console.warn(`Campo obrigatório ${input.name || input.id} está vazio.`);
+                    } else {
+                        input.classList.remove('border-red-500');
+                    }
+                    // Validar email especificamente
+                    if (input.type === 'email' && input.value.trim() && !/\S+@\S+\.\S+/.test(input.value)) {
+                        isValid = false;
+                        input.classList.add('border-red-500');
+                        console.warn(`Email inválido: ${input.value}`);
+                    }
+                     // Validar checkbox de consentimento
+                     if (input.type === 'checkbox' && !input.checked) {
+                        isValid = false;
+                        // Adicionar feedback visual para o label ou checkbox
+                        const label = form.querySelector(`label[for="${input.id}"]`);
+                        if (label) label.classList.add('text-red-500');
+                        console.warn(`Consentimento obrigatório não marcado.`);
+                     } else if (input.type === 'checkbox' && input.checked) {
+                         const label = form.querySelector(`label[for="${input.id}"]`);
+                         if (label) label.classList.remove('text-red-500');
+                     }
+                });
+
+                if (!isValid) {
+                    messageDiv.textContent = 'Por favor, preencha todos os campos obrigatórios corretamente.';
+                    messageDiv.className = 'block p-4 rounded-lg text-sm bg-red-100 text-red-700 mb-4'; // Estilo erro
+                    submitButton.disabled = false; // Reabilita botão se validação falhar
+                    submitButton.innerHTML = originalButtonHTML;
+                    return; // Interrompe a submissão
+                }
+
+                // Limpa mensagens anteriores e desabilita botão
+                messageDiv.textContent = '';
+                messageDiv.className = 'hidden p-4 rounded-lg text-sm mb-4'; // Esconde e reseta estilos
                 submitButton.disabled = true;
                 submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...`;
 
@@ -1210,56 +1309,70 @@
                 const data = {};
                 formData.forEach((value, key) => { data[key] = value; });
                 data.submittedAt = new Date().toISOString(); // Adiciona timestamp
+                data.formType = formType; // Identifica o tipo de formulário
 
                 console.log(`Dados do ${formType}:`, data); // Loga dados no console
 
-                // --- Integração Firebase (Exemplo) ---
+                // --- Integração Firebase ---
                 if (db) { // Verifica se o Firebase foi inicializado
                     try {
-                        // Escolha um nome para a coleção (ex: 'appointments' ou 'contacts')
-                        const collectionName = formType === 'Agendamento' ? 'appointments' : 'contacts';
+                        // Nome da coleção unificado para simplificar (ou use nomes diferentes)
+                        const collectionName = 'formSubmissions';
                         await db.collection(collectionName).add(data);
 
                         // Mensagem de Sucesso
                         messageDiv.textContent = `${formType} enviado com sucesso! Entraremos em contato em breve.`;
-                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-green-100 text-green-700'; // Estilo sucesso
+                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-green-100 text-green-700 mb-4'; // Estilo sucesso
                         form.reset(); // Limpa o formulário
+                        // Limpa classes de erro dos inputs e labels
+                        form.querySelectorAll('.border-red-500').forEach(el => el.classList.remove('border-red-500'));
+                        form.querySelectorAll('.text-red-500').forEach(el => el.classList.remove('text-red-500'));
 
                     } catch (error) {
                         console.error(`Erro ao adicionar ${formType} ao Firestore:`, error);
                         // Mensagem de Erro
-                        messageDiv.textContent = `Ocorreu um erro ao enviar o ${formType.toLowerCase()}. Tente novamente mais tarde.`;
-                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-red-100 text-red-700'; // Estilo erro
+                        messageDiv.textContent = `Ocorreu um erro ao enviar o ${formType.toLowerCase()}. Tente novamente mais tarde ou entre em contato por outro canal. Erro: ${error.message}`;
+                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-red-100 text-red-700 mb-4'; // Estilo erro
                     } finally {
-                         // Reabilita botão e restaura texto
+                         // Reabilita botão e restaura texto APÓS a tentativa de envio
                         submitButton.disabled = false;
-                        submitButton.innerHTML = originalButtonText;
+                        submitButton.innerHTML = originalButtonHTML;
                     }
                 } else {
                     // --- Fallback se Firebase não estiver configurado ---
                     console.warn("Firebase DB não disponível. Submissão logada apenas no console.");
                     // Simula delay de rede
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await new Promise(resolve => setTimeout(resolve, 1500));
 
-                    // Mostra mensagem de sucesso simulada
+                    // Mostra mensagem de sucesso simulada (ou um aviso)
                     messageDiv.textContent = `${formType} recebido (simulado). Verifique o console para detalhes.`;
-                    messageDiv.className = 'block p-4 rounded-lg text-sm bg-blue-100 text-blue-700'; // Estilo info
-                    form.reset();
+                    // Ou, para ser mais realista sobre a falha:
+                    // messageDiv.textContent = `Sistema de envio indisponível no momento. Tente novamente mais tarde.`;
+                    messageDiv.className = 'block p-4 rounded-lg text-sm bg-blue-100 text-blue-700 mb-4'; // Estilo info ou warning
+                    // Não resetar o formulário se a submissão real falhou
+                    // form.reset();
 
                     // Reabilita botão e restaura texto
                     submitButton.disabled = false;
-                    submitButton.innerHTML = originalButtonText;
+                    submitButton.innerHTML = originalButtonHTML;
                 }
             });
         }
 
-        // Inicializa handlers dos formulários
-        handleFormSubmit('appointment-form', 'appointment-form-message', 'Agendamento');
-        handleFormSubmit('contact-form', 'contact-form-message', 'Contato');
+        // Inicializa handlers dos formulários quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+             handleFormSubmit('appointment-form', 'appointment-form-message', 'Agendamento');
+             handleFormSubmit('contact-form', 'contact-form-message', 'Contato');
+        });
 
 
         // --- Ano Atual no Rodapé ---
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+         document.addEventListener('DOMContentLoaded', () => {
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+        });
 
     </script>
 
