@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrição Saudável | Dra. Ana Clara</title>
+    <meta name="description" content="Consultório de nutrição especializado em saúde, bem-estar e qualidade de vida. Agende sua consulta!">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#76c893',
+                        secondary: '#f4f9f4',
+                        accent: '#b5ead7',
+                        dark: '#1a1a2e',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'float-reverse 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'float-reverse': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(20px)' },
+                        },
+                        glow: {
+                            '0%': { 'box-shadow': '0 0 5px 0px rgba(118, 200, 147, 0.5)' },
+                            '100%': { 'box-shadow': '0 0 20px 5px rgba(118, 200, 147, 0.8)' },
+                        }
+                    }
+                }
+            },
+            plugins: [
+                require('@tailwindcss/aspect-ratio'),
+            ],
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(244,249,244,0.95) 100%),
+                        url('https://images.unsplash.com/photo-1490645935967-2debedc0ecc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: #76c893;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.03) rotateX(5deg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card:hover .card-icon {
+            transform: scale(1.1) rotateY(15deg);
+            filter: drop-shadow(0 5px 15px rgba(118, 200, 147, 0.5));
+        }
+
+        .card-icon {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .testimonial-card {
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px) rotateY(5deg);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .whatsapp-btn {
+            animation: pulse 2s infinite, float 4s ease-in-out infinite;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element-reverse {
+            animation: float-reverse 6s ease-in-out infinite;
+        }
+
+        .glow-card {
+            transition: all 0.4s ease;
+        }
+
+        .glow-card:hover {
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .hover-zoom {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-zoom:hover {
+            transform: scale(1.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #76c893 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .border-gradient {
+            position: relative;
+            border-radius: 0.5rem;
+        }
+
+        .border-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, #76c893, #34d399);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #76c893;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5cb081;
+        }
+
+        /* Scroll reveal animations */
+        [data-scroll] {
+            opacity: 0;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        [data-scroll="fadeIn"] {
+            transform: translateY(30px);
+        }
+
+        [data-scroll="fadeInLeft"] {
+            transform: translateX(-30px);
+        }
+
+        [data-scroll="fadeInRight"] {
+            transform: translateX(30px);
+        }
+
+        [data-scroll].is-visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center text-3xl z-50 whatsapp-btn shadow-xl hover:shadow-2xl transition-all duration-300">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Cabeçalho -->
+    <header class="fixed w-full bg-white/90 shadow-md z-40 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#home" class="flex items-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg p-1">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#76c893] to-[#34d399] flex items-center justify-center text-white font-bold text-xl mr-3 shadow-md hover:shadow-lg transition-all duration-300">
+                    AC
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">Dra. Ana Clara</h1>
+            </a>
+
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Início</a>
+                <a href="#about" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Sobre</a>
+                <a href="#services" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Serviços</a>
+                <a href="#videos" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Vídeos</a>
+                <a href="#instagram" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Instagram</a>
+                <a href="#appointment" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Agendamento</a>
+                <a href="#testimonials" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Depoimentos</a>
+                <a href="#contact" class="nav-link text-gray-800 hover:text-[#76c893] font-medium">Contato</a>
+            </nav>
+
+            <button id="mobile-menu-button" aria-label="Abrir menu" class="md:hidden text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary rounded p-1">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 w-full py-4 px-4 shadow-lg backdrop-blur-md absolute top-full left-0">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Início</a>
+                <a href="#about" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Sobre</a>
+                <a href="#services" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Serviços</a>
+                <a href="#videos" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Vídeos</a>
+                <a href="#instagram" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Instagram</a>
+                <a href="#appointment" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Agendamento</a>
+                <a href="#testimonials" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Depoimentos</a>
+                <a href="#contact" class="nav-link text-gray-800 hover:text-[#76c893] font-medium py-2">Contato</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seção Hero (Principal) -->
+    <section id="home" class="hero pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-20 left-10 w-16 h-16 rounded-full bg-[#76c893]/20 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-20 right-10 w-24 h-24 rounded-full bg-[#b5ead7]/30 blur-xl floating-element-reverse" aria-hidden="true"></div>
+        <div class="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-[#76c893]/15 blur-lg floating-element" style="animation-delay: 1s;" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-2xl mx-auto text-center" data-scroll="fadeIn">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+                    <span class="text-gradient">Cuide da sua saúde</span> com nutrição especializada
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-8">Transforme sua relação com a comida e alcance seus objetivos de saúde com acompanhamento personalizado e baseado em evidências científicas.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#appointment" class="bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <i class="fas fa-calendar-check mr-2"></i>
+                        Agendar Consulta
+                    </a>
+                    <a href="#services" class="bg-white hover:bg-gray-100 text-gray-800 font-bold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        <i class="fas fa-utensils mr-2"></i>
+                        Nossos Serviços
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-16 flex justify-center" data-scroll="fadeIn" data-scroll-delay="200">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-2xl hover-zoom">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nutricionista Dra. Ana Clara sorrindo" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#76c893]/40 to-transparent" aria-hidden="true"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section id="about" class="py-16 bg-white relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/4 left-1/4 w-20 h-20 rounded-full bg-[#b5ead7]/20 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-16 h-16 rounded-full bg-[#76c893]/15 blur-lg floating-element-reverse" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Sobre Nós</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Conheça a Dra. Ana Clara</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/3 mb-8 lg:mb-0" data-scroll="fadeInLeft">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden shadow-2xl hover-zoom">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Foto profissional da Dra. Ana Clara" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+                            <div class="text-3xl font-bold text-[#76c893]">10+</div>
+                            <div class="text-sm text-gray-600">Anos de Experiência</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3" data-scroll="fadeInRight">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Nutricionista Clínica e Esportiva</h3>
+                    <p class="text-gray-600 mb-6">Formada pela Universidade de São Paulo (USP), com especialização em Nutrição Clínica e Esportiva. Mestra em Ciências da Saúde com foco em Comportamento Alimentar e atuação em diversos centros de referência em nutrição.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
+                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                                <i class="fas fa-heartbeat" aria-hidden="true"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-gray-800">Missão</h4>
+                            <p class="text-sm text-gray-600">Promover saúde através da alimentação consciente e personalizada, com foco em resultados sustentáveis.</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
+                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-gray-800">Visão</h4>
+                            <p class="text-sm text-gray-600">Ser referência em nutrição humanizada e baseada em evidências científicas, com atendimento diferenciado.</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-[#76c893]/30 glow-card">
+                            <div class="text-[#76c893] text-3xl mb-3 card-icon">
+                                <i class="fas fa-hand-holding-heart" aria-hidden="true"></i>
+                            </div>
+                            <h4 class="font-bold mb-2 text-gray-800">Valores</h4>
+                            <p class="text-sm text-gray-600">Ética, empatia, atualização constante e respeito à individualidade de cada paciente.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Clínica</span>
+                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Esportiva</span>
+                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Comportamento Alimentar</span>
+                        <span class="bg-[#b5ead7] text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300">Nutrição Vegetariana</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Serviços -->
+    <section id="services" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/3 right-1/4 w-24 h-24 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/20 blur-lg floating-element-reverse" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Nossos Serviços</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Atendimento Personalizado</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Oferecemos diversos serviços especializados para atender às suas necessidades nutricionais.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Serviço 1 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-running" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Esportiva</h3>
+                    <p class="text-gray-600 mb-4">Planejamento alimentar para melhorar performance, recuperação e composição corporal de atletas e praticantes de atividade física.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Serviço 2 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-stethoscope" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Clínica</h3>
+                    <p class="text-gray-600 mb-4">Tratamento e prevenção de doenças através da alimentação, com abordagem individualizada para cada condição de saúde.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Serviço 3 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-weight" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Emagrecimento Saudável</h3>
+                    <p class="text-gray-600 mb-4">Programas de reeducação alimentar para perda de peso sustentável, sem dietas restritivas ou modismos passageiros.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Serviço 4 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-leaf" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Vegetariana</h3>
+                    <p class="text-gray-600 mb-4">Acompanhamento para vegetarianos e veganos, garantindo nutrição adequada e balanceada sem produtos animais.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Serviço 5 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-child" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Infantil</h3>
+                    <p class="text-gray-600 mb-4">Desenvolvimento de hábitos alimentares saudáveis desde a infância, com abordagem lúdica e educativa para as crianças.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Serviço 6 -->
+                <div class="bg-white rounded-xl p-8 service-card border border-gray-100 hover:border-[#76c893]/50" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="text-[#76c893] text-4xl mb-4 card-icon">
+                        <i class="fas fa-baby" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Nutrição Materno-Infantil</h3>
+                    <p class="text-gray-600 mb-4">Acompanhamento nutricional na gestação, lactação e introdução alimentar, garantindo saúde para mãe e bebê.</p>
+                    <a href="#appointment" class="text-[#76c893] font-medium inline-flex items-center hover:text-[#5cb081] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                        Saiba mais <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Estatísticas -->
+    <section class="py-16 bg-gradient-to-r from-[#76c893] to-[#34d399] text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6" data-scroll="fadeIn">
+                    <div class="text-4xl md:text-5xl font-bold mb-2">500+</div>
+                    <div class="text-sm uppercase tracking-wider">Pacientes Atendidos</div>
+                </div>
+                <div class="p-6" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="text-4xl md:text-5xl font-bold mb-2">10+</div>
+                    <div class="text-sm uppercase tracking-wider">Anos de Experiência</div>
+                </div>
+                <div class="p-6" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="text-4xl md:text-5xl font-bold mb-2">98%</div>
+                    <div class="text-sm uppercase tracking-wider">Satisfação dos Pacientes</div>
+                </div>
+                <div class="p-6" data-scroll="fadeIn" data-scroll-delay="300">
+                    <div class="text-4xl md:text-5xl font-bold mb-2">100%</div>
+                    <div class="text-sm uppercase tracking-wider">Dedicação Total</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Vídeos -->
+    <section id="videos" class="py-16 bg-white relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Conteúdo Educativo</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Vídeos sobre Nutrição</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Aprenda mais sobre nutrição e saúde com nossos conteúdos exclusivos.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Vídeo 1 -->
+                <div class="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group" data-scroll="fadeIn">
+                    <a href="#" class="block relative aspect-w-16 aspect-h-9">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Prato com salada colorida e saudável" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-6">
+                        <h3 class="font-bold mb-2 text-gray-800">Alimentação Saudável no Dia a Dia</h3>
+                        <p class="text-sm text-gray-600 mb-4">Dicas práticas para manter uma alimentação equilibrada mesmo na correria do cotidiano.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="far fa-clock mr-2" aria-hidden="true"></i>
+                            <span>12 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vídeo 2 -->
+                <div class="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group" data-scroll="fadeIn" data-scroll-delay="100">
+                     <a href="#" class="block relative aspect-w-16 aspect-h-9">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mesa com diversas frutas, verduras e grãos" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-6">
+                        <h3 class="font-bold mb-2 text-gray-800">Mitos e Verdades sobre Dietas</h3>
+                        <p class="text-sm text-gray-600 mb-4">Desvendamos os principais mitos sobre emagrecimento e dietas da moda que circulam por aí.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="far fa-clock mr-2" aria-hidden="true"></i>
+                            <span>18 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vídeo 3 -->
+                <div class="rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group" data-scroll="fadeIn" data-scroll-delay="200">
+                    <a href="#" class="block relative aspect-w-16 aspect-h-9">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bowl com salmão grelhado, abacate e vegetais" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center text-[#76c893] text-2xl group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="p-6">
+                        <h3 class="font-bold mb-2 text-gray-800">Receita: Bowl Nutritivo</h3>
+                        <p class="text-sm text-gray-600 mb-4">Aprenda a preparar uma refeição completa, saborosa e cheia de nutrientes em poucos minutos.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="far fa-clock mr-2" aria-hidden="true"></i>
+                            <span>8 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12" data-scroll="fadeIn">
+                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-white text-[#76c893] font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-50 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    <i class="fab fa-youtube mr-2 text-xl"></i>
+                    Ver mais vídeos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Instagram -->
+    <section id="instagram" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/3 left-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/20 blur-lg floating-element" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Redes Sociais</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Siga-nos no Instagram</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Acompanhe nosso dia a dia, dicas de nutrição e receitas saudáveis.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+                <!-- Post Instagram 1 -->
+                <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Prato saudável" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+                <!-- Post Instagram 2 -->
+                <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn" data-scroll-delay="50">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Mesa com alimentos variados" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+                <!-- Post Instagram 3 -->
+                 <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn" data-scroll-delay="100">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Salmão com vegetais" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+                <!-- Post Instagram 4 -->
+                 <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn" data-scroll-delay="150">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Frutas frescas" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+                <!-- Post Instagram 5 -->
+                 <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn" data-scroll-delay="200">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Smoothie verde" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+                <!-- Post Instagram 6 -->
+                 <a href="#" target="_blank" rel="noopener noreferrer" class="block relative aspect-square bg-gray-200 overflow-hidden rounded-xl hover-zoom group" data-scroll="fadeIn" data-scroll-delay="250">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Post do Instagram: Café da manhã saudável" class="w-full h-full object-cover group-hover:opacity-90 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 transition duration-300">
+                        <i class="fab fa-instagram text-white text-3xl"></i>
+                    </div>
+                </a>
+            </div>
+
+            <div class="text-center" data-scroll="fadeIn">
+                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#fd1d1d]">
+                    <i class="fab fa-instagram mr-2 text-xl"></i>
+                    Siga-nos no Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Agendamento -->
+    <section id="appointment" class="py-16 bg-white relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16" data-scroll="fadeIn">
+                    <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Agendamento</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Agende sua Consulta</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto mt-4">Preencha o formulário abaixo e entraremos em contato para confirmar seu agendamento.</p>
+                    <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-2xl overflow-hidden" data-scroll="fadeIn">
+                    <div class="md:flex">
+                        <div class="md:w-1/3 bg-gradient-to-b from-[#76c893] to-[#34d399] p-8 text-white flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold mb-4">Informações</h3>
+                            <p class="mb-6">Agende sua consulta presencial ou online e dê o primeiro passo para uma vida mais saudável.</p>
+                            <address class="not-italic space-y-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone-alt mt-1 mr-3 flex-shrink-0" aria-hidden="true"></i>
+                                    <div>
+                                        <h4 class="font-bold">Telefone</h4>
+                                        <a href="tel:+5511999999999" class="hover:underline">(11) 9999-9999</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope mt-1 mr-3 flex-shrink-0" aria-hidden="true"></i>
+                                    <div>
+                                        <h4 class="font-bold">E-mail</h4>
+                                        <a href="mailto:contato@draanaclara.com.br" class="hover:underline break-all">contato@draanaclara.com.br</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt mt-1 mr-3 flex-shrink-0" aria-hidden="true"></i>
+                                    <div>
+                                        <h4 class="font-bold">Endereço</h4>
+                                        <p>Rua das Flores, 123 - São Paulo/SP</p>
+                                    </div>
+                                </div>
+                             </address>
+                        </div>
+
+                        <div class="md:w-2/3 p-8">
+                            <form id="appointment-form" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo*</label>
+                                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="name">
+                                    </div>
+
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
+                                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="email">
+                                    </div>
+
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone*</label>
+                                        <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="tel">
+                                    </div>
+
+                                    <div>
+                                        <label for="service" class="block text-sm font-medium text-gray-700 mb-1">Serviço de Interesse*</label>
+                                        <select id="service" name="service" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300 bg-white">
+                                            <option value="">Selecione...</option>
+                                            <option value="Nutrição Clínica">Nutrição Clínica</option>
+                                            <option value="Nutrição Esportiva">Nutrição Esportiva</option>
+                                            <option value="Emagrecimento Saudável">Emagrecimento Saudável</option>
+                                            <option value="Nutrição Vegetariana">Nutrição Vegetariana</option>
+                                            <option value="Nutrição Infantil">Nutrição Infantil</option>
+                                            <option value="Nutrição Materno-Infantil">Nutrição Materno-Infantil</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Data Preferencial*</label>
+                                        <input type="date" id="date" name="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" min="2023-01-01">
+                                    </div>
+
+                                    <div>
+                                        <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Horário Preferencial*</label>
+                                        <select id="time" name="time" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300 bg-white">
+                                            <option value="">Selecione...</option>
+                                            <option value="Manhã (8h-12h)">Manhã (8h-12h)</option>
+                                            <option value="Tarde (13h-18h)">Tarde (13h-18h)</option>
+                                            <option value="Noite (18h-20h)">Noite (18h-20h)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem ou Observações</label>
+                                    <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300"></textarea>
+                                </div>
+
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="consent" name="consent" required class="h-5 w-5 text-[#76c893] focus:ring-[#76c893] border-gray-300 rounded mt-0.5 flex-shrink-0">
+                                    <label for="consent" class="ml-2 block text-sm text-gray-700">
+                                        Concordo com o tratamento dos meus dados conforme a <a href="#" class="text-[#76c893] hover:underline focus:outline-none focus:ring-1 focus:ring-primary rounded">Política de Privacidade</a>.
+                                    </label>
+                                </div>
+
+                                <div id="appointment-form-message" class="hidden p-4 rounded-lg text-sm"></div>
+
+                                <div class="pt-2">
+                                    <button type="submit" class="w-full bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                        <i class="fas fa-paper-plane mr-2"></i>
+                                        Enviar Agendamento
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Depoimentos -->
+    <section id="testimonials" class="py-16 bg-[#f4f9f4] relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-[#b5ead7]/20 blur-xl floating-element" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Depoimentos</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">O que nossos pacientes dizem</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Veja a transformação na vida de quem já passou por nosso acompanhamento nutricional.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Depoimento 1 -->
+                <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Foto de Maria Silva" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Maria Silva</h4>
+                            <div class="flex text-yellow-400" aria-label="Avaliação: 5 de 5 estrelas">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-600 italic mb-6">
+                        <p>"Com o acompanhamento da Dra. Ana Clara, consegui perder 12kg de forma saudável e sustentável. Aprendi a me alimentar melhor sem dietas restritivas. Recomendo muito!"</p>
+                    </blockquote>
+                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                </div>
+
+                <!-- Depoimento 2 -->
+                <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn" data-scroll-delay="100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de Carlos Oliveira" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Carlos Oliveira</h4>
+                            <div class="flex text-yellow-400" aria-label="Avaliação: 5 de 5 estrelas">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-600 italic mb-6">
+                        <p>"Como atleta amador, a nutrição esportiva fez toda a diferença na minha performance. Melhorei meus tempos e minha recuperação pós-treino. A Dra. Ana é excelente profissional!"</p>
+                    </blockquote>
+                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                </div>
+
+                <!-- Depoimento 3 -->
+                <div class="bg-white rounded-xl p-8 testimonial-card shadow-lg hover:shadow-xl border border-gray-100 relative" data-scroll="fadeIn" data-scroll-delay="200">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-[#76c893] flex-shrink-0">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de Fernanda Costa" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Fernanda Costa</h4>
+                            <div class="flex text-yellow-400" aria-label="Avaliação: 4.5 de 5 estrelas">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-600 italic mb-6">
+                        <p>"Acompanhamento durante toda minha gestação foi fundamental para minha saúde e do bebê. Aprendi a me alimentar melhor e hoje continuo com os hábitos adquiridos. Gratidão!"</p>
+                     </blockquote>
+                    <div class="text-[#76c893] text-4xl opacity-20 absolute right-6 bottom-6" aria-hidden="true">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Contato -->
+    <section id="contact" class="py-16 bg-white relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/4 right-1/4 w-20 h-20 rounded-full bg-[#76c893]/15 blur-xl floating-element" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-scroll="fadeIn">
+                <span class="text-sm font-semibold tracking-wider text-[#76c893] uppercase">Contato</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Entre em Contato</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-4">Estamos à disposição para tirar suas dúvidas e agendar sua consulta.</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-[#76c893] to-[#34d399] mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2" data-scroll="fadeInLeft">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 h-full border border-gray-700">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">Informações de Contato</h3>
+
+                        <address class="not-italic space-y-6">
+                            <div class="flex items-start">
+                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-gray-800">Endereço</h4>
+                                    <p class="text-gray-600">Rua das Flores, 123 - Sala 502<br>Jardim Saúde - São Paulo/SP</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-gray-800">Telefone / WhatsApp</h4>
+                                    <a href="tel:+5511999999999" class="text-gray-600 hover:text-primary transition duration-300">(11) 9999-9999</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-gray-800">E-mail</h4>
+                                    <a href="mailto:contato@draanaclara.com.br" class="text-gray-600 hover:text-primary transition duration-300 break-all">contato@draanaclara.com.br</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="text-[#76c893] text-xl mr-4 mt-1 flex-shrink-0">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-gray-800">Horário de Atendimento</h4>
+                                    <p class="text-gray-600">Segunda a Sexta: 8h às 20h<br>Sábado: 8h às 12h</p>
+                                </div>
+                            </div>
+                        </address>
+
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-4 text-gray-800">Redes Sociais</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no Instagram" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Página no Facebook" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Canal no Youtube" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no LinkedIn" class="w-12 h-12 rounded-full bg-[#76c893] text-white flex items-center justify-center hover:bg-[#5cb081] transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2" data-scroll="fadeInRight">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 h-full border border-gray-100">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">Envie uma Mensagem</h3>
+
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Nome*</label>
+                                <input type="text" id="contact-name" name="contact-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="name">
+                            </div>
+
+                            <div>
+                                <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
+                                <input type="email" id="contact-email" name="contact-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="email">
+                            </div>
+
+                            <div>
+                                <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                                <input type="tel" id="contact-phone" name="contact-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300" autocomplete="tel">
+                            </div>
+
+                            <div>
+                                <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-1">Assunto*</label>
+                                <input type="text" id="contact-subject" name="contact-subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300">
+                            </div>
+
+                            <div>
+                                <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem*</label>
+                                <textarea id="contact-message" name="contact-message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#76c893] focus:border-transparent transition-all duration-300"></textarea>
+                            </div>
+
+                            <div id="contact-form-message" class="hidden p-4 rounded-lg text-sm"></div>
+
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-gradient-to-r from-[#76c893] to-[#34d399] hover:from-[#5cb081] hover:to-[#2ca87a] text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <i class="fas fa-paper-plane mr-2"></i>
+                                    Enviar Mensagem
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 rounded-2xl overflow-hidden shadow-xl" data-scroll="fadeIn">
+                <iframe title="Localização do Consultório no Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0754267452926!2d-46.65342658447538!3d-23.565734367638914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1685555562355!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-900 text-gray-400 py-12 relative overflow-hidden">
+        <!-- Elementos Flutuantes Decorativos -->
+        <div class="absolute top-1/4 left-1/4 w-24 h-24 rounded-full bg-[#76c893]/10 blur-xl floating-element" aria-hidden="true"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-16 h-16 rounded-full bg-[#b5ead7]/5 blur-lg floating-element-reverse" aria-hidden="true"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Sobre (Rodapé) -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#76c893] to-[#34d399] flex items-center justify-center text-white font-bold text-lg mr-3">
+                            AC
+                        </div>
+                        <span class="text-lg font-bold text-white">Dra. Ana Clara</span>
+                    </div>
+                    <p class="text-sm">Nutrição especializada para sua saúde e bem-estar. Agende sua consulta e transforme sua vida.</p>
+                </div>
+
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#about" class="hover:text-white transition duration-300">Sobre Nós</a></li>
+                        <li><a href="#services" class="hover:text-white transition duration-300">Serviços</a></li>
+                        <li><a href="#testimonials" class="hover:text-white transition duration-300">Depoimentos</a></li>
+                        <li><a href="#appointment" class="hover:text-white transition duration-300">Agendamento</a></li>
+                        <li><a href="#contact" class="hover:text-white transition duration-300">Contato</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contato (Rodapé) -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contato</h4>
+                     <address class="not-italic space-y-2 text-sm">
+                         <p><i class="fas fa-map-marker-alt w-4 mr-2 text-primary"></i> Rua das Flores, 123 - São Paulo/SP</p>
+                         <p><i class="fas fa-phone-alt w-4 mr-2 text-primary"></i> <a href="tel:+5511999999999" class="hover:text-white transition duration-300">(11) 9999-9999</a></p>
+                         <p><i class="fas fa-envelope w-4 mr-2 text-primary"></i> <a href="mailto:contato@draanaclara.com.br" class="hover:text-white transition duration-300 break-all">contato@draanaclara.com.br</a></p>
+                     </address>
+                      <div class="flex space-x-3 mt-4">
+                          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no Instagram" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-primary transition-all duration-300">
+                              <i class="fab fa-instagram"></i>
+                          </a>
+                          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Página no Facebook" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-primary transition-all duration-300">
+                              <i class="fab fa-facebook-f"></i>
+                          </a>
+                          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Canal no Youtube" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-primary transition-all duration-300">
+                              <i class="fab fa-youtube"></i>
+                          </a>
+                          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Perfil no LinkedIn" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-primary transition-all duration-300">
+                              <i class="fab fa-linkedin-in"></i>
+                          </a>
+                      </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>© <span id="current-year"></span> Dra. Ana Clara Nutricionista. Todos os direitos reservados.</p>
+                <p class="mt-1">Desenvolvido com <i class="fas fa-heart text-primary"></i> por <a href="https://instagram.com/joaoricardo.pe" class="text-primary hover:text-white font-medium">João Ricardo | Engenheiro da Computação</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --- Configuração Firebase (Substitua com sua configuração real) ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Inicializa Firebase (apenas se a configuração for fornecida)
+        let db;
+        if (firebaseConfig.apiKey !== "YOUR_API_KEY") { // Verificação básica se a config foi preenchida
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Firebase Inicializado");
+            } catch (error) {
+                console.error("Erro ao inicializar Firebase:", error);
+                // Tratar erro de inicialização (ex: mostrar mensagem ao usuário)
+            }
+        } else {
+            console.warn("Configuração do Firebase faltando. Submissões de formulário serão apenas logadas no console.");
+        }
+
+
+        // --- Toggle Menu Mobile ---
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = mobileMenu.querySelectorAll('a'); // Pega todos os links no menu mobile
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // Alterna atributo aria-expanded para acessibilidade
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+             // Muda ícone
+            const icon = menuButton.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Fecha menu mobile quando um link é clicado
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuButton.setAttribute('aria-expanded', 'false'); // Reseta atributo aria
+                // Reseta ícone
+                 const icon = menuButton.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+            });
+        });
+
+
+        // --- Rolagem Suave & Destaque de Link Ativo (Opcional, mas boa UX) ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Só previne o padrão para links internos reais, não hashes vazios
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        const headerOffset = document.querySelector('header').offsetHeight + 20; // Ajuste o deslocamento conforme necessário
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+
+                        // Opcional: fecha menu mobile se estiver aberto
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            menuButton.setAttribute('aria-expanded', 'false');
+                             const icon = menuButton.querySelector('i');
+                             icon.classList.remove('fa-times');
+                             icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+            });
+        });
+
+        // --- Revelar ao Rolar (Scroll Reveal) ---
+        const scrollElements = document.querySelectorAll("[data-scroll]");
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const elementOutOfView = (el) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop > (window.innerHeight || document.documentElement.clientHeight)
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add("is-visible");
+        };
+
+        const hideScrollElement = (element) => {
+            // Opcional: remove a classe se quiser que a animação repita ao rolar para cima
+            // element.classList.remove("is-visible");
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                // Verifica se há delay definido
+                const delay = parseInt(el.getAttribute('data-scroll-delay')) || 0;
+
+                if (elementInView(el, 1.15)) { // Ajuste o divisor para o ponto de gatilho
+                    setTimeout(() => {
+                         displayScrollElement(el);
+                    }, delay);
+                } else if (elementOutOfView(el)) {
+                    // Opcional: esconde o elemento novamente
+                    // hideScrollElement(el);
+                }
+            })
+        }
+
+        // Verificação inicial
+        handleScrollAnimation();
+        // Adiciona listener de scroll
+        window.addEventListener("scroll", () => {
+            handleScrollAnimation();
+        });
+
+
+        // --- Tratamento de Submissão de Formulário (Placeholders) ---
+
+        function handleFormSubmit(formId, messageDivId, formType) {
+            const form = document.getElementById(formId);
+            const messageDiv = document.getElementById(messageDivId);
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Previne submissão padrão do navegador
+                messageDiv.textContent = ''; // Limpa mensagens anteriores
+                messageDiv.classList.add('hidden');
+
+                // Desabilita botão e mostra estado de carregamento
+                submitButton.disabled = true;
+                submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...`;
+
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => { data[key] = value; });
+                data.submittedAt = new Date().toISOString(); // Adiciona timestamp
+
+                console.log(`Dados do ${formType}:`, data); // Loga dados no console
+
+                // --- Integração Firebase (Exemplo) ---
+                if (db) { // Verifica se o Firebase foi inicializado
+                    try {
+                        // Escolha um nome para a coleção (ex: 'appointments' ou 'contacts')
+                        const collectionName = formType === 'Agendamento' ? 'appointments' : 'contacts';
+                        await db.collection(collectionName).add(data);
+
+                        // Mensagem de Sucesso
+                        messageDiv.textContent = `${formType} enviado com sucesso! Entraremos em contato em breve.`;
+                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-green-100 text-green-700'; // Estilo sucesso
+                        form.reset(); // Limpa o formulário
+
+                    } catch (error) {
+                        console.error(`Erro ao adicionar ${formType} ao Firestore:`, error);
+                        // Mensagem de Erro
+                        messageDiv.textContent = `Ocorreu um erro ao enviar o ${formType.toLowerCase()}. Tente novamente mais tarde.`;
+                        messageDiv.className = 'block p-4 rounded-lg text-sm bg-red-100 text-red-700'; // Estilo erro
+                    } finally {
+                         // Reabilita botão e restaura texto
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    }
+                } else {
+                    // --- Fallback se Firebase não estiver configurado ---
+                    console.warn("Firebase DB não disponível. Submissão logada apenas no console.");
+                    // Simula delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    // Mostra mensagem de sucesso simulada
+                    messageDiv.textContent = `${formType} recebido (simulado). Verifique o console para detalhes.`;
+                    messageDiv.className = 'block p-4 rounded-lg text-sm bg-blue-100 text-blue-700'; // Estilo info
+                    form.reset();
+
+                    // Reabilita botão e restaura texto
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                }
+            });
+        }
+
+        // Inicializa handlers dos formulários
+        handleFormSubmit('appointment-form', 'appointment-form-message', 'Agendamento');
+        handleFormSubmit('contact-form', 'contact-form-message', 'Contato');
+
+
+        // --- Ano Atual no Rodapé ---
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    </script>
+
+</body>
+</html>
