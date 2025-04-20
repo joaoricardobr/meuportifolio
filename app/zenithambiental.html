@@ -156,7 +156,7 @@
     </style>
 </head>
 <body>
-    <video autoplay muted loop class="video-background">
+    <video id="background-video" autoplay muted loop class="video-background">
         <source src="https://cdn.pixabay.com/video/2025/03/16/265271_large.mp4" type="video/mp4">
         Seu navegador não suporta o elemento de vídeo.
     </video>
@@ -190,8 +190,23 @@
             <img src="https://img.icons8.com/ios-filled/50/copyright.png" alt="Video Rights Icon">
         </a>
         <a href="https://www.zenithambiental.com" target="_blank">
-            <img src=" https://img.icons8.com/?size=100&id=18915&format=png&color=000000" alt="Nature Icon">
+            <img src="https://img.icons8.com/?size=100&id=18915&format=png&color=000000" alt="Nature Icon">
         </a>
     </div>
+
+    <script>
+        const video = document.getElementById('background-video');
+        
+        // Garantir que o vídeo reinicie automaticamente quando terminar
+        video.addEventListener('ended', () => {
+            video.currentTime = 0;
+            video.play();
+        });
+
+        // Forçar a reprodução no carregamento da página
+        video.addEventListener('loadedmetadata', () => {
+            video.play();
+        });
+    </script>
 </body>
 </html>
