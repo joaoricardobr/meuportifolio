@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConstruTech - Engenharia Civil de Excelência</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .project-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .testimonial-card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .floating-btn {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+        
+        .mobile-menu {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-3">CT</div>
+                <h1 class="text-xl font-bold text-blue-800">Constru<span class="text-green-600">Tech</span></h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="text-blue-800 font-medium hover:text-green-600 transition">Home</a>
+                <a href="#about" class="text-gray-600 font-medium hover:text-green-600 transition">Sobre Nós</a>
+                <a href="#services" class="text-gray-600 font-medium hover:text-green-600 transition">Serviços</a>
+                <a href="#projects" class="text-gray-600 font-medium hover:text-green-600 transition">Projetos</a>
+                <a href="#blog" class="text-gray-600 font-medium hover:text-green-600 transition">Blog</a>
+                <a href="#contact" class="text-gray-600 font-medium hover:text-green-600 transition">Contato</a>
+            </nav>
+            
+            <div class="hidden md:block">
+                <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium transition">Orçamento</a>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white w-full py-4 px-4 shadow-lg">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="text-blue-800 font-medium hover:text-green-600 transition">Home</a>
+                <a href="#about" class="text-gray-600 font-medium hover:text-green-600 transition">Sobre Nós</a>
+                <a href="#services" class="text-gray-600 font-medium hover:text-green-600 transition">Serviços</a>
+                <a href="#projects" class="text-gray-600 font-medium hover:text-green-600 transition">Projetos</a>
+                <a href="#blog" class="text-gray-600 font-medium hover:text-green-600 transition">Blog</a>
+                <a href="#contact" class="text-gray-600 font-medium hover:text-green-600 transition">Contato</a>
+                <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium text-center transition">Orçamento</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-4 py-20 text-white">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Construindo o Futuro com <span class="text-green-400">Solidez</span></h1>
+                <p class="text-xl mb-8">Mais de 15 anos transformando sonhos em estruturas concretas com excelência, inovação e comprometimento.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-medium text-center transition">Solicitar Orçamento</a>
+                    <a href="#services" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-3 rounded-full font-medium text-center transition">Nossos Serviços</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Sobre Nós</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                    <img src="https://images.unsplash.com/photo-1581093450021-33a9da17b111?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Equipe ConstruTech" class="rounded-lg shadow-xl">
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Nossa História e Valores</h3>
+                    <p class="text-gray-600 mb-6">Fundada em 2008, a ConstruTech surgiu com o propósito de revolucionar o mercado da construção civil através da combinação entre expertise técnica e tecnologia de ponta. Ao longo dos anos, consolidamos nossa reputação como referência em projetos complexos e soluções inovadoras.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-medal text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Excelência</h4>
+                                <p class="text-gray-600 text-sm">Padrão de qualidade em todos os projetos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-lightbulb text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Inovação</h4>
+                                <p class="text-gray-600 text-sm">Tecnologias como BIM e construção sustentável</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-handshake text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Integridade</h4>
+                                <p class="text-gray-600 text-sm">Transparência e ética em todas as relações</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-leaf text-red-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Sustentabilidade</h4>
+                                <p class="text-gray-600 text-sm">Práticas ecoeficientes em todas as obras</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-award text-yellow-500 text-2xl mr-3"></i>
+                            <h4 class="font-bold text-gray-800">Certificações e Reconhecimentos</h4>
+                        </div>
+                        <p class="text-gray-600 mb-4">Certificados pelo CREA, ISO 9001 e membros da Associação Brasileira de Engenharia Civil (ABENC). Premiada por 3 anos consecutivos como "Melhor Construtora Sustentável" pelo Green Building Council.</p>
+                        <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais sobre nossa equipe →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossos Serviços</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Soluções completas em engenharia civil, desde a concepção até a entrega final do projeto.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-drafting-compass text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Projetos Arquitetônicos</h3>
+                    <p class="text-gray-600 mb-4">Desenvolvimento de projetos personalizados com tecnologia BIM, garantindo precisão e eficiência em todas as etapas.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Residencial e comercial</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Renderizações 3D</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Aprovações legais</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-building text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Construção Civil</h3>
+                    <p class="text-gray-600 mb-4">Execução de obras com qualidade superior, cumprimento rigoroso de prazos e orçamentos, utilizando materiais de primeira linha.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Edifícios residenciais</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Complexos comerciais</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Estruturas industriais</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-tools text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Reformas e Adequações</h3>
+                    <p class="text-gray-600 mb-4">Modernização e revitalização de espaços existentes, com atenção especial à funcionalidade e valorização do imóvel.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Reformas estruturais</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Adequação a normas</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Acessibilidade</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Gerenciamento de Obras</h3>
+                    <p class="text-gray-600 mb-4">Administração completa do projeto, desde o planejamento até a entrega, garantindo eficiência e redução de custos.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Controle de cronograma</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Gestão de custos</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Relatórios detalhados</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-road text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Infraestrutura Urbana</h3>
+                    <p class="text-gray-600 mb-4">Projetos de urbanização, pavimentação, drenagem e infraestrutura para condomínios, loteamentos e vias públicas.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Sistema viário</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Saneamento básico</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Iluminação pública</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="service-card bg-white rounded-lg shadow-md p-8 transition duration-300">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-solar-panel text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Sustentabilidade</h3>
+                    <p class="text-gray-600 mb-4">Consultoria e implementação de soluções ecoeficientes, como energia solar, reaproveitamento de água e materiais sustentáveis.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Certificação LEED</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Eficiência energética</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Gestão de resíduos</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-green-600 font-medium hover:text-green-800 transition">Saiba mais →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-blue-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold mb-2">150+</div>
+                    <div class="text-blue-200">Projetos Concluídos</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">25</div>
+                    <div class="text-blue-200">Prêmios Recebidos</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">98%</div>
+                    <div class="text-blue-200">Clientes Satisfeitos</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">15</div>
+                    <div class="text-blue-200">Anos de Experiência</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossos Projetos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Alguns dos nossos trabalhos mais recentes que demonstram nossa capacidade e diversidade de atuação.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <!-- Project Filters -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex rounded-md shadow-sm">
+                    <button type="button" class="project-filter px-4 py-2 text-sm font-medium rounded-l-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50" data-filter="all">
+                        Todos
+                    </button>
+                    <button type="button" class="project-filter px-4 py-2 text-sm font-medium border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50" data-filter="residencial">
+                        Residencial
+                    </button>
+                    <button type="button" class="project-filter px-4 py-2 text-sm font-medium border border-gray-300 bg-white text-gray-700 hover:bg-gray-50" data-filter="comercial">
+                        Comercial
+                    </button>
+                    <button type="button" class="project-filter px-4 py-2 text-sm font-medium border-t border-b border-gray-300 bg-white text-gray-700 hover:bg-gray-50" data-filter="industrial">
+                        Industrial
+                    </button>
+                    <button type="button" class="project-filter px-4 py-2 text-sm font-medium rounded-r-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50" data-filter="infraestrutura">
+                        Infraestrutura
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="residencial">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Residencial Green Valley" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Residencial</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Residencial Green Valley</h3>
+                            <p class="text-gray-200">Condomínio de luxo com 50 unidades em São Paulo</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="comercial">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Shopping Downtown" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">Comercial</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Shopping Downtown</h3>
+                            <p class="text-gray-200">Complexo comercial com 120 lojas no Rio de Janeiro</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="industrial">
+                    <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1544&q=80" alt="Fábrica TecnoPlast" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-yellow-600 text-white text-xs px-2 py-1 rounded-full">Industrial</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Fábrica TecnoPlast</h3>
+                            <p class="text-gray-200">Planta industrial de 15.000m² em Minas Gerais</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="infraestrutura">
+                    <img src="https://images.unsplash.com/photo-1558002038-1055827f30dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Ponte Rio Verde" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-red-600 text-white text-xs px-2 py-1 rounded-full">Infraestrutura</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Ponte Rio Verde</h3>
+                            <p class="text-gray-200">Ponte estaiada com 280m de comprimento em Goiás</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="residencial">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Edifício Skyline" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Residencial</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Edifício Skyline</h3>
+                            <p class="text-gray-200">Torre residencial de 30 andares em Curitiba</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="project-card relative rounded-lg overflow-hidden" data-category="comercial">
+                    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Centro Empresarial" class="w-full h-64 object-cover">
+                    <div class="project-overlay absolute inset-0 bg-gradient-to-t from-black to-transparent flex items-end p-6">
+                        <div>
+                            <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">Comercial</span>
+                            <h3 class="text-white text-xl font-bold mt-2">Centro Empresarial</h3>
+                            <p class="text-gray-200">Complexo de escritórios classe A em São Paulo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#contact" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 transition">
+                    Ver todos os projetos
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Depoimentos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">O que nossos clientes dizem sobre nosso trabalho e comprometimento.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-gray-50 rounded-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Mendes" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Carlos Mendes</h4>
+                            <p class="text-gray-600 text-sm">Diretor - Mendes Construções</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"A ConstruTech foi fundamental para o sucesso do nosso último empreendimento. O prazo foi cumprido rigorosamente e a qualidade superou nossas expectativas."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-gray-50 rounded-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Lúcia" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Ana Lúcia</h4>
+                            <p class="text-gray-600 text-sm">CEO - AL Incorporações</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Trabalhamos com a ConstruTech em três projetos e em todos eles a equipe demonstrou profissionalismo, atenção aos detalhes e soluções criativas para desafios complexos."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-gray-50 rounded-lg p-8">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Roberto Silva" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Roberto Silva</h4>
+                            <p class="text-gray-600 text-sm">Gerente - Indústrias Silva</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"A nova planta industrial que construíram para nós atende perfeitamente às nossas necessidades. O projeto sustentável reduziu nossos custos operacionais em 20%."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Últimas Notícias</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Artigos e novidades sobre engenharia civil, sustentabilidade e inovações no setor.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Tendências BIM" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full mb-2">Tecnologia</span>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Como o BIM está revolucionando a construção civil</h3>
+                        <p class="text-gray-600 mb-4">O Building Information Modeling (BIM) está transformando a maneira como projetos são concebidos e executados...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">15 de Junho, 2023</span>
+                            <a href="#" class="text-green-600 hover:text-green-800 font-medium">Ler mais →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Article 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1486401899868-0e435ed85128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Materiais sustentáveis" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-2">Sustentabilidade</span>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Materiais sustentáveis que estão ganhando espaço</h3>
+                        <p class="text-gray-600 mb-4">Conheça os novos materiais de construção que combinam desempenho técnico com baixo impacto ambiental...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">2 de Junho, 2023</span>
+                            <a href="#" class="text-green-600 hover:text-green-800 font-medium">Ler mais →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Article 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Normas técnicas" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="inline-block px-3 py-1 text-xs font-semibold text-purple-600 bg-purple-100 rounded-full mb-2">Legislação</span>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Mudanças nas normas técnicas para 2023</h3>
+                        <p class="text-gray-600 mb-4">As principais atualizações nas normas ABNT e regulamentações municipais que afetam projetos e obras...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">20 de Maio, 2023</span>
+                            <a href="#" class="text-green-600 hover:text-green-800 font-medium">Ler mais →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition">
+                    Ver todos os artigos
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Perguntas Frequentes</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Tire suas dúvidas sobre nossos serviços e processos.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="border-b border-gray-200 py-6">
+                    <button class="faq-question flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-medium text-gray-800">Qual o tempo médio para elaboração de um projeto?</h3>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer mt-4 hidden">
+                        <p class="text-gray-600">O prazo varia conforme a complexidade e tamanho do projeto. Para residências unifamiliares, o prazo médio é de 4 a 6 semanas. Para edifícios comerciais ou industriais, pode levar de 8 a 12 semanas. Após a aprovação do anteprojeto, elaboramos os projetos executivos com todos os detalhes necessários para a obra.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="border-b border-gray-200 py-6">
+                    <button class="faq-question flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-medium text-gray-800">Quais as vantagens do gerenciamento de obras?</h3>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer mt-4 hidden">
+                        <p class="text-gray-600">Nosso serviço de gerenciamento garante que a obra será executada conforme o projeto, dentro do prazo e orçamento estabelecidos. Realizamos controle de qualidade, cronograma físico-financeiro, gestão de fornecedores e equipes, além de relatórios periódicos. Isso pode reduzir custos em até 15% e evitar retrabalhos.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="border-b border-gray-200 py-6">
+                    <button class="faq-question flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-medium text-gray-800">Como funciona o processo de aprovação em órgãos municipais?</h3>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer mt-4 hidden">
+                        <p class="text-gray-600">Nós cuidamos de todo o processo burocrático, desde a elaboração da documentação técnica até o protocolo e acompanhamento nos órgãos competentes (prefeitura, corpo de bombeiros, concessionárias). Temos equipe especializada que conhece as particularidades de cada município, agilizando a aprovação.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="border-b border-gray-200 py-6">
+                    <button class="faq-question flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-medium text-gray-800">Quais garantias oferecem para as obras executadas?</h3>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer mt-4 hidden">
+                        <p class="text-gray-600">Oferecemos garantia contratual de 12 meses para todos os serviços executados. Para elementos estruturais, a garantia é de 5 anos. Todos nossos projetos são assinados por profissionais registrados no CREA, com ART (Anotação de Responsabilidade Técnica) específica para cada etapa.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="border-b border-gray-200 py-6">
+                    <button class="faq-question flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-medium text-gray-800">Trabalham com financiamento bancário para construção?</h3>
+                        <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer mt-4 hidden">
+                        <p class="text-gray-600">Sim, temos parcerias com os principais bancos e auxiliamos na elaboração da documentação necessária para liberação do financiamento, incluindo projetos técnicos, orçamentos detalhados e cronogramas físicos-financeiros exigidos pelas instituições financeiras.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white mb-4">Entre em Contato</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto">Estamos prontos para transformar sua visão em realidade. Solicite um orçamento ou tire suas dúvidas.</p>
+                <div class="w-20 h-1 bg-green-600 mx-auto mt-4"></div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nome completo</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none transition">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">E-mail</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none transition">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Telefone</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none transition">
+                            </div>
+                            <div>
+                                <label for="service" class="block text-sm font-medium text-gray-300 mb-1">Serviço de interesse</label>
+                                <select id="service" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none transition">
+                                    <option value="">Selecione</option>
+                                    <option value="projeto">Projeto Arquitetônico</option>
+                                    <option value="construcao">Construção Civil</option>
+                                    <option value="reforma">Reformas</option>
+                                    <option value="gerenciamento">Gerenciamento de Obras</option>
+                                    <option value="infraestrutura">Infraestrutura</option>
+                                    <option value="sustentabilidade">Sustentabilidade</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Mensagem</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-green-500 focus:outline-none transition"></textarea>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="consent" class="w-4 h-4 text-green-600 bg-gray-800 rounded border-gray-700 focus:ring-green-500">
+                            <label for="consent" class="ml-2 text-sm text-gray-300">Concordo em receber comunicações da ConstruTech</label>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition">Enviar Mensagem</button>
+                    </form>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-800 rounded-lg p-8 h-full">
+                        <h3 class="text-xl font-bold text-white mb-6">Informações de Contato</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-green-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white mb-1">Endereço</h4>
+                                    <p class="text-gray-300">Av. Engenheiro Luís Carlos Berrini, 1234<br>São Paulo - SP, 04571-000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-blue-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white mb-1">Telefone</h4>
+                                    <p class="text-gray-300">(11) 1234-5678<br>(11) 98765-4321 (WhatsApp)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-yellow-500 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white mb-1">E-mail</h4>
+                                    <p class="text-gray-300">contato@constru-tech.com.br<br>orcamentos@constru-tech.com.br</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-600 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white mb-1">Horário de Atendimento</h4>
+                                    <p class="text-gray-300">Segunda a Sexta: 8h às 18h<br>Sábado: 8h às 12h</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold text-white mb-4">Siga-nos nas Redes Sociais</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-blue-400 transition">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-pink-600 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-green-500 transition">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-red-500 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 rounded-lg overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.23604261289!2d-46.6843229246839!3d-23.59845597880032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5746788d7337%3A0x9aaef5b5eb1bc4d4!2sAv.%20Engenheiro%20Lu%C3%ADs%20Carlos%20Berini%2C%201250%20-%20Cidade%20Mon%C3%A7%C3%B5es%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2004571-000!5e0!3m2!1spt-BR!2sbr!4v1685556789012!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">CT</div>
+                        <h3 class="text-xl font-bold text-white">Constru<span class="text-green-400">Tech</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Excelência em engenharia civil há mais de 15 anos, transformando sonhos em estruturas concretas.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Serviços</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-white transition">Projetos</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Serviços</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Projetos Arquitetônicos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Construção Civil</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Reformas e Adequações</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Gerenciamento de Obras</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Infraestrutura Urbana</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sustentabilidade</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Assine nossa newsletter para receber novidades e conteúdos exclusivos.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 rounded-l-lg bg-gray-700 text-white focus:outline-none w-full">
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 ConstruTech. Todos os direitos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Termos de Serviço</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Política de Privacidade</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5511987654321" target="_blank" class="fixed bottom-8 right-8 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-xl floating-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-24 right-8 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-xl hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('transform');
+                icon.classList.toggle('rotate-180');
+                
+                // Close other answers
+                faqQuestions.forEach(q => {
+                    if (q !== question) {
+                        q.nextElementSibling.classList.add('hidden');
+                        q.querySelector('i').classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+        
+        // Project Filtering
+        const projectFilters = document.querySelectorAll('.project-filter');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        projectFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                const filterValue = filter.getAttribute('data-filter');
+                
+                // Update active filter button
+                projectFilters.forEach(f => {
+                    f.classList.remove('bg-blue-600', 'text-white');
+                    f.classList.add('bg-white', 'text-gray-700');
+                });
+                
+                filter.classList.remove('bg-white', 'text-gray-700');
+                filter.classList.add('bg-blue-600', 'text-white');
+                
+                // Filter projects
+                projectCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
