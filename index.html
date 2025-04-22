@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="">
 <head>
-    <!-- ======================================== -->
-    <!--             Meta Tags & Links            -->
-    <!-- ======================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfólio de Projetos - João Ricardo">
@@ -12,60 +9,84 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Sora) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio" defer></script>
     <!-- Supabase Client -->
     <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
 
-    <!-- ======================================== -->
-    <!--                   CSS                  -->
-    <!-- ======================================== -->
     <style>
-        /* --- Base & Configuration --- */
         :root {
             --brand-brown: #A0522D;
             --brand-brown-dark: #8B4513;
             --brand-gold: #D4AF37;
             --brand-light-bg: #F8F8F8;
-            --brand-dark-bg: #111827; /* bg-gray-900 */
+            --brand-dark-bg: #111827;
             --brand-card-light: #FFFFFF;
-            --brand-card-dark: #1f2937; /* bg-gray-800 */
-            --text-primary-light: #1f2937; /* text-gray-800 */
-            --text-primary-dark: #f3f4f6; /* text-gray-100 */
-            --text-secondary-light: #6b7280; /* text-gray-500 */
-            --text-secondary-dark: #9ca3af; /* text-gray-400 */
-            --border-light: #e5e7eb; /* border-gray-200 */
-            --border-dark: #4b5563; /* border-gray-600 */
-            --primary-action: #2563eb; /* bg-blue-600 */
-            --primary-action-dark: #1d4ed8; /* bg-blue-700 */
+            --brand-card-dark: #1f2937;
+            --text-primary-light: #1f2937;
+            --text-primary-dark: #f3f4f6;
+            --text-secondary-light: #6b7280;
+            --text-secondary-dark: #9ca3af;
+            --border-light: #e5e7eb;
+            --border-dark: #4b5563;
+            --primary-action: #2563eb;
+            --primary-action-dark: #1d4ed8;
             --primary-action-alt-dark: var(--brand-gold);
-            --secondary-action: #4b5563; /* bg-gray-600 */
-            --secondary-action-dark: #9ca3af; /* bg-gray-400 */
-            --neutral-bg-light: #f3f4f6; /* bg-gray-100 */
-            --neutral-bg-dark: #4b5563; /* bg-gray-600 */
-            --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --secondary-action: #4b5563;
+            --secondary-action-dark: #9ca3af;
+            --neutral-bg-light: #f3f4f6;
+            --neutral-bg-dark: #4b5563;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--brand-light-bg); color: var(--text-primary-light); margin: 0; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Sora', sans-serif; background-color: var(--brand-light-bg); color: var(--text-primary-light); margin: 0; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
         .dark body { background-color: var(--brand-dark-bg); color: var(--text-primary-dark); }
         .container { width: 90%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
         main.container { padding-top: 2.5rem; padding-bottom: 2.5rem; flex-grow: 1; }
 
-        /* --- Hero Section --- */
-        .hero-section { background-color: #0B0F19; color: var(--text-primary-dark); }
+        /* Hero Section */
+        .hero-section { position: relative; color: var(--text-primary-dark); overflow: hidden; }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.7; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)); z-index: 0; }
+        .hero-content { position: relative; z-index: 10; text-align: center; padding: 3rem 1rem; max-width: 700px; margin: 0 auto; }
+        .hero-content .glassmorphism { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: var(--radius-lg); padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); }
+        .hero-content h1 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.75rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
+        .hero-content .gradient-text { background: linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-content p.subtitle { font-size: 1rem; font-weight: 500; line-height: 1.5; color: #e5e7eb; margin-bottom: 1rem; }
+        .hero-content p.description { font-size: 0.875rem; font-weight: 400; line-height: 1.6; color: #e5e7eb; text-align: justify; margin-bottom: 1.5rem; }
+        .hero-content .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        .hero-content a { font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s; }
+        .hero-content a:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
         .hero-darkmode-toggle { color: #9ca3af; background-color: rgba(255, 255, 255, 0.1); border-radius: var(--radius-full); width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
         .hero-darkmode-toggle:hover { background-color: rgba(255, 255, 255, 0.2); color: white; transform: scale(1.1); }
+        @media (min-width: 640px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p.subtitle { font-size: 1.125rem; }
+            .hero-content p.description { font-size: 1rem; }
+        }
+        @media (min-width: 1024px) {
+            .hero-content { padding: 4rem 2rem; }
+            .hero-content h1 { font-size: 3rem; }
+            .hero-content p.subtitle { font-size: 1.25rem; }
+            .hero-content p.description { font-size: 1.125rem; }
+        }
 
-        /* --- Filters --- */
-        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s; border: 1px solid transparent;}
+        /* Filters */
+        #controls { background-color: var(--brand-card-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; box-shadow: var(--shadow-md); transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s; border: 1px solid transparent; }
         .dark #controls { background-color: var(--brand-card-dark); box-shadow: var(--shadow-lg); border-color: var(--border-dark); }
         .controls-layout { display: flex; flex-direction: column; gap: 1.5rem; }
-        @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem;} .search-layout-wrapper { flex-shrink: 0; } }
+        @media (min-width: 1024px) { .controls-layout { flex-direction: row; align-items: flex-end; justify-content: space-between; } .filter-section-wrapper { flex-grow: 1; margin-right: 2rem; } .search-layout-wrapper { flex-shrink: 0; } }
         .filter-section-wrapper { display: flex; flex-direction: column; gap: 1rem; }
         .filter-group-container { display: flex; flex-direction: column; gap: 0.5rem; }
         .filter-label { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary-light); margin-left: 4px; }
@@ -97,7 +118,7 @@
         .dark .layout-btn.active { background-color: var(--primary-action); color: white; border-color: transparent; }
         .layout-btn.active:hover { transform: none; filter: brightness(1.1); }
 
-        /* --- Project Gallery & Cards --- */
+        /* Project Gallery & Cards */
         #project-gallery { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
         @media (min-width: 640px) { #project-gallery { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { #project-gallery { grid-template-columns: repeat(3, 1fr); } }
@@ -136,7 +157,7 @@
         .card-button:disabled { opacity: 0.5; cursor: not-allowed; }
         .card-button:disabled:hover { transform: none; box-shadow: none; }
 
-        /* --- Hide/Show Logic & No Results --- */
+        /* Hide/Show Logic & No Results */
         .project-card.hidden-card { opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0s linear 0.3s, max-height 0s linear 0.3s, margin 0s linear 0.3s, padding 0s linear 0.3s, border 0s linear 0.3s; visibility: hidden; max-height: 0 !important; margin: 0 !important; padding: 0 !important; border-width: 0 !important; overflow: hidden; margin-top: -24px !important; margin-bottom: -24px !important; }
         @media (max-width: 639px) { .project-card.hidden-card { margin-top: 0 !important; margin-bottom: 0 !important; } }
         #no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary-light); }
@@ -144,11 +165,11 @@
         #no-results.hidden { display: none; }
         #no-results i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
 
-        /* --- Preview Modal --- */
-        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(17, 24, 39, 0.8); /* bg-gray-900/80 */ display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(4px); }
+        /* Preview Modal */
+        #previewModal { position: fixed; inset: 0; z-index: 50; background-color: rgba(17, 24, 39, 0.8); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; backdrop-filter: blur(4px); }
         #previewModal:not(.hidden) { opacity: 1; visibility: visible; }
         #previewModal .modal-content { background-color: var(--brand-card-light); border-radius: var(--radius-lg); width: 100%; height: 90%; max-width: 1200px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease-in-out; transform: scale(0.95); }
-        .dark #previewModal .modal-content { background-color: #2d3748; border: 1px solid var(--border-dark);}
+        .dark #previewModal .modal-content { background-color: #2d3748; border: 1px solid var(--border-dark); }
         #previewModal:not(.hidden) .modal-content { transform: scale(1); }
         #previewModal.fullscreen .modal-content { width: 100%; height: 100%; max-width: none; border-radius: 0; border: none; }
         #previewModal .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border-light); flex-shrink: 0; background-color: #f9fafb; }
@@ -166,18 +187,18 @@
         .dark #previewModal .modal-body { background-color: #111827; }
         #previewModal iframe { width: 100%; height: 100%; border: none; }
 
-        /* --- Footer --- */
+        /* Footer */
         .site-footer { background-color: #1f2937; color: #9ca3af; padding: 2rem 1rem; text-align: center; margin-top: auto; font-size: 0.875rem; }
-        .dark .site-footer { background-color: #111827; border-top: 1px solid var(--border-dark);} /* Borda superior no dark */
+        .dark .site-footer { background-color: #111827; border-top: 1px solid var(--border-dark); }
         .site-footer p { margin-bottom: 0.5rem; line-height: 1.5; }
         .site-footer a { color: #60a5fa; font-weight: 500; text-decoration: none; transition: color 0.2s; }
-        .site-footer a:hover { color: #93c5fd; text-decoration: underline;}
+        .site-footer a:hover { color: #93c5fd; text-decoration: underline; }
         .site-footer .instagram-link i { margin-right: 0.3rem; }
 
-        /* --- Utilities --- */
-        #gallery-loading { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-secondary-light); font-size: 1.2rem; } /* Mais padding */
+        /* Utilities */
+        #gallery-loading { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-secondary-light); font-size: 1.2rem; }
         .dark #gallery-loading { color: var(--text-secondary-dark); }
-        #gallery-loading i { margin-right: 0.75rem; font-size: 1.5rem; display: inline-block; animation: spin 1.5s linear infinite; } /* Ícone maior e animado */
+        #gallery-loading i { margin-right: 0.75rem; font-size: 1.5rem; display: inline-block; animation: spin 1.5s linear infinite; }
         #gallery-error { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #dc2626; }
         .dark #gallery-error { color: #f87171; }
         #gallery-error i { margin-bottom: 1rem; }
@@ -185,129 +206,107 @@
     </style>
 </head>
 <body class="">
-
-    <!-- ======================================== -->
-    <!--         Hero Section - ATUALIZADO        -->
-    <!-- ======================================== -->
-    <header class="hero-section relative overflow-hidden">
-        <!-- Background Image & Overlay -->
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-40"
-                 style="background-image: url('https://i.ibb.co/pB9Xv8y4/hero-creative-agenc1.jpg');"> 
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent"></div>
-        </div>
-
-        <!-- Content Container -->
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40 relative z-10">
-            <div class="grid grid-cols-1 items-center text-center"> 
-                <!-- Text Content -->
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight md:leading-snug mb-4">
-                        <span class="block bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">João Ricardo - Portifólio</span> 
-                    </h1>
-                     <p class="mt-4 text-xl lg:text-2xl font-medium text-gray-200">
-                        Full Stack Developer | Android Developer | Perito Forense Computacional
-                     </p>
-
-                    <p class="mt-6 md:mt-8 text-base lg:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
-        Engenheiro da computação, 38 anos e sólida trajetória profissional, Minha expertise abrange desde a concepção e arquitetura de sistemas web robustos e escaláveis (front-end e back-end) até a criação de aplicativos Android nativos, intuitivos e performáticos. Complementarmente, possuo especialização em Perícia Forense Computacional, aplicando conhecimentos técnicos em investigações digitais e análise de dados para garantir a segurança e integridade de sistemas. Busco constantemente aplicar essa combinação única de habilidades para entregar soluções digitais completas e eficazes.     </p>
-                     </p>
-                    <div class="mt-10 md:mt-12 flex flex-wrap justify-center gap-4">
-                        <a href="https://github.com/joaoricardobr" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                           <i class="fab fa-github mr-2"></i> GitHub
-                        </a>
-                        <a href="https://www.linkedin.com/in/joaoricardope/" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                           <i class="fab fa-linkedin mr-2"></i> LinkedIn 
-                        </a>
-                        <a href="mailto:contato@joaoricardo.dev" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm md:text-base text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 shadow-md hover:shadow-lg transition duration-200 transform hover:-translate-y-0.5">
-                            <i class="fas fa-envelope mr-2"></i> Contato 
-                        </a>
-                    </div>
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+            <source src="https://cdn.pixabay.com/video/2021/05/25/75169-555034894_large.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <div class="glassmorphism">
+                <h1>
+                    <span class="gradient-text">João Ricardo - Portfólio</span>
+                </h1>
+                <p class="subtitle">
+                    Full Stack Developer | Android Developer | Perito Forense Computacional
+                </p>
+                <p class="description">
+                    Engenheiro da computação, 38 anos e sólida trajetória profissional. Minha expertise abrange desde a concepção e arquitetura de sistemas web robustos e escaláveis (front-end e back-end) até a criação de aplicativos Android nativos, intuitivos e performáticos. Complementarmente, possuo especialização em Perícia Forense Computacional, aplicando conhecimentos técnicos em investigações digitais e análise de dados para garantir a segurança e integridade de sistemas. Busco constantemente aplicar essa combinação única de habilidades para entregar soluções digitais completas e eficazes.
+                </p>
+                <div class="buttons">
+                    <a href="https://github.com/joaoricardobr" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
+                        <i class="fab fa-github mr-2"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/joaoricardope/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                        <i class="fab fa-linkedin mr-2"></i> LinkedIn
+                    </a>
+                    <a href="mailto:contato@joaoricardo.dev" class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
+                        <i class="fas fa-envelope mr-2"></i> Contato
+                    </a>
                 </div>
             </div>
         </div>
-        <!-- Botão Dark Mode -->
         <div class="absolute top-5 right-5 z-20">
-             <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle">
-                 <i class="fas fa-moon" id="darkModeIcon"></i>
-             </button>
-         </div>
+            <button id="darkModeToggle" title="Alternar Tema" class="hero-darkmode-toggle" aria-label="Alternar entre modo claro e escuro">
+                <i class="fas fa-moon" id="darkModeIcon"></i>
+            </button>
+        </div>
     </header>
-    <!-- ======================= Fim Hero Section ======================= -->
 
-
-    <!-- ======================= Main Content ======================= -->
+    <!-- Main Content -->
     <main class="container">
-
-        <!-- Filtros -->
         <section id="controls">
-            <!-- ... código dos filtros mantido ... -->
-             <div class="controls-layout">
-                 <div class="filter-section-wrapper">
-                     <div class="filter-group-container">
-                         <span class="filter-label">Tecnologia:</span>
-                         <div class="filter-scroll-wrapper">
-                             <div class="filter-group" data-filter-type="tech">
-                                 <button class="filter-btn tech-filter active" data-filter="all">Todos</button>
-                                 <button class="filter-btn tech-filter" data-filter="html">HTML</button>
-                                 <button class="filter-btn tech-filter" data-filter="css">CSS</button>
-                                 <button class="filter-btn tech-filter" data-filter="javascript">JavaScript</button>
-                                 <button class="filter-btn tech-filter" data-filter="react">React</button>
-                                 <button class="filter-btn tech-filter" data-filter="vue">Vue</button>
-                                 <button class="filter-btn tech-filter" data-filter="angular">Angular</button>
-                                 <button class="filter-btn tech-filter" data-filter="python">Python</button>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="filter-group-container">
-                          <span class="filter-label">Categoria:</span>
-                          <div class="filter-scroll-wrapper">
-                              <div class="filter-group" data-filter-type="category">
-                                 <button class="filter-btn cat-filter active" data-filter="all">Todas</button>
-                                 <button class="filter-btn cat-filter" data-filter="landing-page">Landing Page</button>
-                                 <button class="filter-btn cat-filter" data-filter="portfolio">Portfólio</button>
-                                 <button class="filter-btn cat-filter" data-filter="aplicacao">Aplicação</button>
-                                 <button class="filter-btn cat-filter" data-filter="e-commerce">E-commerce</button>
-                                 <button class="filter-btn cat-filter" data-filter="api">API</button>
-                                 <button class="filter-btn cat-filter" data-filter="outro">Outro</button>
-                              </div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="search-layout-wrapper">
-                     <div class="filter-search-container">
-                         <i class="fas fa-search search-icon"></i>
-                         <input type="search" id="filterSearchInput" placeholder="Buscar nos projetos...">
-                     </div>
-                     <div class="layout-group">
-                          <span class="filter-label hidden lg:inline">Layout:</span>
-                         <button class="layout-btn active" data-layout="grid" title="Grade"> <i class="fas fa-th-large"></i> </button>
-                         <button class="layout-btn" data-layout="list" title="Lista"> <i class="fas fa-list"></i> </button>
-                     </div>
-                 </div>
-             </div>
+            <div class="controls-layout">
+                <div class="filter-section-wrapper">
+                    <div class="filter-group-container">
+                        <span class="filter-label">Tecnologia:</span>
+                        <div class="filter-scroll-wrapper">
+                            <div class="filter-group" data-filter-type="tech">
+                                <button class="filter-btn tech-filter active" data-filter="all">Todos</button>
+                                <button class="filter-btn tech-filter" data-filter="html">HTML</button>
+                                <button class="filter-btn tech-filter" data-filter="css">CSS</button>
+                                <button class="filter-btn tech-filter" data-filter="javascript">JavaScript</button>
+                                <button class="filter-btn tech-filter" data-filter="react">React</button>
+                                <button class="filter-btn tech-filter" data-filter="vue">Vue</button>
+                                <button class="filter-btn tech-filter" data-filter="angular">Angular</button>
+                                <button class="filter-btn tech-filter" data-filter="python">Python</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-group-container">
+                        <span class="filter-label">Categoria:</span>
+                        <div class="filter-scroll-wrapper">
+                            <div class="filter-group" data-filter-type="category">
+                                <button class="filter-btn cat-filter active" data-filter="all">Todas</button>
+                                <button class="filter-btn cat-filter" data-filter="landing-page">Landing Page</button>
+                                <button class="filter-btn cat-filter" data-filter="portfolio">Portfólio</button>
+                                <button class="filter-btn cat-filter" data-filter="aplicacao">Aplicação</button>
+                                <button class="filter-btn cat-filter" data-filter="e-commerce">E-commerce</button>
+                                <button class="filter-btn cat-filter" data-filter="api">API</button>
+                                <button class="filter-btn cat-filter" data-filter="outro">Outro</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-layout-wrapper">
+                    <div class="filter-search-container">
+                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        <input type="search" id="filterSearchInput" placeholder="Buscar nos projetos..." aria-label="Buscar projetos">
+                    </div>
+                    <div class="layout-group">
+                        <span class="filter-label hidden lg:inline">Layout:</span>
+                        <button class="layout-btn active" data-layout="grid" title="Grade" aria-label="Exibir em grade"><i class="fas fa-th-large"></i></button>
+                        <button class="layout-btn" data-layout="list" title="Lista" aria-label="Exibir em lista"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Galeria -->
         <section id="project-gallery">
-             <div id="gallery-loading" class="sm:col-span-2 lg:col-span-3"> <i class="fas fa-spinner fa-spin"></i> Carregando projetos... </div>
-             <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10"> <i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i> <p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p> <p class="text-sm text-gray-500 dark:text-gray-500">Tente ajustar seus filtros.</p> </div>
-             <!-- Cards são inseridos aqui pelo JS -->
+            <div id="gallery-loading" class="sm:col-span-2 lg:col-span-3"><i class="fas fa-spinner fa-spin"></i> Carregando projetos...</div>
+            <div id="no-results" class="hidden sm:col-span-2 lg:col-span-3 text-center py-10"><i class="fas fa-ghost fa-3x text-gray-400 dark:text-gray-600 mb-4"></i><p class="text-lg text-gray-600 dark:text-gray-400">Nenhum projeto encontrado.</p><p class="text-sm text-gray-500 dark:text-gray-500">Tente ajustar seus filtros.</p></div>
         </section>
-
     </main>
-    <!-- ======================= Fim Main Content ======================= -->
 
-
-    <!-- ======================= Preview Modal ======================= -->
+    <!-- Preview Modal -->
     <div id="previewModal" class="hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="modalTitle">Preview do Projeto</h4>
                 <div class="modal-actions">
-                    <button id="fullscreenButton" title="Tela Cheia" class="modal-button"> <i class="fas fa-expand"></i> </button>
-                    <button id="closeModalButton" title="Fechar" class="modal-button close-btn"> <i class="fas fa-times"></i> </button>
+                    <button id="fullscreenButton" title="Tela Cheia" class="modal-button" aria-label="Alternar tela cheia"><i class="fas fa-expand"></i></button>
+                    <button id="closeModalButton" title="Fechar" class="modal-button close-btn" aria-label="Fechar modal"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             <div class="modal-body">
@@ -315,79 +314,71 @@
             </div>
         </div>
     </div>
-    <!-- ======================= Fim Preview Modal ======================= -->
 
-
-    <!-- ======================= Footer ======================= -->
+    <!-- Footer -->
     <footer class="site-footer">
-         <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
-         <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
-         <p class="mt-2">
-             <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="instagram-link inline-flex items-center"> 
-                 <i class="fab fa-instagram mr-1.5"></i> @joaoricardo.pe              </a>
-         </p>
+        <p>© <span id="currentYear"></span> João Ricardo Portfólio. Todos os direitos reservados.</p>
+        <p>Desenvolvido com <i class="fas fa-heart text-red-500"></i> por João Ricardo.</p>
+        <p class="mt-2">
+            <a href="https://www.instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="instagram-link inline-flex items-center">
+                <i class="fab fa-instagram mr-1.5"></i> @joaoricardo.pe
+            </a>
+        </p>
     </footer>
-    <!-- ======================= Fim Footer ======================= -->
 
-
-    <!-- ======================= JavaScript (FINAL DO BODY) ======================= -->
-    <script>
-        // --- Variáveis Globais ---
+ <script>
         let currentFilters = { tech: 'all', category: 'all', search: '' };
         let currentLayout = localStorage.getItem('layout') || 'grid';
-        let sbClient; // Será inicializado
+        let sbClient;
 
-        // --- UTILITY FUNCTIONS ---
         function sanitizeHTML(str) { if (!str) return ''; const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; }
         function ensureUrlProtocol(url) { if (!url || url.trim() === '#' || url.trim() === '') return '#'; let trimmedUrl = url.trim(); if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) { return `https://${trimmedUrl}`; } return trimmedUrl; }
-        function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func.apply(this, args); }; clearTimeout(timeout); timeout = setTimeout(later, wait); }; };
+        function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func.apply(this, args); }; clearTimeout(timeout); timeout = setTimeout(later, wait); }; }
 
-        // --- FUNÇÕES DE UI ---
-        function applyTheme(theme) { const darkModeIcon = document.getElementById('darkModeIcon'); document.documentElement.classList.toggle('dark', theme === 'dark'); if (darkModeIcon) darkModeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`; localStorage.setItem('theme', theme); };
-        function updateButtonActiveState(groupSelector, activeValue, dataAttr, activeClass = 'active') { const controlsContainer = document.getElementById('controls'); if (!controlsContainer) return; const buttons = controlsContainer.querySelectorAll(`${groupSelector} button[${dataAttr}]`); buttons.forEach(btn => btn.classList.toggle(activeClass, btn.getAttribute(dataAttr) === activeValue)); };
-        function applyLayout(layout) { const gallery = document.getElementById('project-gallery'); if (!gallery) return; gallery.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'list-view', 'gap-6'); if (layout === 'grid') { gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6'); } else if (layout === 'list') { gallery.classList.add('grid', 'grid-cols-1', 'gap-6'); } const layoutGroup = document.querySelector('#controls .layout-group'); if(layoutGroup) { updateButtonActiveState('.layout-group', layout, 'data-layout'); } currentLayout = layout; localStorage.setItem('layout', layout); };
-        function filterAndSearchProjects() { const gallery = document.getElementById('project-gallery'); const filterSearchInput = document.getElementById('filterSearchInput'); const galleryLoading = document.getElementById('gallery-loading'); const noResultsDiv = document.getElementById('no-results'); if (!gallery) return; const searchVal = (filterSearchInput?.value || '').toLowerCase().trim(); currentFilters.search = searchVal; const allCards = gallery.querySelectorAll(':scope > .project-card'); let visibleCount = 0; if (galleryLoading && !galleryLoading.classList.contains('hidden')) { galleryLoading.classList.add('hidden'); } allCards.forEach(card => { try { const techs = (card.dataset.technologies || '').toLowerCase().split(','); const categorySlug = (card.dataset.category || '').toLowerCase(); const title = (card.dataset.title || '').toLowerCase(); const desc = (card.dataset.description || '').toLowerCase(); const techMatch = currentFilters.tech === 'all' || techs.some(t => t.trim() === currentFilters.tech); const catMatch = currentFilters.category === 'all' || categorySlug === currentFilters.category; const normSearchVal = searchVal.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); const searchMatch = normSearchVal === '' || title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) || desc.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) || techs.some(t => t.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal)) || categorySlug.includes(normSearchVal.replace(/\s+/g, '-')); const isVisible = techMatch && catMatch && searchMatch; card.classList.toggle('hidden-card', !isVisible); if (isVisible) visibleCount++; } catch (error) { console.error("Error filtering card:", card, error); card.classList.remove('hidden-card'); visibleCount++; } }); const galleryHasCards = allCards.length > 0; if (noResultsDiv) { noResultsDiv.classList.toggle('hidden', !galleryHasCards || visibleCount > 0); } };
-        function openModal(url, title) { const modal = document.getElementById('previewModal'); const previewIframe = document.getElementById('previewIframe'); const modalTitle = document.getElementById('modalTitle'); if (!modal || !previewIframe || !modalTitle) return; if (!url || url === '#') { console.warn("Preview URL is invalid:", url); return; } modalTitle.textContent = title || 'Preview'; previewIframe.src = 'about:blank'; setTimeout(() => { previewIframe.src = url; previewIframe.onerror = () => { console.error("Failed to load iframe content for:", url); modalTitle.textContent = `Erro ao carregar: ${title}`; }; }, 50); modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
-        function closeModal() { const modal = document.getElementById('previewModal'); const previewIframe = document.getElementById('previewIframe'); const fullscreenButton = document.getElementById('fullscreenButton'); if (!modal || !previewIframe) return; if (document.fullscreenElement) { document.exitFullscreen(); } modal.classList.add('hidden'); if(fullscreenButton) fullscreenButton.querySelector('i').className = 'fas fa-expand'; previewIframe.src = 'about:blank'; document.body.style.overflow = ''; };
+        function applyTheme(theme) { const darkModeIcon = document.getElementById('darkModeIcon'); document.documentElement.classList.toggle('dark', theme === 'dark'); if (darkModeIcon) darkModeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`; localStorage.setItem('theme', theme); }
+        function updateButtonActiveState(groupSelector, activeValue, dataAttr, activeClass = 'active') { const controlsContainer = document.getElementById('controls'); if (!controlsContainer) return; const buttons = controlsContainer.querySelectorAll(`${groupSelector} button[${dataAttr}]`); buttons.forEach(btn => btn.classList.toggle(activeClass, btn.getAttribute(dataAttr) === activeValue)); }
+        function applyLayout(layout) { const gallery = document.getElementById('project-gallery'); if (!gallery) return; gallery.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'list-view', 'gap-6'); if (layout === 'grid') { gallery.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6'); } else if (layout === 'list') { gallery.classList.add('grid', 'grid-cols-1', 'gap-6'); } const layoutGroup = document.querySelector('#controls .layout-group'); if (layoutGroup) { updateButtonActiveState('.layout-group', layout, 'data-layout'); } currentLayout = layout; localStorage.setItem('layout', layout); }
+        function filterAndSearchProjects() { const gallery = document.getElementById('project-gallery'); const filterSearchInput = document.getElementById('filterSearchInput'); const galleryLoading = document.getElementById('gallery-loading'); const noResultsDiv = document.getElementById('no-results'); if (!gallery) return; const searchVal = (filterSearchInput?.value || '').toLowerCase().trim(); currentFilters.search = searchVal; const allCards = gallery.querySelectorAll(':scope > .project-card'); let visibleCount = 0; if (galleryLoading && !galleryLoading.classList.contains('hidden')) { galleryLoading.classList.add('hidden'); } allCards.forEach(card => { try { const techs = (card.dataset.technologies || '').toLowerCase().split(','); const categorySlug = (card.dataset.category || '').toLowerCase(); const title = (card.dataset.title || '').toLowerCase(); const desc = (card.dataset.description || '').toLowerCase(); const techMatch = currentFilters.tech === 'all' || techs.some(t => t.trim() === currentFilters.tech); const catMatch = currentFilters.category === 'all' || categorySlug === currentFilters.category; const normSearchVal = searchVal.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); const searchMatch = normSearchVal === '' || title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) || desc.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal) || techs.some(t => t.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normSearchVal)) || categorySlug.includes(normSearchVal.replace(/\s+/g, '-')); const isVisible = techMatch && catMatch && searchMatch; card.classList.toggle('hidden-card', !isVisible); if (isVisible) visibleCount++; } catch (error) { console.error("Error filtering card:", card, error); card.classList.remove('hidden-card'); visibleCount++; } }); const galleryHasCards = allCards.length > 0; if (noResultsDiv) { noResultsDiv.classList.toggle('hidden', !galleryHasCards || visibleCount > 0); } }
+        function openModal(url, title) { const modal = document.getElementById('previewModal'); const previewIframe = document.getElementById('previewIframe'); const modalTitle = document.getElementById('modalTitle'); if (!modal || !previewIframe || !modalTitle) return; if (!url || url === '#') { console.warn("Preview URL is invalid:", url); return; } modalTitle.textContent = title || 'Preview'; previewIframe.src = 'about:blank'; setTimeout(() => { previewIframe.src = url; previewIframe.onerror = () => { console.error("Failed to load iframe content for:", url); modalTitle.textContent = `Erro ao carregar: ${title}`; }; }, 50); modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { const modal = document.getElementById('previewModal'); const previewIframe = document.getElementById('previewIframe'); const fullscreenButton = document.getElementById('fullscreenButton'); if (!modal || !previewIframe) return; if (document.fullscreenElement) { document.exitFullscreen(); } modal.classList.add('hidden'); if (fullscreenButton) fullscreenButton.querySelector('i').className = 'fas fa-expand'; previewIframe.src = 'about:blank'; document.body.style.overflow = ''; }
         function toggleFullscreen() { const modal = document.getElementById('previewModal'); if (!modal) return; const isInFullscreen = document.fullscreenElement; const elementToFullscreen = modal.querySelector('.modal-content') || modal; try { if (!isInFullscreen) { if (elementToFullscreen.requestFullscreen) { elementToFullscreen.requestFullscreen(); } else if (elementToFullscreen.webkitRequestFullscreen) { elementToFullscreen.webkitRequestFullscreen(); } else if (elementToFullscreen.msRequestFullscreen) { elementToFullscreen.msRequestFullscreen(); } } else { if (document.exitFullscreen) { document.exitFullscreen(); } else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); } else if (document.msExitFullscreen) { document.msExitFullscreen(); } } } catch (err) { console.error("Fullscreen API error:", err); } }
         function handleFullscreenChange() { const modal = document.getElementById('previewModal'); const fullscreenButton = document.getElementById('fullscreenButton'); if (!fullscreenButton || !modal) return; const isInFullscreen = !!document.fullscreenElement; fullscreenButton.querySelector('i').className = isInFullscreen ? 'fas fa-compress' : 'fas fa-expand'; modal.classList.toggle('fullscreen', isInFullscreen); }
 
-        // --- DATA FETCHING AND RENDERING ---
         async function fetchProjectsFromSupabase() {
-             console.log("Attempting to fetch projects...");
-             const galleryLoading = document.getElementById('gallery-loading');
-             const gallery = document.getElementById('project-gallery');
-             const noResultsDiv = document.getElementById('no-results');
+            console.log("Attempting to fetch projects...");
+            const galleryLoading = document.getElementById('gallery-loading');
+            const gallery = document.getElementById('project-gallery');
+            const noResultsDiv = document.getElementById('no-results');
 
-             if (!sbClient) { console.error("Supabase client is not available when trying to fetch."); if (gallery) gallery.innerHTML = '<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Cliente Supabase não inicializado.</p></div>'; if (galleryLoading) galleryLoading.classList.add('hidden'); return; }
-             if (galleryLoading) galleryLoading.classList.remove('hidden');
-             if (noResultsDiv) noResultsDiv.classList.add('hidden');
-             if (gallery) { gallery.querySelectorAll('.project-card').forEach(card => card.remove()); if (!gallery.contains(galleryLoading)) gallery.prepend(galleryLoading); }
+            if (!sbClient) { console.error("Supabase client is not available when trying to fetch."); if (gallery) gallery.innerHTML = '<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Cliente Supabase não inicializado.</p></div>'; if (galleryLoading) galleryLoading.classList.add('hidden'); return; }
+            if (galleryLoading) galleryLoading.classList.remove('hidden');
+            if (noResultsDiv) noResultsDiv.classList.add('hidden');
+            if (gallery) { gallery.querySelectorAll('.project-card').forEach(card => card.remove()); if (!gallery.contains(galleryLoading)) gallery.prepend(galleryLoading); }
 
-             try {
-                 console.log("Executing Supabase query: sbClient.from('projects').select(...)");
-                 // Otimização: Selecionar apenas as colunas necessárias
-                 const { data: projects, error, status } = await sbClient
-                     .from('projects')
-                     .select('name, url, description, image_url, category, technologies, code_url') // Removido id, created_at se não usar no card
-                     .order('created_at', { ascending: false }); // Ordenação ainda precisa de created_at implicitamente ou explicitamente
+            try {
+                console.log("Executing Supabase query: sbClient.from('projects').select(...)");
+                const { data: projects, error, status } = await sbClient
+                    .from('projects')
+                    .select('name, url, description, image_url, category, technologies, code_url')
+                    .order('created_at', { ascending: false });
 
-                 console.log("Supabase response status:", status);
-                 console.log("Supabase response error:", error);
+                console.log("Supabase response status:", status);
+                console.log("Supabase response error:", error);
 
-                 if (error) {
-                     console.error("Supabase fetch error details:", error);
-                     if (error.message.includes("fetch failed") || status === 0) { throw new Error("Falha na conexão com o Supabase. Verifique sua rede ou a URL."); }
-                     else if (status === 404 || error.message.includes("does not exist")) { const missingMatch = error.message.match(/(?:column|relation) \"?(\w+(?:\.\w+)?)\"? does not exist/); const missingItem = missingMatch ? `'${missingMatch[1]}'` : "Tabela 'projects' ou coluna"; throw new Error(`${missingItem} não encontrado. Verifique o schema.`); }
-                     else if (status === 401 || status === 403) { throw new Error("Acesso não autorizado. Verifique a Anon Key e as políticas RLS."); }
-                     throw new Error(`Erro Supabase (${status}): ${error.message}`);
-                 }
-                 renderProjects(projects);
-             } catch (error) {
-                 console.error("Error caught in fetchProjectsFromSupabase:", error);
-                 if (gallery) { if (galleryLoading && gallery.contains(galleryLoading)) gallery.removeChild(galleryLoading); gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><i class="fas fa-exclamation-triangle fa-3x mb-4"></i><p class="text-lg font-semibold">Erro ao carregar projetos!</p><p class="text-sm mt-2">${sanitizeHTML(error.message)}</p></div>`; }
-             } finally { if (galleryLoading && gallery && gallery.contains(galleryLoading)) { gallery.removeChild(galleryLoading); } }
-         }
+                if (error) {
+                    console.error("Supabase fetch error details:", error);
+                    if (error.message.includes("fetch failed") || status === 0) { throw new Error("Falha na conexão com o Supabase. Verifique sua rede ou a URL."); }
+                    else if (status === 404 || error.message.includes("does not exist")) { const missingMatch = error.message.match(/(?:column|relation) \"?(\w+(?:\.\w+)?)\"? does not exist/); const missingItem = missingMatch ? `'${missingMatch[1]}'` : "Tabela 'projects' ou coluna"; throw new Error(`${missingItem} não encontrado. Verifique o schema.`); }
+                    else if (status === 401 || status === 403) { throw new Error("Acesso não autorizado. Verifique a Anon Key e as políticas RLS."); }
+                    throw new Error(`Erro Supabase (${status}): ${error.message}`);
+                }
+                renderProjects(projects);
+            } catch (error) {
+                console.error("Error caught in fetchProjectsFromSupabase:", error);
+                if (gallery) { if (galleryLoading && gallery.contains(galleryLoading)) gallery.removeChild(galleryLoading); gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><i class="fas fa-exclamation-triangle fa-3x mb-4"></i><p class="text-lg font-semibold">Erro ao carregar projetos!</p><p class="text-sm mt-2">${sanitizeHTML(error.message)}</p></div>`; }
+            } finally { if (galleryLoading && gallery && gallery.contains(galleryLoading)) { gallery.removeChild(galleryLoading); } }
+        }
+
         function renderProjects(projects) {
             const gallery = document.getElementById('project-gallery');
             const noResultsDiv = document.getElementById('no-results');
@@ -400,7 +391,7 @@
             console.log(`Rendering ${projects.length} projects.`);
             if (noResultsDiv) noResultsDiv.classList.add('hidden');
 
-            projects.forEach((project) => { // Removido index não utilizado
+            projects.forEach(project => {
                 const techs = (project.technologies || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
                 const title = sanitizeHTML(project.name || 'Projeto Sem Título');
                 const category = sanitizeHTML(project.category || 'Outro');
@@ -411,7 +402,7 @@
                 const codeUrl = ensureUrlProtocol(project.code_url);
 
                 const card = document.createElement('article');
-                card.className = 'project-card'; // Classe base para estilos e filtros
+                card.className = 'project-card';
                 card.dataset.technologies = techs.join(',');
                 card.dataset.category = categorySlug;
                 card.dataset.title = title.toLowerCase();
@@ -427,26 +418,23 @@
                         </div>
                         <p class="description-text">${description}</p>
                         <div class="card-actions">
-                            <button class="card-button preview preview-button" data-preview-url="${liveUrl}" ${liveUrl === '#' ? 'disabled title="Preview indisponível"' : ''}> <i class="fas fa-eye"></i> Preview </button>
-                            <a href="${codeUrl}" target="_blank" rel="noopener noreferrer" class="card-button code" ${codeUrl === '#' ? 'style="display:none;"' : ''}> <i class="fab fa-github"></i> Código </a>
-                            <a href="${liveUrl}" target="_blank" rel="noopener noreferrer" class="card-button visit" ${liveUrl === '#' ? 'style="display:none;"' : ''}> <i class="fas fa-external-link-alt"></i> Visitar </a>
+                            <button class="card-button preview preview-button" data-preview-url="${liveUrl}" ${liveUrl === '#' ? 'disabled title="Preview indisponível"' : ''}><i class="fas fa-eye"></i> Preview</button>
+                            <a href="${codeUrl}" target="_blank" rel="noopener noreferrer" class="card-button code" ${codeUrl === '#' ? 'style="display:none;"' : ''}><i class="fab fa-github"></i> Código</a>
+                            <a href="${liveUrl}" target="_blank" rel="noopener noreferrer" class="card-button visit" ${liveUrl === '#' ? 'style="display:none;"' : ''}><i class="fas fa-external-link-alt"></i> Visitar</a>
                         </div>
                     </div>`;
                 gallery.appendChild(card);
             });
 
-            // Aplica layout e filtros após renderizar
             if (typeof applyLayout === 'function' && typeof filterAndSearchProjects === 'function') {
                 applyLayout(localStorage.getItem('layout') || 'grid');
                 filterAndSearchProjects();
             } else { console.error("applyLayout or filterAndSearchProjects is not defined."); }
         }
 
-        // --- Event Listener Principal ---
         document.addEventListener('DOMContentLoaded', () => {
             console.log("DOM fully loaded.");
 
-            // --- Inicializa Supabase Client ---
             const SUPABASE_URL_CONST = 'https://hqgcjyujpicmsbtfsbwv.supabase.co';
             const SUPABASE_ANON_KEY_CONST = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZ2NqeXVqcGljbXNidGZzYnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE5NDYxNTksImV4cCI6MjA1NzUyMjE1OX0.sWuvGLebMDsSo23iuzdci5utbfbqWEO_uPFl7ztQWFk';
             try {
@@ -455,15 +443,14 @@
                     console.log("Supabase client initialized.");
                 } else { throw new Error("'supabase' global object not found."); }
             } catch (error) {
-                 console.error("Error initializing Supabase client:", error);
-                 const gallery = document.getElementById('project-gallery');
-                 const galleryLoading = document.getElementById('gallery-loading');
-                 if (gallery) gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Não foi possível inicializar o Supabase.</p></div>`;
-                 if (galleryLoading && gallery.contains(galleryLoading)) galleryLoading.remove(); // Remove o loading se deu erro na init
-                 return;
+                console.error("Error initializing Supabase client:", error);
+                const gallery = document.getElementById('project-gallery');
+                const galleryLoading = document.getElementById('gallery-loading');
+                if (gallery) gallery.innerHTML = `<div id="gallery-error" class="sm:col-span-2 lg:col-span-3 text-center py-10 text-red-600"><p>Erro Crítico: Não foi possível inicializar o Supabase.</p></div>`;
+                if (galleryLoading && gallery.contains(galleryLoading)) galleryLoading.remove();
+                return;
             }
 
-            // --- DOM ELEMENTS ---
             const gallery = document.getElementById('project-gallery');
             const noResultsDiv = document.getElementById('no-results');
             const darkModeToggle = document.getElementById('darkModeToggle');
@@ -474,18 +461,14 @@
             const fullscreenButton = document.getElementById('fullscreenButton');
             const currentYearSpan = document.getElementById('currentYear');
 
-            // --- INITIALIZATION ---
             if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
             const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             applyTheme(savedTheme);
 
-            // --- FETCH DATA ---
-            fetchProjectsFromSupabase(); // Chama aqui após ter certeza que sbClient existe
+            fetchProjectsFromSupabase();
 
-            // --- EVENT LISTENERS ---
             if (darkModeToggle) darkModeToggle.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
 
-            // Filtros e Layout
             if (controlsContainer) {
                 controlsContainer.addEventListener('click', (e) => {
                     const target = e.target.closest('button');
@@ -503,12 +486,10 @@
                 });
             }
 
-            // Busca
             if (filterSearchInput) {
                 filterSearchInput.addEventListener('input', debounce(filterAndSearchProjects, 350));
             }
 
-            // Preview Modal
             if (gallery) {
                 gallery.addEventListener('click', (e) => {
                     const btn = e.target.closest('button.preview-button');
@@ -516,7 +497,6 @@
                 });
             }
 
-            // Modal Actions
             if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
             if (fullscreenButton) fullscreenButton.addEventListener('click', toggleFullscreen);
             if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
@@ -524,9 +504,7 @@
             document.addEventListener('fullscreenchange', handleFullscreenChange);
             document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
             document.addEventListener('msfullscreenchange', handleFullscreenChange);
-
-        }); // End DOMContentLoaded
+        });
     </script>
-
 </body>
 </html>
