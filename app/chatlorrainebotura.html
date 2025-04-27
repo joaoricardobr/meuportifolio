@@ -9,10 +9,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #f7e7e6, #e8f0f5);
+            background: linear-gradient(135deg, #B4182D, #54162B);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,23 +21,55 @@
         }
         .chat-container {
             width: 100%;
-            max-width: 450px;
-            background: #ffffff;
+            max-width: 900px;
+            background: #181A2F;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             display: flex;
-            flex-direction: column;
             height: 85vh;
             overflow: hidden;
+            position: relative;
+        }
+        .sidebar {
+            width: 250px;
+            background: #181A2F;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-right: 1px solid #FDA481;
+        }
+        .sidebar a {
+            background: #242E49;
+            color: #FDA481;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #37415C;
+        }
+        .sidebar a:hover {
+            background: #37415C;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .chat-header {
             padding: 20px;
-            background: linear-gradient(90deg, #d4a5a5, #a5c6d4);
-            color: #fff;
+            background: #181A2F;
+            color: #FDA481;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 20px 20px 0 0;
+            border-bottom: 1px solid #FDA481;
         }
         .chat-header h1 {
             font-size: 1.3em;
@@ -48,13 +80,13 @@
             cursor: pointer;
             width: 24px;
             height: 24px;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDOC41NSAyMS4zNSA3Ljg1IDIxLjUgNy4yIDIxLjVsLTIuMDctMi4wN0M1LjUgMjAuODUgNS4zNSAyMC4xNSA0Ljk5IDE5LjVsMi4wNy0yLjA3QzYuOTEgMTcuMDQgNiAxNS45OCA2IDE0LjhjMCAtMS1xLjA5LTIuMDQuMjUtMi45OWwtMi4wNy0yLjA3QzIuNjUgOC41NSAyLjUgNy44NSAyLjUgNy4ybDIuMDctMi4wN0MzLjE1IDQuNSA0LjE1IDQuMzUgNC45OSA0LjA5bDIuMDcgMi4wN0M4LjA0IDYuMjUgOS4wMiA2IDEwLjEyIDZjMS4xIDAgMi4wNC4wESAyLjk5LjI1bDIuMDctMi4wN0MxNS41NSAyLjY1IDE2LjI1IDIuNSAxNi45IDIuNWwyLjA3IDIuMDdDMjAuODUgMy4xNSAyMSAyMy44NSAyMS4wMSAyNC41bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi9uZ2h0PSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDE1YTQgNCAwIDEgMCAwLTggNCA0IDAgMCAwIDAgOHptMCAyYTUgNSAwIDEgMCAwLTEwIDUgNSAwIDAgMCAwIDEwem0wIDNhNiA2IDAgMCAwIDAtMTIgNiA6IDAgMCAwIDAgMTJ6bTAtNGE3IDcgMCAwIDAgMC0xNCA3IDcgMCAwIDAgMCAxNHoiLz48L3N2Zz4=') no-repeat center;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZEQTQ4MSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDOC41NSAyMS4zNSA3Ljg1IDIxLjUgNy4yIDIxLjVsLTIuMDctMi4wN0M1LjUgMjAuODUgNS4zNSAyMC4xNSA0Ljk5IDE5LjVsMi4wNy0yLjA3QzYuOTEgMTcuMDQgNiAxNS45OCA2IDE0LjhjMCAtMS1xLjA5LTIuMDQuMjUtMi45OWwtMi4wNy0yLjA3QzIuNjUgOC41NSAyLjUgNy44NSAyLjUgNy4ybDIuMDctMi4wN0MzLjE1IDQuNSA0LjE1IDQuMzUgNC45OSA0LjA5bDIuMDcgMi4wN0M4LjA0IDYuMjUgOS4wMiA6IDEwLjEyIDZjMS1xIDAgMi4wNC4wESAyLjk5LjI1bDIuMDctMi4wN0MxNS41NSAyLjY1IDE2LjI1IDIuNSAxNi45IDIuNWwyLjA3IDIuMDdDMjAuODUgMy4xNSAyMSAyMy44NSAyMS4wMSAyNC41bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi9uZ2h0PSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDE1YTQgNCAwIDEgMCAwLTggNCA0IDAgMCAwIDAgOHptMCAyYTUgNSAwIDEgMCAwLTEwIDUgNSAwIDAgMCAwIDEwem0wIDNhNiA2IDAgMCAwIDAtMTIgNiA2IDAgMCAwIDAgMTJ6bTAtNGE3IDcgMCAwIDAgMC0xNCA3IDcgMCAwIDAgMCAxNHoiLz48L3N2Zz4=') no-repeat center;
         }
         .chat-body {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            background: #fafafa;
+            background: #181A2F;
         }
         .message {
             margin: 10px 0;
@@ -65,45 +97,93 @@
             line-height: 1.4;
         }
         .user-message {
-            background: #d4a5a5;
-            color: #fff;
+            background: #FDA481;
+            color: #181A2F;
             margin-left: auto;
             border-bottom-right-radius: 5px;
         }
         .bot-message {
-            background: #e5e7eb;
-            color: #333;
+            background: #242E49;
+            color: #fff;
             margin-right: auto;
             border-bottom-left-radius: 5px;
         }
         .bot-message a {
-            color: #d4a5a5;
+            color: #FDA481;
             text-decoration: underline;
+        }
+        .bot-message ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        .bot-message ul li {
+            padding: 5px 0;
+            border-bottom: 1px solid #37415C;
+        }
+        .bot-message ul li:last-child {
+            border-bottom: none;
+        }
+        .bot-message strong {
+            color: #FDA481;
         }
         .chat-footer {
             padding: 15px 20px;
-            background: #fff;
+            background: #181A2F;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #FDA481;
         }
         .chat-input {
             flex: 1;
             padding: 12px 18px;
             border: none;
-            background: #f3f4f6;
+            background: #242E49;
+            color: #fff;
             border-radius: 25px;
             outline: none;
             font-size: 0.95em;
+        }
+        .chat-input::placeholder {
+            color: #FDA481;
         }
         .send-button {
             width: 40px;
             height: 40px;
             border: none;
-            background: #d4a5a5 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMi4wMSAxMWwyMC41LTkuNWMuNTQtLjI1LjgyLS43NC41OC0xLjI4LS4yNC0uNTQtLjc0LS44Mi0xLjI4LS41OGwtMjEuNSAxMGMtLjU2LjI2LS44My43OC0uNjcgMS4zMi4xNi41NC62Mi44OCAxLjE2Ljg4bDEwLjY3IDMuODUgMy44NSAxMC42N2MuMTUuNDQuNDguNzguOTYuODguNTQuMTYgMS4wNi0uMTEgMS4zMi0uNjdsMTAtMjEuNXoiLz48L3N2Zz4=') no-repeat center;
+            background: #FDA481 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzE4MUEyRiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTIuMjEgMC00LTEuNzktNC00cyAxLjc5LTQgNC00IDQgMS43OSA0IDQtMS43OSA0LTQtNHptLTMgM2MtLjU1IDAtMS0uNDUtMS0xcy40NS0xIDEtMXMxIC40NSAxIDEtLjQ1IDEtMSAxem0zIDBjLS41NSAwLTEtLjQ1LTEtMXMuNDUtMSAxLTFzMSAuNDUgMSAxLS40NSAxLTEgMXptMyAwYy0uNTUgMC0xLS40NS0xLTFzLjQ1LTEgMS0xczEgLjQ1IDEgMS0uNDUgMS0xIDF6bS0zLTdjLS41NSAwLTEtLjQ1LTEtMXMuNDUtMSAxLTFzMSAuNDUgMSAxLS40NSAxLTEgMXoiLz48L3N2Zz4=') no-repeat center;
             border-radius: 50%;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        .send-button:hover {
+            background: #B4182D url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTIuMjEgMC00LTEuNzktNC00cyAxLjc5LTQgNC00IDQgMS43OSA0IDQtMS43OSA0LTQtNHptLTMgM2MtLjU1IDAtMS0uNDUtMS0xcy40NS0xIDEtMXMxIC40NSAxIDEtLjQ1IDEtMSAxem0zIDBjLS41NSAwLTEtLjQ1LTEtMXMuNDUtMSAxLTFzMSAuNDUgMSAxLS40NSAxLTEgMXptMyAwYy0uNTUgMC0xLS40NS0xLTFzLjQ1LTEgMS0xczEgLjQ1IDEgMS0uNDUgMS0xIDF6bS0zLTdjLS41NSAwLTEtLjQ1LTEtMXMuNDUtMSAxLTFzMSAuNDUgMSAxLS40NSAxLTEgMXoiLz48L3N2Zz4=') no-repeat center;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .bio-link {
+            padding: 15px 20px;
+            background: #181A2F;
+            text-align: center;
+            border-top: 1px solid #FDA481;
+        }
+        .bio-link a {
+            display: inline-block;
+            background: #242E49;
+            color: #FDA481;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .bio-link a:hover {
+            background: #37415C;
+            color: #fff;
+            transform: scale(1.05);
         }
         .settings-modal {
             display: none;
@@ -112,7 +192,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
+            background: #181A2F;
             border-radius: 20px;
             flex-direction: column;
             padding: 20px;
@@ -131,23 +211,25 @@
             font-size: 1.1em;
             font-weight: 500;
             margin: 0;
-            color: #333;
+            color: #FDA481;
         }
         .close-settings {
             cursor: pointer;
             width: 24px;
             height: 24px;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzMzMyIgdmlld0JveD0iMCAwIDI4IDI0Ij48cGF0aCBkPSJNMTguMyA1LjcxYy0uMzktLjM5LTEuMDItLjM5LTEuNDEgMGwtNC44OSA0Ljg5LTQuODktNC44OWMtLjM5LS4zOS0xLjAyLS4zES0xLjQxIDAtLjM5LjM5LS4zOSAxLjAyIDAgMS40MWw0Ljg5IDQuODktNC44OSA0Ljg5Yy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxLjM5LjM5IDEuMDIuMzkgMS40MSAwbDQuODktNC44OSA0Ljg5IDQuODljLjM5LjM5IDEuMDIuMzkgMS40MSAwIC4zES0uMzkuMzktMS4wMiAwLTEuNDFsLTQuODktNC44OSA0Ljg5LTQuODljLjM5LS4zES4zES0xLjAyIDAtMS40MXoiLz48L3N2Zz4=') no-repeat center;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZEQTQ4MSIgdmlld0JveD0iMCAwIDI4IDI0Ij48cGF0aCBkPSJNMTguMyA1LjcxYy0uMzktLjM5LTEuMDItLjM5LTEuNDEgMGwtNC44OSA0Ljg5LTQuODktNC44OWMtLjM5LS4zES0xLjQxIDAtLjM5LjM5LS4zESAxLjAyIDAgMS40MWw0Ljg5IDQuODktNC44OSA0Ljg5Yy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxLjM5LjM5IDEuMDIuMzkgMS40MSAwbDQuODktNC44OSA0Ljg5IDQuODljLjM5LjM5IDEuMDIuMzkgMS40MSAwIC4zES0uMzkuMzktMS4wMiAwLTEuNDFsLTQuODktNC44OSA0Ljg5LTQuODljLjM5LS4zES4zES0xLjAyIDAtMS40MXoiLz48L3N2Zz4=') no-repeat center;
         }
         .settings-body textarea {
             width: 100%;
             height: 200px;
             padding: 12px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #FDA481;
             border-radius: 10px;
             resize: none;
             font-size: 0.95em;
             outline: none;
+            background: #242E49;
+            color: #fff;
         }
         .settings-footer {
             margin-top: 20px;
@@ -163,53 +245,79 @@
             font-size: 0.95em;
         }
         .save-button {
-            background: #d4a5a5;
-            color: white;
+            background: #FDA481;
+            color: #181A2F;
         }
         .cancel-button {
-            background: #e5e7eb;
-            color: #333;
+            background: #242E49;
+            color: #fff;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 768px) {
             .chat-container {
+                flex-direction: column;
                 height: 100vh;
                 border-radius: 0;
-                max-width: 100%;
             }
-            .chat-header h1 {
-                font-size: 1.1em;
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                border-right: none;
+                border-bottom: 1px solid #FDA481;
             }
-            .chat-input {
-                padding: 10px 15px;
-                font-size: 0.9em;
+            .sidebar a {
+                flex: 1 1 45%;
+                margin: 5px;
             }
-            .message {
-                font-size: 0.9em;
+            .chat-area {
+                flex: 1;
+            }
+            .bio-link {
+                padding: 10px;
+            }
+            .bio-link a {
+                font-size: 0.85em;
+                padding: 8px 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <div class="chat-header">
-            <h1>Clínica Lorraine Botura</h1>
-            <div class="settings-icon" onclick="openSettings()"></div>
+        <div class="sidebar">
+            <a href="https://www.instagram.com/lorrainebotura/" target="_blank">INSTAGRAM</a>
+            <a href="https://www.facebook.com/lorrainebotura" target="_blank">FACEBOOK</a>
+            <a href="https://lorrainebotura.com.br/clinicasaojosedoscampos/" target="_blank">CLÍNICA SÃO JOSÉ DOS CAMPOS</a>
+            <a href="https://lorrainebotura.com.br/clinicacaraguatatuba/" target="_blank">CLÍNICA CARAGUATATUBA</a>
+            <a href="https://wa.me/5512992061898?text=Olá,%20gostaria%20de%20agendar%20uma%20avaliação%20na%20Clínica%20Lorraine%20Botura!" target="_blank">AGENDE SEU PROCEDIMENTO</a>
+            <a href="https://www.google.com/search?kgmid=/g/11gpgszlsj&hl=pt-BR&q=Lorraine+Botura+Est%C3%A9tica&shndl=30&source=sh/x/loc/osrp/m5/1&kgs=719c6f2276454cec#" target="_blank">ME AVALIE NO GOOGLE</a>
         </div>
-        <div class="chat-body" id="chatBody">
-            <div class="message bot-message">Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Como posso cuidar de você hoje?</div>
-        </div>
-        <div class="chat-footer">
-            <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
-            <button class="send-button" onclick="sendMessage()"></button>
-        </div>
-
-        <div class="settings-modal" id="settingsModal">
-            <div class="settings-header">
-                <h2>Configurações de Atendimento</h2>
-                <div class="close-settings" onclick="closeSettings()"></div>
+        <div class="chat-area">
+            <div class="chat-header">
+                <h1>Clínica Lorraine Botura</h1>
+                <div class="settings-icon" onclick="openSettings()"></div>
             </div>
-            <div class="settings-body">
-                <textarea id="agentPrompt"># 🎀 Prompt para Agente Virtual - Clínica de Estética Lorraine Botura 🎀
+            <div class="chat-body" id="chatBody">
+                <div class="message bot-message">Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Para iniciar seu atendimento, poderia me informar seu nome e telefone, por favor?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
+                <button class="send-button" onclick="sendMessage()"></button>
+            </div>
+            <div class="bio-link">
+                <a href="https://lorrainebotura.com.br/biografia/" target="_blank">Conheça mais sobre Lorraine Botura</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-header">
+            <h2>Configurações de Atendimento</h2>
+            <div class="close-settings" onclick="closeSettings()"></div>
+        </div>
+        <div class="settings-body">
+            <textarea id="agentPrompt"># 🎀 Prompt para Agente Virtual - Clínica de Estética Lorraine Botura 🎀
 
 Você é o agente virtual oficial da **Clínica de Estética Lorraine Botura**.  
 Seu objetivo é **acolher, informar e orientar clientes** de maneira **atenciosa, elegante e eficiente**.  
@@ -244,9 +352,8 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
 ## ✨ Frases Úteis:
 
-- "Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Como posso cuidar de você hoje?"
+- "Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Para iniciar seu atendimento, poderia me informar seu nome e telefone, por favor?"
 - "Ficamos felizes em saber que você busca realçar ainda mais sua beleza! Me conte, qual procedimento desperta seu interesse?"
-- "Para um atendimento ainda mais personalizado, poderia me informar seu nome e telefone?"
 - "Nossos horários são flexíveis para se encaixar na sua rotina. Vamos agendar sua avaliação gratuita?"
 - "Todos os nossos procedimentos são realizados por profissionais altamente qualificados, com todo carinho e responsabilidade que você merece."
 - "Sua beleza é única, e nossos tratamentos também! Para valores e pacotes especiais, nossa equipe entrará em contato pelo WhatsApp."
@@ -313,11 +420,10 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
 **Pronto! Agora o agente virtual da Clínica Lorraine Botura está completo, profissional e acolhedor.**  
 🌸✨</textarea>
-            </div>
-            <div class="settings-footer">
-                <button class="cancel-button" onclick="closeSettings()">Cancelar</button>
-                <button class="save-button" onclick="saveAgentPrompt()">Salvar</button>
-            </div>
+        </div>
+        <div class="settings-footer">
+            <button class="cancel-button" onclick="closeSettings()">Cancelar</button>
+            <button class="save-button" onclick="saveAgentPrompt()">Salvar</button>
         </div>
     </div>
 
@@ -333,26 +439,69 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
         const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
 
         // Número do WhatsApp da clínica
-        const WHATSAPP_NUMBER = '5512992061898'; // Formato internacional: +55 (DDD) número
+        const WHATSAPP_NUMBER = '5512992061898';
 
-        // Função para gerar o link do WhatsApp com a dúvida do usuário
+        // Estado da conversa
+        let userData = { name: null, phone: null, protocol: null };
+        let chatHistory = [];
+        let isFirstMessage = true;
+
+        // Função para gerar protocolo único (YYYYMMDD-HHMMSS-XXXX)
+        function generateProtocol() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const random = String(Math.floor(1000 + Math.random() * 9000)); // Número aleatório de 4 dígitos
+            return `${year}${month}${day}-${hours}${minutes}${seconds}-${random}`;
+        }
+
+        // Função para salvar a conversa no Supabase
+        async function saveConversation() {
+            try {
+                const { error } = await supabase
+                    .from('conversations')
+                    .insert({
+                        protocol: userData.protocol,
+                        name: userData.name,
+                        phone: userData.phone,
+                        chat_history: chatHistory,
+                        created_at: new Date().toISOString()
+                    });
+
+                if (error) {
+                    console.error('Erro ao salvar conversa no Supabase:', error.message);
+                    throw error;
+                }
+            } catch (error) {
+                console.error('Erro ao salvar conversa:', error.message);
+            }
+        }
+
+        // Função para gerar o link do WhatsApp com a dúvida do usuário e protocolo
         function generateWhatsAppLink(message, isScheduling = false) {
             const encodedMessage = encodeURIComponent(
                 isScheduling 
-                    ? `Olá, gostaria de agendar uma avaliação na Clínica Lorraine Botura!`
-                    : `Olá, tenho uma dúvida: ${message}`
+                    ? `Olá, gostaria de agendar uma avaliação na Clínica Lorraine Botura! Protocolo de Atendimento: ${userData.protocol}`
+                    : `Olá, tenho uma dúvida: ${message} - Protocolo de Atendimento: ${userData.protocol}`
             );
             return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
         }
 
-        // Função para adicionar mensagem ao chat
+        // Função para adicionar mensagem ao chat e ao histórico
         function addMessage(content, isUser) {
             const chatBody = document.getElementById('chatBody');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            messageDiv.innerHTML = content; // Usar innerHTML para suportar links
+            messageDiv.innerHTML = content;
             chatBody.appendChild(messageDiv);
             chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Adicionar ao histórico
+            chatHistory.push({ sender: isUser ? 'user' : 'bot', message: content, timestamp: new Date().toISOString() });
         }
 
         // Função para verificar se a mensagem indica intenção de agendamento
@@ -365,6 +514,26 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             return schedulingKeywords.some(keyword => lowerMessage.includes(keyword));
         }
 
+        // Função para verificar se a mensagem pergunta sobre tratamentos
+        function isTreatmentQuery(message) {
+            const treatmentKeywords = [
+                'tratamentos', 'procedimentos', 'serviços', 'o que vocês oferecem',
+                'harmonização', 'botox', 'preenchimento', 'microagulhamento', 'limpeza de pele',
+                'depilação', 'estrias', 'celulite', 'remodelagem', 'peeling', 'hidragloss'
+            ];
+            const lowerMessage = message.toLowerCase();
+            return treatmentKeywords.some(keyword => lowerMessage.includes(keyword));
+        }
+
+        // Função para verificar se a mensagem pergunta sobre horários
+        function isHoursQuery(message) {
+            const hoursKeywords = [
+                'horário', 'funcionamento', 'aberto', 'fecha', 'atendimento'
+            ];
+            const lowerMessage = message.toLowerCase();
+            return hoursKeywords.some(keyword => lowerMessage.includes(keyword));
+        }
+
         // Função para verificar se a resposta é insatisfatória
         function isUnsatisfactoryResponse(response) {
             const genericResponses = [
@@ -374,8 +543,53 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
                 'desculpe, não entendi'
             ];
             const lowerResponse = response.toLowerCase();
-            // Respostas com menos de 20 caracteres ou que contenham frases genéricas são consideradas insatisfatórias
             return response.length < 20 || genericResponses.some(phrase => lowerResponse.includes(phrase));
+        }
+
+        // Função para formatar resposta sobre tratamentos
+        function formatTreatmentsResponse() {
+            return `
+                Ficamos felizes em compartilhar os tratamentos que oferecemos para realçar sua beleza! 🌸 Confira abaixo:
+
+                <ul>
+                    <li><strong>Harmonização Facial:</strong> Realça os traços do rosto com equilíbrio e naturalidade.</li>
+                    <li><strong>Botox:</strong> Reduz linhas de expressão para uma aparência rejuvenescida.</li>
+                    <li><strong>Preenchimento Labial:</strong> Dá volume e contorno aos lábios de forma personalizada.</li>
+                    <li><strong>Microagulhamento:</strong> Estimula o colágeno para uma pele mais firme e renovada.</li>
+                    <li><strong>Limpeza de Pele Profunda:</strong> Remove impurezas e revitaliza a pele.</li>
+                    <li><strong>Depilação a Laser:</strong> Solução duradoura para remoção de pelos.</li>
+                    <li><strong>Tratamentos para Estrias e Celulite:</strong> Melhora a textura da pele com técnicas avançadas.</li>
+                    <li><strong>Remodelagem Corporal:</strong> Modela o corpo com segurança e eficácia.</li>
+                    <li><strong>Peeling Químico:</strong> Renova a pele, tratando manchas e imperfeições.</li>
+                    <li><strong>Hidragloss Labial:</strong> Hidrata e dá brilho aos lábios com efeito natural.</li>
+                </ul>
+
+                Qual desses desperta seu interesse? Posso te ajudar com mais detalhes!
+            `;
+        }
+
+        // Função para formatar resposta sobre horários
+        function formatHoursResponse() {
+            return `
+                Aqui estão os detalhes do nosso horário de funcionamento:
+
+                <ul>
+                    <li><strong>Atualmente:</strong> Fechado.</li>
+                    <li><strong>Terças-feiras:</strong> Aberto a partir das 11:00h.</li>
+                </ul>
+
+                Gostaria de agendar uma avaliação para a próxima terça-feira?
+            `;
+        }
+
+        // Função para formatar resposta de agendamento
+        function formatSchedulingResponse() {
+            const link = generateWhatsAppLink('', true);
+            return `
+                Que maravilhoso saber do seu interesse! Para te atender com todo o cuidado, posso agendar uma avaliação sem compromisso. Clique no link abaixo para escolher o melhor dia e horário com nossa equipe:
+
+                <a href="${link}" target="_blank">Agendar via WhatsApp</a>
+            `;
         }
 
         // Função para chamar a Gemini API
@@ -407,6 +621,12 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             }
         }
 
+        // Função para validar telefone (formato simples)
+        function validatePhone(phone) {
+            const phoneRegex = /^\d{10,11}$/;
+            return phoneRegex.test(phone);
+        }
+
         // Função para enviar mensagem
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
@@ -414,14 +634,46 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
             if (message === '') return;
 
-            // Adiciona mensagem do usuário
+            // Adiciona mensagem do usuário ao chat e ao histórico
             addMessage(message, true);
             userInput.value = '';
 
-            // Verifica se o usuário quer agendar
+            // Primeira mensagem: coletar nome
+            if (isFirstMessage) {
+                userData.name = message;
+                addMessage('Obrigada por informar seu nome! Agora, poderia me passar seu telefone, por favor? (Exemplo: 11987654321)', false);
+                isFirstMessage = false;
+                return;
+            }
+
+            // Segunda mensagem: coletar telefone e gerar protocolo
+            if (!userData.phone) {
+                if (!validatePhone(message)) {
+                    addMessage('Por favor, informe um telefone válido (apenas números, 10 ou 11 dígitos). Exemplo: 11987654321', false);
+                    return;
+                }
+                userData.phone = message;
+                userData.protocol = generateProtocol();
+                addMessage(`Perfeito, ${userData.name}! Seu protocolo de atendimento é: <strong>${userData.protocol}</strong>. Como posso ajudar você hoje?`, false);
+                return;
+            }
+
+            // Verifica palavras-chave para respostas organizadas
             if (isSchedulingIntent(message)) {
-                const schedulingResponse = `Que ótimo que você deseja agendar! Vamos te direcionar para nossa equipe no WhatsApp. Clique aqui para agendar sua avaliação: <a href="${generateWhatsAppLink(message, true)}" target="_blank">Agendar via WhatsApp</a>`;
-                addMessage(schedulingResponse, false);
+                addMessage(formatSchedulingResponse(), false);
+                await saveConversation();
+                return;
+            }
+
+            if (isTreatmentQuery(message)) {
+                addMessage(formatTreatmentsResponse(), false);
+                await saveConversation();
+                return;
+            }
+
+            if (isHoursQuery(message)) {
+                addMessage(formatHoursResponse(), false);
+                await saveConversation();
                 return;
             }
 
@@ -450,10 +702,12 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
             // Verifica se a resposta é insatisfatória
             if (isUnsatisfactoryResponse(botResponse)) {
-                const vipResponse = `Estamos direcionando você para um atendimento VIP. Aguarde uns instantes, irei direcioná-lo(a). Clique aqui para continuar no WhatsApp: <a href="${generateWhatsAppLink(message)}" target="_blank">Atendimento VIP</a>`;
+                const vipResponse = `Estamos direcionando você para um atendimento VIP. Seu protocolo é: <strong>${userData.protocol}</strong>. Clique aqui para continuar no WhatsApp: <a href="${generateWhatsAppLink(message)}" target="_blank">Atendimento VIP</a>`;
                 addMessage(vipResponse, false);
+                await saveConversation();
             } else {
                 addMessage(botResponse, false);
+                await saveConversation();
             }
         }
 
