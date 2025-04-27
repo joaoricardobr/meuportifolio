@@ -61,6 +61,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
         .chat-header {
             padding: 20px;
@@ -80,13 +81,15 @@
             cursor: pointer;
             width: 24px;
             height: 24px;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZEQTQ4MSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDOC41NSAyMS4zNSA3Ljg1IDIxLjUgNy4yIDIxLjVsLTIuMDctMi4wN0M1LjUgMjAuODUgNS4zNSAyMC4xNSA0Ljk5IDE5LjVsMi4wNy0yLjA3QzYuOTEgMTcuMDQgNiAxNS45OCA2IDE0LjhjMCAtMS1xLjA5LTIuMDQuMjUtMi45OWwtMi4wNy0yLjA3QzIuNjUgOC41NSAyLjUgNy44NSAyLjUgNy4ybDIuMDctMi4wN0MzLjE1IDQuNSA0LjE1IDQuMzUgNC45OSA0LjA5bDIuMDcgMi4wN0M4LjA0IDYuMjUgOS4wMiA6IDEwLjEyIDZjMS1xIDAgMi4wNC4wESAyLjk5LjI1bDIuMDctMi4wN0MxNS41NSAyLjY1IDE2LjI1IDIuNSAxNi45IDIuNWwyLjA3IDIuMDdDMjAuODUgMy4xNSAyMSAyMy44NSAyMS4wMSAyNC41bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi9uZ2h0PSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDE1YTQgNCAwIDEgMCAwLTggNCA0IDAgMCAwIDAgOHptMCAyYTUgNSAwIDEgMCAwLTEwIDUgNSAwIDAgMCAwIDEwem0wIDNhNiA2IDAgMCAwIDAtMTIgNiA2IDAgMCAwIDAgMTJ6bTAtNGE3IDcgMCAwIDAgMC0xNCA3IDcgMCAwIDAgMCAxNHoiLz48L3N2Zz4=') no-repeat center;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI0ZEQTQ4MSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDOC41NSAyMS4zNSA3Ljg1IDIxLjUgNy4yIDIxLjVsLTIuMDctMi4wN0M1LjUgMjAuODUgNS4zNSAyMC4xNSA0Ljk5IDE5LjVsMi4wNy0yLjA3QzYuOTEgMTcuMDQgNiAxNS45OCA2IDE0LjhjMCAtMS1xLjA5LTIuMDQuMjUtMi45OWwtMi4wNy0yLjA3QzIuNjUgOC41NSAyLjUgNy44NSAyLjUgNy4ybDIuMDctMi4wN0MzLjE1IDQuNSA0LjE1IDQuMzUgNC45OSA0LjA5bDIuMDcgMi4wN0M4LjA0IDYuMjUgOS4wMiA2IDEwLjEyIDZjMS1xIDAgMi4wNC4wESAyLjk5LjI1bDIuMDctMi4wN0MxNS41NSAyLjY1IDE2LjI1IDIuNSAxNi45IDIuNWwyLjA3IDIuMDdDMjAuODUgMy4xNSAyMSAyMy44NSAyMS4wMSAyNC41bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi9uZ2h0PSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDE1YTQgNCAwIDEgMCAwLTggNCA0IDAgMCAwIDAgOHptMCAyYTUgNSAwIDEgMCAwLTEwIDUgNSAwIDAgMCAwIDEwem0wIDNhNiA2IDAgMCAwIDAtMTIgNiA2IDAgMCAwIDAgMTJ6bTAtNGE3IDcgMCAwIDAgMC0xNCA3IDcgMCAwIDAgMCAxNHoiLz48L3N2Zz4=') no-repeat center;
         }
         .chat-body {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
             background: #181A2F;
+            scroll-behavior: smooth;
+            position: relative;
         }
         .message {
             margin: 10px 0;
@@ -127,6 +130,14 @@
         .bot-message strong {
             color: #FDA481;
         }
+        .sub-message {
+            font-size: 0.85em;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #37415C;
+            border-radius: 10px;
+            display: inline-block;
+        }
         .chat-footer {
             padding: 15px 20px;
             background: #181A2F;
@@ -134,6 +145,9 @@
             align-items: center;
             gap: 10px;
             border-top: 1px solid #FDA481;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
         }
         .chat-input {
             flex: 1;
@@ -257,6 +271,7 @@
                 flex-direction: column;
                 height: 100vh;
                 border-radius: 0;
+                padding-bottom: 80px;
             }
             .sidebar {
                 width: 100%;
@@ -272,6 +287,34 @@
             }
             .chat-area {
                 flex: 1;
+                position: relative;
+            }
+            .chat-body {
+                -webkit-overflow-scrolling: touch;
+                height: calc(100vh - 220px);
+                overflow-y: auto;
+            }
+            .chat-body::-webkit-scrollbar {
+                width: 6px;
+            }
+            .chat-body::-webkit-scrollbar-track {
+                background: #181A2F;
+            }
+            .chat-body::-webkit-scrollbar-thumb {
+                background: #FDA481;
+                border-radius: 10px;
+                opacity: 0.5;
+            }
+            .chat-body::-webkit-scrollbar-thumb:hover {
+                background: #B4182D;
+            }
+            .chat-footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                padding: 10px 20px;
+                background: #181A2F;
+                border-top: 1px solid #FDA481;
             }
             .bio-link {
                 padding: 10px;
@@ -299,7 +342,7 @@
                 <div class="settings-icon" onclick="openSettings()"></div>
             </div>
             <div class="chat-body" id="chatBody">
-                <div class="message bot-message">Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Para iniciar seu atendimento, poderia me informar seu nome e telefone, por favor?</div>
+                <div class="message bot-message">Olá, seja bem-vindo(a) à Clínica Lorraine Botura! 🌸 Para um atendimento mais personalizado, poderia me informar seu nome e telefone, por favor?</div>
             </div>
             <div class="chat-footer">
                 <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
@@ -446,6 +489,17 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
         let chatHistory = [];
         let isFirstMessage = true;
 
+        // Função para validar o nome (não aceitar "oi", "olá", etc.)
+        function validateName(name) {
+            const invalidNames = [
+                'oi', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'ola', 'oi tudo bem',
+                'tudo bem', 'oi como vai', 'oi tudo ok', 'oi boa tarde', 'oi bom dia'
+            ];
+            const lowerName = name.toLowerCase().trim();
+            if (invalidNames.includes(lowerName)) return false;
+            return name.length > 3 || name.split(' ').length >= 2;
+        }
+
         // Função para gerar protocolo único (YYYYMMDD-HHMMSS-XXXX)
         function generateProtocol() {
             const now = new Date();
@@ -455,7 +509,7 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            const random = String(Math.floor(1000 + Math.random() * 9000)); // Número aleatório de 4 dígitos
+            const random = String(Math.floor(1000 + Math.random() * 9000));
             return `${year}${month}${day}-${hours}${minutes}${seconds}-${random}`;
         }
 
@@ -474,10 +528,12 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
                 if (error) {
                     console.error('Erro ao salvar conversa no Supabase:', error.message);
+                    addMessage('⚠️ Não foi possível salvar a conversa no banco de dados. Por favor, informe ao administrador que a tabela "conversations" precisa ser criada no Supabase.', false);
                     throw error;
                 }
             } catch (error) {
                 console.error('Erro ao salvar conversa:', error.message);
+                addMessage('⚠️ Não foi possível salvar a conversa no banco de dados. Por favor, informe ao administrador que a tabela "conversations" precisa ser criada no Supabase.', false);
             }
         }
 
@@ -498,58 +554,82 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             messageDiv.innerHTML = content;
             chatBody.appendChild(messageDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Rolagem automática suave
+            chatBody.scrollTo({
+                top: chatBody.scrollHeight,
+                behavior: 'smooth'
+            });
 
             // Adicionar ao histórico
             chatHistory.push({ sender: isUser ? 'user' : 'bot', message: content, timestamp: new Date().toISOString() });
         }
 
-        // Função para verificar se a mensagem indica intenção de agendamento
-        function isSchedulingIntent(message) {
-            const schedulingKeywords = [
-                'agendar', 'marcar', 'consulta', 'avaliação', 'horário', 'sessão', 
-                'quero agendar', 'posso agendar', 'marcar uma consulta', 'agendar uma avaliação'
-            ];
+        // Função para verificar palavras-chave
+        function checkKeywords(message) {
+            const lowerMessage = message.toLowerCase().trim();
+            const keywords = {
+                procedures: ['procedimentos', 'tratamentos', 'serviços', 'o que vocês oferecem'],
+                specificTreatment: [
+                    'harmonização', 'botox', 'preenchimento', 'microagulhamento', 'limpeza de pele',
+                    'depilação', 'estrias', 'celulite', 'remodelagem', 'peeling', 'hidragloss'
+                ],
+                scheduling: ['agendar', 'marcar', 'consulta', 'avaliação', 'horário', 'sessão', 'quero agendar', 'posso agendar'],
+                hours: ['horário', 'funcionamento', 'aberto', 'fecha', 'atendimento'],
+                location: ['endereço', 'onde fica', 'localização', 'como chegar'],
+                promotions: ['promoção', 'desconto', 'pacotes', 'ofertas']
+            };
+
+            if (keywords.procedures.some(keyword => lowerMessage.includes(keyword))) {
+                return 'procedures';
+            }
+            if (keywords.scheduling.some(keyword => lowerMessage.includes(keyword))) {
+                return 'scheduling';
+            }
+            if (keywords.hours.some(keyword => lowerMessage.includes(keyword))) {
+                return 'hours';
+            }
+            if (keywords.location.some(keyword => lowerMessage.includes(keyword))) {
+                return 'location';
+            }
+            if (keywords.promotions.some(keyword => lowerMessage.includes(keyword))) {
+                return 'promotions';
+            }
+            for (const keyword of keywords.specificTreatment) {
+                if (lowerMessage.includes(keyword)) {
+                    return `treatment_${keyword}`;
+                }
+            }
+            return null;
+        }
+
+        // Função para verificar se a mensagem pergunta sobre um tratamento específico
+        function getSpecificTreatment(message) {
+            const treatments = {
+                'harmonização facial': 'harmonização',
+                'botox': 'botox',
+                'preenchimento labial': 'preenchimento',
+                'microagulhamento': 'microagulhamento',
+                'limpeza de pele': 'limpeza de pele',
+                'depilação a laser': 'depilação',
+                'estrias e celulite': 'estrias',
+                'remodelagem corporal': 'remodelagem',
+                'peeling químico': 'peeling',
+                'hidragloss labial': 'hidragloss'
+            };
             const lowerMessage = message.toLowerCase();
-            return schedulingKeywords.some(keyword => lowerMessage.includes(keyword));
+            for (const [treatment, keyword] of Object.entries(treatments)) {
+                if (lowerMessage.includes(keyword)) {
+                    return treatment;
+                }
+            }
+            return null;
         }
 
-        // Função para verificar se a mensagem pergunta sobre tratamentos
-        function isTreatmentQuery(message) {
-            const treatmentKeywords = [
-                'tratamentos', 'procedimentos', 'serviços', 'o que vocês oferecem',
-                'harmonização', 'botox', 'preenchimento', 'microagulhamento', 'limpeza de pele',
-                'depilação', 'estrias', 'celulite', 'remodelagem', 'peeling', 'hidragloss'
-            ];
-            const lowerMessage = message.toLowerCase();
-            return treatmentKeywords.some(keyword => lowerMessage.includes(keyword));
-        }
-
-        // Função para verificar se a mensagem pergunta sobre horários
-        function isHoursQuery(message) {
-            const hoursKeywords = [
-                'horário', 'funcionamento', 'aberto', 'fecha', 'atendimento'
-            ];
-            const lowerMessage = message.toLowerCase();
-            return hoursKeywords.some(keyword => lowerMessage.includes(keyword));
-        }
-
-        // Função para verificar se a resposta é insatisfatória
-        function isUnsatisfactoryResponse(response) {
-            const genericResponses = [
-                'desculpe, não sei responder isso',
-                'não sei',
-                'não tenho essa informação',
-                'desculpe, não entendi'
-            ];
-            const lowerResponse = response.toLowerCase();
-            return response.length < 20 || genericResponses.some(phrase => lowerResponse.includes(phrase));
-        }
-
-        // Função para formatar resposta sobre tratamentos
-        function formatTreatmentsResponse() {
+        // Função para formatar resposta sobre procedimentos gerais
+        function formatProceduresResponse() {
             return `
-                Ficamos felizes em compartilhar os tratamentos que oferecemos para realçar sua beleza! 🌸 Confira abaixo:
+                Aqui estão os procedimentos que oferecemos para realçar sua beleza! 🌸 Confira abaixo:
 
                 <ul>
                     <li><strong>Harmonização Facial:</strong> Realça os traços do rosto com equilíbrio e naturalidade.</li>
@@ -568,6 +648,72 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             `;
         }
 
+        // Função para formatar detalhes de um tratamento específico
+        function formatSpecificTreatmentResponse(treatment) {
+            const treatmentsDetails = {
+                'harmonização facial': {
+                    description: 'A Harmonização Facial realça os traços do rosto com equilíbrio e naturalidade, utilizando técnicas como preenchimento e botox para harmonizar proporções.',
+                    benefits: 'Resultados naturais, rejuvenescimento e simetria facial.',
+                    duration: 'Cerca de 1 hora, com resultados visíveis imediatamente.'
+                },
+                'botox': {
+                    description: 'O Botox reduz linhas de expressão e rugas, relaxando os músculos faciais de forma segura e eficaz.',
+                    benefits: 'Pele mais lisa, aparência rejuvenescida e prevenção de novas rugas.',
+                    duration: 'A aplicação leva cerca de 20 minutos, com resultados visíveis em 3 a 7 dias.'
+                },
+                'preenchimento labial': {
+                    description: 'O Preenchimento Labial dá volume e contorno aos lábios com ácido hialurônico, de forma personalizada para um resultado natural.',
+                    benefits: 'Lábios mais definidos, hidratados e com aparência rejuvenescida.',
+                    duration: 'Aproximadamente 30 minutos, com resultados imediatos.'
+                },
+                'microagulhamento': {
+                    description: 'O Microagulhamento estimula a produção de colágeno com microagulhas, promovendo a renovação da pele.',
+                    benefits: 'Melhora de textura, redução de cicatrizes de acne e rejuvenescimento.',
+                    duration: 'Cerca de 1 hora, com recomendação de 3 a 4 sessões.'
+                },
+                'limpeza de pele': {
+                    description: 'A Limpeza de Pele Profunda remove impurezas, cravos e células mortas, revitalizando a pele com hidratação e máscaras calmantes.',
+                    benefits: 'Pele mais limpa, hidratada e com poros menos visíveis.',
+                    duration: 'Dura cerca de 1 hora, recomendada a cada 30 a 45 dias.'
+                },
+                'depilação a laser': {
+                    description: 'A Depilação a Laser elimina os pelos de forma duradoura, utilizando tecnologia que destrói o folículo piloso.',
+                    benefits: 'Redução de pelos, pele mais suave e menos irritação.',
+                    duration: 'Depende da área, mas geralmente 15 a 45 minutos por sessão.'
+                },
+                'estrias e celulite': {
+                    description: 'Os Tratamentos para Estrias e Celulite utilizam tecnologias avançadas para melhorar a textura da pele e reduzir imperfeições.',
+                    benefits: 'Pele mais uniforme, redução de estrias e celulite visível.',
+                    duration: 'Cerca de 1 hora por sessão, com pacotes de 5 a 10 sessões.'
+                },
+                'remodelagem corporal': {
+                    description: 'A Remodelagem Corporal modela o corpo com técnicas não invasivas, reduzindo gordura localizada e melhorando o contorno.',
+                    benefits: 'Corpo mais definido, redução de medidas e melhora da autoestima.',
+                    duration: 'Aproximadamente 1 hora por sessão, com pacotes personalizados.'
+                },
+                'peeling químico': {
+                    description: 'O Peeling Químico renova a pele com a aplicação de ácidos, tratando manchas, acne e sinais de envelhecimento.',
+                    benefits: 'Pele mais clara, redução de manchas e textura mais lisa.',
+                    duration: 'Cerca de 30 minutos, com 3 a 5 sessões recomendadas.'
+                },
+                'hidragloss labial': {
+                    description: 'O Hidragloss Labial hidrata profundamente os lábios com ácido hialurônico, proporcionando brilho e efeito natural.',
+                    benefits: 'Lábios hidratados, com brilho natural e aparência saudável.',
+                    duration: 'Aproximadamente 20 minutos, com resultados imediatos.'
+                }
+            };
+
+            const details = treatmentsDetails[treatment];
+            const link = generateWhatsAppLink('', true);
+            return `
+                <strong>${treatment.toUpperCase()}</strong><br>
+                <strong>Descrição:</strong> ${details.description}<br>
+                <strong>Benefícios:</strong> ${details.benefits}<br>
+                <strong>Duração:</strong> ${details.duration}<br>
+                <div class="sub-message">Gostaria de agendar uma avaliação para este procedimento? <a href="${link}" target="_blank">Clique aqui para agendar via WhatsApp</a></div>
+            `;
+        }
+
         // Função para formatar resposta sobre horários
         function formatHoursResponse() {
             return `
@@ -582,11 +728,35 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             `;
         }
 
+        // Função para formatar resposta sobre localização
+        function formatLocationResponse() {
+            return `
+                Estamos localizados em:
+
+                <ul>
+                    <li><strong>Endereço:</strong> Av. Andrômeda, 3808 - sala 1 - Bosque dos Eucaliptos, São José dos Campos - SP, 12233-380</li>
+                    <li><strong>Telefone/WhatsApp:</strong> (12) 99206-1898</li>
+                </ul>
+
+                Ficaremos felizes em receber você! Deseja agendar uma visita?
+            `;
+        }
+
+        // Função para formatar resposta sobre promoções
+        function formatPromotionsResponse() {
+            const link = generateWhatsAppLink('Gostaria de saber mais sobre as promoções disponíveis.', false);
+            return `
+                Neste mês, estamos com condições especiais para diversos tratamentos! Para mais detalhes sobre nossas promoções, clique no link abaixo e nossa equipe irá te atender com todo carinho:
+
+                <a href="${link}" target="_blank">Saiba mais via WhatsApp</a>
+            `;
+        }
+
         // Função para formatar resposta de agendamento
         function formatSchedulingResponse() {
             const link = generateWhatsAppLink('', true);
             return `
-                Que maravilhoso saber do seu interesse! Para te atender com todo o cuidado, posso agendar uma avaliação sem compromisso. Clique no link abaixo para escolher o melhor dia e horário com nossa equipe:
+                Que ótimo saber do seu interesse! Para agendar sua avaliação com todo o cuidado, clique no link abaixo e escolha o melhor dia e horário com nossa equipe:
 
                 <a href="${link}" target="_blank">Agendar via WhatsApp</a>
             `;
@@ -627,6 +797,18 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
             return phoneRegex.test(phone);
         }
 
+        // Função para verificar se a resposta é insatisfatória
+        function isUnsatisfactoryResponse(response) {
+            const genericResponses = [
+                'desculpe, não sei responder isso',
+                'não sei',
+                'não tenho essa informação',
+                'desculpe, não entendi'
+            ];
+            const lowerResponse = response.toLowerCase();
+            return response.length < 20 || genericResponses.some(phrase => lowerResponse.includes(phrase));
+        }
+
         // Função para enviar mensagem
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
@@ -640,6 +822,10 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
 
             // Primeira mensagem: coletar nome
             if (isFirstMessage) {
+                if (!validateName(message)) {
+                    addMessage('Por favor, informe um nome válido (exemplo: Maria Silva). Não posso aceitar saudações como "oi" ou "olá".', false);
+                    return;
+                }
                 userData.name = message;
                 addMessage('Obrigada por informar seu nome! Agora, poderia me passar seu telefone, por favor? (Exemplo: 11987654321)', false);
                 isFirstMessage = false;
@@ -655,26 +841,46 @@ Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmiti
                 userData.phone = message;
                 userData.protocol = generateProtocol();
                 addMessage(`Perfeito, ${userData.name}! Seu protocolo de atendimento é: <strong>${userData.protocol}</strong>. Como posso ajudar você hoje?`, false);
-                return;
-            }
-
-            // Verifica palavras-chave para respostas organizadas
-            if (isSchedulingIntent(message)) {
-                addMessage(formatSchedulingResponse(), false);
                 await saveConversation();
                 return;
             }
 
-            if (isTreatmentQuery(message)) {
-                addMessage(formatTreatmentsResponse(), false);
-                await saveConversation();
-                return;
-            }
-
-            if (isHoursQuery(message)) {
-                addMessage(formatHoursResponse(), false);
-                await saveConversation();
-                return;
+            // Verifica palavras-chave para respostas específicas
+            const keywordMatch = checkKeywords(message);
+            if (keywordMatch) {
+                if (keywordMatch === 'procedures') {
+                    addMessage(formatProceduresResponse(), false);
+                    await saveConversation();
+                    return;
+                }
+                if (keywordMatch === 'scheduling') {
+                    addMessage(formatSchedulingResponse(), false);
+                    await saveConversation();
+                    return;
+                }
+                if (keywordMatch === 'hours') {
+                    addMessage(formatHoursResponse(), false);
+                    await saveConversation();
+                    return;
+                }
+                if (keywordMatch === 'location') {
+                    addMessage(formatLocationResponse(), false);
+                    await saveConversation();
+                    return;
+                }
+                if (keywordMatch === 'promotions') {
+                    addMessage(formatPromotionsResponse(), false);
+                    await saveConversation();
+                    return;
+                }
+                if (keywordMatch.startsWith('treatment_')) {
+                    const specificTreatment = getSpecificTreatment(message);
+                    if (specificTreatment) {
+                        addMessage(formatSpecificTreatmentResponse(specificTreatment), false);
+                        await saveConversation();
+                        return;
+                    }
+                }
             }
 
             // Obtém o prompt do agente do Supabase
