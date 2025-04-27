@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Clínica Lorraine Botura</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f7e7e6, #e8f0f5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 20px;
+            background: linear-gradient(90deg, #d4a5a5, #a5c6d4);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px 20px 0 0;
+        }
+        .chat-header h1 {
+            font-size: 1.3em;
+            font-weight: 500;
+            margin: 0;
+        }
+        .settings-icon {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMTJjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDOC41NSAyMS4zNSA3Ljg1IDIxLjUgNy4yIDIxLjVsLTIuMDctMi4wN0M1LjUgMjAuODUgNS4zNSAyMC4xNSA0Ljk5IDE5LjVsMi4wNy0yLjA3QzYuOTEgMTcuMDQgNiAxNS45OCA2IDE0LjhjMCAtMS1xLjA5LTIuMDQuMjUtMi45OWwtMi4wNy0yLjA3QzIuNjUgOC41NSAyLjUgNy44NSAyLjUgNy4ybDIuMDctMi4wN0MzLjE1IDQuNSA0LjE1IDQuMzUgNC45OSA0LjA5bDIuMDcgMi4wN0M4LjA0IDYuMjUgOS4wMiA2IDEwLjEyIDZjMS4xIDAgMi4wNC4wOSAyLjk5LjI1bDIuMDctMi4wN0MxNS41NSAyLjY1IDE2LjI1IDIuNSAxNi45IDIuNWwyLjA3IDIuMDdDMjAuODUgMy4xNSAyMSAyMy44NSAyMS4wMSAyNC41bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA7IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi45MSAxOS4wMiA3IDE3LjkyIDdjLTEuMSAwLTIuMDQtLjA5LTIuOTktLjI1bC0yLjA3IDIuMDdDMjAuMDkgNi9uZ2h0PSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDE1YTQgNCAwIDEgMCAwLTggNCA0IDAgMCAwIDAgOHptMCAyYTUgNSAwIDEgMCAwLTEwIDUgNSAwIDAgMCAwIDEwem0wIDNhNiA2IDAgMCAwIDAtMTIgNiA6IDAgMCAwIDAgMTJ6bTAtNGE3IDcgMCAwIDAgMC0xNCA3IDcgMCAwIDAgMCAxNHoiLz48L3N2Zz4=') no-repeat center;
+        }
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 15px;
+            max-width: 75%;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        .user-message {
+            background: #d4a5a5;
+            color: #fff;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .bot-message {
+            background: #e5e7eb;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .bot-message a {
+            color: #d4a5a5;
+            text-decoration: underline;
+        }
+        .chat-footer {
+            padding: 15px 20px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.95em;
+        }
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #d4a5a5 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMi4wMSAxMWwyMC41LTkuNWMuNTQtLjI1LjgyLS43NC41OC0xLjI4LS4yNC0uNTQtLjc0LS44Mi0xLjI4LS41OGwtMjEuNSAxMGMtLjU2LjI2LS44My43OC0uNjcgMS4zMi4xNi41NC62Mi44OCAxLjE2Ljg4bDEwLjY3IDMuODUgMy44NSAxMC42N2MuMTUuNDQuNDguNzguOTYuODguNTQuMTYgMS4wNi0uMTEgMS4zMi0uNjdsMTAtMjEuNXoiLz48L3N2Zz4=') no-repeat center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .settings-modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 20px;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .settings-modal.show {
+            display: flex;
+        }
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .settings-header h2 {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin: 0;
+            color: #333;
+        }
+        .close-settings {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzMzMyIgdmlld0JveD0iMCAwIDI4IDI0Ij48cGF0aCBkPSJNMTguMyA1LjcxYy0uMzktLjM5LTEuMDItLjM5LTEuNDEgMGwtNC44OSA0Ljg5LTQuODktNC44OWMtLjM5LS4zOS0xLjAyLS4zOS0xLjQxIDAtLjM5LjM5LS4zOSAxLjAyIDAgMS40MWw0Ljg5IDQuODktNC44OSA0Ljg5Yy0uMzkuMzktLjM5IDEuMDIgMCAxLjQxLjM5LjM5IDEuMDIuMzkgMS40MSAwbDQuODktNC44OSA0Ljg5IDQuODljLjM5LjM5IDEuMDIuMzkgMS40MSAwIC4zOS0uMzkuMzktMS4wMiAwLTEuNDFsLTQuODktNC44OSA0Ljg5LTQuODljLjM5LS4zOS4zOS0xLjAyIDAtMS40MXoiLz48L3N2Zz4=') no-repeat center;
+        }
+        .settings-body textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            resize: none;
+            font-size: 0.95em;
+            outline: none;
+        }
+        .settings-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .settings-footer button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+        .save-button {
+            background: #d4a5a5;
+            color: white;
+        }
+        .cancel-button {
+            background: #e5e7eb;
+            color: #333;
+        }
+        @media (max-width: 500px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            .chat-header h1 {
+                font-size: 1.1em;
+            }
+            .chat-input {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            .message {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Clínica Lorraine Botura</h1>
+            <div class="settings-icon" onclick="openSettings()"></div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message bot-message">Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Como posso cuidar de você hoje?</div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="userInput" placeholder="Digite sua mensagem...">
+            <button class="send-button" onclick="sendMessage()"></button>
+        </div>
+
+        <div class="settings-modal" id="settingsModal">
+            <div class="settings-header">
+                <h2>Configurações de Atendimento</h2>
+                <div class="close-settings" onclick="closeSettings()"></div>
+            </div>
+            <div class="settings-body">
+                <textarea id="agentPrompt"># 🎀 Prompt para Agente Virtual - Clínica de Estética Lorraine Botura 🎀
+
+Você é o agente virtual oficial da **Clínica de Estética Lorraine Botura**.  
+Seu objetivo é **acolher, informar e orientar clientes** de maneira **atenciosa, elegante e eficiente**.  
+Use sempre um **tom de voz gentil, acolhedor, confiante e empático**, transmitindo o **carinho** e a **excelência** da clínica.
+
+---
+
+## 🛎️ Suas Funções:
+
+- Recepcionar clientes com **saudação calorosa**.
+- Coletar **informações básicas** de forma delicada (nome, telefone, e-mail).
+- Esclarecer dúvidas sobre:
+  - Procedimentos estéticos oferecidos.
+  - Benefícios, diferenciais e indicações dos tratamentos.
+  - Duração, recomendações pré e pós-procedimento.
+  - Promoções ou pacotes disponíveis.
+- Informar que os **valores** são personalizados e o orçamento será enviado via **WhatsApp**.
+- Fornecer **endereço, horário de funcionamento e formas de pagamento** aceitas.
+- **Agendar avaliações** ou sessões.
+- Encaminhar o contato para o **atendimento humano** (quando necessário, especialmente para dúvidas médicas).
+
+---
+
+## 🗣️ Tom de Voz:
+
+- Elegante, acolhedor, empático e motivador.
+- Sempre use palavras **positivas e reconfortantes**.
+- Evite termos técnicos complicados (ou explique de forma simples).
+- Reforce que **cada atendimento é único e personalizado**.
+
+---
+
+## ✨ Frases Úteis:
+
+- "Olá, seja muito bem-vindo(a) à Clínica Lorraine Botura! 🌸 Como posso cuidar de você hoje?"
+- "Ficamos felizes em saber que você busca realçar ainda mais sua beleza! Me conte, qual procedimento desperta seu interesse?"
+- "Para um atendimento ainda mais personalizado, poderia me informar seu nome e telefone?"
+- "Nossos horários são flexíveis para se encaixar na sua rotina. Vamos agendar sua avaliação gratuita?"
+- "Todos os nossos procedimentos são realizados por profissionais altamente qualificados, com todo carinho e responsabilidade que você merece."
+- "Sua beleza é única, e nossos tratamentos também! Para valores e pacotes especiais, nossa equipe entrará em contato pelo WhatsApp."
+- "Caso tenha alguma condição de saúde específica, orientamos uma breve avaliação inicial para garantir o melhor cuidado."
+
+---
+
+## 🌸 Procedimentos que você pode citar:
+
+- Harmonização facial
+- Botox
+- Preenchimento labial
+- Microagulhamento
+- Limpeza de pele profunda
+- Depilação a laser
+- Tratamentos para estrias e celulite
+- Remodelagem corporal
+- Peeling químico
+- Hidragloss labial
+
+*(Adapte conforme os serviços reais da clínica)*
+
+---
+
+## 🚫 Restrições Importantes:
+
+- Nunca fazer diagnósticos.
+- Nunca prometer resultados sem avaliação presencial.
+- Não prescrever produtos ou medicamentos.
+- Não informar valores diretamente; sempre redirecionar ao atendimento humano via WhatsApp.
+
+---
+
+## 📍 Informações da Clínica:
+
+- **Endereço:** Av. Andrômeda, 3808 - sala 1 - Bosque dos Eucaliptos, São José dos Campos - SP, 12233-380
+- **Telefone/WhatsApp:** (12) 99206-1898
+- **Horário de funcionamento:** 
+  - Fechado atualmente.
+  - Aberto às terças-feiras a partir das 11:00h.
+
+---
+
+## 📋 Exemplos de Atendimento:
+
+### 🎯 Agendamento:
+"Que maravilhoso saber que você se interessou pela harmonização facial! Para te atender com todo cuidado, posso agendar uma avaliação sem compromisso. Qual seria o melhor dia e horário para você?"
+
+### 🌿 Dúvidas sobre Procedimentos:
+"A limpeza de pele profunda é perfeita para revitalizar sua pele! Ela inclui extração, hidratação e máscara calmante. Recomenda-se realizar a cada 30 a 45 dias, dependendo do seu tipo de pele."
+
+### 🎁 Promoções:
+"Neste mês, estamos com condições especiais para tratamentos corporais! Posso enviar todos os detalhes para você no WhatsApp, tudo bem?"
+
+---
+
+## 🌟 Extras que você pode adicionar no futuro:
+
+- Roteiros prontos para cada procedimento.
+- Fluxo de agendamento automático.
+- Mensagens especiais de boas-vindas e pós-atendimento.
+
+---
+
+**Pronto! Agora o agente virtual da Clínica Lorraine Botura está completo, profissional e acolhedor.**  
+🌸✨</textarea>
+            </div>
+            <div class="settings-footer">
+                <button class="cancel-button" onclick="closeSettings()">Cancelar</button>
+                <button class="save-button" onclick="saveAgentPrompt()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuração do Supabase
+        const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Configuração da Gemini API
+        const GEMINI_API_KEY = 'AIzaSyBsWK-qUzEts9UjoVP2wDmDLBKpfR4kMtQ';
+        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+
+        // Número do WhatsApp da clínica
+        const WHATSAPP_NUMBER = '5512992061898'; // Formato internacional: +55 (DDD) número
+        const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá,%20gostaria%20de%20agendar%20uma%20avaliação%20na%20Clínica%20Lorraine%20Botura!`;
+
+        // Função para adicionar mensagem ao chat
+        function addMessage(content, isUser) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = content; // Usar innerHTML para suportar links
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Função para verificar se a mensagem indica intenção de agendamento
+        function isSchedulingIntent(message) {
+            const schedulingKeywords = [
+                'agendar', 'marcar', 'consulta', 'avaliação', 'horário', 'sessão', 
+                'quero agendar', 'posso agendar', 'marcar uma consulta', 'agendar uma avaliação'
+            ];
+            const lowerMessage = message.toLowerCase();
+            return schedulingKeywords.some(keyword => lowerMessage.includes(keyword));
+        }
+
+        // Função para chamar a Gemini API
+        async function callGeminiAPI(prompt, agentPrompt = '') {
+            try {
+                const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: agentPrompt ? `${agentPrompt}\n\nUsuário: ${prompt}` : prompt
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na chamada da API');
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error('Erro:', error);
+                return 'Desculpe, houve um erro ao processar sua solicitação. Tente novamente mais tarde.';
+            }
+        }
+
+        // Função para enviar mensagem
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+
+            if (message === '') return;
+
+            // Adiciona mensagem do usuário
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Verifica se o usuário quer agendar
+            if (isSchedulingIntent(message)) {
+                const schedulingResponse = `Que ótimo que você deseja agendar! Vamos te direcionar para nossa equipe no WhatsApp. Clique aqui para agendar sua avaliação: <a href="${WHATSAPP_LINK}" target="_blank">Agendar via WhatsApp</a>`;
+                addMessage(schedulingResponse, false);
+                return;
+            }
+
+            // Obtém o prompt do agente do Supabase
+            let agentPrompt = '';
+            try {
+                const { data, error } = await supabase
+                    .from('agent_prompts')
+                    .select('prompt')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) {
+                    console.error('Erro ao buscar prompt:', error.message);
+                    throw error;
+                }
+                agentPrompt = data?.prompt || document.getElementById('agentPrompt').value;
+            } catch (error) {
+                console.error('Erro ao buscar prompt:', error.message);
+                agentPrompt = document.getElementById('agentPrompt').value;
+                addMessage('⚠️ Não foi possível conectar ao banco de dados para carregar o prompt. Usando o prompt padrão.', false);
+            }
+
+            // Chama a Gemini API para obter resposta
+            const botResponse = await callGeminiAPI(message, agentPrompt);
+            addMessage(botResponse, false);
+        }
+
+        // Função para abrir o modal de configurações
+        function openSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.add('show');
+
+            // Carrega o prompt atual do Supabase
+            supabase
+                .from('agent_prompts')
+                .select('prompt')
+                .eq('id', 1)
+                .single()
+                .then(({ data, error }) => {
+                    if (data) {
+                        document.getElementById('agentPrompt').value = data.prompt || document.getElementById('agentPrompt').value;
+                    } else if (error) {
+                        console.error('Erro ao carregar prompt:', error.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar prompt:', error.message);
+                });
+        }
+
+        // Função para fechar o modal de configurações
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
+
+        // Função para salvar o prompt do agente
+        async function saveAgentPrompt() {
+            const prompt = document.getElementById('agentPrompt').value;
+
+            try {
+                const { data, error } = await supabase
+                    .from('agent_prompts')
+                    .upsert({ id: 1, prompt })
+                    .select();
+
+                if (error) {
+                    console.error('Erro ao salvar prompt:', error.message);
+                    throw error;
+                }
+                alert('Prompt salvo com sucesso!');
+                closeSettings();
+            } catch (error) {
+                console.error('Erro ao salvar o prompt:', error.message);
+                alert('Erro ao salvar o prompt. Verifique se a tabela "agent_prompts" foi criada no Supabase.');
+            }
+        }
+
+        // Enviar mensagem ao pressionar Enter
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
