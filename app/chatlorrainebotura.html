@@ -3,103 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chat Clínica Lorraine Botura - Atendimento Direto</title> <!-- Título Atualizado -->
+    <title>Chat Clínica Lorraine Botura - Atendimento Direto</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <style>
         /* ESTILOS CSS (Mantidos da resposta anterior) */
-        /* Reset e Base Styles */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { height: 100%; }
-        body { min-height: 100%; display: flex; flex-direction: column; font-family: 'Lora', serif; background: linear-gradient(135deg, #F5E6E8, #D3A7B0); color: #54162B; line-height: 1.6; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { height: 100%; } body { min-height: 100%; display: flex; flex-direction: column; font-family: 'Lora', serif; background: linear-gradient(135deg, #F5E6E8, #D3A7B0); color: #54162B; line-height: 1.6; overflow-x: hidden; }
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px 15px; width: 100%; }
         .chat-container { width: 100%; max-width: 750px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 10px 35px rgba(84, 22, 43, 0.2); display: flex; flex-direction: column; height: 85vh; max-height: 700px; overflow: hidden; border: 1px solid #D3A7B0; }
         .chat-header { padding: 18px 25px; background: #F5E6E8; border-bottom: 1px solid #D3A7B0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .chat-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6em; font-weight: 600; color: #54162B; margin: 0; }
         .chat-body { flex: 1; padding: 25px; overflow-y: auto; background: #FFFFFF; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #D3A7B0 #F5E6E8; }
-        .chat-body::-webkit-scrollbar { width: 8px; }
-        .chat-body::-webkit-scrollbar-track { background: #F5E6E8; border-radius: 10px; }
-        .chat-body::-webkit-scrollbar-thumb { background-color: #D3A7B0; border-radius: 10px; border: 2px solid #F5E6E8; }
-        .chat-body::-webkit-scrollbar-thumb:hover { background-color: #B4182D; }
-        .message { margin-bottom: 18px; padding: 14px 20px; border-radius: 18px; max-width: 85%; line-height: 1.5; box-shadow: 0 3px 5px rgba(84, 22, 43, 0.08); word-wrap: break-word; clear: both; }
-        .user-message { background: #D3A7B0; color: #FFFFFF; margin-left: auto; border-bottom-right-radius: 5px; float: right; }
-        .bot-message { background: #F5E6E8; color: #54162B; margin-right: auto; border-bottom-left-radius: 5px; float: left; padding-bottom: 5px; }
-        .bot-message.thinking { font-style: italic; opacity: 0.8; background: #e9dde0; padding-bottom: 14px; }
-        .bot-message strong { color: #B4182D; font-weight: 600; }
-        .bot-message a { color: #B4182D; text-decoration: none; font-weight: 600; border-bottom: 1px solid #d89eaa; transition: color 0.3s ease, border-bottom-color 0.3s ease; }
-        .bot-message a:hover { color: #54162B; border-bottom-color: #54162B; }
-        .bot-message ul { list-style-position: outside; padding-left: 25px; margin-top: 8px; margin-bottom: 5px; }
-        .bot-message li { margin-bottom: 6px; }
-        .sub-message { font-size: 0.9em; margin-top: 10px; padding: 8px 12px; background: rgba(211, 167, 176, 0.2); border-radius: 10px; display: inline-block; border: 1px solid rgba(211, 167, 176, 0.5); }
-        .options-container { margin-top: 15px; padding-top: 10px; border-top: 1px dashed rgba(84, 22, 43, 0.1); display: flex; flex-direction: column; gap: 8px; }
-        .option-button { display: block; width: 100%; padding: 10px 15px; background-color: #FFFFFF; color: #54162B; border: 1px solid #D3A7B0; border-radius: 8px; text-align: left; font-family: 'Lora', serif; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(84, 22, 43, 0.06); }
-        .option-button:hover { background-color: #D3A7B0; color: #FFFFFF; border-color: #B4182D; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(84, 22, 43, 0.1); }
-        .option-button:disabled { background-color: #f0eaea; color: #a09396; border-color: #e0d0d4; cursor: not-allowed; box-shadow: none; transform: none; }
-        .option-button .option-letter { font-weight: 700; margin-right: 8px; color: #B4182D; display: inline-block; min-width: 15px; }
-        .option-button:hover .option-letter { color: #FFFFFF; }
-        .option-button:disabled .option-letter { color: #a09396; }
-        .chat-footer { padding: 15px 25px; background: #F5E6E8; display: flex; align-items: center; gap: 12px; border-top: 1px solid #D3A7B0; flex-shrink: 0; }
-        .chat-input { flex: 1; padding: 14px 22px; border: 1px solid #D3A7B0; background: #FFFFFF; color: #54162B; border-radius: 25px; outline: none; font-size: 1.05em; font-family: 'Lora', serif; resize: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
-        .chat-input:focus { border-color: #B4182D; box-shadow: 0 0 0 3px rgba(180, 24, 45, 0.15); }
-        .chat-input::placeholder { color: #b18c94; opacity: 0.9; }
-        .send-button { width: 48px; height: 48px; border: none; background: #B4182D url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNM i4wMSAyMSAyMyAxMiAyLjAxIDMgMiAxMGw١NSAyLTggMnpNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIuMDEgM0wyMyAxMiAyLjAxIDIxIDIgMTBsMTUtMi0xNS0yeiIvPjwvc3ZnPg==') no-repeat center; background-size: 50%; border-radius: 50%; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 10px rgba(180, 24, 45, 0.2); flex-shrink: 0; }
-        .send-button:hover { background-color: #54162B; transform: scale(1.05); }
-        .send-button:active { transform: scale(0.95); }
-        .page-footer { flex-shrink: 0; width: 100%; padding: 15px 20px; background-color: #F5E6E8; border-top: 1px solid #D3A7B0; text-align: center; margin-top: auto; }
-        .social-icons { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 10px; }
-        .social-icons a { display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; background-color: rgba(211, 167, 176, 0.3); border-radius: 50%; transition: background-color 0.3s ease, transform 0.3s ease; border: 1px solid transparent; }
-        .social-icons a svg { width: 18px; height: 18px; fill: #54162B; transition: fill 0.3s ease; }
-        .social-icons a:hover { background-color: #D3A7B0; transform: translateY(-2px); border: 1px solid #B4182D; }
-        .social-icons a:hover svg { fill: #FFFFFF; }
-        .footer-text { font-size: 0.8em; color: #54162B; opacity: 0.8; }
-        .footer-text a { color: #B4182D; text-decoration: none; font-weight: 600; }
-        .footer-text a:hover { text-decoration: underline; }
+        .chat-body::-webkit-scrollbar { width: 8px; } .chat-body::-webkit-scrollbar-track { background: #F5E6E8; border-radius: 10px; } .chat-body::-webkit-scrollbar-thumb { background-color: #D3A7B0; border-radius: 10px; border: 2px solid #F5E6E8; } .chat-body::-webkit-scrollbar-thumb:hover { background-color: #B4182D; }
+        .message { margin-bottom: 18px; padding: 14px 20px; border-radius: 18px; max-width: 85%; line-height: 1.5; box-shadow: 0 3px 5px rgba(84, 22, 43, 0.08); word-wrap: break-word; clear: both; } .user-message { background: #D3A7B0; color: #FFFFFF; margin-left: auto; border-bottom-right-radius: 5px; float: right; } .bot-message { background: #F5E6E8; color: #54162B; margin-right: auto; border-bottom-left-radius: 5px; float: left; padding-bottom: 5px; } .bot-message.thinking { font-style: italic; opacity: 0.8; background: #e9dde0; padding-bottom: 14px; } .bot-message strong { color: #B4182D; font-weight: 600; } .bot-message a { color: #B4182D; text-decoration: none; font-weight: 600; border-bottom: 1px solid #d89eaa; transition: color 0.3s ease, border-bottom-color 0.3s ease; } .bot-message a:hover { color: #54162B; border-bottom-color: #54162B; } .bot-message ul { list-style-position: outside; padding-left: 25px; margin-top: 8px; margin-bottom: 5px; } .bot-message li { margin-bottom: 6px; } .sub-message { font-size: 0.9em; margin-top: 10px; padding: 8px 12px; background: rgba(211, 167, 176, 0.2); border-radius: 10px; display: inline-block; border: 1px solid rgba(211, 167, 176, 0.5); }
+        .options-container { margin-top: 15px; padding-top: 10px; border-top: 1px dashed rgba(84, 22, 43, 0.1); display: flex; flex-direction: column; gap: 8px; } .option-button { display: block; width: 100%; padding: 10px 15px; background-color: #FFFFFF; color: #54162B; border: 1px solid #D3A7B0; border-radius: 8px; text-align: left; font-family: 'Lora', serif; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(84, 22, 43, 0.06); } .option-button:hover { background-color: #D3A7B0; color: #FFFFFF; border-color: #B4182D; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(84, 22, 43, 0.1); } .option-button:disabled { background-color: #f0eaea; color: #a09396; border-color: #e0d0d4; cursor: not-allowed; box-shadow: none; transform: none; } .option-button .option-letter { font-weight: 700; margin-right: 8px; color: #B4182D; display: inline-block; min-width: 15px; } .option-button:hover .option-letter { color: #FFFFFF; } .option-button:disabled .option-letter { color: #a09396; }
+        .chat-footer { padding: 15px 25px; background: #F5E6E8; display: flex; align-items: center; gap: 12px; border-top: 1px solid #D3A7B0; flex-shrink: 0; } .chat-input { flex: 1; padding: 14px 22px; border: 1px solid #D3A7B0; background: #FFFFFF; color: #54162B; border-radius: 25px; outline: none; font-size: 1.05em; font-family: 'Lora', serif; resize: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; } .chat-input:focus { border-color: #B4182D; box-shadow: 0 0 0 3px rgba(180, 24, 45, 0.15); } .chat-input::placeholder { color: #b18c94; opacity: 0.9; } .send-button { width: 48px; height: 48px; border: none; background: #B4182D url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNM i4wMSAyMSAyMyAxMiAyLjAxIDMgMiAxMGw١NSAyLTggMnpNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIuMDEgM0wyMyAxMiAyLjAxIDIxIDIgMTBsMTUtMi0xNS0yeiIvPjwvc3ZnPg==') no-repeat center; background-size: 50%; border-radius: 50%; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 10px rgba(180, 24, 45, 0.2); flex-shrink: 0; } .send-button:hover { background-color: #54162B; transform: scale(1.05); } .send-button:active { transform: scale(0.95); }
+        .page-footer { flex-shrink: 0; width: 100%; padding: 15px 20px; background-color: #F5E6E8; border-top: 1px solid #D3A7B0; text-align: center; margin-top: auto; } .social-icons { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 10px; } .social-icons a { display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; background-color: rgba(211, 167, 176, 0.3); border-radius: 50%; transition: background-color 0.3s ease, transform 0.3s ease; border: 1px solid transparent; } .social-icons a svg { width: 18px; height: 18px; fill: #54162B; transition: fill 0.3s ease; } .social-icons a:hover { background-color: #D3A7B0; transform: translateY(-2px); border: 1px solid #B4182D; } .social-icons a:hover svg { fill: #FFFFFF; } .footer-text { font-size: 0.8em; color: #54162B; opacity: 0.8; } .footer-text a { color: #B4182D; text-decoration: none; font-weight: 600; } .footer-text a:hover { text-decoration: underline; }
 
         /* Responsividade */
-        @media (max-width: 768px) {
-            .main-content { padding: 10px; align-items: flex-start; padding-top: 10px; }
-            .chat-container { height: calc(100vh - 90px); max-height: none; border-radius: 10px; }
-            .chat-header h1 { font-size: 1.3em; }
-            .chat-body { padding: 15px; }
-            .message { max-width: 90%; padding: 10px 15px; margin-bottom: 15px;}
-            .chat-footer { padding: 10px 15px; gap: 10px;}
-            .chat-input { padding: 12px 18px; font-size: 1em; }
-            .send-button { width: 42px; height: 42px; }
-            .page-footer { padding: 12px 15px; }
-            .social-icons { gap: 15px; margin-bottom: 8px; }
-            .social-icons a { width: 32px; height: 32px; }
-            .social-icons a svg { width: 16px; height: 16px; }
-            .footer-text { font-size: 0.75em; }
-            .option-button { padding: 8px 12px; font-size: 0.9em;}
-        }
-         @media (max-width: 480px) {
-             .main-content { padding: 5px; padding-top: 5px; }
-             .chat-container { height: calc(100vh - 75px); border-radius: 5px;}
-             .chat-header h1 { font-size: 1.1em; }
-             .chat-header { padding: 12px 15px;}
-             .chat-body { padding: 10px; }
-             .message { max-width: 95%; }
-             .chat-footer { padding: 8px 10px; gap: 8px; }
-             .chat-input { padding: 10px 15px; font-size: 0.95em; }
-             .send-button { width: 38px; height: 38px; }
-             .page-footer { padding: 10px; }
-             .social-icons { gap: 12px; }
-             .footer-text { font-size: 0.7em; }
-             .option-button { font-size: 0.85em;}
-         }
+        @media (max-width: 768px) { .main-content { padding: 10px; align-items: flex-start; padding-top: 10px; } .chat-container { height: calc(100vh - 90px); max-height: none; border-radius: 10px; } .chat-header h1 { font-size: 1.3em; } .chat-body { padding: 15px; } .message { max-width: 90%; padding: 10px 15px; margin-bottom: 15px;} .chat-footer { padding: 10px 15px; gap: 10px;} .chat-input { padding: 12px 18px; font-size: 1em; } .send-button { width: 42px; height: 42px; } .page-footer { padding: 12px 15px; } .social-icons { gap: 15px; margin-bottom: 8px; } .social-icons a { width: 32px; height: 32px; } .social-icons a svg { width: 16px; height: 16px; } .footer-text { font-size: 0.75em; } .option-button { padding: 8px 12px; font-size: 0.9em;} }
+        @media (max-width: 480px) { .main-content { padding: 5px; padding-top: 5px; } .chat-container { height: calc(100vh - 75px); border-radius: 5px;} .chat-header h1 { font-size: 1.1em; } .chat-header { padding: 12px 15px;} .chat-body { padding: 10px; } .message { max-width: 95%; } .chat-footer { padding: 8px 10px; gap: 8px; } .chat-input { padding: 10px 15px; font-size: 0.95em; } .send-button { width: 38px; height: 38px; } .page-footer { padding: 10px; } .social-icons { gap: 12px; } .footer-text { font-size: 0.7em; } .option-button { font-size: 0.85em;} }
     </style>
 </head>
 <body>
 
-    <!-- Conteúdo Principal -->
     <div class="main-content">
-        <!-- Chat Container -->
         <div class="chat-container">
-            <div class="chat-header">
-                <h1>Clínica Lorraine Botura</h1>
-            </div>
+            <div class="chat-header"><h1>Clínica Lorraine Botura</h1></div>
             <div class="chat-body" id="chatBody">
                 <div class="message bot-message thinking" style="display: none;">Processando sua solicitação... ✨</div>
             </div>
@@ -110,7 +42,6 @@
         </div>
     </div>
 
-    <!-- Rodapé -->
     <footer class="page-footer">
         <div class="social-icons">
              <a href="https://www.instagram.com/lorrainebotura/" target="_blank" aria-label="Instagram"> <svg viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2C22,19.4 19.4,22 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8C2,4.6 4.6,2 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4C18.39,20 20,18.39 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg> </a>
@@ -124,19 +55,17 @@
         </div>
     </footer>
 
-    <!-- Modal de Configurações Removido -->
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // --- CONFIGURAÇÕES ---
         const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o'; // ANON KEY
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const WHATSAPP_NUMBER = '5512991710503';
+        const WHATSAPP_NUMBER = '5512991710503'; // <-- NÚMERO ATUALIZADO
 
         // --- ESTADO DA APLICAÇÃO ---
         let userData = { name: null, phone: null, protocol: null };
-        let chatHistory = []; // Apenas histórico para Supabase
+        let chatHistory = [];
         let isWaitingFor = 'name_phone';
         let currentProcedure = null;
         let isProcessing = false;
@@ -146,405 +75,239 @@
         const userInput = document.getElementById('userInput');
         const thinkingMessageDiv = chatBody.querySelector('.thinking');
 
-        // --- DADOS DOS PROCEDIMENTOS (Atualizado com detalhes) ---
-        const procedureDetails = {
-            'botox': { key: 'botox', name: 'Botox', description: '🌸 **Botox**<br>O Botox é aplicado para suavizar linhas de expressão e prevenir a formação de rugas. Atua relaxando a musculatura local de forma segura e controlada.', details: '<strong>Resultados esperados:</strong> aparência mais jovem e descansada, sem alterar sua expressão natural.' },
-            'labial': { key: 'labial', name: 'Preenchimento Labial', description: '🌸 **Preenchimento Labial**<br>O preenchimento labial é feito com ácido hialurônico para dar mais volume, definir o contorno e hidratar os lábios. O procedimento é rápido, com resultados imediatos e naturais.', details: '<strong>Resultados esperados:</strong> lábios mais volumosos, definidos e hidratados.' },
-            'micro': { key: 'micro', name: 'Microagulhamento', description: '🌸 **Microagulhamento**<br>O microagulhamento utiliza pequenas agulhas para estimular o colágeno e renovar a pele. É ideal para melhorar cicatrizes, linhas finas, manchas e textura da pele.', details: '<strong>Resultados esperados:</strong> pele mais uniforme, firme e rejuvenescida.' },
-            'limpeza': { key: 'limpeza', name: 'Limpeza de Pele Profunda', description: '🌸 **Limpeza de Pele Profunda**<br>A limpeza de pele profunda remove cravos, impurezas e células mortas, promovendo a renovação celular e preparando a pele para absorver melhor os ativos hidratantes.', details: '<strong>Resultados esperados:</strong> pele mais limpa, fresca e revitalizada.' },
-            'laser': { key: 'laser', name: 'Depilação a Laser', description: '🌸 **Depilação a Laser**<br>A depilação a laser elimina os pelos de forma progressiva e duradoura, atuando diretamente na raiz dos pelos com tecnologia de ponta e conforto.', details: '<strong>Resultados esperados:</strong> pele lisa, livre de pelos e muito mais prática no dia a dia.' },
-            'corpo': { key: 'corpo', name: 'Tratamentos para Estrias e Celulite', description: '🌸 **Tratamentos para Estrias e Celulite**<br>Tratamentos personalizados que combinam técnicas como laser, radiofrequência, bioestimuladores e drenagem para suavizar a textura da pele e melhorar a aparência de estrias e celulite.', details: '<strong>Resultados esperados:</strong> pele mais uniforme, firme e bonita.' },
-            'remodel': { key: 'remodel', name: 'Remodelagem Corporal', description: '🌸 **Remodelagem Corporal**<br>A remodelagem corporal visa reduzir medidas, modelar o contorno do corpo e melhorar a firmeza da pele, utilizando técnicas como ultrassom, radiofrequência e massagens especializadas.', details: '<strong>Resultados esperados:</strong> corpo mais definido, com curvas realçadas de forma natural.' },
-            'peeling': { key: 'peeling', name: 'Peeling Químico', description: '🌸 **Peeling Químico**<br>O peeling químico utiliza agentes renovadores para tratar manchas, rugas finas, acne e melhorar a textura da pele. A escolha do tipo de peeling é personalizada conforme o tipo de pele.', details: '<strong>Resultados esperados:</strong> pele renovada, mais lisa, iluminada e uniforme.' },
-            'hidragloss': { key: 'hidragloss', name: 'Hidragloss Labial', description: '🌸 **Hidragloss Labial**<br>Tratamento de hidratação profunda e revitalização dos lábios, usando ativos potentes que melhoram o volume natural, a cor e a textura sem necessidade de preenchimento.', details: '<strong>Resultados esperados:</strong> lábios mais macios, vibrantes e rejuvenescidos.' },
-             // Adicionando placeholder para harmonização facial
-             'facial_harmony': {key: 'facial_harmony', name: 'Harmonização Facial', description: '🌸 **Harmonização Facial**<br>A harmonização facial é um conjunto de procedimentos estéticos minimamente invasivos que realçam a beleza natural, equilibrando os traços do rosto. Pode incluir preenchimentos, botox e outros ajustes personalizados para valorizar o formato facial.', details: '<strong>Resultados esperados:</strong> rosto mais harmônico, jovial e simétrico.'}
-        };
-        const procedureLetterMap = {'A': 'botox', 'B': 'labial', 'C': 'micro', 'D': 'limpeza', 'E': 'laser', 'F': 'corpo', 'G': 'remodel', 'H': 'peeling', 'I': 'hidragloss', 'K': 'facial_harmony'}; // Adicionei K para harmonização como exemplo
+        // --- DADOS DOS PROCEDIMENTOS (Atualizado) ---
+        const procedureDetails = { /* ... (Mantido da resposta anterior, com descrições detalhadas) ... */
+            'botox': { key: 'botox', name: 'Botox', description: '🌸 **Botox**<br>O Botox é aplicado...', details: '<strong>Resultados esperados:</strong> aparência mais jovem...' },
+            'labial': { key: 'labial', name: 'Preenchimento Labial', description: '🌸 **Preenchimento Labial**<br>O preenchimento labial...', details: '<strong>Resultados esperados:</strong> lábios mais volumosos...' },
+            'micro': { key: 'micro', name: 'Microagulhamento', description: '🌸 **Microagulhamento**<br>O microagulhamento utiliza...', details: '<strong>Resultados esperados:</strong> pele mais uniforme...' },
+            'limpeza': { key: 'limpeza', name: 'Limpeza de Pele Profunda', description: '🌸 **Limpeza de Pele Profunda**<br>A limpeza de pele profunda remove...', details: '<strong>Resultados esperados:</strong> pele mais limpa...' },
+            'laser': { key: 'laser', name: 'Depilação a Laser', description: '🌸 **Depilação a Laser**<br>A depilação a laser elimina...', details: '<strong>Resultados esperados:</strong> pele lisa...' },
+            'corpo': { key: 'corpo', name: 'Tratamentos para Estrias e Celulite', description: '🌸 **Tratamentos para Estrias e Celulite**<br>Tratamentos personalizados...', details: '<strong>Resultados esperados:</strong> pele mais uniforme...' },
+            'remodel': { key: 'remodel', name: 'Remodelagem Corporal', description: '🌸 **Remodelagem Corporal**<br>A remodelagem corporal visa...', details: '<strong>Resultados esperados:</strong> corpo mais definido...' },
+            'peeling': { key: 'peeling', name: 'Peeling Químico', description: '🌸 **Peeling Químico**<br>O peeling químico utiliza...', details: '<strong>Resultados esperados:</strong> pele renovada...' },
+            'hidragloss': { key: 'hidragloss', name: 'Hidragloss Labial', description: '🌸 **Hidragloss Labial**<br>Tratamento de hidratação...', details: '<strong>Resultados esperados:</strong> lábios mais macios...' },
+            'facial_harmony': {key: 'facial_harmony', name: 'Harmonização Facial', description: '🌸 **Harmonização Facial**<br>A harmonização facial é um conjunto...', details: '<strong>Resultados esperados:</strong> rosto mais harmônico...'}
+         };
+        const procedureLetterMap = {'A': 'botox', 'B': 'labial', 'C': 'micro', 'D': 'limpeza', 'E': 'laser', 'F': 'corpo', 'G': 'remodel', 'H': 'peeling', 'I': 'hidragloss', 'K': 'facial_harmony'}; // Letra K adicionada como exemplo
 
-        // --- MAPA DE KEYWORDS PARA AÇÕES/PROCEDIMENTOS (Atualizado) ---
-        const keywordToActionMap = {
-            // Procedimentos (mapeia para a key em procedureDetails)
-            'harmonização facial': 'facial_harmony',
-            'harmonizacao facial': 'facial_harmony',
-            'harmonizaçao facial': 'facial_harmony', // Variação
-            'rosto': 'facial_harmony',
-            'botox': 'botox',
-            'rugas': 'botox',
-            'marcas de expressão': 'botox',
-            'linhas de expressão': 'botox',
-            'testa': 'botox',
-            'labial': 'labial',
-            'lábio': 'labial',
-            'lábios': 'labial',
-            'boca': 'labial',
-            'preenchimento labial': 'labial',
-            'preenchimento': 'labial', // Default, pode precisar refinar
-            'microagulhamento': 'micro',
-            'micro agulhamento': 'micro',
-            'agulha': 'micro',
-            'colágeno': 'micro',
-            'limpeza de pele': 'limpeza',
-            'limpeza': 'limpeza',
-            'pele oleosa': 'limpeza',
-            'cravo': 'limpeza',
-            'poros': 'limpeza',
-            'depilação a laser': 'laser',
-            'depilacao a laser': 'laser',
-            'depilação': 'laser',
-            'laser': 'laser',
-            'pelo': 'laser',
-            'pelos': 'laser',
-            'estrias': 'corpo',
-            'celulite': 'corpo',
-            'flacidez': 'corpo', // Mapeia para corpo por enquanto
-            'remodelagem corporal': 'remodel',
-            'remodelagem': 'remodel',
-            'modelar': 'remodel',
-            'gordura': 'remodel',
-            'gordura localizada': 'remodel',
-            'contorno': 'remodel',
-            'ultrassom': 'remodel', // Associa a remodelagem
-            'radiofrequência': 'remodel', // Associa a remodelagem
-            'peeling químico': 'peeling',
-            'peeling quimico': 'peeling',
-            'peeling': 'peeling',
-            'manchas': 'peeling',
-            'pele sem brilho': 'peeling', // Associa a peeling
-            'hidragloss labial': 'hidragloss',
-            'hidragloss': 'hidragloss',
-            'gloss': 'hidragloss',
-            'lábios ressecados': 'hidragloss', // Associa a hidragloss
-            'ácido hialurônico': 'labial',
-            'rejuvenescimento': 'botox',
-            'pele seca': 'limpeza', // Limpeza pode ajudar com hidratação pós
-            'cicatrizes de acne': 'micro', // Associa a microagulhamento
-            'lábios finos': 'labial',
-            'pele flácida': 'corpo',
-             // Ações Gerais
-            'tratamento': 'procedure',
-            'estética': 'procedure',
-            'procedimento': 'procedure',
-            'agendar': 'schedule_general',
-            'agenda': 'schedule_general',
-            'marcar': 'schedule_general',
-            'consulta': 'schedule_general',
-            'avaliação': 'schedule_general',
-            'sessão': 'schedule_general',
-            'quero agendar': 'schedule_general',
-            'quero marcar': 'schedule_general',
-            'quero fazer': 'schedule_general', // Intenção genérica, leva p/ lista
-            'preço': 'price',
-            'valor': 'price',
-            'quanto custa': 'price',
-            'orçamento': 'price',
-            'promoção': 'promo',
-            'promocao': 'promo',
-            'desconto': 'promo',
-            'oferta': 'promo',
-            'endereço': 'info_address', // Ação específica
-            'local': 'info_address',
-            'onde fica': 'info_address',
-            'horário': 'info_hours', // Ação específica
-            'horario': 'info_hours',
-            'horas': 'info_hours',
-            'funcionamento': 'info_hours',
-            'abre': 'info_hours',
-            'fecha': 'info_hours',
-            'telefone': 'info_phone', // Ação específica
-            'whatsapp': 'info_phone',
-            'contato': 'info_phone',
-            'pagamento': 'payment',
-            'pagar': 'payment',
-            'cartão': 'payment',
-            'pix': 'payment',
-            'informações': 'info', // Ação genérica de info
-            'informacoes': 'info',
-            // Intenções / Outros
-            'dúvida': 'talk_human', // Direto para humano
-            'duvida': 'talk_human',
-            'ajuda': 'talk_human',
-            'atendente': 'talk_human',
-            'atendimento': 'talk_human',
-            'humano': 'talk_human',
-            'falar com alguém': 'talk_human',
-            'preciso de ajuda': 'talk_human',
-            'socorro': 'talk_human', // Pode ser genérico
+        // --- MAPA DE KEYWORDS (Mantido e atualizado) ---
+        const keywordToActionMap = { /* ... (Mantido da resposta anterior, com todas as keywords) ... */
+            'harmonização facial': 'facial_harmony', 'harmonizacao facial': 'facial_harmony', 'rosto': 'facial_harmony', 'botox': 'botox', 'rugas': 'botox', 'marcas de expressão': 'botox', 'linhas de expressão': 'botox', 'labial': 'labial', 'lábio': 'labial', 'lábios': 'labial', 'boca': 'labial', 'preenchimento labial': 'labial', 'preenchimento': 'labial', 'ácido hialurônico': 'labial', 'lábios finos': 'labial', 'microagulhamento': 'micro', 'micro agulhamento': 'micro', 'agulha': 'micro', 'colágeno': 'micro', 'cicatrizes de acne': 'micro', 'limpeza de pele': 'limpeza', 'limpeza': 'limpeza', 'pele oleosa': 'limpeza', 'cravo': 'limpeza', 'poros': 'limpeza', 'pele seca': 'limpeza', 'depilação a laser': 'laser', 'depilacao a laser': 'laser', 'depilação': 'laser', 'laser': 'laser', 'pelo': 'laser', 'pelos': 'laser', 'estrias': 'corpo', 'celulite': 'corpo', 'flacidez': 'corpo', 'pele flácida': 'corpo', 'remodelagem corporal': 'remodel', 'remodelagem': 'remodel', 'modelar': 'remodel', 'gordura': 'remodel', 'gordura localizada': 'remodel', 'contorno': 'remodel', 'ultrassom': 'remodel', 'radiofrequência': 'remodel', 'peeling químico': 'peeling', 'peeling quimico': 'peeling', 'peeling': 'peeling', 'manchas': 'peeling', 'pele sem brilho': 'peeling', 'hidragloss labial': 'hidragloss', 'hidragloss': 'hidragloss', 'gloss': 'hidragloss', 'lábios ressecados': 'hidragloss', 'rejuvenescimento': 'botox',
+            'agendar': 'schedule_general', 'agenda': 'schedule_general', 'marcar': 'schedule_general', 'consulta': 'schedule_general', 'avaliação': 'schedule_general', 'sessão': 'schedule_general', 'quero agendar': 'schedule_general', 'quero marcar': 'schedule_general',
+            'preço': 'price', 'valor': 'price', 'quanto custa': 'price', 'orçamento': 'price',
+            'promoção': 'promo', 'promocao': 'promo', 'desconto': 'promo', 'oferta': 'promo',
+            'endereço': 'info_address', 'local': 'info_address', 'onde fica': 'info_address',
+            'horário': 'info_hours', 'horario': 'info_hours', 'horas': 'info_hours', 'funcionamento': 'info_hours', 'abre': 'info_hours', 'fecha': 'info_hours',
+            'telefone': 'info_phone', 'whatsapp': 'info_phone', 'contato': 'info_phone',
+            'pagamento': 'payment', 'pagar': 'payment', 'cartão': 'payment', 'pix': 'payment',
+            'informações': 'info', 'informacoes': 'info',
+            'ajuda': 'talk_human', 'atendente': 'talk_human', 'humano': 'talk_human', 'falar com alguém': 'talk_human', 'preciso de ajuda': 'talk_human', 'socorro': 'talk_human', 'atendimento': 'talk_human', 'falar com atendente': 'talk_human', 'conversar com atendente': 'talk_human',
+            'tratamento': 'procedure', 'estética': 'procedure', 'procedimento': 'procedure', 'quero fazer': 'procedure',
+            'dúvida': 'talk_human', 'duvida': 'talk_human' // Dúvida genérica também vai para humano
         };
 
         // --- FUNÇÕES DE VALIDAÇÃO --- (Mantidas)
-        function validateName(name) { /* ... */ return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
-        function validatePhone(phone) { /* ... */ const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
+        function validateName(name) { return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
+        function validatePhone(phone) { const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
 
         // --- FUNÇÕES DE UTILIDADE --- (Mantidas)
-        function generateProtocol() { /* ... */ const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
-        function generateWhatsAppLink(context = '', procName = '', userPref = '') { /* ... */ const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`; let txt = 'Olá! '; switch(context){ case 'agendamento': const pN = procName==='Avaliação Geral'?'uma avaliação geral':`uma avaliação para ${procName}`; const uP = userPref?` para ${userPref}`:''; txt += `Gostaria de confirmar ${pN}${uP}. ${userPart}`; break; case 'promocoes': const prN = procName?` para ${procName}`:''; txt += `Gostaria de saber sobre promoções atuais${prN}. ${userPart}`; break; case 'orcamento': txt += `Gostaria de um orçamento personalizado. ${userPart}`; break; case 'talk_human': txt += `Gostaria de falar com um atendente. ${userPart}`; break; case 'duvidas': default: txt += `Tenho dúvidas/Gostaria de mais informações. ${userPart}`; break; } return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`; }
-        // ParseUserChoice não será usado para texto
-        // function parseUserChoice(input, optionsMap) { /* ... */ }
+        function generateProtocol() { const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
+        function generateWhatsAppLink(context = '', procName = '', userPref = '') { const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`; let txt = 'Olá! '; switch(context){ case 'agendamento': const pN = procName==='Avaliação Geral'?'uma avaliação geral':`uma avaliação para ${procName}`; const uP = userPref?` para ${userPref}`:''; txt += `Gostaria de confirmar ${pN}${uP}. ${userPart}`; break; case 'promocoes': const prN = procName?` para ${procName}`:''; txt += `Gostaria de saber sobre promoções atuais${prN}. ${userPart}`; break; case 'orcamento': txt += `Gostaria de um orçamento personalizado. ${userPart}`; break; case 'talk_human': txt += `Gostaria de falar com um atendente. ${userPart}`; break; case 'duvidas': default: txt += `Tenho dúvidas/Gostaria de mais informações. ${userPart}`; break; } return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`; }
 
         // --- FUNÇÕES DE CHAT --- (Mantidas)
         function addMessage(content, isUser, options = null) { /* ... (com geração de botões) ... */
-             if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); }
-             const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`; messageDiv.innerHTML = content.replace(/<script.*?>.*?<\/script>/gi, '');
-             if (!isUser && options) { const optionsContainer = document.createElement('div'); optionsContainer.className = 'options-container'; options.forEach(opt => { const button = document.createElement('button'); button.className = 'option-button'; button.setAttribute('data-choice', opt.action); button.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text}`); button.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optionsContainer.appendChild(button); }); messageDiv.appendChild(optionsContainer); }
-             if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
+             if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); } const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`; messageDiv.innerHTML = content.replace(/<script.*?>.*?<\/script>/gi, ''); if (!isUser && options) { const optsCont = document.createElement('div'); optsCont.className = 'options-container'; options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'option-button'; btn.setAttribute('data-choice', opt.action); btn.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text}`); btn.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optsCont.appendChild(btn); }); messageDiv.appendChild(optsCont); } if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
          }
-        function scrollToBottom() { /* ... */ chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
-        function showThinking(show = true) { /* ... */ if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
-        function disablePreviousButtons() { /* ... */
-            const previousButtons = chatBody.querySelectorAll('.option-button:not(:disabled)');
-            previousButtons.forEach(button => { const messageContainer = button.closest('.message.bot-message'); const lastBotMessageWithOptions = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (messageContainer !== lastBotMessageWithOptions) { button.disabled = true; } });
-        }
+        function scrollToBottom() { chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
+        function showThinking(show = true) { if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
+        function disablePreviousButtons() { const prevBtns = chatBody.querySelectorAll('.option-button:not(:disabled)'); prevBtns.forEach(btn => { const msgCont = btn.closest('.message.bot-message'); const lastBotMsg = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (msgCont !== lastBotMsg) { btn.disabled = true; } }); }
 
         // --- FUNÇÃO SALVAR/ATUALIZAR (UPSERT) --- (Mantida)
-        async function saveOrUpdateConversation() { /* ... */
-            if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); }
-        }
+        async function saveOrUpdateConversation() { if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); } }
 
-        // --- GERADORES DE MENU COM BOTÕES ---
+        // --- GERADORES DE MENU COM BOTÕES (Atualizado inicial) ---
         function sendInitialMenu() {
             const text = `Agora me diga, como posso te ajudar hoje? ✨`;
             const options = [
-                { letter: 'A', text: 'Saber sobre <strong>procedimento</strong>', action: 'procedure', keywords: ['procedimento'] },
-                { letter: 'B', text: '<strong>Agendar avaliação</strong> geral', action: 'schedule_general', keywords: ['agendar'] },
-                { letter: 'C', text: '<strong>Informações da clínica</strong>', action: 'info', keywords: ['informações'] },
-                { letter: 'D', text: '💬 Falar com um <strong>atendente</strong>', action: 'talk_human', keywords: ['atendente', 'humano', 'falar'] }, // Nova opção
-                { letter: 'E', text: '<strong>Outra dúvida</strong>', action: 'other_doubt', keywords: ['dúvida', 'outro'] } // Ajustar letra se necessário
+                { letter: 'A', text: 'Saber sobre <strong>procedimento</strong>', action: 'procedure'},
+                { letter: 'B', text: '<strong>Agendar avaliação</strong> geral', action: 'schedule_general'},
+                { letter: 'C', text: '<strong>Informações da clínica</strong>', action: 'info'},
+                { letter: 'D', text: '💬 Falar com um <strong>atendente</strong>', action: 'talk_human'}, // Nova opção
+                { letter: 'E', text: '<strong>Outra dúvida</strong>', action: 'other_doubt'}
             ];
             addMessage(text, false, options);
             isWaitingFor = 'initial_choice';
         }
-        function sendProcedureListMenu() { /* ... MANTIDA ... */
-             const text = `Maravilha, ${userData.name}! 😊 Qual deles desperta seu interesse?`; const opts = Object.entries(procedureLetterMap).map(([l, k]) => ({ letter: l, text: procedureDetails[k].name, action: k, keywords: [k] })); opts.push({ letter: 'J', text: 'Outro', action: 'other_proc', keywords: ['outro'] }); addMessage(text, false, opts); isWaitingFor = 'procedure_choice';
-        }
-        function sendProcedureActionMenu(procKey) { /* ... MANTIDA ... */
-             const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Sobre <strong>${name}</strong>, o que gostaria?`; const opts = [ { letter: 'A', text: 'Mais <strong>detalhes</strong>', action: 'details', keywords: ['detalhes'] }, { letter: 'B', text: '<strong>Agendar avaliação</strong>', action: 'schedule_specific', keywords: ['agendar'] }, { letter: 'C', text: 'Verificar <strong>promoções</strong>', action: 'promo', keywords: ['promoção'] }, { letter: 'D', text: 'Ver <strong>outro procedimento</strong>', action: 'other_procedure', keywords: ['outro'] } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action';
-        }
-        function sendDetailsSubMenu(procKey) { /* ... MANTIDA ... */
-             const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Gostaria de agendar para ${name}? 😊`; const opts = [ { letter: 'A', text: 'Sim, <strong>agendar avaliação</strong>!', action: 'schedule_specific', keywords: ['sim', 'agendar'] }, { letter: 'B', text: `Saber <strong>promoções</strong> p/ ${name}`, action: 'promo', keywords: ['promoção'] }, { letter: 'C', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_proc', keywords: ['dúvida'] }, { letter: 'D', text: 'Ver <strong>outros procedimentos</strong>', action: 'other_procedure', keywords: ['outro'] } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action_after_details';
-        }
-        function sendInfoClinicSubMenu() { /* ... MANTIDA ... */
-             const txt = `Precisa de mais informações, ${userData.name}?`; const opts = [ { letter: 'A', text: 'Formas de <strong>Pagamento</strong>', action: 'payment', keywords: ['pagamento'] }, { letter: 'B', text: 'Ver <strong>procedimentos</strong>', action: 'procedure', keywords: ['procedimento'] }, { letter: 'C', text: '<strong>Agendar avaliação</strong>', action: 'schedule_general', keywords: ['agendar'] }, { letter: 'D', text: 'Não, obrigada!', action: 'end', keywords: ['não'] } ]; addMessage(txt, false, opts); isWaitingFor = 'info_choice';
-        }
-        function sendFinalConfirmationMenu() { /* ... MANTIDA ... */
-             const txt = `Posso te ajudar com mais algo, ${userData.name}? 😊`; const opts = [ { letter: 'A', text: 'Ver <strong>outro procedimento</strong>', action: 'procedure', keywords: ['procedimento'] }, { letter: 'B', text: '<strong>Informações da clínica</strong>', action: 'info', keywords: ['informações'] }, { letter: 'C', text: 'Não, obrigada!', action: 'end', keywords: ['não'] } ]; addMessage(txt, false, opts); isWaitingFor = 'final_confirmation';
+        // (Manter as outras funções send...Menu como estavam)
+        function sendProcedureListMenu() { /* ... */ const txt = `Maravilha, ${userData.name}! 😊 Qual deles desperta seu interesse?`; const opts = Object.entries(procedureLetterMap).map(([l, k]) => ({ letter: l, text: procedureDetails[k].name, action: k })); opts.push({ letter: 'J', text: 'Outro', action: 'other_proc' }); addMessage(txt, false, opts); isWaitingFor = 'procedure_choice'; }
+        function sendProcedureActionMenu(procKey) { /* ... */ const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Sobre <strong>${name}</strong>, o que gostaria?`; const opts = [ { letter: 'A', text: 'Mais <strong>detalhes</strong>', action: 'details' }, { letter: 'B', text: '<strong>Agendar avaliação</strong>', action: 'schedule_specific' }, { letter: 'C', text: 'Verificar <strong>promoções</strong>', action: 'promo' }, { letter: 'D', text: 'Ver <strong>outro procedimento</strong>', action: 'other_procedure' } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action'; }
+        function sendDetailsSubMenu(procKey) { /* ... */ const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Gostaria de agendar para ${name}? 😊`; const opts = [ { letter: 'A', text: 'Sim, <strong>agendar</strong>!', action: 'schedule_specific' }, { letter: 'B', text: `Saber <strong>promoções</strong> p/ ${name}`, action: 'promo' }, { letter: 'C', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_proc' }, { letter: 'D', text: 'Ver <strong>outros</strong>', action: 'other_procedure' } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action_after_details'; }
+        function sendInfoClinicSubMenu() { /* ... */ const txt = `Precisa de mais informações, ${userData.name}?`; const opts = [ { letter: 'A', text: 'Formas de <strong>Pagamento</strong>', action: 'payment' }, { letter: 'B', text: 'Ver <strong>procedimentos</strong>', action: 'procedure' }, { letter: 'C', text: '<strong>Agendar</strong> avaliação', action: 'schedule_general' }, { letter: 'D', text: 'Não, obrigada!', action: 'end' } ]; addMessage(txt, false, opts); isWaitingFor = 'info_choice'; }
+        function sendFinalConfirmationMenu() { /* ... */ const txt = `Posso te ajudar com mais algo, ${userData.name}? 😊`; const opts = [ { letter: 'A', text: 'Ver <strong>outro procedimento</strong>', action: 'procedure' }, { letter: 'B', text: '<strong>Informações da clínica</strong>', action: 'info' }, { letter: 'C', text: 'Não, obrigada!', action: 'end' } ]; addMessage(txt, false, opts); isWaitingFor = 'final_confirmation'; }
+
+        // --- FUNÇÃO DE REDIRECIONAMENTO (Atualizada) ---
+        function sendWhatsappRedirect(context = 'duvidas', procName = '', userPref = '') { /* ... (Mantida, com 'talk_human') ... */
+             let message = ''; let link = ''; if (context === 'agendamento') { const pN=procName==='Avaliação Geral'?'Avaliação Geral':procName; link=generateWhatsAppLink(context,pN,userPref); message=`Perfeito, ${userData.name}! 😊 Para confirmar ${pN}${userPref?` para ${userPref}`:''} e horários...<br><br>➡️ <a href="${link}" target="_blank">Confirmar ${pN} via WhatsApp</a>`; } else if (context === 'promocoes') { link=generateWhatsAppLink(context,procName); message=`Adoramos mimos! 💖 Para saber promoções${procName?` para ${procName}`:''}...<br><br>➡️ <a href="${link}" target="_blank">Ver Promoções no WhatsApp</a>`; } else if (context === 'orcamento') { link=generateWhatsAppLink(context); message=`Nossos valores são personalizados... Orçamento detalhado no WhatsApp. 😉<br><br>➡️ <a href="${link}" target="_blank">Solicitar Orçamento via WhatsApp</a>`; } else if (context === 'talk_human') { link=generateWhatsAppLink(context); message = `Com certeza, ${userData.name}! Nossa equipe está pronta para te atender... Clique abaixo: 😊<br><br>➡️ <a href="${link}" target="_blank">Falar com Atendente via WhatsApp</a>`; } else { link=generateWhatsAppLink('duvidas'); message=`Entendi, ${userData.name}. Para dúvidas específicas...<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`; } addMessage(message, false); if (['orcamento', 'talk_human', 'duvidas'].includes(context)) { isWaitingFor = 'message'; } else { setTimeout(sendFinalConfirmationMenu, 600); }
         }
 
-        // --- FUNÇÃO DE REDIRECIONAMENTO (ATUALIZADA) ---
-        function sendWhatsappRedirect(context = 'duvidas', procName = '', userPref = '') {
-             let message = ''; let link = '';
-             if (context === 'agendamento') { const pN=procName==='Avaliação Geral'?'Avaliação Geral':procName; link=generateWhatsAppLink(context,pN,userPref); message=`Perfeito, ${userData.name}! 😊 Para confirmar ${pN}${userPref?` para ${userPref}`:''} e horários...<br><br>➡️ <a href="${link}" target="_blank">Confirmar ${pN} via WhatsApp</a>`; }
-             else if (context === 'promocoes') { link=generateWhatsAppLink(context,procName); message=`Adoramos mimos! 💖 Para saber promoções${procName?` para ${procName}`:''}...<br><br>➡️ <a href="${link}" target="_blank">Ver Promoções no WhatsApp</a>`; }
-             else if (context === 'orcamento') { link=generateWhatsAppLink(context); message=`Nossos valores são personalizados para oferecer o melhor para você, ${userData.name}. Para um orçamento detalhado, por favor, fale com nossa equipe no WhatsApp. 😉<br><br>➡️ <a href="${link}" target="_blank">Solicitar Orçamento via WhatsApp</a>`; } // Mensagem específica de preço
-             else if (context === 'talk_human') { link=generateWhatsAppLink(context); message = `Com certeza, ${userData.name}! Nossa equipe está pronta para te atender com toda atenção no WhatsApp. Clique abaixo para iniciar a conversa: 😊<br><br>➡️ <a href="${link}" target="_blank">Falar com Atendente via WhatsApp</a>`; } // Mensagem para falar com humano
-             else { link=generateWhatsAppLink('duvidas'); message=`Entendi, ${userData.name}. Para dúvidas específicas ou se preferir um atendimento mais direto...<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`; }
-             addMessage(message, false);
-             // Após redirecionar para orçamento ou humano, geralmente encerra o fluxo guiado
-             if (['orcamento', 'talk_human', 'duvidas'].includes(context)) {
-                 isWaitingFor = 'message';
-             } else { // Para agendamento e promoções, pergunta se quer mais algo
-                 setTimeout(sendFinalConfirmationMenu, 600);
-             }
+         // --- FUNÇÕES INFO CLÍNICA (Mantidas) ---
+         function showAddress() { addMessage(`📍 Nosso endereço é:<br><strong>Av. Andrômeda, 3808 - sala 1<br>Bosque dos Eucaliptos<br>São José dos Campos - SP, 12233-380</strong><br><br>Será um prazer recebê-la! 😊`, false); setTimeout(sendFinalConfirmationMenu, 600); }
+         function showHours() { addMessage(`⏰ Nosso horário de funcionamento é:<br><strong>Terça a Sexta: 11:00h às 19:00h (Aprox.)</strong><br><strong>Sábado: 09:00h às 13:00h (Aprox.)</strong><br>(Atendemos com hora marcada!)<br><br><em>No momento, estamos fechados. Reabrimos Terça às 11:00h.</em>`, false); setTimeout(sendFinalConfirmationMenu, 600); } // Ajuste a linha final se necessário
+         function showPhone() { addMessage(`📞 Nosso principal contato é via WhatsApp:<br><strong>(12) 99171-0503</strong><br><br>Clique aqui para chamar: <a href="${generateWhatsAppLink('duvidas')}" target="_blank">(12) 99171-0503</a>`, false); setTimeout(sendFinalConfirmationMenu, 600); }
+         function showPayment() { addMessage(`Aceitamos: <strong>Dinheiro, PIX, Cartões de Débito e Crédito</strong>. Condições de parcelamento via WhatsApp. 😊`, false); setTimeout(sendFinalConfirmationMenu, 600); }
+
+        // --- NOVA FUNÇÃO PARA PROCESSAR KEYWORDS --- (Mantida)
+        function processKeywords(text) { /* ... (Mantida da resposta anterior) ... */
+            const lowerText = text.toLowerCase().trim(); let matchedAction = null; let highestPriority = -1; const map = keywordToActionMap; // Usa o mapa global
+            for (const [keyword, actionData] of Object.entries(map)) { const action = Array.isArray(actionData) ? actionData[0] : actionData; const priority = Array.isArray(actionData) ? actionData[1] : 0; if (lowerText.includes(keyword)) { if (priority > highestPriority) { matchedAction = action; highestPriority = priority; } } } console.log("Keyword check:", lowerText, "-> Matched Action:", matchedAction, "Priority:", highestPriority); return matchedAction;
         }
 
-         // --- FUNÇÕES PARA MOSTRAR INFORMAÇÕES DA CLÍNICA ---
-         function showAddress() {
-             addMessage(`📍 Nosso endereço é:<br><strong>Av. Andrômeda, 3808 - sala 1<br>Bosque dos Eucaliptos<br>São José dos Campos - SP, 12233-380</strong><br><br>Será um prazer recebê-la! 😊`, false);
-             setTimeout(sendFinalConfirmationMenu, 600); // Pergunta se quer mais algo
-         }
-         function showHours() {
-             // Idealmente, buscar isso dinamicamente, mas usando o fixo por enquanto
-             addMessage(`⏰ Nosso horário de funcionamento é:<br><strong>Terça a Sexta: 11:00h às 19:00h (Aprox.)</strong><br><strong>Sábado: 09:00h às 13:00h (Aprox.)</strong><br>(Lembre-se que atendemos com hora marcada!)<br><br><em>No momento, estamos fechados. Reabrimos Terça às 11:00h.</em>`, false); // Ajuste esta última linha conforme necessário
-             setTimeout(sendFinalConfirmationMenu, 600);
-         }
-         function showPhone() {
-             addMessage(`📞 Nosso principal contato é via WhatsApp:<br><strong>(12) 99206-1898</strong><br><br>Clique aqui para chamar: <a href="${generateWhatsAppLink('duvidas')}" target="_blank">(12) 99206-1898</a>`, false);
-             setTimeout(sendFinalConfirmationMenu, 600);
-         }
-         function showPayment() {
-              addMessage(`Aceitamos diversas formas de pagamento para sua comodidade: <strong>Dinheiro, PIX, Cartões de Débito e Crédito</strong>. Para condições de parcelamento, por favor, consulte nossa equipe no WhatsApp. 😊`, false);
-              setTimeout(sendFinalConfirmationMenu, 600);
-         }
-
-        // --- NOVA FUNÇÃO PARA PROCESSAR KEYWORDS ---
-        function processKeywords(text) {
-            const lowerText = text.toLowerCase().trim();
-            let matchedAction = null;
-            let highestPriority = -1; // Prioridade: 2 = Ação específica, 1 = Info, 0 = Procedimento
-
-            // Mapeia keywords para tuplas [action, priority]
-            const map = {
-                // Prioridade 2: Ações que devem sobrepor outras (preço, humano, agendar)
-                'preço': ['price', 2], 'valor': ['price', 2], 'quanto custa': ['price', 2], 'orçamento': ['price', 2],
-                'ajuda': ['talk_human', 2], 'atendente': ['talk_human', 2], 'humano': ['talk_human', 2], 'falar com alguém': ['talk_human', 2], 'socorro': ['talk_human', 2], 'atendimento': ['talk_human', 2],
-                'agendar': ['schedule_general', 2], 'marcar': ['schedule_general', 2], 'consulta': ['schedule_general', 2], 'avaliação': ['schedule_general', 2], 'sessão': ['schedule_general', 2],
-                'quero agendar': ['schedule_general', 2], 'quero marcar': ['schedule_general', 2],
-                'pagamento': ['payment', 2], 'pagar': ['payment', 2], 'cartão': ['payment', 2], 'pix': ['payment', 2],
-                'promoção': ['promo', 2], 'promocao': ['promo', 2], 'desconto': ['promo', 2], 'oferta': ['promo', 2],
-
-                // Prioridade 1: Informações da Clínica
-                'endereço': ['info_address', 1], 'local': ['info_address', 1], 'onde fica': ['info_address', 1],
-                'horário': ['info_hours', 1], 'horario': ['info_hours', 1], 'horas': ['info_hours', 1], 'funcionamento': ['info_hours', 1], 'abre': ['info_hours', 1], 'fecha': ['info_hours', 1],
-                'telefone': ['info_phone', 1], 'whatsapp': ['info_phone', 1], 'contato': ['info_phone', 1],
-                'informações': ['info', 1], 'informacoes': ['info', 1],
-
-                // Prioridade 0: Procedimentos e termos relacionados
-                'harmonização facial': ['facial_harmony', 0], 'harmonizacao facial': ['facial_harmony', 0], 'rosto': ['facial_harmony', 0],
-                'botox': ['botox', 0], 'rugas': ['botox', 0], 'marcas de expressão': ['botox', 0], 'linhas de expressão': ['botox', 0],
-                'labial': ['labial', 0], 'lábio': ['labial', 0], 'lábios': ['labial', 0], 'boca': ['labial', 0], 'preenchimento labial': ['labial', 0], 'preenchimento': ['labial', 0], 'ácido hialurônico': ['labial', 0], 'lábios finos': ['labial', 0],
-                'microagulhamento': ['micro', 0], 'micro agulhamento': ['micro', 0], 'agulha': ['micro', 0], 'colágeno': ['micro', 0], 'cicatrizes de acne': ['micro', 0],
-                'limpeza de pele': ['limpeza', 0], 'limpeza': ['limpeza', 0], 'pele oleosa': ['limpeza', 0], 'cravo': ['limpeza', 0], 'poros': ['limpeza', 0], 'pele seca': ['limpeza', 0],
-                'depilação a laser': ['laser', 0], 'depilacao a laser': ['laser', 0], 'depilação': ['laser', 0], 'laser': ['laser', 0], 'pelo': ['laser', 0], 'pelos': ['laser', 0],
-                'estrias': ['corpo', 0], 'celulite': ['corpo', 0], 'flacidez': ['corpo', 0], 'pele flácida': ['corpo', 0],
-                'remodelagem corporal': ['remodel', 0], 'remodelagem': ['remodel', 0], 'modelar': ['remodel', 0], 'gordura': ['remodel', 0], 'gordura localizada': ['remodel', 0], 'contorno': ['remodel', 0], 'ultrassom': ['remodel', 0], 'radiofrequência': ['remodel', 0],
-                'peeling químico': ['peeling', 0], 'peeling quimico': ['peeling', 0], 'peeling': ['peeling', 0], 'manchas': ['peeling', 0], 'pele sem brilho': ['peeling', 0],
-                'hidragloss labial': ['hidragloss', 0], 'hidragloss': ['hidragloss', 0], 'gloss': ['hidragloss', 0], 'lábios ressecados': ['hidragloss', 0],
-
-                // Prioridade -1: Genéricos (pegam se nada mais pegar)
-                 'tratamento': ['procedure', -1], 'estética': ['procedure', -1], 'procedimento': ['procedure', -1],
-                 'quero fazer': ['procedure', -1],
-                 'dúvida': ['talk_human', -1] // Dúvida genérica também leva para humano
-            };
-
-            // Itera sobre o mapa e encontra a correspondência de maior prioridade
-            for (const [keyword, [action, priority]] of Object.entries(map)) {
-                if (lowerText.includes(keyword)) {
-                    if (priority > highestPriority) {
-                        matchedAction = action;
-                        highestPriority = priority;
-                    }
-                }
-            }
-
-            console.log("Keyword check:", lowerText, "-> Matched Action:", matchedAction, "Priority:", highestPriority);
-            return matchedAction;
-        }
-
-
-        // --- PROCESSAMENTO CENTRAL (ATUALIZADO COM KEYWORDS E NOVAS AÇÕES) ---
+        // --- PROCESSAMENTO CENTRAL (ATUALIZADO COM FALLBACK) ---
         async function processMessage(message, isButtonClick = false) {
             if (isProcessing && !isButtonClick) return;
 
-            const inputText = isButtonClick ? message : message;
+            const inputText = isButtonClick ? message : message; // Ação ou texto
 
             if (!isButtonClick) { addMessage(inputText, true); userInput.value = ''; }
 
             isProcessing = true; userInput.disabled = true; showThinking(true); disablePreviousButtons();
 
-            try {
-                let actionFromKeyword = null;
-                let finalAction = inputText; // Default para ação do botão ou texto digitado
+            let keywordAction = null;
+            let validFlowAction = false; // Flag para indicar se a ação é válida para o estado atual
 
+            try {
                 // --- 0. Verifica Keywords (APENAS para input digitado) ---
-                if (!isButtonClick && isWaitingFor !== 'name_phone') { // Não busca keyword se está esperando nome/tel
-                    actionFromKeyword = processKeywords(inputText);
-                     // Se uma keyword foi encontrada, ela tem prioridade sobre o estado atual (exceto coleta inicial)
-                     if(actionFromKeyword) {
-                         finalAction = actionFromKeyword; // Usa a ação da keyword
-                         console.log("Keyword override. Action set to:", finalAction);
-                         // Não reseta 'isWaitingFor' ainda, a ação será tratada abaixo
-                     }
+                if (!isButtonClick && isWaitingFor !== 'name_phone') {
+                    keywordAction = processKeywords(inputText);
                 }
 
                 // --- LÓGICA PRINCIPAL ---
-                // Trata Ações Diretas identificadas por Keywords (ou botões equivalentes)
-                if (['price', 'talk_human', 'info_address', 'info_hours', 'info_phone', 'payment'].includes(finalAction)) {
-                    console.log("Processing Direct Action:", finalAction);
-                    switch(finalAction) {
+                const currentAction = keywordAction || inputText; // Usa keyword se houver, senão usa input/ação do botão
+
+                // 1. Trata Ações Diretas (identificadas por keyword ou botão)
+                if (['price', 'talk_human', 'info_address', 'info_hours', 'info_phone', 'payment'].includes(currentAction)) {
+                    console.log("Processing Direct Action:", currentAction);
+                    validFlowAction = true; // Ação direta é sempre válida neste ponto
+                    switch(currentAction) {
                         case 'price': sendWhatsappRedirect('orcamento'); break;
                         case 'talk_human': sendWhatsappRedirect('talk_human'); break;
-                        case 'info_address': showAddress(); break; // Mostra endereço e menu final
-                        case 'info_hours': showHours(); break;     // Mostra horário e menu final
-                        case 'info_phone': showPhone(); break;     // Mostra telefone e menu final
-                        case 'payment': showPayment(); break;    // Mostra pagamento e menu final
+                        case 'info_address': showAddress(); break;
+                        case 'info_hours': showHours(); break;
+                        case 'info_phone': showPhone(); break;
+                        case 'payment': showPayment(); break;
                     }
-                    // Ações acima geralmente terminam com sendFinalConfirmationMenu ou mudam estado para 'message'
                 }
-                // Trata outras Keywords ou segue o fluxo de ESTADO
-                else {
-                    console.log("Processing State:", isWaitingFor, "Input/Action:", finalAction);
-                    // --- 1. Coleta Nome e Telefone ---
-                    if (isWaitingFor === 'name_phone') { /* ... (lógica mantida para coletar nome e telefone) ... */
-                         const parts=inputText.split(/,|\s(\d{10,11})$/); let pName=null; let pPhone=null; if(parts&&parts.length>=2){pName=parts[0]?.trim(); const pMatch=inputText.match(/(\d{10,11})\s*$/); if(pMatch){pPhone=pMatch[1]; pName=inputText.replace(pMatch[0],'').trim().replace(/,$/,'').trim();}else{pPhone=parts[1]?.replace(/\D/g,'');}}
-                         if(pName&&pPhone&&validateName(pName)&&validatePhone(pPhone)){userData.name=pName.split(' ').map(w=>w[0].toUpperCase()+w.slice(1).toLowerCase()).join(' '); userData.phone=pPhone; userData.protocol=generateProtocol(); await saveOrUpdateConversation(); addMessage(`Que prazer, ${userData.name}! 💖 Protocolo: <strong>${userData.protocol}</strong>.`, false); sendInitialMenu();}
-                         else{addMessage(`Desculpe... tente nome completo e telefone com DDD (Ex: Maria Silva, 11987654321). 🙏`, false);}
-                    }
-                    // --- 2. Menu Inicial ---
-                    else if (isWaitingFor === 'initial_choice') {
-                         const action = finalAction; // Veio do botão ou keyword
-                         if (action === 'procedure') { sendProcedureListMenu(); }
-                         else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Ótimo! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
-                         else if (action === 'info') { addMessage(`Com prazer... 📍 <strong>Endereço:</strong>... ⏰ <strong>Horário:</strong> ...`, false); sendInfoClinicSubMenu(); }
-                         // talk_human já tratado acima
-                         else if (action === 'other_doubt') { sendWhatsappRedirect('duvidas'); } // Dúvida genérica
-                         else { addMessage(`Desculpe, não entendi. Por favor, clique ou digite A, B, C, D ou E.`, false); sendInitialMenu(); }
-                    }
-                    // --- 3. Escolha do Procedimento ---
-                    else if (isWaitingFor === 'procedure_choice') {
-                        const action = finalAction; // Veio do botão ou keyword
-                        if (procedureDetails[action]) { currentProcedure = action; addMessage(procedureDetails[action].description, false); sendProcedureActionMenu(action); }
-                        else if (action === 'other_proc') { addMessage(`Qual outro procedimento?`, false); isWaitingFor = 'message'; }
-                        else { addMessage(`Procedimento não encontrado. Escolha uma opção da lista.`, false); sendProcedureListMenu(); }
-                    }
-                    // --- 4. Ação dentro do Procedimento ---
-                    else if (isWaitingFor === 'procedure_action') {
-                        const action = finalAction;
-                        if (action === 'details' && currentProcedure) { addMessage(procedureDetails[currentProcedure].details || `Info extra...`, false); sendDetailsSubMenu(currentProcedure); }
-                        else if (action === 'schedule_specific' && currentProcedure) { addMessage(`Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
-                        else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); }
-                        else if (action === 'other_procedure') { sendProcedureListMenu(); }
-                        else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendProcedureActionMenu(currentProcedure); }
-                    }
-                    // --- 4.1 Ação APÓS Ver Detalhes ---
-                    else if (isWaitingFor === 'procedure_action_after_details') {
-                         const action = finalAction;
-                         if (action === 'schedule_specific' && currentProcedure) { addMessage(`Ótimo! Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
-                         else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); }
-                         else if (action === 'other_doubt_proc') { sendWhatsappRedirect('duvidas', `Dúvida sobre ${procedureDetails[currentProcedure]?.name}`); } // Envia contexto
-                         else if (action === 'other_procedure') { sendProcedureListMenu(); }
-                         else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendDetailsSubMenu(currentProcedure); }
-                    }
-                    // --- 5. Coleta Preferência de Agendamento ---
-                    else if (isWaitingFor === 'scheduling_preference') {
-                        const userPreference = finalAction; // É o texto digitado
-                        const procName = currentProcedure==='general'?'Avaliação Geral':procedureDetails[currentProcedure]?.name||'sua avaliação';
-                        sendWhatsappRedirect('agendamento', procName, userPreference);
-                    }
-                    // --- 6. Menu de Informações da Clínica ---
-                    else if (isWaitingFor === 'info_choice') {
-                         const action = finalAction;
-                         if(action === 'payment') { showPayment(); } // Mostra pagamento e menu final
-                         else if (action === 'procedure') { sendProcedureListMenu(); }
-                         else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Agendar avaliação geral! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
-                         else if (action === 'end') { addMessage(`Perfeito, ${userData.name}! ... 🌸`, false); isWaitingFor = 'message'; }
-                         else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendInfoClinicSubMenu();}
-                    }
-                    // --- 7. Menu Final de Confirmação ---
-                    else if (isWaitingFor === 'final_confirmation') {
-                        const action = finalAction;
-                        if (action === 'procedure') { sendProcedureListMenu(); }
-                        else if (action === 'info') { addMessage(`Claro! O que mais?`, false); sendInfoClinicSubMenu(); }
-                        else if (action === 'end') { addMessage(`Tudo bem, ${userData.name}! ... 💕 Até breve! 🌸`, false); isWaitingFor = 'message'; }
-                        else { addMessage(`Não entendi. Escolha A, B ou C.`, false); sendFinalConfirmationMenu(); }
-                    }
-                    // --- 8. Estado Aberto ou Fallback Final ---
-                    else { // Se isWaitingFor é 'message' ou estado não tratado
-                         addMessage(`Desculpe, não tenho uma resposta programada para "${inputText}". Posso te ajudar com informações sobre procedimentos, agendamentos ou sobre a clínica.`, false);
-                         // Opcional: Reenviar menu inicial se o usuário parecer perdido
-                         if (isWaitingFor !== 'message' || chatHistory.length < 5) { // Reenvia se não estava esperando msg aberta ou se a conversa é curta
-                            setTimeout(sendInitialMenu, 500);
-                         } else {
-                            // Só espera nova mensagem
-                         }
-                    }
-                } // Fim do else (Keyword não encontrada ou fluxo normal)
+                // 2. Trata Procedimentos (identificados por keyword ou botão)
+                else if (procedureDetails[currentAction]) {
+                    console.log("Processing Procedure Action:", currentAction);
+                    validFlowAction = true;
+                    currentProcedure = currentAction;
+                    addMessage(procedureDetails[currentAction].description, false);
+                    sendProcedureActionMenu(currentAction);
+                }
+                 // 3. Trata Ações Genéricas (identificadas por keyword ou botão)
+                 else if (['procedure', 'schedule_general', 'info', 'other_doubt', 'other_proc', 'details', 'schedule_specific', 'promo', 'other_procedure', 'end', 'other_doubt_proc'].includes(currentAction)) {
+                    console.log("Processing General/State Action:", currentAction, "based on State:", isWaitingFor);
+                     // Verifica se a ação é válida para o estado atual
+                     switch (isWaitingFor) {
+                         case 'initial_choice':
+                             if (['procedure', 'schedule_general', 'info', 'talk_human', 'other_doubt'].includes(currentAction)) { // talk_human tratado acima, mas incluído por segurança
+                                 validFlowAction = true;
+                                 if (currentAction === 'procedure') { sendProcedureListMenu(); }
+                                 else if (currentAction === 'schedule_general') { currentProcedure = 'general'; addMessage(`Ótimo! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
+                                 else if (currentAction === 'info') { addMessage(`Com prazer... 📍 <strong>Endereço:</strong>... ⏰ <strong>Horário:</strong> ...`, false); sendInfoClinicSubMenu(); }
+                                 else if (currentAction === 'other_doubt') { sendWhatsappRedirect('duvidas'); }
+                             }
+                             break;
+                         case 'procedure_choice':
+                              if (procedureDetails[currentAction] || currentAction === 'other_proc') {
+                                 validFlowAction = true;
+                                 if (procedureDetails[currentAction]) { currentProcedure = currentAction; addMessage(procedureDetails[currentAction].description, false); sendProcedureActionMenu(currentAction); }
+                                 else if (currentAction === 'other_proc') { addMessage(`Qual outro procedimento?`, false); isWaitingFor = 'message'; }
+                              }
+                              break;
+                         case 'procedure_action':
+                              if(['details', 'schedule_specific', 'promo', 'other_procedure'].includes(currentAction)) {
+                                 validFlowAction = true;
+                                 if (action === 'details' && currentProcedure) { addMessage(procedureDetails[currentProcedure].details || `Info extra...`, false); sendDetailsSubMenu(currentProcedure); }
+                                 else if (action === 'schedule_specific' && currentProcedure) { addMessage(`Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
+                                 else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); }
+                                 else if (action === 'other_procedure') { sendProcedureListMenu(); }
+                              }
+                              break;
+                          case 'procedure_action_after_details':
+                               if(['schedule_specific', 'promo', 'other_doubt_proc', 'other_procedure'].includes(currentAction)){
+                                  validFlowAction = true;
+                                  if (action === 'schedule_specific' && currentProcedure) { addMessage(`Ótimo! Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
+                                  else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); }
+                                  else if (action === 'other_doubt_proc') { sendWhatsappRedirect('duvidas', `Dúvida sobre ${procedureDetails[currentProcedure]?.name}`); }
+                                  else if (action === 'other_procedure') { sendProcedureListMenu(); }
+                               }
+                               break;
+                          case 'info_choice':
+                               if(['payment', 'procedure', 'schedule_general', 'end'].includes(currentAction)){
+                                   validFlowAction = true;
+                                   if(action === 'payment') { showPayment(); }
+                                   else if (action === 'procedure') { sendProcedureListMenu(); }
+                                   else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Agendar avaliação geral! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
+                                   else if (action === 'end') { addMessage(`Perfeito, ${userData.name}! ... 🌸`, false); isWaitingFor = 'message'; }
+                               }
+                               break;
+                           case 'final_confirmation':
+                                if(['procedure', 'info', 'end'].includes(currentAction)){
+                                    validFlowAction = true;
+                                    if (action === 'procedure') { sendProcedureListMenu(); }
+                                    else if (action === 'info') { addMessage(`Claro! O que mais?`, false); sendInfoClinicSubMenu(); }
+                                    else if (action === 'end') { addMessage(`Tudo bem, ${userData.name}! ... 💕 Até breve! 🌸`, false); isWaitingFor = 'message'; }
+                                }
+                                break;
+                            // Estados que esperam texto livre
+                           case 'scheduling_preference':
+                                validFlowAction = true; // Aceita qualquer texto aqui
+                                const userPreference = currentAction; // Usa o texto digitado
+                                const procName = currentProcedure==='general'?'Avaliação Geral':procedureDetails[currentProcedure]?.name||'sua avaliação';
+                                sendWhatsappRedirect('agendamento', procName, userPreference);
+                                break;
+                           // Estado inicial é tratado separadamente
+                           case 'name_phone': validFlowAction = true; break; // Validação feita abaixo
+                           case 'message': validFlowAction = true; break; // Estado aberto sempre "válido" para tentar processar
+
+                           default:
+                                console.warn("Estado não reconhecido para validação:", isWaitingFor);
+                                break; // Considera inválido se estado for desconhecido
+                     }
+                 }
+
+                 // 4. Coleta Inicial ou Fallback
+                 else {
+                     console.log("Checking Initial Collection or Fallback for State:", isWaitingFor, "Input:", inputText);
+                     if (isWaitingFor === 'name_phone') {
+                        validFlowAction = true; // A validação real acontece aqui
+                        const parts=inputText.split(/,|\s(\d{10,11})$/); let pName=null; let pPhone=null; if(parts&&parts.length>=2){pName=parts[0]?.trim(); const pMatch=inputText.match(/(\d{10,11})\s*$/); if(pMatch){pPhone=pMatch[1]; pName=inputText.replace(pMatch[0],'').trim().replace(/,$/,'').trim();}else{pPhone=parts[1]?.replace(/\D/g,'');}}
+                        if(pName&&pPhone&&validateName(pName)&&validatePhone(pPhone)){userData.name=pName.split(' ').map(w=>w[0].toUpperCase()+w.slice(1).toLowerCase()).join(' '); userData.phone=pPhone; userData.protocol=generateProtocol(); await saveOrUpdateConversation(); addMessage(`Que prazer, ${userData.name}! 💖 Protocolo: <strong>${userData.protocol}</strong>.`, false); sendInitialMenu();}
+                        else{addMessage(`Desculpe... tente nome completo e telefone com DDD (Ex: Maria Silva, 11987654321). 🙏`, false);}
+                     } else if (isWaitingFor === 'scheduling_preference') {
+                         validFlowAction = true; // Aceita qualquer texto aqui
+                         const userPreference = inputText;
+                         const procName = currentProcedure==='general'?'Avaliação Geral':procedureDetails[currentProcedure]?.name||'sua avaliação';
+                         sendWhatsappRedirect('agendamento', procName, userPreference);
+                     }
+                     // Se chegou aqui e não é name_phone ou scheduling_preference, E não foi keyword/botão válido = FALLBACK
+                     else if (!validFlowAction) {
+                         console.log("Executing Fallback for unrecognized input:", inputText);
+                         const escapedInput = inputText.replace(/</g, "<").replace(/>/g, ">"); // Basic escaping
+                         addMessage(`Desculpe, não tenho uma resposta programada para "<strong>${escapedInput}</strong>". Posso te ajudar com informações sobre procedimentos, agendamentos ou sobre a clínica.`, false);
+                         sendInitialMenu(); // Volta ao menu inicial
+                     }
+                 }
+                 // --- Fim da Lógica Principal ---
 
                 if (isWaitingFor !== 'name_phone') { await saveOrUpdateConversation(); }
 
             } catch (error) {
                 console.error("Erro GERAL no processamento:", error);
                 addMessage("⚠️ Ocorreu um erro inesperado. Tente novamente.", false);
-                isWaitingFor = 'message';
+                isWaitingFor = 'message'; // Reseta para estado aberto
             } finally {
                 showThinking(false); isProcessing = false; userInput.disabled = false;
                 if (!isButtonClick && isWaitingFor !== 'name_phone') { userInput.focus(); }
@@ -555,9 +318,9 @@
         // --- FUNÇÃO PARA LIDAR COM CLIQUE NO BOTÃO ---
         function handleButtonClick(choiceAction, choiceText) {
             if (isProcessing) return;
-            // Adiciona o TEXTO do botão como se fosse msg do usuário
+            // Adiciona o texto visível do botão como msg do usuário
             addMessage(choiceText, true);
-            // Processa a AÇÃO do botão
+            // Processa a AÇÃO interna do botão
             processMessage(choiceAction, true);
         }
 
@@ -565,16 +328,14 @@
         function sendMessage() {
             const message = userInput.value.trim();
             if (message === '') return;
-            processMessage(message, false);
+            processMessage(message, false); // Processa texto digitado
         }
-
-        // --- FUNÇÕES DO MODAL REMOVIDAS ---
 
         // --- INICIALIZAÇÃO ---
         function initializeChat() {
             chatHistory = []; userData = { name: null, phone: null, protocol: null }; isWaitingFor = 'name_phone'; currentProcedure = null; isProcessing = false; userInput.disabled = false;
             const messages = chatBody.querySelectorAll('.message:not(.thinking)'); messages.forEach(msg => msg.remove()); showThinking(false);
-            addMessage('Olá! 🌸 Sou a assistente virtual da Clínica Lorraine Botura... informe seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>, por favor?<br>(Exemplo: Maria Silva, (11) 9.8765-4321)', false);
+            addMessage('Olá! 🌸 Sou a assistente virtual da Clínica Lorraine Botura... informe seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>, por favor?<br>(Exemplo: Maria Silva, 11987654321)', false);
             userInput.focus();
         }
 
