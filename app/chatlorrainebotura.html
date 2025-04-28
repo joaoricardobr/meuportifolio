@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chat Clínica Lorraine Botura - Atendimento V2</title> <!-- V2 -->
+    <title>Chat Clínica Lorraine Botura - Atendimento Inteligente</title> <!-- Novo Título -->
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,10 +21,9 @@
         .chat-container { width: 100%; max-width: 750px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 10px 35px rgba(84, 22, 43, 0.2); display: flex; flex-direction: column; height: 85vh; max-height: 700px; overflow: hidden; border: 1px solid #D3A7B0; }
 
         /* Chat Header */
-        .chat-header { padding: 18px 25px; background: #F5E6E8; border-bottom: 1px solid #D3A7B0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .chat-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6em; font-weight: 600; color: #54162B; margin: 0; }
-        .settings-icon { cursor: pointer; width: 26px; height: 26px; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzU0MTYyQiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTkuNDMgMTIuOThjLjAyLS4zMi4wMi0uNjUgMC0uOTdsMS44Ny0xLjQ4Yy4zOS0uMzEuNDUtLjgzLjEtMS4yMmwtMS45LTQuMDJjLS4yMy0uNS0uNzItLjY4LTEuMi0uNDlsLTIuMzUgLjk5Yy0uNTItLjQtMS4wOC0uNzQtMS42OS0xLjAzTDExLjUgMi42N0MxMS4zNiAyLjIgMTAuOTUgMiAxMC41IDJoLTFjLS40NSAwLS44Ni4yLTEuMDYuNjdsLS4zMyAyLjA4Yy0uNjEuMjktMS4xNy42My0xLjY5IDEuMDNsLTIuMzUtLjk5Yy0uNDgtLjItLjk3IDAtMS4yLjQ5bC0xLjkgNC4wMmMtLjM1LjM5LS4yOS45MS4xIDEuMjJsMS44NyAxLjQ4Yy0uMDIuMzItLjAyLjY1IDAgLjk3bC0xLjg3IDEuNDhjLS4zOS4zMS0uNDUuODMtLjEgMS4yMmwxLjkgNC4wMmMuMjMuNS43Mi42OCAxLjIuNDlsMi4zNS0uOTljLjUyLjQgMS4wOC43NCAxLjY5IDEuMDNsLjMzIDIuMDhjLjIuNDcuNjEuNjcgMS4wNi42N2gxYy40NSAwIC44Ni0uMiAxLjA2LS42N2wuMzMtMi4wOGMuNjEtLjI5IDEuMTctLjYzIDEuNjktMS4wM2wyLjM1Ljk5Yy40OC4yLjk3IDAgMS4yLS40OWwxLjktNC4wMmMuMzUtLjM5LjI5LS45MS0uMS0xLjIybC0xLjg3LTEuNDh6TTEyIDE1LjVjLTEuOTMgMC0zLjUtMS41Ny0zLjUtMy41czEuNTctMy41IDMuNS0zLjUgMy41IDEuNTcgMy41IDMuNS0xLjU3IDMuNS0zLjUgMy41eiIvPjwvc3ZnPg==') no-repeat center; background-size: contain; opacity: 0.8; transition: opacity 0.3s ease; }
-        .settings-icon:hover { opacity: 1; }
+        .chat-header { padding: 18px 25px; background: #F5E6E8; border-bottom: 1px solid #D3A7B0; display: flex; justify-content: space-between; /* Mantido para alinhar título */ align-items: center; flex-shrink: 0; }
+        .chat-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6em; font-weight: 600; color: #54162B; margin: 0; /* Título ocupa espaço */ }
+        /* Settings Icon removido do CSS */
 
         /* Chat Body */
         .chat-body { flex: 1; padding: 25px; overflow-y: auto; background: #FFFFFF; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #D3A7B0 #F5E6E8; }
@@ -36,7 +35,7 @@
         /* Mensagens */
         .message { margin-bottom: 18px; padding: 14px 20px; border-radius: 18px; max-width: 85%; line-height: 1.5; box-shadow: 0 3px 5px rgba(84, 22, 43, 0.08); word-wrap: break-word; clear: both; }
         .user-message { background: #D3A7B0; color: #FFFFFF; margin-left: auto; border-bottom-right-radius: 5px; float: right; }
-        .bot-message { background: #F5E6E8; color: #54162B; margin-right: auto; border-bottom-left-radius: 5px; float: left; padding-bottom: 5px; /* Espaço para botões abaixo */ } /* Ajuste no padding */
+        .bot-message { background: #F5E6E8; color: #54162B; margin-right: auto; border-bottom-left-radius: 5px; float: left; padding-bottom: 5px; }
         .bot-message.thinking { font-style: italic; opacity: 0.8; background: #e9dde0; padding-bottom: 14px; }
         .bot-message strong { color: #B4182D; font-weight: 600; }
         .bot-message a { color: #B4182D; text-decoration: none; font-weight: 600; border-bottom: 1px solid #d89eaa; transition: color 0.3s ease, border-bottom-color 0.3s ease; }
@@ -45,59 +44,14 @@
         .bot-message li { margin-bottom: 6px; }
         .sub-message { font-size: 0.9em; margin-top: 10px; padding: 8px 12px; background: rgba(211, 167, 176, 0.2); border-radius: 10px; display: inline-block; border: 1px solid rgba(211, 167, 176, 0.5); }
 
-        /* --- Estilos para Botões de Opção --- */
-        .options-container {
-            margin-top: 15px; /* Espaço acima dos botões */
-            padding-top: 10px;
-            border-top: 1px dashed rgba(84, 22, 43, 0.1); /* Linha separadora opcional */
-            display: flex;
-            flex-direction: column; /* Botões um abaixo do outro */
-            gap: 8px; /* Espaço entre botões */
-        }
-        .option-button {
-            display: block; /* Ocupa largura total */
-            width: 100%;
-            padding: 10px 15px;
-            background-color: #FFFFFF; /* Fundo branco */
-            color: #54162B; /* Texto marrom */
-            border: 1px solid #D3A7B0; /* Borda rosa */
-            border-radius: 8px;
-            text-align: left; /* Alinha texto à esquerda */
-            font-family: 'Lora', serif;
-            font-size: 0.95em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(84, 22, 43, 0.06);
-        }
-        .option-button:hover {
-            background-color: #D3A7B0; /* Fundo rosa no hover */
-            color: #FFFFFF; /* Texto branco no hover */
-            border-color: #B4182D;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(84, 22, 43, 0.1);
-        }
-        .option-button:disabled {
-            background-color: #f0eaea; /* Cor de fundo desabilitado */
-            color: #a09396; /* Cor do texto desabilitado */
-            border-color: #e0d0d4;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-        .option-button .option-letter { /* Estilo para a letra (A, B, C..) */
-             font-weight: 700;
-             margin-right: 8px;
-             color: #B4182D;
-             display: inline-block;
-             min-width: 15px;
-        }
-        .option-button:hover .option-letter {
-             color: #FFFFFF;
-        }
-        .option-button:disabled .option-letter {
-             color: #a09396;
-        }
-
+        /* Botões de Opção */
+        .options-container { margin-top: 15px; padding-top: 10px; border-top: 1px dashed rgba(84, 22, 43, 0.1); display: flex; flex-direction: column; gap: 8px; }
+        .option-button { display: block; width: 100%; padding: 10px 15px; background-color: #FFFFFF; color: #54162B; border: 1px solid #D3A7B0; border-radius: 8px; text-align: left; font-family: 'Lora', serif; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(84, 22, 43, 0.06); }
+        .option-button:hover { background-color: #D3A7B0; color: #FFFFFF; border-color: #B4182D; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(84, 22, 43, 0.1); }
+        .option-button:disabled { background-color: #f0eaea; color: #a09396; border-color: #e0d0d4; cursor: not-allowed; box-shadow: none; transform: none; }
+        .option-button .option-letter { font-weight: 700; margin-right: 8px; color: #B4182D; display: inline-block; min-width: 15px; }
+        .option-button:hover .option-letter { color: #FFFFFF; }
+        .option-button:disabled .option-letter { color: #a09396; }
 
         /* Chat Footer */
         .chat-footer { padding: 15px 25px; background: #F5E6E8; display: flex; align-items: center; gap: 12px; border-top: 1px solid #D3A7B0; flex-shrink: 0; }
@@ -119,22 +73,7 @@
         .footer-text a { color: #B4182D; text-decoration: none; font-weight: 600; }
         .footer-text a:hover { text-decoration: underline; }
 
-        /* Modal Settings (Estilos mantidos) */
-        .settings-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(84, 22, 43, 0.5); backdrop-filter: blur(5px); z-index: 1000; padding: 20px; justify-content: center; align-items: center; }
-        .settings-modal.show { display: flex; }
-        .settings-content { background: #FFFFFF; border-radius: 15px; padding: 30px; border: 1px solid #D3A7B0; box-shadow: 0 10px 30px rgba(84, 22, 43, 0.2); width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; }
-        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
-        .settings-header h2 { font-family: 'Playfair Display', serif; font-size: 1.4em; color: #54162B; margin: 0; }
-        .close-settings { cursor: pointer; width: 28px; height: 28px; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzU0MTYyQiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTkgNi40MUwxNy41OSA1IDEyIDEwLjU5IDYuNDEgNSA1IDYuNDEgMTAuNTkgMTIgNSAxNy41OSA2LjQxIDE5IDEyIDEzLjQxIDE3LjU5IDE5IDE5IDE3LjU5IDEzLjQxIDEyeiIvPjwvc3ZnPg==') no-repeat center; background-size: 60%; border: 1px solid #D3A7B0; border-radius: 50%; opacity: 0.7; transition: all 0.3s ease; }
-        .close-settings:hover { opacity: 1; background-color: #F5E6E8; border-color: #B4182D; }
-        .settings-body { flex: 1; overflow-y: auto; margin-bottom: 20px; }
-        .settings-body textarea { width: 100%; min-height: 250px; padding: 15px; border: 1px solid #D3A7B0; border-radius: 10px; resize: vertical; font-size: 1em; font-family: 'Lora', serif; outline: none; background: #F8F0F1; color: #54162B; line-height: 1.6; }
-        .settings-footer { display: flex; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
-        .settings-footer button { padding: 10px 25px; border: none; border-radius: 20px; cursor: pointer; font-size: 1em; font-family: 'Playfair Display', serif; font-weight: 500; transition: all 0.3s ease; }
-        .save-button { background: #B4182D; color: #FFFFFF; box-shadow: 0 3px 8px rgba(180, 24, 45, 0.2); }
-        .save-button:hover { background: #54162B; box-shadow: 0 4px 12px rgba(84, 22, 43, 0.3); }
-        .cancel-button { background: #F5E6E8; color: #54162B; border: 1px solid #D3A7B0; }
-        .cancel-button:hover { background: #D3A7B0; color: #FFFFFF; border-color: #D3A7B0; }
+        /* Modal Settings Removido */
 
         /* Responsividade */
         @media (max-width: 768px) {
@@ -142,7 +81,7 @@
             .chat-container { height: calc(100vh - 90px); max-height: none; border-radius: 10px; }
             .chat-header h1 { font-size: 1.3em; }
             .chat-body { padding: 15px; }
-            .message { max-width: 90%; padding: 10px 15px; margin-bottom: 15px;}
+            .message { max-width: 90%; padding: 10px 15px; margin-bottom: 15px;} /* Ajuste max-width */
             .chat-footer { padding: 10px 15px; gap: 10px;}
             .chat-input { padding: 12px 18px; font-size: 1em; }
             .send-button { width: 42px; height: 42px; }
@@ -151,9 +90,6 @@
             .social-icons a { width: 32px; height: 32px; }
             .social-icons a svg { width: 16px; height: 16px; }
             .footer-text { font-size: 0.75em; }
-            .settings-content { padding: 20px; max-height: 90vh;}
-            .settings-header h2 { font-size: 1.2em; }
-            .settings-body textarea { min-height: 200px; }
             .option-button { padding: 8px 12px; font-size: 0.9em;}
         }
          @media (max-width: 480px) {
@@ -161,9 +97,8 @@
              .chat-container { height: calc(100vh - 75px); border-radius: 5px;}
              .chat-header h1 { font-size: 1.1em; }
              .chat-header { padding: 12px 15px;}
-             .settings-icon { width: 22px; height: 22px;}
              .chat-body { padding: 10px; }
-             .message { max-width: 95%; } /* Aumenta um pouco */
+             .message { max-width: 95%; }
              .chat-footer { padding: 8px 10px; gap: 8px; }
              .chat-input { padding: 10px 15px; font-size: 0.95em; }
              .send-button { width: 38px; height: 38px; }
@@ -182,13 +117,13 @@
         <div class="chat-container">
             <div class="chat-header">
                 <h1>Clínica Lorraine Botura</h1>
-                <div class="settings-icon" onclick="openSettings()" aria-label="Abrir configurações"></div>
+                <!-- Ícone de Configurações Removido -->
             </div>
             <div class="chat-body" id="chatBody">
                 <div class="message bot-message thinking" style="display: none;">Processando sua solicitação... ✨</div>
             </div>
             <div class="chat-footer">
-                <input type="text" class="chat-input" id="userInput" placeholder="Digite ou clique em uma opção..." aria-label="Campo de mensagem">
+                <input type="text" class="chat-input" id="userInput" placeholder="Digite sua dúvida ou escolha uma opção..." aria-label="Campo de mensagem">
                 <button class="send-button" onclick="sendMessage()" aria-label="Enviar mensagem"></button>
             </div>
         </div>
@@ -197,33 +132,18 @@
     <!-- Rodapé -->
     <footer class="page-footer">
         <div class="social-icons">
-             <a href="https://www.instagram.com/lorrainebotura/" target="_blank" aria-label="Instagram"> <svg viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2C22,19.4 19.4,22 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8C2,4.6 4.6,2 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4C18.39,20 20,18.39 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg> </a>
-             <a href="https://www.facebook.com/lorrainebotura" target="_blank" aria-label="Facebook"> <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.81C10.44 7.31 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10.01 10.01 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg> </a>
-             <a href="https://wa.me/5512992061898?text=Olá,%20gostaria%20de%20mais%20informações%20da%20Clínica%20Lorraine%20Botura!" target="_blank" aria-label="WhatsApp"> <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 12C2.13 13.8 2.64 15.5 3.57 16.96L2 22L7.19 20.53C8.6 21.4 10.27 21.94 12.04 21.94C17.5 21.94 21.95 17.5 21.95 12C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 12C20.28 16.61 16.56 20.33 12.04 20.33C10.47 20.33 8.96 19.86 7.7 19.05L7.26 18.79L4.6 19.5L5.37 17L5.09 16.54C4.24 15.21 3.79 13.65 3.79 12C3.79 7.39 7.51 3.67 12.04 3.67M16.58 14.53C16.41 14.44 15.3 13.91 15.12 13.85C14.93 13.79 14.79 13.76 14.66 13.93C14.53 14.11 14.02 14.71 13.86 14.88C13.71 15.06 13.56 15.08 13.27 14.99C12.98 14.9 12.07 14.61 10.99 13.66C10.16 12.91 9.61 12.04 9.45 11.76C9.3 11.47 9.43 11.34 9.56 11.21C9.68 11.09 9.83 10.9 9.97 10.73C10.1 10.56 10.16 10.44 10.25 10.27C10.34 10.1 10.28 9.96 10.22 9.83C10.16 9.7 9.65 8.41 9.46 7.94C9.28 7.47 9.1 7.53 8.95 7.53C8.79 7.53 8.65 7.53 8.51 7.53C8.37 7.53 8.13 7.59 7.92 7.8C7.71 8.02 7.16 8.54 7.16 9.73C7.16 10.92 7.95 12.04 8.09 12.22C8.23 12.39 10.18 15.31 13.11 16.76C13.91 17.11 14.54 17.32 15.01 17.48C15.7 17.7 16.23 17.66 16.66 17.6C17.13 17.54 18.12 17 18.33 16.41C18.54 15.83 18.54 15.34 18.45 15.21C18.37 15.08 18.23 15.02 18.06 14.93C17.89 14.84 16.75 14.31 16.58 14.25" fill-rule="evenodd"/></svg> </a>
-             <a href="https://lorrainebotura.com.br/" target="_blank" aria-label="Website Principal"> <svg viewBox="0 0 24 24"><path d="M10.59,13.41C11,13.8 11,14.44 10.59,14.83C10.2,15.22 9.56,15.22 9.17,14.83C7.22,12.88 7.22,9.71 9.17,7.76V7.76L12,10.59L14.83,7.76C15.22,7.37 15.86,7.37 16.25,7.76C16.64,8.15 16.64,8.79 16.25,9.18L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41L9.17,16.25C8.78,16.64 8.14,16.64 7.75,16.25C7.36,15.86 7.36,15.22 7.75,14.83L10.59,12L7.75,9.17C7.36,8.78 7.36,8.14 7.75,7.75C8.14,7.36 8.78,7.36 9.17,7.75L12,10.59L14.83,7.75C15.22,7.36 15.86,7.36 16.25,7.75C16.64,8.14 16.64,8.78 16.25,9.17L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41Z M19,3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3Z" /></svg> </a>
-             <a href="https://www.google.com/search?kgmid=/g/11gpgszlsj&hl=pt-BR&q=Lorraine+Botura+Est%C3%A9tica&shndl=30&source=sh/x/loc/osrp/m5/1&kgs=719c6f2276454cec#" target="_blank" aria-label="Avalie no Google"> <svg viewBox="0 0 24 24"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5.03 16.41 5.03 12.5C5.03 8.59 8.36 5.73 12.19 5.73C15.1 5.73 17.33 7.95 17.33 7.95L19.78 5.73C19.78 5.73 16.94 3 12.19 3C6.92 3 3.06 7.03 3.06 12.5C3.06 17.97 6.92 22 12.19 22C17.61 22 21.31 18.47 21.31 13.36C21.31 12.41 21.35 11.77 21.35 11.1Z"/></svg> </a>
+            <a href="https://www.instagram.com/lorrainebotura/" target="_blank" aria-label="Instagram"> <svg viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2C22,19.4 19.4,22 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8C2,4.6 4.6,2 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4C18.39,20 20,18.39 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg> </a>
+            <a href="https://www.facebook.com/lorrainebotura" target="_blank" aria-label="Facebook"> <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.81C10.44 7.31 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10.01 10.01 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg> </a>
+            <a href="https://wa.me/5512992061898?text=Olá,%20gostaria%20de%20mais%20informações%20da%20Clínica%20Lorraine%20Botura!" target="_blank" aria-label="WhatsApp"> <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 12C2.13 13.8 2.64 15.5 3.57 16.96L2 22L7.19 20.53C8.6 21.4 10.27 21.94 12.04 21.94C17.5 21.94 21.95 17.5 21.95 12C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 12C20.28 16.61 16.56 20.33 12.04 20.33C10.47 20.33 8.96 19.86 7.7 19.05L7.26 18.79L4.6 19.5L5.37 17L5.09 16.54C4.24 15.21 3.79 13.65 3.79 12C3.79 7.39 7.51 3.67 12.04 3.67M16.58 14.53C16.41 14.44 15.3 13.91 15.12 13.85C14.93 13.79 14.79 13.76 14.66 13.93C14.53 14.11 14.02 14.71 13.86 14.88C13.71 15.06 13.56 15.08 13.27 14.99C12.98 14.9 12.07 14.61 10.99 13.66C10.16 12.91 9.61 12.04 9.45 11.76C9.3 11.47 9.43 11.34 9.56 11.21C9.68 11.09 9.83 10.9 9.97 10.73C10.1 10.56 10.16 10.44 10.25 10.27C10.34 10.1 10.28 9.96 10.22 9.83C10.16 9.7 9.65 8.41 9.46 7.94C9.28 7.47 9.1 7.53 8.95 7.53C8.79 7.53 8.65 7.53 8.51 7.53C8.37 7.53 8.13 7.59 7.92 7.8C7.71 8.02 7.16 8.54 7.16 9.73C7.16 10.92 7.95 12.04 8.09 12.22C8.23 12.39 10.18 15.31 13.11 16.76C13.91 17.11 14.54 17.32 15.01 17.48C15.7 17.7 16.23 17.66 16.66 17.6C17.13 17.54 18.12 17 18.33 16.41C18.54 15.83 18.54 15.34 18.45 15.21C18.37 15.08 18.23 15.02 18.06 14.93C17.89 14.84 16.75 14.31 16.58 14.25" fill-rule="evenodd"/></svg> </a>
+            <a href="https://lorrainebotura.com.br/" target="_blank" aria-label="Website Principal"> <svg viewBox="0 0 24 24"><path d="M10.59,13.41C11,13.8 11,14.44 10.59,14.83C10.2,15.22 9.56,15.22 9.17,14.83C7.22,12.88 7.22,9.71 9.17,7.76V7.76L12,10.59L14.83,7.76C15.22,7.37 15.86,7.37 16.25,7.76C16.64,8.15 16.64,8.79 16.25,9.18L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41L9.17,16.25C8.78,16.64 8.14,16.64 7.75,16.25C7.36,15.86 7.36,15.22 7.75,14.83L10.59,12L7.75,9.17C7.36,8.78 7.36,8.14 7.75,7.75C8.14,7.36 8.78,7.36 9.17,7.75L12,10.59L14.83,7.75C15.22,7.36 15.86,7.36 16.25,7.75C16.64,8.14 16.64,8.78 16.25,9.17L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41Z M19,3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3Z" /></svg> </a>
+            <a href="https://www.google.com/search?kgmid=/g/11gpgszlsj&hl=pt-BR&q=Lorraine+Botura+Est%C3%A9tica&shndl=30&source=sh/x/loc/osrp/m5/1&kgs=719c6f2276454cec#" target="_blank" aria-label="Avalie no Google"> <svg viewBox="0 0 24 24"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5.03 16.41 5.03 12.5C5.03 8.59 8.36 5.73 12.19 5.73C15.1 5.73 17.33 7.95 17.33 7.95L19.78 5.73C19.78 5.73 16.94 3 12.19 3C6.92 3 3.06 7.03 3.06 12.5C3.06 17.97 6.92 22 12.19 22C17.61 22 21.31 18.47 21.31 13.36C21.31 12.41 21.35 11.77 21.35 11.1Z"/></svg> </a>
         </div>
         <div class="footer-text">
             © 2024 Clínica Lorraine Botura. Todos os direitos reservados. | <a href="https://lorrainebotura.com.br/biografia/" target="_blank">Sobre Lorraine Botura</a>
         </div>
     </footer>
 
-    <!-- Modal de Configurações -->
-    <div class="settings-modal" id="settingsModal">
-        <div class="settings-content">
-            <div class="settings-header">
-                <h2>Configurações de Atendimento</h2>
-                <div class="close-settings" onclick="closeSettings()"></div>
-            </div>
-            <div class="settings-body">
-                <textarea id="agentPrompt" aria-label="Prompt do Agente">[!! SEU PROMPT COMPLETO AQUI !!]</textarea>
-            </div>
-            <div class="settings-footer">
-                <button class="cancel-button" onclick="closeSettings()">Cancelar</button>
-                <button class="save-button" onclick="saveAgentPrompt()">Salvar Prompt</button>
-            </div>
-        </div>
-    </div>
+    <!-- Modal de Configurações Removido -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -231,391 +151,348 @@
         const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o'; // ANON KEY
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const GEMINI_API_KEY = 'AIzaSyBsWK-qUzEts9UjoVP2wDmDLBKpfR4kMtQ'; // YOUR GEMINI KEY
-        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+        // Removido GEMINI_API_KEY e GEMINI_API_URL - Não estamos usando a API neste fluxo
         const WHATSAPP_NUMBER = '5512992061898';
 
         // --- ESTADO DA APLICAÇÃO ---
         let userData = { name: null, phone: null, protocol: null };
-        let chatHistory = [];
-        let isWaitingFor = 'name_phone'; // Controla o estado atual do fluxo
-        let currentProcedure = null;    // Guarda a chave do procedimento atual ('botox', 'labial', 'general')
-        let isProcessing = false;       // Previne envios múltiplos
+        let chatHistory = []; // Apenas histórico para Supabase, não para API
+        let isWaitingFor = 'name_phone';
+        let currentProcedure = null;
+        let isProcessing = false;
 
         // --- ELEMENTOS DO DOM ---
         const chatBody = document.getElementById('chatBody');
         const userInput = document.getElementById('userInput');
-        const settingsModal = document.getElementById('settingsModal');
-        const agentPromptTextarea = document.getElementById('agentPrompt');
         const thinkingMessageDiv = chatBody.querySelector('.thinking');
+        // Removido: settingsModal, agentPromptTextarea
 
-        // --- DADOS DOS PROCEDIMENTOS ---
+        // --- DADOS DOS PROCEDIMENTOS (Atualizado) ---
         const procedureDetails = {
-            'botox': { key: 'botox', name: 'Botox (Toxina Botulínica)', description: 'O **Botox** é um dos nossos queridinhos para suavizar ruguinhas...', details: 'O **Botox** age relaxando suavemente os músculos...' },
-            'labial': { key: 'labial', name: 'Preenchimento Labial', description: 'O **Preenchimento Labial** é arte em forma de cuidado!...', details: 'Utilizamos **ácido hialurônico**...' },
-            'micro': { key: 'micro', name: 'Microagulhamento', description: 'O **Microagulhamento** é fantástico para estimular o colágeno...', details: 'Através de microperfurações controladas...' },
-            'limpeza': { key: 'limpeza', name: 'Limpeza de Pele Profunda', description: 'A **Limpeza de Pele Profunda** remove cravos, impurezas...', details: 'É um passo **essencial** para a saúde da pele!...' },
-            'laser': { key: 'laser', name: 'Depilação a Laser', description: 'Com a **Depilação a Laser**, você conquista a liberdade...', details: 'Utilizamos tecnologia de ponta...' },
-            'corpo': { key: 'corpo', name: 'Tratamentos p/ Estrias e Celulite', description: 'Nossos **Tratamentos Corporais** combinam tecnologias avançadas...', details: 'Combinamos técnicas como radiofrequência...' },
-            'remodel': { key: 'remodel', name: 'Remodelagem Corporal', description: 'A **Remodelagem Corporal** utiliza tecnologias não invasivas...', details: 'Através de tecnologias como ultrassom...' },
-            'peeling': { key: 'peeling', name: 'Peeling Químico', description: 'O **Peeling Químico** promove uma renovação celular intensa...', details: 'Aplicamos ácidos selecionados...' },
-            'hidragloss': { key: 'hidragloss', name: 'Hidragloss Labial', description: 'O **Hidragloss Labial** é um tratamento de hidratação profunda...', details: 'É mais que um gloss!...' }
+            'botox': { key: 'botox', name: 'Botox', description: '🌸 **Botox**<br>O Botox é aplicado para suavizar linhas de expressão e prevenir a formação de rugas. Atua relaxando a musculatura local de forma segura e controlada.', details: '<strong>Resultados esperados:</strong> aparência mais jovem e descansada, sem alterar sua expressão natural.' },
+            'labial': { key: 'labial', name: 'Preenchimento Labial', description: '🌸 **Preenchimento Labial**<br>O preenchimento labial é feito com ácido hialurônico para dar mais volume, definir o contorno e hidratar os lábios. O procedimento é rápido, com resultados imediatos e naturais.', details: '<strong>Resultados esperados:</strong> lábios mais volumosos, definidos e hidratados.' },
+            'micro': { key: 'micro', name: 'Microagulhamento', description: '🌸 **Microagulhamento**<br>O microagulhamento utiliza pequenas agulhas para estimular o colágeno e renovar a pele. É ideal para melhorar cicatrizes, linhas finas, manchas e textura da pele.', details: '<strong>Resultados esperados:</strong> pele mais uniforme, firme e rejuvenescida.' },
+            'limpeza': { key: 'limpeza', name: 'Limpeza de Pele Profunda', description: '🌸 **Limpeza de Pele Profunda**<br>A limpeza de pele profunda remove cravos, impurezas e células mortas, promovendo a renovação celular e preparando a pele para absorver melhor os ativos hidratantes.', details: '<strong>Resultados esperados:</strong> pele mais limpa, fresca e revitalizada.' },
+            'laser': { key: 'laser', name: 'Depilação a Laser', description: '🌸 **Depilação a Laser**<br>A depilação a laser elimina os pelos de forma progressiva e duradoura, atuando diretamente na raiz dos pelos com tecnologia de ponta e conforto.', details: '<strong>Resultados esperados:</strong> pele lisa, livre de pelos e muito mais prática no dia a dia.' },
+            'corpo': { key: 'corpo', name: 'Tratamentos para Estrias e Celulite', description: '🌸 **Tratamentos para Estrias e Celulite**<br>Tratamentos personalizados que combinam técnicas como laser, radiofrequência, bioestimuladores e drenagem para suavizar a textura da pele e melhorar a aparência de estrias e celulite.', details: '<strong>Resultados esperados:</strong> pele mais uniforme, firme e bonita.' },
+            'remodel': { key: 'remodel', name: 'Remodelagem Corporal', description: '🌸 **Remodelagem Corporal**<br>A remodelagem corporal visa reduzir medidas, modelar o contorno do corpo e melhorar a firmeza da pele, utilizando técnicas como ultrassom, radiofrequência e massagens especializadas.', details: '<strong>Resultados esperados:</strong> corpo mais definido, com curvas realçadas de forma natural.' },
+            'peeling': { key: 'peeling', name: 'Peeling Químico', description: '🌸 **Peeling Químico**<br>O peeling químico utiliza agentes renovadores para tratar manchas, rugas finas, acne e melhorar a textura da pele. A escolha do tipo de peeling é personalizada conforme o tipo de pele.', details: '<strong>Resultados esperados:</strong> pele renovada, mais lisa, iluminada e uniforme.' },
+            'hidragloss': { key: 'hidragloss', name: 'Hidragloss Labial', description: '🌸 **Hidragloss Labial**<br>Tratamento de hidratação profunda e revitalização dos lábios, usando ativos potentes que melhoram o volume natural, a cor e a textura sem necessidade de preenchimento.', details: '<strong>Resultados esperados:</strong> lábios mais macios, vibrantes e rejuvenescidos.' }
         };
-        // Mapeamento Letra -> Chave do Procedimento
         const procedureLetterMap = {'A': 'botox', 'B': 'labial', 'C': 'micro', 'D': 'limpeza', 'E': 'laser', 'F': 'corpo', 'G': 'remodel', 'H': 'peeling', 'I': 'hidragloss'};
 
+        // --- MAPA DE KEYWORDS PARA AÇÕES/PROCEDIMENTOS ---
+        const keywordToActionMap = {
+            // Procedimentos (mapeia para a key em procedureDetails)
+            'harmonização': 'facial_harmony', // Precisa adicionar 'facial_harmony' em procedureDetails se quiser info específica
+            'harmonizacao': 'facial_harmony',
+            'rosto': 'facial_harmony', // Genérico para rosto
+            'botox': 'botox',
+            'rugas': 'botox', // Associa rugas a botox
+            'marcas de expressão': 'botox',
+            'linhas de expressão': 'botox',
+            'testa': 'botox',
+            'labial': 'labial',
+            'lábio': 'labial',
+            'lábios': 'labial',
+            'boca': 'labial',
+            'preenchimento': 'labial', // Default para labial, pode precisar de mais lógica
+            'microagulhamento': 'micro',
+            'micro agulhamento': 'micro',
+            'agulha': 'micro',
+            'colágeno': 'micro', // Associa a micro
+            'limpeza': 'limpeza',
+            'limpeza de pele': 'limpeza',
+            'pele oleosa': 'limpeza', // Associa a limpeza
+            'cravo': 'limpeza',
+            'poros': 'limpeza', // Associa a limpeza
+            'depilação': 'laser',
+            'laser': 'laser',
+            'pelo': 'laser',
+            'pelos': 'laser',
+            'estrias': 'corpo',
+            'celulite': 'corpo',
+            'flacidez': 'corpo', // Associa a corpo ou remodelagem? Mapeando para corpo por enquanto
+            'remodelagem': 'remodel',
+            'modelar': 'remodel',
+            'gordura': 'remodel',
+            'gordura localizada': 'remodel',
+            'contorno': 'remodel',
+            'peeling': 'peeling',
+            'manchas': 'peeling', // Associa a peeling
+            'hidragloss': 'hidragloss',
+            'gloss': 'hidragloss',
+            'ácido hialurônico': 'labial', // Associa a labial
+            'rejuvenescimento': 'botox', // Associa a botox
+            // Ações Gerais
+            'tratamento': 'procedure',
+            'estética': 'procedure',
+            'procedimento': 'procedure',
+            'agendar': 'schedule_general',
+            'agenda': 'schedule_general',
+            'marcar': 'schedule_general',
+            'consulta': 'schedule_general',
+            'avaliação': 'schedule_general',
+            'sessão': 'schedule_general',
+            'preço': 'price',
+            'valor': 'price',
+            'quanto custa': 'price',
+            'orçamento': 'price',
+            'promoção': 'promo',
+            'desconto': 'promo',
+            'oferta': 'promo',
+            'endereço': 'info',
+            'local': 'info',
+            'onde fica': 'info',
+            'horário': 'info',
+            'funcionamento': 'info',
+            'pagamento': 'payment', // Ação direta para pagamento
+            // Intenções / Outros
+            'dúvida': 'other_doubt',
+            'ajuda': 'other_doubt',
+            'atendimento': 'other_doubt', // Pode direcionar para dúvida geral
+        };
+
+
         // --- FUNÇÕES DE VALIDAÇÃO ---
-        function validateName(name) { /* ... MANTIDA ... */
-            const invalidNames = ['oi', 'olá', 'ola', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem', 'como vai', 'gostaria', 'queria', 'informação', 'duvida', 'preço', 'valor', 'agendar'];
-            const lowerName = name.toLowerCase().trim().replace(/[^\p{L}\s]/gu, '');
-            if (invalidNames.some(inv => lowerName.startsWith(inv)) && lowerName.split(' ').length < 2) return false;
-            return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3);
-        }
-        function validatePhone(phone) { /* ... MANTIDA ... */
-            const cleanedPhone = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleanedPhone);
-        }
+        // (Mantidas)
+        function validateName(name) { /* ... */ return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
+        function validatePhone(phone) { /* ... */ const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
 
         // --- FUNÇÕES DE UTILIDADE ---
-        function generateProtocol() { /* ... MANTIDA ... */
-            const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`;
-        }
-        function generateWhatsAppLink(context = '', procName = '', userPref = '') { /* ... MANTIDA ... */
-             const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`; let txt = 'Olá! ';
-             switch(context){ case 'agendamento': const pN = procName==='Avaliação Geral'?'uma avaliação geral':`uma avaliação para ${procName}`; const uP = userPref?` para ${userPref}`:''; txt += `Gostaria de confirmar ${pN}${uP}. ${userPart}`; break; case 'promocoes': const prN = procName?` para ${procName}`:''; txt += `Gostaria de saber sobre promoções atuais${prN}. ${userPart}`; break; case 'orcamento': txt += `Gostaria de um orçamento personalizado. ${userPart}`; break; case 'duvidas': default: txt += `Tenho dúvidas/Gostaria de mais informações. ${userPart}`; break; }
-             return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`;
-        }
-        function parseUserChoice(input, optionsMap) { /* ... MANTIDA ... */
-             const lowerInput = input.toLowerCase().trim(); const choiceByLetter = lowerInput.toUpperCase();
-             if (optionsMap[choiceByLetter]) { return optionsMap[choiceByLetter].action; }
-             for (const key in optionsMap) { const opt = optionsMap[key]; if (opt.keywords && opt.keywords.some(k => lowerInput.includes(k))) { return opt.action; } } return null;
-        }
+        // (Mantidas)
+        function generateProtocol() { /* ... */ const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
+        function generateWhatsAppLink(context = '', procName = '', userPref = '') { /* ... */ const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`; let txt = 'Olá! '; switch(context){ case 'agendamento': const pN = procName==='Avaliação Geral'?'uma avaliação geral':`uma avaliação para ${procName}`; const uP = userPref?` para ${userPref}`:''; txt += `Gostaria de confirmar ${pN}${uP}. ${userPart}`; break; case 'promocoes': const prN = procName?` para ${procName}`:''; txt += `Gostaria de saber sobre promoções atuais${prN}. ${userPart}`; break; case 'orcamento': txt += `Gostaria de um orçamento personalizado. ${userPart}`; break; case 'duvidas': default: txt += `Tenho dúvidas/Gostaria de mais informações. ${userPart}`; break; } return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`; }
+        // ParseUserChoice não será mais tão usado para texto, mas mantido para referência
+        function parseUserChoice(input, optionsMap) { /* ... */ const lowerInput = input.toLowerCase().trim(); const choiceByLetter = lowerInput.toUpperCase(); if (optionsMap[choiceByLetter]) { return optionsMap[choiceByLetter].action; } for (const key in optionsMap) { const opt = optionsMap[key]; if (opt.keywords && opt.keywords.some(k => lowerInput.includes(k))) { return opt.action; } } return null; }
 
         // --- FUNÇÕES DE CHAT ---
-        function addMessage(content, isUser, options = null) {
-            // Adiciona ao histórico da API
-            if (!content.startsWith('⚠️') && !content.includes('Processando sua solicitação...')) {
-                chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); // Adiciona nota sobre opções
-            }
-
-            // Adiciona à interface
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            messageDiv.innerHTML = content.replace(/<script.*?>.*?<\/script>/gi, '');
-
-            // Adiciona botões se houver opções
-            if (!isUser && options) {
-                const optionsContainer = document.createElement('div');
-                optionsContainer.className = 'options-container';
-                options.forEach(opt => {
-                    const button = document.createElement('button');
-                    button.className = 'option-button';
-                    // Usa opt.action como o valor a ser passado para o handler
-                    button.setAttribute('data-choice', opt.action);
-                    button.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text}`); // Passa a ação e o texto completo
-                    button.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`;
-                    optionsContainer.appendChild(button);
-                });
-                messageDiv.appendChild(optionsContainer);
-            }
-
-            if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) {
-                 chatBody.insertBefore(messageDiv, thinkingMessageDiv);
-            } else {
-                 chatBody.appendChild(messageDiv);
-            }
-            scrollToBottom();
-        }
-        function scrollToBottom() { chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
-        function showThinking(show = true) {
-             if (!thinkingMessageDiv) return;
-             thinkingMessageDiv.style.display = show ? 'block' : 'none';
-             if(show) scrollToBottom();
-        }
-        function disablePreviousButtons() {
+        // (Mantidas, com addMessage recebendo 'options')
+         function addMessage(content, isUser, options = null) { /* ... MANTIDA (com geração de botões) ... */
+             if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); }
+             const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`; messageDiv.innerHTML = content.replace(/<script.*?>.*?<\/script>/gi, '');
+             if (!isUser && options) { const optionsContainer = document.createElement('div'); optionsContainer.className = 'options-container'; options.forEach(opt => { const button = document.createElement('button'); button.className = 'option-button'; button.setAttribute('data-choice', opt.action); button.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text}`); button.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optionsContainer.appendChild(button); }); messageDiv.appendChild(optionsContainer); }
+             if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
+         }
+        function scrollToBottom() { /* ... MANTIDA ... */ chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
+        function showThinking(show = true) { /* ... MANTIDA ... */ if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
+        function disablePreviousButtons() { /* ... MANTIDA ... */
             const previousButtons = chatBody.querySelectorAll('.option-button:not(:disabled)');
-            previousButtons.forEach(button => {
-                 // Verifica se o botão pertence a uma mensagem anterior à última do bot com botões
-                 const messageContainer = button.closest('.message.bot-message');
-                 const lastBotMessageWithOptions = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type');
-                 if (messageContainer !== lastBotMessageWithOptions) {
-                    button.disabled = true;
-                 }
-            });
+            previousButtons.forEach(button => { const messageContainer = button.closest('.message.bot-message'); const lastBotMessageWithOptions = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (messageContainer !== lastBotMessageWithOptions) { button.disabled = true; } });
         }
 
         // --- FUNÇÃO SALVAR/ATUALIZAR (UPSERT) ---
+        // (Mantida)
         async function saveOrUpdateConversation() { /* ... MANTIDA ... */
-            if (!userData.protocol) return;
-            const historyToSave = chatHistory.map(item => ({ sender: item.role, message: item.parts[0].text }));
-            try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: historyToSave }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert Supabase:', error);
-            } catch (err) { console.error('Catch upsert Supabase:', err); }
+            if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); }
         }
 
         // --- GERADORES DE MENU COM BOTÕES ---
-        function sendInitialMenu() {
-            const text = `Agora me diga, como posso te ajudar hoje? ✨`;
-            const options = [
-                { letter: 'A', text: 'Quero saber mais sobre um <strong>procedimento específico</strong>', action: 'procedure', keywords: ['procedimento', 'tratamento', 'serviço'] },
-                { letter: 'B', text: 'Gostaria de <strong>agendar uma avaliação</strong> geral', action: 'schedule_general', keywords: ['agendar', 'avaliação', 'marcar'] },
-                { letter: 'C', text: 'Preciso de <strong>informações da clínica</strong> (endereço, horário)', action: 'info', keywords: ['informações', 'info', 'endereço', 'horário', 'local'] },
-                { letter: 'D', text: 'Tenho <strong>outra dúvida</strong>', action: 'other_doubt', keywords: ['dúvida', 'outro', 'ajuda'] }
-            ];
-            addMessage(text, false, options);
-            isWaitingFor = 'initial_choice';
-        }
+        // (Mantidos da resposta anterior)
+        function sendInitialMenu() { /* ... MANTIDA ... */ const txt = `Agora me diga, como posso te ajudar hoje? ✨`; const opts = [ { letter: 'A', text: 'Saber sobre <strong>procedimento</strong>', action: 'procedure', keywords: ['procedimento'] }, { letter: 'B', text: '<strong>Agendar avaliação</strong> geral', action: 'schedule_general', keywords: ['agendar'] }, { letter: 'C', text: '<strong>Informações da clínica</strong>', action: 'info', keywords: ['informações'] }, { letter: 'D', text: '<strong>Outra dúvida</strong>', action: 'other_doubt', keywords: ['dúvida'] } ]; addMessage(txt, false, opts); isWaitingFor = 'initial_choice'; }
+        function sendProcedureListMenu() { /* ... MANTIDA ... */ const txt = `Maravilha, ${userData.name}! 😊 Qual deles desperta seu interesse?`; const opts = Object.entries(procedureLetterMap).map(([l, k]) => ({ letter: l, text: procedureDetails[k].name, action: k, keywords: [k] })); opts.push({ letter: 'J', text: 'Outro', action: 'other_proc', keywords: ['outro'] }); addMessage(txt, false, opts); isWaitingFor = 'procedure_choice'; }
+        function sendProcedureActionMenu(procKey) { /* ... MANTIDA ... */ const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Sobre <strong>${name}</strong>, o que gostaria?`; const opts = [ { letter: 'A', text: 'Mais <strong>detalhes</strong>', action: 'details', keywords: ['detalhes'] }, { letter: 'B', text: '<strong>Agendar avaliação</strong>', action: 'schedule_specific', keywords: ['agendar'] }, { letter: 'C', text: 'Verificar <strong>promoções</strong>', action: 'promo', keywords: ['promoção'] }, { letter: 'D', text: 'Ver <strong>outro procedimento</strong>', action: 'other_procedure', keywords: ['outro'] } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action'; }
+        function sendDetailsSubMenu(procKey) { /* ... MANTIDA ... */ const name = procedureDetails[procKey]?.name || 'este proc.'; const txt = `Gostaria de agendar para ${name}? 😊`; const opts = [ { letter: 'A', text: 'Sim, <strong>agendar avaliação</strong>!', action: 'schedule_specific', keywords: ['sim', 'agendar'] }, { letter: 'B', text: `Saber <strong>promoções</strong> p/ ${name}`, action: 'promo', keywords: ['promoção'] }, { letter: 'C', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_proc', keywords: ['dúvida'] }, { letter: 'D', text: 'Ver <strong>outros procedimentos</strong>', action: 'other_procedure', keywords: ['outro'] } ]; addMessage(txt, false, opts); isWaitingFor = 'procedure_action_after_details'; }
+        function sendInfoClinicSubMenu() { /* ... MANTIDA ... */ const txt = `Precisa de mais informações, ${userData.name}?`; const opts = [ { letter: 'A', text: 'Formas de <strong>Pagamento</strong>', action: 'payment', keywords: ['pagamento'] }, { letter: 'B', text: 'Ver <strong>procedimentos</strong>', action: 'procedure', keywords: ['procedimento'] }, { letter: 'C', text: '<strong>Agendar avaliação</strong>', action: 'schedule_general', keywords: ['agendar'] }, { letter: 'D', text: 'Não, obrigada!', action: 'end', keywords: ['não'] } ]; addMessage(txt, false, opts); isWaitingFor = 'info_choice'; }
+        function sendFinalConfirmationMenu() { /* ... MANTIDA ... */ const txt = `Posso te ajudar com mais algo, ${userData.name}? 😊`; const opts = [ { letter: 'A', text: 'Ver <strong>outro procedimento</strong>', action: 'procedure', keywords: ['procedimento'] }, { letter: 'B', text: '<strong>Informações da clínica</strong>', action: 'info', keywords: ['informações'] }, { letter: 'C', text: 'Não, obrigada!', action: 'end', keywords: ['não'] } ]; addMessage(txt, false, opts); isWaitingFor = 'final_confirmation'; }
+        function sendWhatsappRedirect(context = 'duvidas', procName = '', userPref = '') { /* ... MANTIDA ... */ let msg = ''; let link = ''; if (context === 'agendamento') { const pN=procName==='Avaliação Geral'?'Avaliação Geral':procName; link=generateWhatsAppLink(context,pN,userPref); msg=`Perfeito, ${userData.name}! 😊 Para confirmar ${pN}${userPref?` para ${userPref}`:''} e horários...<br><br>➡️ <a href="${link}" target="_blank">Confirmar ${pN} via WhatsApp</a>`; } else if (context === 'promocoes') { link=generateWhatsAppLink(context,procName); msg=`Adoramos mimos! 💖 Para saber promoções${procName?` para ${procName}`:''}...<br><br>➡️ <a href="${link}" target="_blank">Ver Promoções no WhatsApp</a>`; } else if (context === 'orcamento') { link=generateWhatsAppLink(context); msg=`Valores personalizados... 😊 Orçamento detalhado no WhatsApp...<br><br>➡️ <a href="${link}" target="_blank">Solicitar Orçamento via WhatsApp</a>`; } else { link=generateWhatsAppLink('duvidas'); msg=`Entendi, ${userData.name}. Para dúvidas específicas...<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`; } addMessage(msg, false); if (context!=='agendamento' && context!=='promocoes') { isWaitingFor = 'message'; } else { setTimeout(sendFinalConfirmationMenu, 600); } }
 
-        function sendProcedureListMenu() {
-            const text = `Maravilha, ${userData.name}! 😊 Temos tratamentos incríveis para você. Qual deles desperta seu interesse hoje?`;
-            const options = Object.entries(procedureLetterMap).map(([letter, key]) => ({
-                letter: letter,
-                text: procedureDetails[key].name,
-                action: key, // Ação é a chave do procedimento ('botox', 'labial', etc.)
-                keywords: [procedureDetails[key].name.toLowerCase(), key] // Keywords básicas
-            }));
-            options.push({ letter: 'J', text: 'Outro (me diga qual!)', action: 'other_proc', keywords: ['outro'] });
-            addMessage(text, false, options);
-            isWaitingFor = 'procedure_choice';
-        }
+        // --- NOVA FUNÇÃO PARA PROCESSAR KEYWORDS ---
+        function processKeywords(text) {
+            const lowerText = text.toLowerCase();
+            let matchedAction = null;
+            let highestPriority = -1; // Para dar prioridade (ex: 'agendar botox' vs 'botox')
 
-        function sendProcedureActionMenu(procedureKey) {
-            const procName = procedureDetails[procedureKey]?.name || 'este procedimento';
-            const text = `O que você gostaria de fazer em relação ao <strong>${procName}</strong>?`;
-            const options = [
-                { letter: 'A', text: `Saber mais <strong>detalhes</strong> (benefícios, duração, etc.)`, action: 'details', keywords: ['detalhes', 'benefícios', 'duração', 'cuidados', 'mais'] },
-                { letter: 'B', text: `<strong>Agendar uma avaliação</strong> específica`, action: 'schedule_specific', keywords: ['agendar', 'marcar', 'avaliação'] },
-                { letter: 'C', text: `Verificar <strong>promoções</strong> disponíveis`, action: 'promo', keywords: ['promoção', 'promoções', 'desconto', 'oferta'] },
-                { letter: 'D', text: `Perguntar sobre <strong>outro procedimento</strong>`, action: 'other_procedure', keywords: ['outro', 'diferente'] }
-            ];
-            addMessage(text, false, options);
-            isWaitingFor = 'procedure_action';
-        }
-
-         function sendDetailsSubMenu(procedureKey) {
-             const procName = procedureDetails[procedureKey]?.name || 'este procedimento';
-             const text = `Gostaria de agendar sua avaliação para conversarmos melhor sobre como ${procName} pode te beneficiar? 😊`;
-             const options = [
-                { letter: 'A', text: `Sim, quero <strong>agendar a avaliação</strong>!`, action: 'schedule_specific', keywords: ['sim', 'agendar', 'quero'] }, // Ação é agendar!
-                { letter: 'B', text: `Quero saber sobre <strong>promoções</strong> para ${procName}`, action: 'promo', keywords: ['promoção', 'promoções', 'desconto'] },
-                { letter: 'C', text: `Tenho <strong>outra dúvida</strong> sobre ${procName}`, action: 'other_doubt_proc', keywords: ['dúvida', 'outro'] },
-                { letter: 'D', text: `Voltar ao menu de <strong>outros procedimentos</strong>`, action: 'other_procedure', keywords: ['voltar', 'outro', 'procedimento'] }
-             ];
-             addMessage(text, false, options);
-             isWaitingFor = 'procedure_action_after_details'; // Novo estado para tratar corretamente a escolha 'A'
-         }
-
-         function sendInfoClinicSubMenu() {
-             const text = `Precisa de mais alguma informação, ${userData.name}?`;
-             const options = [
-                { letter: 'A', text: `Formas de <strong>Pagamento</strong>`, action: 'payment', keywords: ['pagamento', 'pagar', 'forma'] },
-                { letter: 'B', text: `Saber sobre <strong>procedimentos</strong>`, action: 'procedure', keywords: ['procedimento', 'tratamento'] },
-                { letter: 'C', text: `<strong>Agendar</strong> uma avaliação`, action: 'schedule_general', keywords: ['agendar', 'avaliação', 'marcar'] },
-                { letter: 'D', text: `Não, obrigada!`, action: 'end', keywords: ['não', 'obrigada', 'tchau', 'fim', 'sair'] }
-             ];
-              addMessage(text, false, options);
-              isWaitingFor = 'info_choice';
-         }
-
-        function sendFinalConfirmationMenu() {
-            const text = `Posso te ajudar com mais alguma coisa agora, ${userData.name}? 😊`;
-             const options = [
-                { letter: 'A', text: `Sim, quero saber sobre <strong>outro procedimento</strong>`, action: 'procedure', keywords: ['sim', 'procedimento', 'outro'] },
-                { letter: 'B', text: `Sim, preciso de <strong>informações da clínica</strong>`, action: 'info', keywords: ['info', 'informações', 'clínica', 'endereço', 'horário'] },
-                { letter: 'C', text: `Não, por enquanto é só isso, obrigada!`, action: 'end', keywords: ['não', 'obrigada', 'tchau', 'fim', 'sair', 'só isso'] }
-             ];
-            addMessage(text, false, options);
-            isWaitingFor = 'final_confirmation';
-        }
-
-        function sendWhatsappRedirect(context = 'duvidas', procName = '', userPref = '') {
-            // (Função mantida da resposta anterior)
-             let message = ''; let link = '';
-             if (context === 'agendamento') { const pN = procName === 'Avaliação Geral' ? 'Avaliação Geral' : procName; link = generateWhatsAppLink(context, pN, userPref); message = `Perfeito, ${userData.name}! 😊 Para confirmar sua solicitação de ${pN}${userPref ? ` para ${userPref}` : ''} e verificar os horários..., por favor, clique abaixo...<br><br>➡️ <a href="${link}" target="_blank">Confirmar ${pN} via WhatsApp</a>`; }
-             else if (context === 'promocoes') { link = generateWhatsAppLink(context, procName); message = `Adoramos mimos! 💖 Para saber sobre condições especiais...${procName ? ` para ${procName}` : ''}...<br><br>➡️ <a href="${link}" target="_blank">Ver Promoções no WhatsApp</a>`; }
-             else if (context === 'orcamento') { link = generateWhatsAppLink(context); message = `Com certeza! 😊 Nossos valores são personalizados...<br><br>➡️ <a href="${link}" target="_blank">Solicitar Orçamento via WhatsApp</a>`; }
-             else { link = generateWhatsAppLink('duvidas'); message = `Entendi, ${userData.name}. Para dúvidas mais específicas...<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`; }
-             addMessage(message, false);
-             if (context !== 'agendamento' && context !== 'promocoes') { isWaitingFor = 'message'; }
-             else { setTimeout(sendFinalConfirmationMenu, 600); } // Aumenta delay
-        }
-
-        // --- PROCESSAMENTO CENTRAL ---
-        async function processMessage(message, isButtonClick = false) {
-             if (isProcessing && !isButtonClick) return; // Só permite clique de botão se estiver processando input
-
-             // Se não for clique de botão, mostra msg do usuário
-             if (!isButtonClick) {
-                addMessage(message, true);
-                userInput.value = '';
-             }
-
-             isProcessing = true;
-             userInput.disabled = true;
-             showThinking(true);
-             disablePreviousButtons(); // Desabilita botões antigos
-
-            try {
-                // --- 1. Coleta Nome e Telefone ---
-                 if (isWaitingFor === 'name_phone') {
-                    const parts = message.split(/,|\s(\d{10,11})$/); let potentialName = null; let potentialPhone = null;
-                    if (parts && parts.length >= 2) { potentialName = parts[0]?.trim(); const phoneMatch = message.match(/(\d{10,11})\s*$/); if (phoneMatch) { potentialPhone = phoneMatch[1]; potentialName = message.replace(phoneMatch[0], '').trim().replace(/,$/, '').trim(); } else { potentialPhone = parts[1]?.replace(/\D/g, ''); } }
-                    if (potentialName && potentialPhone && validateName(potentialName) && validatePhone(potentialPhone)) {
-                        userData.name = potentialName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '); userData.phone = potentialPhone; userData.protocol = generateProtocol(); await saveOrUpdateConversation();
-                        addMessage(`Que prazer te receber, ${userData.name}! 💖 Seu protocolo de atendimento é: <strong>${userData.protocol}</strong>. Guarde este número!`, false);
-                        sendInitialMenu();
-                    } else {
-                         addMessage(`Desculpe, não consegui identificar seu nome e telefone. Poderia tentar novamente, talvez separando por vírgula? 🙏<br>(Ex: Maria Silva, 11987654321)`, false);
+            // Prioridade 1: Ações diretas (agendar, preço, info, etc.)
+             const directActions = ['schedule_general', 'price', 'info', 'payment', 'promo', 'other_doubt', 'procedure'];
+             for (const action of directActions) {
+                const keywords = Object.entries(keywordToActionMap)
+                                   .filter(([_, act]) => act === action)
+                                   .map(([kw, _]) => kw);
+                if (keywords.some(kw => lowerText.includes(kw))) {
+                    if (1 > highestPriority) {
+                         matchedAction = action;
+                         highestPriority = 1;
                     }
                 }
+             }
 
-                // --- 2. Menu Inicial ---
-                else if (isWaitingFor === 'initial_choice') {
-                    const action = message; // Ação vem do botão ou do parse (precisa ajustar parseUserChoice se necessário)
-                    if (action === 'procedure') { sendProcedureListMenu(); }
-                    else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Que ótimo saber do seu interesse... Qual <strong>dia da semana</strong> e <strong>período (manhã/tarde)</strong> seria melhor para você?`, false); isWaitingFor = 'scheduling_preference'; }
-                    else if (action === 'info') { addMessage(`Com prazer, ${userData.name}! 😊 ... 📍 <strong>Endereço:</strong>... ⏰ <strong>Horário:</strong> ...`, false); sendInfoClinicSubMenu(); }
-                    else if (action === 'other_doubt') { sendWhatsappRedirect('duvidas'); }
-                    else { addMessage(`Por favor, clique em uma das opções acima ou digite A, B, C ou D.`, false); isWaitingFor = 'initial_choice'; } // Mantém estado se inválido
-                }
-
-                // --- 3. Escolha do Procedimento ---
-                else if (isWaitingFor === 'procedure_choice') {
-                    const action = message; // Ação vem direto do botão (key do procedimento) ou parse
-                    if (procedureDetails[action]) {
-                         currentProcedure = action; addMessage(procedureDetails[action].description, false); sendProcedureActionMenu(action);
-                    } else if (action === 'other_proc') { addMessage(`Entendido, ${userData.name}. Qual outro procedimento você tem em mente?`, false); isWaitingFor = 'message'; }
-                    else { addMessage(`Opção inválida. Por favor, escolha um procedimento da lista clicando no botão.`, false); isWaitingFor = 'procedure_choice'; }
-                }
-
-                // --- 4. Ação dentro do Procedimento ---
-                 else if (isWaitingFor === 'procedure_action') {
-                     const action = message; // Ação vem do botão
-                     if (action === 'details' && currentProcedure && procedureDetails[currentProcedure]) { addMessage(procedureDetails[currentProcedure].details || `Posso te dar mais detalhes...`, false); sendDetailsSubMenu(currentProcedure); } // Estado muda para 'procedure_action_after_details'
-                     else if (action === 'schedule_specific' && currentProcedure) { addMessage(`Maravilha! 💕 ... Qual <strong>dia da semana</strong> e <strong>período</strong> você prefere?`, false); isWaitingFor = 'scheduling_preference'; }
-                     else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); }
-                     else if (action === 'other_procedure') { sendProcedureListMenu(); }
-                     else { addMessage(`Opção inválida. Por favor, clique em uma das ações acima.`, false); isWaitingFor = 'procedure_action'; }
-                 }
-
-                // --- 4.1 Ação APÓS Ver Detalhes --- FIX DA LÓGICA
-                 else if (isWaitingFor === 'procedure_action_after_details') {
-                      const action = message; // Ação vem do botão
-                      if (action === 'schedule_specific' && currentProcedure) { // <<< AQUI O FIX: Trata o 'Agendar' corretamente
-                           addMessage(`Ótimo! 😊 Para agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia da semana</strong> e <strong>período</strong> você prefere?`, false);
-                           isWaitingFor = 'scheduling_preference';
-                      } else if (action === 'promo') {
-                           sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name);
-                      } else if (action === 'other_doubt_proc') {
-                          sendWhatsappRedirect('duvidas', procedureDetails[currentProcedure]?.name); // Direciona dúvida específica
-                      } else if (action === 'other_procedure') {
-                          sendProcedureListMenu();
-                      } else {
-                          addMessage(`Opção inválida, ${userData.name}. Por favor, escolha A, B, C ou D clicando no botão.`, false);
-                          isWaitingFor = 'procedure_action_after_details'; // Mantém o estado
-                      }
-                  }
-
-
-                // --- 5. Coleta Preferência de Agendamento ---
-                 else if (isWaitingFor === 'scheduling_preference') {
-                     const userPreference = message; // Aqui ainda precisa ser digitado
-                     const procName = currentProcedure === 'general' ? 'Avaliação Geral' : procedureDetails[currentProcedure]?.name || 'sua avaliação';
-                     sendWhatsappRedirect('agendamento', procName, userPreference);
-                 }
-
-                 // --- 6. Menu de Informações da Clínica ---
-                 else if (isWaitingFor === 'info_choice') {
-                      const action = message; // Ação do botão
-                      if(action === 'payment') { addMessage(`Aceitamos dinheiro, PIX, débito e crédito... 😊`, false); sendInfoClinicSubMenu(); }
-                      else if (action === 'procedure') { sendProcedureListMenu(); }
-                      else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Vamos agendar sua avaliação geral! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; }
-                      else if (action === 'end') { addMessage(`Perfeito, ${userData.name}! Foi um prazer... 🌸`, false); isWaitingFor = 'message'; }
-                      else { addMessage(`Opção inválida. Por favor, clique em uma das opções.`, false); isWaitingFor = 'info_choice'; }
-                 }
-
-                 // --- 7. Menu Final de Confirmação ---
-                  else if (isWaitingFor === 'final_confirmation') {
-                       const action = message; // Ação do botão
-                       if (action === 'procedure') { sendProcedureListMenu(); }
-                       else if (action === 'info') { addMessage(`Claro! O que mais gostaria de saber?`, false); sendInfoClinicSubMenu(); }
-                       else if (action === 'end') { addMessage(`Tudo bem, ${userData.name}! Foi uma alegria... 💕 Até breve! 🌸`, false); isWaitingFor = 'message'; }
-                       else { addMessage(`Não entendi. Por favor, clique em uma das opções.`, false); isWaitingFor = 'final_confirmation'; }
-                  }
-
-
-                // --- 8. Fallback (API ou Mensagem Padrão) ---
-                else if (isWaitingFor === 'message') { // Estado aberto para mensagens
-                    console.log("Fluxo 'message', tentando API...");
-                     try {
-                         // ... (código da chamada API Gemini mantido)...
-                         const response = await fetch(/*...*/);
-                         // ... (tratamento da resposta API mantido) ...
-                         addMessage(botResponse || "Desculpe, não entendi...", false);
-                     } catch (error) {
-                         console.error('Erro API Gemini (Fallback):', error);
-                         addMessage(`Peço desculpas... <a href="${generateWhatsAppLink('duvidas')}" target="_blank">fale com nossa equipe...</a>`, false);
+             // Prioridade 0: Procedimentos específicos (nomes e keywords associadas)
+             for (const [keyword, action] of Object.entries(keywordToActionMap)) {
+                 // Verifica se a action é uma key de procedureDetails
+                 if (procedureDetails[action] || action === 'facial_harmony') { // Inclui harmonização mesmo sem details ainda
+                     if (lowerText.includes(keyword)) {
+                         if (0 > highestPriority) {
+                             matchedAction = action; // Retorna a key do procedimento ('botox', 'labial')
+                             highestPriority = 0;
+                         }
                      }
-                      await saveOrUpdateConversation();
                  }
+             }
 
-                 // Salva estado no final de cada interação processada com sucesso
-                 if (isWaitingFor !== 'name_phone') { // Não salva antes de ter protocolo
-                    await saveOrUpdateConversation();
-                 }
+
+            console.log("Keyword check:", lowerText, "-> Matched Action:", matchedAction);
+            return matchedAction;
+        }
+
+
+        // --- PROCESSAMENTO CENTRAL (ATUALIZADO COM KEYWORDS) ---
+        async function processMessage(message, isButtonClick = false) {
+            if (isProcessing && !isButtonClick) return;
+
+            const inputText = isButtonClick ? message : message; // 'message' já é a 'action' no clique, texto no input
+
+            if (!isButtonClick) {
+                addMessage(inputText, true); // Mostra o texto digitado
+                userInput.value = '';
+            }
+
+            isProcessing = true;
+            userInput.disabled = true;
+            showThinking(true);
+            disablePreviousButtons();
+
+            try {
+                let actionFromKeyword = null;
+
+                // --- 0. VERIFICA KEYWORDS (APENAS PARA INPUT DIGITADO) ---
+                if (!isButtonClick) {
+                    actionFromKeyword = processKeywords(inputText);
+                }
+
+                // --- LÓGICA PRINCIPAL ---
+                // Se uma keyword foi encontrada E não está na coleta inicial, age sobre ela
+                if (actionFromKeyword && isWaitingFor !== 'name_phone') {
+                    console.log("Processing Keyword Action:", actionFromKeyword);
+                    if (procedureDetails[actionFromKeyword] || actionFromKeyword === 'facial_harmony') { // É um procedimento?
+                         currentProcedure = actionFromKeyword;
+                         const desc = procedureDetails[actionFromKeyword]?.description || `🌸 **Harmonização Facial**<br>Um conjunto de procedimentos para realçar a beleza natural e equilibrar os traços do rosto.`; // Descrição placeholder
+                         addMessage(desc, false);
+                         sendProcedureActionMenu(actionFromKeyword);
+                    } else if (actionFromKeyword === 'procedure') {
+                         sendProcedureListMenu();
+                    } else if (actionFromKeyword === 'schedule_general') {
+                         currentProcedure = 'general';
+                         addMessage(`Que ótimo saber do seu interesse... Qual <strong>dia</strong> e <strong>período</strong>?`, false);
+                         isWaitingFor = 'scheduling_preference';
+                    } else if (actionFromKeyword === 'info') {
+                         addMessage(`Com prazer, ${userData.name}! 😊 ... 📍 <strong>Endereço:</strong>... ⏰ <strong>Horário:</strong> ...`, false);
+                         sendInfoClinicSubMenu();
+                    } else if (actionFromKeyword === 'payment') {
+                        addMessage(`Aceitamos dinheiro, PIX, débito e crédito... 😊`, false);
+                        // Decide o que fazer depois, talvez repetir o último menu? Ou menu info?
+                         sendInfoClinicSubMenu(); // Repete menu info por segurança
+                    } else if (actionFromKeyword === 'price') {
+                         sendWhatsappRedirect('orcamento');
+                    } else if (actionFromKeyword === 'promo') {
+                         sendWhatsappRedirect('promocoes');
+                    } else if (actionFromKeyword === 'other_doubt') {
+                         sendWhatsappRedirect('duvidas');
+                    } else {
+                         // Keyword não mapeada para uma ação específica conhecida aqui
+                         addMessage(`Entendi que você mencionou algo sobre "${inputText}", mas não sei como direcionar. Pode tentar uma das opções ou falar com nossa equipe?`, false);
+                         sendInitialMenu(); // Volta ao início
+                    }
+                }
+                // Se NÃO houve keyword ou está na coleta inicial, segue o fluxo normal baseado em 'isWaitingFor'
+                else {
+                    console.log("Processing State:", isWaitingFor, "Input/Action:", inputText);
+                    // --- 1. Coleta Nome e Telefone ---
+                    if (isWaitingFor === 'name_phone') { /* ... (lógica mantida) ... */
+                         const parts = inputText.split(/,|\s(\d{10,11})$/); let potentialName = null; let potentialPhone = null; if (parts && parts.length >= 2) { potentialName = parts[0]?.trim(); const phoneMatch = inputText.match(/(\d{10,11})\s*$/); if (phoneMatch) { potentialPhone = phoneMatch[1]; potentialName = inputText.replace(phoneMatch[0], '').trim().replace(/,$/, '').trim(); } else { potentialPhone = parts[1]?.replace(/\D/g, ''); } }
+                         if (potentialName && potentialPhone && validateName(potentialName) && validatePhone(potentialPhone)) { userData.name = potentialName.split(' ').map(w=>w[0].toUpperCase()+w.slice(1).toLowerCase()).join(' '); userData.phone = potentialPhone; userData.protocol = generateProtocol(); await saveOrUpdateConversation(); addMessage(`Que prazer te receber, ${userData.name}! 💖 Seu protocolo: <strong>${userData.protocol}</strong>.`, false); sendInitialMenu(); }
+                         else { addMessage(`Desculpe, não consegui identificar nome e telefone. Tente novamente (Ex: Maria Silva, 11987654321). 🙏`, false); }
+                    }
+                    // --- 2. Menu Inicial ---
+                    else if (isWaitingFor === 'initial_choice') { /* ... (lógica mantida, usa inputText como action) ... */
+                         const action = inputText; if (action === 'procedure') { sendProcedureListMenu(); } else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Ótimo! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; } else if (action === 'info') { addMessage(`Com prazer... 📍 <strong>Endereço:</strong>... ⏰ <strong>Horário:</strong> ...`, false); sendInfoClinicSubMenu(); } else if (action === 'other_doubt') { sendWhatsappRedirect('duvidas'); }
+                         else { addMessage(`Desculpe, não entendi. Por favor, clique ou digite A, B, C ou D.`, false); sendInitialMenu(); } // Repete menu
+                    }
+                    // --- 3. Escolha do Procedimento ---
+                    else if (isWaitingFor === 'procedure_choice') { /* ... (lógica mantida, usa inputText como action) ... */
+                         const action = inputText; if (procedureDetails[action]) { currentProcedure = action; addMessage(procedureDetails[action].description, false); sendProcedureActionMenu(action); } else if (action === 'other_proc') { addMessage(`Qual outro procedimento?`, false); isWaitingFor = 'message'; }
+                         else { addMessage(`Procedimento não encontrado. Escolha uma opção da lista.`, false); sendProcedureListMenu(); } // Repete menu
+                    }
+                    // --- 4. Ação dentro do Procedimento ---
+                    else if (isWaitingFor === 'procedure_action') { /* ... (lógica mantida, usa inputText como action) ... */
+                        const action = inputText; if (action === 'details' && currentProcedure) { addMessage(procedureDetails[currentProcedure].details || `Info extra...`, false); sendDetailsSubMenu(currentProcedure); } else if (action === 'schedule_specific' && currentProcedure) { addMessage(`Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; } else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); } else if (action === 'other_procedure') { sendProcedureListMenu(); }
+                        else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendProcedureActionMenu(currentProcedure); } // Repete menu
+                    }
+                     // --- 4.1 Ação APÓS Ver Detalhes ---
+                    else if (isWaitingFor === 'procedure_action_after_details') { /* ... (lógica mantida, usa inputText como action) ... */
+                         const action = inputText; if (action === 'schedule_specific' && currentProcedure) { addMessage(`Ótimo! Agendar ${procedureDetails[currentProcedure].name}... Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; } else if (action === 'promo') { sendWhatsappRedirect('promocoes', procedureDetails[currentProcedure]?.name); } else if (action === 'other_doubt_proc') { sendWhatsappRedirect('duvidas', procedureDetails[currentProcedure]?.name); } else if (action === 'other_procedure') { sendProcedureListMenu(); }
+                         else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendDetailsSubMenu(currentProcedure); } // Repete sub-menu
+                    }
+                    // --- 5. Coleta Preferência de Agendamento ---
+                    else if (isWaitingFor === 'scheduling_preference') { /* ... (lógica mantida, usa inputText como userPreference) ... */
+                         const userPreference = inputText; const procName = currentProcedure==='general'?'Avaliação Geral':procedureDetails[currentProcedure]?.name||'sua avaliação'; sendWhatsappRedirect('agendamento', procName, userPreference);
+                    }
+                    // --- 6. Menu de Informações da Clínica ---
+                    else if (isWaitingFor === 'info_choice') { /* ... (lógica mantida, usa inputText como action) ... */
+                         const action = inputText; if(action === 'payment') { addMessage(`Aceitamos dinheiro, PIX, débito e crédito... 😊`, false); sendInfoClinicSubMenu(); } else if (action === 'procedure') { sendProcedureListMenu(); } else if (action === 'schedule_general') { currentProcedure = 'general'; addMessage(`Agendar avaliação geral! Qual <strong>dia</strong> e <strong>período</strong>?`, false); isWaitingFor = 'scheduling_preference'; } else if (action === 'end') { addMessage(`Perfeito, ${userData.name}! ... 🌸`, false); isWaitingFor = 'message'; }
+                         else { addMessage(`Opção inválida. Escolha A, B, C ou D.`, false); sendInfoClinicSubMenu();} // Repete menu
+                    }
+                    // --- 7. Menu Final de Confirmação ---
+                    else if (isWaitingFor === 'final_confirmation') { /* ... (lógica mantida, usa inputText como action) ... */
+                        const action = inputText; if (action === 'procedure') { sendProcedureListMenu(); } else if (action === 'info') { addMessage(`Claro! O que mais?`, false); sendInfoClinicSubMenu(); } else if (action === 'end') { addMessage(`Tudo bem, ${userData.name}! ... 💕 Até breve! 🌸`, false); isWaitingFor = 'message'; }
+                        else { addMessage(`Não entendi. Escolha A, B ou C.`, false); sendFinalConfirmationMenu(); } // Repete menu
+                    }
+                    // --- 8. Estado Aberto ou Fallback ---
+                    else { // Se isWaitingFor é 'message' ou algum estado não tratado
+                        addMessage(`Desculpe, não entendi o que você quis dizer com "${inputText}". Pode tentar outras palavras ou escolher uma opção se houver?`, false);
+                        // Decide qual menu reenviar ou se só espera
+                        if (isWaitingFor !== 'message') { // Se estava esperando algo específico, volta ao início
+                             sendInitialMenu();
+                        } else {
+                             // Se já estava em 'message', apenas espera nova tentativa
+                        }
+                    }
+                }
+                // Fim da Lógica Principal
+
+                if (isWaitingFor !== 'name_phone') { await saveOrUpdateConversation(); }
 
             } catch (error) {
                 console.error("Erro GERAL no processamento:", error);
-                addMessage("⚠️ Ocorreu um erro inesperado. Por favor, tente novamente ou atualize a página.", false);
-                 isWaitingFor = 'message'; // Reseta para estado aberto em caso de erro grave
+                addMessage("⚠️ Ocorreu um erro inesperado. Tente novamente.", false);
+                isWaitingFor = 'message';
             } finally {
-                 showThinking(false);
-                 isProcessing = false;
-                 userInput.disabled = false;
-                 if (!isButtonClick && isWaitingFor !== 'name_phone') { // Não foca se foi botão ou se ainda coleta nome/tel
+                showThinking(false);
+                isProcessing = false;
+                userInput.disabled = false;
+                 // Foca apenas se não veio de botão e se não está esperando nome/tel
+                 if (!isButtonClick && isWaitingFor !== 'name_phone') {
                     userInput.focus();
                  }
-                 scrollToBottom();
+                scrollToBottom();
             }
         }
 
         // --- FUNÇÃO PARA LIDAR COM CLIQUE NO BOTÃO ---
         function handleButtonClick(choiceAction, choiceText) {
-            if (isProcessing) return; // Evita cliques múltiplos rápidos
-
-            // 1. Adiciona a escolha do usuário ao chat como se ele tivesse digitado
-            addMessage(choiceText, true);
-
-            // 2. Chama a lógica principal de processamento com a ação do botão
-            processMessage(choiceAction, true); // Passa a AÇÃO ('procedure', 'schedule_general', etc.) e indica que foi um clique
+            if (isProcessing) return;
+            // Apenas processa, não adiciona a msg do usuário aqui (já está no botão)
+            processMessage(choiceAction, true); // Passa a AÇÃO e marca como clique
         }
 
-        // --- FUNÇÃO DE ENVIO PRINCIPAL (INPUT OU BOTÃO) ---
+        // --- FUNÇÃO DE ENVIO PRINCIPAL ---
         function sendMessage() {
-             const message = userInput.value.trim();
-             if (message === '') return; // Não envia msg vazia
-             processMessage(message, false); // Processa texto digitado
+            const message = userInput.value.trim();
+            if (message === '') return;
+            processMessage(message, false); // Processa texto digitado
         }
 
-
-        // --- FUNÇÕES DO MODAL ---
-        // (Mantidas da resposta anterior)
-        function openSettings() { /* ... MANTIDA ... */
-             supabase.from('agent_prompts').select('prompt').eq('id', 1).single()
-                 .then(({ data, error }) => { if (data?.prompt) agentPromptTextarea.value = data.prompt; else if (error && error.code !== 'PGRST116') console.error('Erro load prompt:', error); settingsModal.classList.add('show');
-                 }).catch(err => { console.error("Catch load prompt:", err); settingsModal.classList.add('show'); });
-        }
-        function closeSettings() { /* ... MANTIDA ... */ settingsModal.classList.remove('show'); }
-        async function saveAgentPrompt() { /* ... MANTIDA ... */
-             const newPrompt = agentPromptTextarea.value.trim(); if (!newPrompt) { alert("Prompt vazio!"); return; }
-             try { const { error } = await supabase.from('agent_prompts').upsert({ id: 1, prompt: newPrompt }, { onConflict: 'id' }); if (error) throw error; alert('Prompt salvo! ✨'); closeSettings();
-             } catch (error) { alert(`Erro save prompt: ${error.message}.`); console.error('Erro save prompt:', error); }
-        }
+        // --- FUNÇÕES DO MODAL (Removidas) ---
+        // function openSettings() { /* ... */ }
+        // function closeSettings() { /* ... */ }
+        // async function saveAgentPrompt() { /* ... */ }
 
         // --- INICIALIZAÇÃO ---
         function initializeChat() {
             chatHistory = []; userData = { name: null, phone: null, protocol: null }; isWaitingFor = 'name_phone'; currentProcedure = null; isProcessing = false; userInput.disabled = false;
             const messages = chatBody.querySelectorAll('.message:not(.thinking)'); messages.forEach(msg => msg.remove()); showThinking(false);
 
-            addMessage('Olá! 🌸 Sou a assistente virtual da Clínica Lorraine Botura... poderia me informar seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>, por favor?<br>(Exemplo: Maria Silva, 11987654321)', false); // Não adiciona botões aqui
+            addMessage('Olá! 🌸 Sou a assistente virtual da Clínica Lorraine Botura... informe seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>, por favor?<br>(Exemplo: Maria Silva, 11987654321)', false);
             userInput.focus();
         }
 
