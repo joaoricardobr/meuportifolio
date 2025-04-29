@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Chat Clínica Dra. Ana Jessica Silva - Nutrição</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* ESTILOS CSS (Mantidos) */
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { height: 100%; } body { min-height: 100%; display: flex; flex-direction: column; font-family: 'Lora', serif; background: linear-gradient(135deg, #E8F5E6, #B0D3A7); color: #16542B; line-height: 1.6; overflow-x: hidden; } /* Cor ajustada levemente */
+        .main-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px 15px; width: 100%; }
+        .chat-container { width: 100%; max-width: 750px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 10px 35px rgba(22, 84, 43, 0.2); display: flex; flex-direction: column; height: 85vh; max-height: 700px; overflow: hidden; border: 1px solid #A7D3B0; } /* Cor ajustada */
+        .chat-header { padding: 18px 25px; background: #E8F5E6; border-bottom: 1px solid #A7D3B0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; } /* Cor ajustada */
+        .chat-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6em; font-weight: 600; color: #16542B; margin: 0; } /* Cor ajustada */
+        .chat-body { flex: 1; padding: 25px; overflow-y: auto; background: #FFFFFF; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #A7D3B0 #E8F5E6; } /* Cor ajustada */
+        .chat-body::-webkit-scrollbar { width: 8px; } .chat-body::-webkit-scrollbar-track { background: #E8F5E6; border-radius: 10px; } .chat-body::-webkit-scrollbar-thumb { background-color: #A7D3B0; border-radius: 10px; border: 2px solid #E8F5E6; } .chat-body::-webkit-scrollbar-thumb:hover { background-color: #18B42D; } /* Cor ajustada */
+        .message { margin-bottom: 18px; padding: 14px 20px; border-radius: 18px; max-width: 85%; line-height: 1.5; box-shadow: 0 3px 5px rgba(22, 84, 43, 0.08); word-wrap: break-word; clear: both; }
+        .user-message { background: #A7D3B0; color: #16542B; margin-left: auto; border-bottom-right-radius: 5px; float: right; } /* Cor ajustada */
+        .bot-message { background: #E8F5E6; color: #16542B; margin-right: auto; border-bottom-left-radius: 5px; float: left; padding-bottom: 5px; } /* Cor ajustada */
+        .bot-message.thinking { font-style: italic; opacity: 0.8; background: #dde9e0; padding-bottom: 14px; } /* Cor ajustada */
+        .bot-message strong { color: #18B42D; font-weight: 600; } /* Cor ajustada */
+        .bot-message a { color: #18B42D; text-decoration: none; font-weight: 600; border-bottom: 1px solid #9ad8aa; transition: color 0.3s ease, border-bottom-color 0.3s ease; } /* Cor ajustada */
+        .bot-message a:hover { color: #16542B; border-bottom-color: #16542B; } /* Cor ajustada */
+        .bot-message ul { list-style-position: outside; padding-left: 25px; margin-top: 8px; margin-bottom: 5px; } .bot-message li { margin-bottom: 6px; }
+        .sub-message { font-size: 0.9em; margin-top: 10px; padding: 8px 12px; background: rgba(167, 211, 176, 0.2); border-radius: 10px; display: inline-block; border: 1px solid rgba(167, 211, 176, 0.5); } /* Cor ajustada */
+        .options-container { margin-top: 15px; padding-top: 10px; border-top: 1px dashed rgba(22, 84, 43, 0.1); display: flex; flex-direction: column; gap: 8px; } /* Cor ajustada */
+        .option-button { display: block; width: 100%; padding: 10px 15px; background-color: #FFFFFF; color: #16542B; border: 1px solid #A7D3B0; border-radius: 8px; text-align: left; font-family: 'Lora', serif; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(22, 84, 43, 0.06); } /* Cor ajustada */
+        .option-button:hover { background-color: #A7D3B0; color: #FFFFFF; border-color: #18B42D; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(22, 84, 43, 0.1); } /* Cor ajustada */
+        .option-button:disabled { background-color: #eaf0ea; color: #93a096; border-color: #d0e0d4; cursor: not-allowed; box-shadow: none; transform: none; } /* Cor ajustada */
+        .option-button .option-letter { font-weight: 700; margin-right: 8px; color: #18B42D; display: inline-block; min-width: 15px; } /* Cor ajustada */
+        .option-button:hover .option-letter { color: #FFFFFF; } .option-button:disabled .option-letter { color: #93a096; }
+        .chat-footer { padding: 15px 25px; background: #E8F5E6; display: flex; align-items: center; gap: 12px; border-top: 1px solid #A7D3B0; flex-shrink: 0; } /* Cor ajustada */
+        .chat-input { flex: 1; padding: 14px 22px; border: 1px solid #A7D3B0; background: #FFFFFF; color: #16542B; border-radius: 25px; outline: none; font-size: 1.05em; font-family: 'Lora', serif; resize: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; } /* Cor ajustada */
+        .chat-input:focus { border-color: #18B42D; box-shadow: 0 0 0 3px rgba(24, 180, 45, 0.15); } /* Cor ajustada */
+        .chat-input::placeholder { color: #8cb194; opacity: 0.9; } /* Cor ajustada */
+        .send-button { width: 48px; height: 48px; border: none; background: #18B42D url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNM i4wMSAyMSAyMyAxMiAyLjAxIDMgMiAxMGw١NSAyLTggMnpNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIuMDEgM0wyMyAxMiAyLjAxIDIxIDIgMTBsMTUtMi0xNS0yeiIvPjwvc3ZnPg==') no-repeat center; background-size: 50%; border-radius: 50%; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 4px 10px rgba(24, 180, 45, 0.2); flex-shrink: 0; } /* Cor ajustada */
+        .send-button:hover { background-color: #16542B; transform: scale(1.05); } /* Cor ajustada */
+        .send-button:active { transform: scale(0.95); }
+        .page-footer { flex-shrink: 0; width: 100%; padding: 15px 20px; background-color: #E8F5E6; border-top: 1px solid #A7D3B0; text-align: center; margin-top: auto; } /* Cor ajustada */
+        .social-icons { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 10px; }
+        .social-icons a { display: inline-flex; justify-content: center; align-items: center; width: 36px; height: 36px; background-color: rgba(167, 211, 176, 0.3); border-radius: 50%; transition: background-color 0.3s ease, transform 0.3s ease; border: 1px solid transparent; } /* Cor ajustada */
+        .social-icons a svg { width: 18px; height: 18px; fill: #16542B; transition: fill 0.3s ease; } /* Cor ajustada */
+        .social-icons a:hover { background-color: #A7D3B0; transform: translateY(-2px); border: 1px solid #18B42D; } /* Cor ajustada */
+        .social-icons a:hover svg { fill: #FFFFFF; }
+        .footer-text { font-size: 0.8em; color: #16542B; opacity: 0.8; } /* Cor ajustada */
+        .footer-text a { color: #18B42D; text-decoration: none; font-weight: 600; } /* Cor ajustada */
+        .footer-text a:hover { text-decoration: underline; }
+
+        /* Responsividade (Mantida, cores ajustadas nos seletores acima) */
+        @media (max-width: 768px) { .main-content { padding: 10px; align-items: flex-start; padding-top: 10px; } .chat-container { height: calc(100vh - 90px); max-height: none; border-radius: 10px; } .chat-header h1 { font-size: 1.3em; } .chat-body { padding: 15px; } .message { max-width: 90%; padding: 10px 15px; margin-bottom: 15px;} .chat-footer { padding: 10px 15px; gap: 10px;} .chat-input { padding: 12px 18px; font-size: 1em; } .send-button { width: 42px; height: 42px; } .page-footer { padding: 12px 15px; } .social-icons { gap: 15px; margin-bottom: 8px; } .social-icons a { width: 32px; height: 32px; } .social-icons a svg { width: 16px; height: 16px; } .footer-text { font-size: 0.75em; } .option-button { padding: 8px 12px; font-size: 0.9em;} }
+        @media (max-width: 480px) { .main-content { padding: 5px; padding-top: 5px; } .chat-container { height: calc(100vh - 75px); border-radius: 5px;} .chat-header h1 { font-size: 1.1em; } .chat-header { padding: 12px 15px;} .chat-body { padding: 10px; } .message { max-width: 95%; } .chat-footer { padding: 8px 10px; gap: 8px; } .chat-input { padding: 10px 15px; font-size: 0.95em; } .send-button { width: 38px; height: 38px; } .page-footer { padding: 10px; } .social-icons { gap: 12px; } .footer-text { font-size: 0.7em; } .option-button { font-size: 0.85em;} }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="chat-container">
+
+            <div class="chat-header"><h1>Clínica Dra. Ana Jessica Silva</h1></div>
+            <div class="chat-body" id="chatBody">
+                <div class="message bot-message thinking" style="display: none;">Processando sua solicitação... ✨</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" id="userInput" placeholder="Digite sua dúvida ou escolha uma opção..." aria-label="Campo de mensagem">
+                <button class="send-button" onclick="sendMessage()" aria-label="Enviar mensagem"></button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div class="social-icons">
+          
+             <a href="https://www.instagram.com/draanajessicasilva/" target="_blank" aria-label="Instagram Dra. Ana Jessica Silva"> <svg viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2C22,19.4 19.4,22 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8C2,4.6 4.6,2 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4C18.39,20 20,18.39 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg> </a>
+             <a href="https://www.instagram.com/draanajessicasilva/" target="_blank" aria-label="Rede Social Dra. Ana Jessica Silva"> <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.81C10.44 7.31 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10.01 10.01 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg> </a>
+             <a href="https://www.instagram.com/draanajessicasilva/" target="_blank" aria-label="Contato Dra. Ana Jessica Silva"> <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 12C2.13 13.8 2.64 15.5 3.57 16.96L2 22L7.19 20.53C8.6 21.4 10.27 21.94 12.04 21.94C17.5 21.94 21.95 17.5 21.95 12C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 12C20.28 16.61 16.56 20.33 12.04 20.33C10.47 20.33 8.96 19.86 7.7 19.05L7.26 18.79L4.6 19.5L5.37 17L5.09 16.54C4.24 15.21 3.79 13.65 3.79 12C3.79 7.39 7.51 3.67 12.04 3.67M16.58 14.53C16.41 14.44 15.3 13.91 15.12 13.85C14.93 13.79 14.79 13.76 14.66 13.93C14.53 14.11 14.02 14.71 13.86 14.88C13.71 15.06 13.56 15.08 13.27 14.99C12.98 14.9 12.07 14.61 10.99 13.66C10.16 12.91 9.61 12.04 9.45 11.76C9.3 11.47 9.43 11.34 9.56 11.21C9.68 11.09 9.83 10.9 9.97 10.73C10.1 10.56 10.16 10.44 10.25 10.27C10.34 10.1 10.28 9.96 10.22 9.83C10.16 9.7 9.65 8.41 9.46 7.94C9.28 7.47 9.1 7.53 8.95 7.53C8.79 7.53 8.65 7.53 8.51 7.53C8.37 7.53 8.13 7.59 7.92 7.8C7.71 8.02 7.16 8.54 7.16 9.73C7.16 10.92 7.95 12.04 8.09 12.22C8.23 12.39 10.18 15.31 13.11 16.76C13.91 17.11 14.54 17.32 15.01 17.48C15.7 17.7 16.23 17.66 16.66 17.6C17.13 17.54 18.12 17 18.33 16.41C18.54 15.83 18.54 15.34 18.45 15.21C18.37 15.08 18.23 15.02 18.06 14.93C17.89 14.84 16.75 14.31 16.58 14.25" fill-rule="evenodd"/></svg> </a>
+             <a href="https://www.instagram.com/draanajessicasilva/" target="_blank" aria-label="Website Dra. Ana Jessica Silva"> <svg viewBox="0 0 24 24"><path d="M10.59,13.41C11,13.8 11,14.44 10.59,14.83C10.2,15.22 9.56,15.22 9.17,14.83C7.22,12.88 7.22,9.71 9.17,7.76V7.76L12,10.59L14.83,7.76C15.22,7.37 15.86,7.37 16.25,7.76C16.64,8.15 16.64,8.79 16.25,9.18L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41L9.17,16.25C8.78,16.64 8.14,16.64 7.75,16.25C7.36,15.86 7.36,15.22 7.75,14.83L10.59,12L7.75,9.17C7.36,8.78 7.36,8.14 7.75,7.75C8.14,7.36 8.78,7.36 9.17,7.75L12,10.59L14.83,7.75C15.22,7.36 15.86,7.36 16.25,7.75C16.64,8.14 16.64,8.78 16.25,9.17L13.41,12L16.25,14.83C16.64,15.22 16.64,15.86 16.25,16.25C15.86,16.64 15.22,16.64 14.83,16.25L12,13.41Z M19,3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3Z" /></svg> </a>
+             <a href="https://www.instagram.com/draanajessicasilva/" target="_blank" aria-label="Informações Dra. Ana Jessica Silva"> <svg viewBox="0 0 24 24"><path d="M21.35 11.1H12.18V13.83H18.69C18.36 17.64 15.19 19.27 12.19 19.27C8.36 19.27 5.03 16.41 5.03 12.5C5.03 8.59 8.36 5.73 12.19 5.73C15.1 5.73 17.33 7.95 17.33 7.95L19.78 5.73C19.78 5.73 16.94 3 12.19 3C6.92 3 3.06 7.03 3.06 12.5C3.06 17.97 6.92 22 12.19 22C17.61 22 21.31 18.47 21.31 13.36C21.31 12.41 21.35 11.77 21.35 11.1Z"/></svg> </a>
+        </div>
+        <div class="footer-text">
+             
+            © 2025 Clínica Dra. Ana Jessica Silva. Todos os direitos reservados. | <a href="https://www.instagram.com/draanajessicasilva/" target="_blank">Sobre Dra. Ana Jessica Silva</a>
+        </div>
+      <div class="footer-text">
+            Feito Por Joao Ricardo - Engenheiro da Computação | <a href="https://instagram.com/joaoricardo.pe" target="_blank">Meu Instagram</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // --- CONFIGURAÇÕES ---
+        const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co'; // Mantenha se ainda for usar o mesmo Supabase
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o'; // Mantenha se ainda for usar o mesmo Supabase ANON KEY
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const WHATSAPP_NUMBER = '5574988414187'; // <-- TELEFONE ATUALIZADO (com código do país)
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let userData = { name: null, phone: null, protocol: null };
+        let chatHistory = [];
+        let isWaitingFor = 'name_phone';
+        let currentTreatment = null; // Renomeado de currentProcedure
+        let isProcessing = false;
+
+        // --- ELEMENTOS DO DOM ---
+        const chatBody = document.getElementById('chatBody');
+        const userInput = document.getElementById('userInput');
+        const thinkingMessageDiv = chatBody.querySelector('.thinking');
+
+        // --- DADOS DOS TRATAMENTOS NUTRICIONAIS ---
+        const treatmentDetails = {
+            // 🥗 Tratamentos Clínicos
+            'reeducacao': { key: 'reeducacao', name: 'Reeducação Alimentar', description: '🥗 **Reeducação Alimentar**<br>Aprenda a comer de forma equilibrada, sem dietas restritivas, criando hábitos saudáveis e duradouros.', details: '<strong>Foco:</strong> Mudança de comportamento alimentar, escolhas conscientes, prazer em comer bem, adaptação à rotina.' },
+            'perda_peso': { key: 'perda_peso', name: 'Controle e Perda de Peso', description: '⚖️ **Controle e Perda de Peso**<br>Alcance um peso saudável com acompanhamento nutricional individualizado, focado no seu bem-estar (obesidade/sobrepeso).', details: '<strong>Estratégias:</strong> Plano alimentar personalizado, metas realistas, acompanhamento de evolução, suporte motivacional.' },
+            'ganho_peso_massa': { key: 'ganho_peso_massa', name: 'Ganho de Peso e Massa Muscular', description: '💪 **Ganho de Peso e Massa Muscular**<br>Aumente sua massa magra de forma saudável com um plano alimentar ajustado ao seu perfil e objetivos.', details: '<strong>Foco:</strong> Aporte calórico e proteico adequado, combinação de nutrientes, timing de refeições, integração com treino.' },
+            'disturbios_alimentares': { key: 'disturbios_alimentares', name: 'Distúrbios Alimentares', description: '❤️ **Distúrbios Alimentares**<br>Apoio nutricional no tratamento de anorexia, bulimia e compulsão, com escuta acolhedora e estratégias equilibradas.', details: '<strong>Abordagem:</strong> Trabalho multidisciplinar, foco na relação com a comida, reconstrução de hábitos, sem julgamentos.' },
+            'controle_metabolico': { key: 'controle_metabolico', name: 'Controle Metabólico (Colesterol, Triglicérides, PA)', description: '🩺 **Controle Metabólico**<br>Controle níveis alterados de colesterol, triglicérides e pressão alta por meio da alimentação certa para sua saúde cardiovascular.', details: '<strong>Foco:</strong> Alimentos funcionais, gorduras saudáveis, controle de sódio, fibras, plano alimentar específico.' },
+            'diabetes': { key: 'diabetes', name: 'Tratamento de Diabetes', description: '🩸 **Tratamento de Diabetes**<br>Alimentação planejada para controlar a glicemia (tipo 1, tipo 2 e gestacional) e prevenir complicações.', details: '<strong>Estratégias:</strong> Contagem de carboidratos (se aplicável), índice glicêmico, porções adequadas, escolhas inteligentes.' },
+            'doencas_intestinais': { key: 'doencas_intestinais', name: 'Nutrição para Doenças Intestinais', description: '🌿 **Nutrição para Doenças Intestinais**<br>Alivie sintomas (SII, colite, gastrite) e melhore a digestão com uma alimentação personalizada.', details: '<strong>Abordagens:</strong> Dieta baixa em FODMAPs (se indicada), probióticos, prebióticos, alimentos anti-inflamatórios, identificação de gatilhos.' },
+            'doencas_renais_hepaticas': { key: 'doencas_renais_hepaticas', name: 'Nutrição para Doenças Renais e Hepáticas', description: '🔬 **Nutrição para Doenças Renais e Hepáticas**<br>Ajustes nutricionais para preservar o funcionamento dos rins e do fígado com mais qualidade de vida.', details: '<strong>Foco:</strong> Controle de proteínas, sódio, potássio, fósforo (renal); suporte hepático com nutrientes específicos (hepática).' },
+
+            // 🍏 Nutrição Funcional
+            'func_detox': { key: 'func_detox', name: 'Desintoxicação e Limpeza Hepática', description: '🍏 **Desintoxicação e Limpeza Hepática**<br>Alimentos e nutrientes que auxiliam o fígado a eliminar toxinas de forma natural.', details: '<strong>Estratégias:</strong> Alimentos ricos em antioxidantes, chás específicos, hidratação adequada, exclusão de processados.' },
+            'func_intolerancias': { key: 'func_intolerancias', name: 'Intolerâncias e Alergias Alimentares', description: '🚫 **Intolerâncias e Alergias Alimentares**<br>Identificação e orientação para uma alimentação livre de sintomas e desconfortos.', details: '<strong>Processo:</strong> Investigação de sintomas, diário alimentar, testes (se necessário), plano de exclusão e reintrodução segura.' },
+            'func_hormonal': { key: 'func_hormonal', name: 'Equilíbrio Hormonal', description: '♀️ **Equilíbrio Hormonal**<br>Suporte nutricional para regular hormônios, com foco em TPM, menopausa e saúde da mulher.', details: '<strong>Foco:</strong> Nutrientes chave (magnésio, zinco, ômega 3), fitoestrógenos (se indicado), saúde intestinal, gerenciamento de estresse.' },
+            'func_antiinflamatoria': { key: 'func_antiinflamatoria', name: 'Nutrição Anti-inflamatória', description: '🔥 **Nutrição Anti-inflamatória**<br>Reduza dores e inchaços com uma alimentação que combate processos inflamatórios silenciosos.', details: '<strong>Alimentos Chave:</strong> Peixes ricos em ômega 3, azeite extra virgem, frutas vermelhas, cúrcuma, gengibre, vegetais folhosos.' },
+            'func_suplementacao': { key: 'func_suplementacao', name: 'Suplementação Personalizada', description: '💊 **Suplementação Personalizada**<br>Uso estratégico de vitaminas, minerais e fitoterápicos para corrigir carências e otimizar a saúde.', details: '<strong>Baseado em:</strong> Avaliação individual, exames (se necessário), objetivos de saúde, alimentação atual.' },
+
+            // 🏃‍♀️ Nutrição Esportiva
+            'esport_atletas': { key: 'esport_atletas', name: 'Nutrição para Atletas/Praticantes', description: '🏃‍♀️ **Nutrição para Atletas e Praticantes**<br>Ganhe energia e melhore sua performance com um plano nutricional feito para o seu esporte.', details: '<strong>Foco:</strong> Necessidades energéticas, carboidratos para energia, proteínas para recuperação, hidratação, timing de nutrientes.' },
+            'esport_hipertrofia': { key: 'esport_hipertrofia', name: 'Estratégias para Hipertrofia', description: '🏋️ **Estratégias para Hipertrofia**<br>Ganhe massa magra com estratégias alimentares e suplementação adequada (se necessário).', details: '<strong>Pilares:</strong> Superávit calórico controlado, aporte proteico ideal, distribuição de macronutrientes, descanso.' },
+            'esport_performance': { key: 'esport_performance', name: 'Alimentação para Performance', description: '🏆 **Alimentação para Performance**<br>Otimize seu rendimento em treinos e competições com uma alimentação estratégica.', details: '<strong>Estratégias:</strong> Nutrição pré, intra e pós-treino/competição, hidratação, periodização nutricional.' },
+            'esport_suplementos': { key: 'esport_suplementos', name: 'Avaliação de Suplementos Esportivos', description: '💡 **Avaliação de Suplementos Esportivos**<br>Oriente-se sobre o uso correto e seguro de suplementos para atingir seus objetivos.', details: '<strong>Avaliação:</strong> Necessidade real, segurança, eficácia comprovada (creatina, cafeína, whey, etc.), dosagem correta.' },
+
+            // 🤰 Nutrição Materno-Infantil
+            'materno_gravidez': { key: 'materno_gravidez', name: 'Nutrição na Gravidez e Amamentação', description: '🤰 **Nutrição na Gravidez e Amamentação**<br>Alimente-se bem durante esse momento especial, promovendo saúde para você e o bebê.', details: '<strong>Foco:</strong> Nutrientes essenciais (ácido fólico, ferro, cálcio, ômega 3), ganho de peso adequado, prevenção de desconfortos.' },
+            'materno_fertilidade': { key: 'materno_fertilidade', name: 'Planejamento para Fertilidade', description: '👶 **Planejamento para Fertilidade**<br>Prepare o corpo para a gestação com alimentos que favorecem a saúde reprodutiva (feminina e masculina).', details: '<strong>Nutrientes Chave:</strong> Antioxidantes, zinco, selênio, vitamina D, ácido fólico, alimentação equilibrada.' },
+            'materno_introducao': { key: 'materno_introducao', name: 'Introdução Alimentar', description: '🥕 **Introdução Alimentar**<br>Guia completo e seguro para iniciar a alimentação complementar do bebê (a partir dos 6 meses).', details: '<strong>Métodos:</strong> Tradicional (papinhas), BLW (Baby-Led Weaning) ou misto. Orientação sobre texturas, grupos alimentares, prevenção de alergias.' },
+            'materno_infantil': { key: 'materno_infantil', name: 'Nutrição Infantil', description: '🧒 **Nutrição Infantil**<br>Alimentação equilibrada para crianças crescerem fortes, saudáveis, felizes e prevenindo a obesidade infantil.', details: '<strong>Foco:</strong> Formação de hábitos saudáveis, variedade alimentar, relação positiva com a comida, lanches nutritivos.' },
+
+             // 🧠 Nutrição Comportamental
+            'comp_mindful': { key: 'comp_mindful', name: 'Mindful Eating (Comer Consciente)', description: '🧘 **Mindful Eating (Comer Consciente)**<br>Aprenda a comer com atenção plena, respeitando sua fome, saciedade e os sinais do corpo.', details: '<strong>Práticas:</strong> Comer devagar, saborear os alimentos, identificar fome física vs. emocional, comer sem distrações.' },
+            'comp_ansiedade': { key: 'comp_ansiedade', name: 'Tratamento da Ansiedade Alimentar', description: '😟 **Tratamento da Ansiedade Alimentar**<br>Trabalhe sua relação com a comida, identificando gatilhos emocionais e desenvolvendo estratégias saudáveis.', details: '<strong>Abordagem:</strong> Reconhecer padrões, buscar alternativas ao comer emocional, planejamento alimentar flexível.' },
+            'comp_habitos': { key: 'comp_habitos', name: 'Hábitos Alimentares Sustentáveis', description: '🌱 **Hábitos Alimentares Sustentáveis**<br>Construa uma rotina alimentar possível e duradoura, sem culpa, restrições excessivas ou exageros.', details: '<strong>Foco:</strong> Metas pequenas e realistas, flexibilidade, consistência, prazer na alimentação, adaptação ao estilo de vida.' },
+            'comp_autoestima': { key: 'comp_autoestima', name: 'Autoestima e Imagem Corporal', description: '💖 **Autoestima e Imagem Corporal**<br>Melhore sua relação com o corpo por meio de escolhas alimentares conscientes, acolhedoras e focadas na saúde.', details: '<strong>Abordagem:</strong> Nutrição sem dieta, foco na saúde e bem-estar, aceitação corporal, desconstrução de padrões irreais.' },
+
+            // 🌱 Nutrição Vegetariana e Vegana
+            'veg_plano': { key: 'veg_plano', name: 'Planejamento Vegetariano/Vegano', description: ' V **Planejamento Vegetariano/Vegano**<br>Alimente-se com equilíbrio e segurança, garantindo todos os nutrientes em dietas baseadas em plantas.', details: '<strong>Foco:</strong> Fontes de proteína vegetal, ferro, cálcio, zinco, ômega 3, planejamento de refeições variadas.' },
+            'veg_suplementacao': { key: 'veg_suplementacao', name: 'Suplementação Vegetariana/Vegana', description: ' B12 **Suplementação Vegetariana/Vegana**<br>Evite deficiências nutricionais (B12, ferro, ômega 3, etc.) com a orientação correta.', details: '<strong>Essencial:</strong> Avaliação da necessidade de B12 (geralmente indispensável para veganos), vitamina D, iodo, e outros conforme avaliação.' },
+            'veg_transicao': { key: 'veg_transicao', name: 'Transição Alimentar Segura', description: ' ⇆ **Transição Alimentar Segura**<br>Mude sua alimentação para vegetariana/vegana de forma gradual, segura e adaptada.', details: '<strong>Passos:</strong> Substituições inteligentes, introdução de novos alimentos, acompanhamento para garantir adequação nutricional.' },
+
+             // 🧓 Nutrição para Idosos
+            'idoso_sarcopenia': { key: 'idoso_sarcopenia', name: 'Prevenção de Sarcopenia', description: '💪👵 **Prevenção de Sarcopenia**<br>Previna a perda de massa muscular e mantenha a força e autonomia com a nutrição certa.', details: '<strong>Foco:</strong> Aporte proteico adequado e distribuído ao longo do dia, vitamina D, cálcio, combinado com atividade física.' },
+            'idoso_imunidade_ossos': { key: 'idoso_imunidade_ossos', name: 'Melhora da Imunidade e Saúde Óssea', description: '🛡️🦴 **Imunidade e Saúde Óssea**<br>Fortaleça o sistema imune e cuide dos ossos com um plano alimentar ajustado à idade.', details: '<strong>Nutrientes Chave:</strong> Zinco, selênio, vitamina C, vitamina D, cálcio, magnésio, proteínas.' },
+            'idoso_doencas_cronicas': { key: 'idoso_doencas_cronicas', name: 'Acompanhamento de Doenças Crônicas', description: '🩺👴 **Acompanhamento de Doenças Crônicas**<br>Alimentação adequada para manter a qualidade de vida mesmo com condições como diabetes, hipertensão, etc.', details: '<strong>Abordagem:</strong> Adaptação do plano alimentar às condições existentes, controle de sintomas, prevenção de complicações.' }
+        };
+
+         // MAPA DE LETRAS PARA TRATAMENTOS (AJUSTADO) - Ordem baseada na sua lista
+         // Máximo de ~10 opções por menu é ideal para UI. Dividirei em categorias se necessário.
+         // Vamos criar um menu inicial de categorias.
+         const categoryMap = {
+             'CAT_CLINICA': { letter: 'A', text: '🥗 <strong>Tratamentos Clínicos</strong> (Peso, Diabetes, Colesterol...)' },
+             'CAT_FUNCIONAL': { letter: 'B', text: '🍏 <strong>Nutrição Funcional</strong> (Detox, Hormônios, Inflamação...)' },
+             'CAT_ESPORTIVA': { letter: 'C', text: '🏃‍♀️ <strong>Nutrição Esportiva</strong> (Performance, Hipertrofia...)' },
+             'CAT_MATERNO': { letter: 'D', text: '🤰 <strong>Nutrição Materno-Infantil</strong> (Gestante, Bebê, Criança...)' },
+             'CAT_COMPORT': { letter: 'E', text: '🧠 <strong>Nutrição Comportamental</strong> (Ansiedade, Mindful Eating...)' },
+             'CAT_VEG': { letter: 'F', text: '🌱 <strong>Nutrição Vegetariana/Vegana</strong>' },
+             'CAT_IDOSO': { letter: 'G', text: '🧓 <strong>Nutrição para Idosos</strong>' }
+         };
+
+         // Mapas por categoria
+         const treatmentLetterMap_Clinica = {
+            'A': 'reeducacao', 'B': 'perda_peso', 'C': 'ganho_peso_massa', 'D': 'disturbios_alimentares',
+            'E': 'controle_metabolico', 'F': 'diabetes', 'G': 'doencas_intestinais', 'H': 'doencas_renais_hepaticas'
+         };
+         const treatmentLetterMap_Funcional = {
+             'A': 'func_detox', 'B': 'func_intolerancias', 'C': 'func_hormonal', 'D': 'func_antiinflamatoria', 'E': 'func_suplementacao'
+         };
+          const treatmentLetterMap_Esportiva = {
+             'A': 'esport_atletas', 'B': 'esport_hipertrofia', 'C': 'esport_performance', 'D': 'esport_suplementos'
+         };
+         const treatmentLetterMap_Materno = {
+             'A': 'materno_gravidez', 'B': 'materno_fertilidade', 'C': 'materno_introducao', 'D': 'materno_infantil'
+         };
+          const treatmentLetterMap_Comport = {
+             'A': 'comp_mindful', 'B': 'comp_ansiedade', 'C': 'comp_habitos', 'D': 'comp_autoestima'
+         };
+          const treatmentLetterMap_Veg = {
+             'A': 'veg_plano', 'B': 'veg_suplementacao', 'C': 'veg_transicao'
+         };
+          const treatmentLetterMap_Idoso = {
+             'A': 'idoso_sarcopenia', 'B': 'idoso_imunidade_ossos', 'C': 'idoso_doencas_cronicas'
+         };
+
+        // --- MAPA DE KEYWORDS (ATUALIZADO PARA NUTRIÇÃO) ---
+        const keywordToActionMap = {
+            // Tratamentos Específicos (mapeia para a key em treatmentDetails) - Prioridade 0
+            'reeducação alimentar': ['reeducacao', 0], 'reeducacao': ['reeducacao', 0], 'aprender a comer': ['reeducacao', 0],
+            'perder peso': ['perda_peso', 0], 'emagrecer': ['perda_peso', 0], 'emagrecimento': ['perda_peso', 0], 'obesidade': ['perda_peso', 0], 'sobrepeso': ['perda_peso', 0], 'controle de peso': ['perda_peso', 0],
+            'ganhar peso': ['ganho_peso_massa', 0], 'ganho de peso': ['ganho_peso_massa', 0], 'massa muscular': ['ganho_peso_massa', 0], 'hipertrofia': ['esport_hipertrofia', 0], // Mapeia para esportivo também
+            'distúrbio alimentar': ['disturbios_alimentares', 0], 'transtorno alimentar': ['disturbios_alimentares', 0], 'anorexia': ['disturbios_alimentares', 0], 'bulimia': ['disturbios_alimentares', 0], 'compulsão alimentar': ['disturbios_alimentares', 0],
+            'colesterol': ['controle_metabolico', 0], 'triglicerídeos': ['controle_metabolico', 0], 'triglicerides': ['controle_metabolico', 0], 'pressão alta': ['controle_metabolico', 0], 'hipertensão': ['controle_metabolico', 0],
+            'diabetes': ['diabetes', 0], 'diabete': ['diabetes', 0], 'glicemia': ['diabetes', 0], 'açúcar no sangue': ['diabetes', 0],
+            'intestino': ['doencas_intestinais', 0], 'intestinal': ['doencas_intestinais', 0], 'gastrite': ['doencas_intestinais', 0], 'azia': ['doencas_intestinais', 0], 'refluxo': ['doencas_intestinais', 0], 'síndrome do intestino irritável': ['doencas_intestinais', 0], 'sii': ['doencas_intestinais', 0], 'colite': ['doencas_intestinais', 0], 'digestão': ['doencas_intestinais', 0],
+            'renal': ['doencas_renais_hepaticas', 0], 'rins': ['doencas_renais_hepaticas', 0], 'hepática': ['doencas_renais_hepaticas', 0], 'fígado': ['doencas_renais_hepaticas', 0], 'figado': ['doencas_renais_hepaticas', 0],
+            'detox': ['func_detox', 0], 'desintoxicar': ['func_detox', 0], 'limpeza hepática': ['func_detox', 0],
+            'intolerância': ['func_intolerancias', 0], 'intolerancia': ['func_intolerancias', 0], 'alergia alimentar': ['func_intolerancias', 0], 'glúten': ['func_intolerancias', 0], 'lactose': ['func_intolerancias', 0],
+            'hormônio': ['func_hormonal', 0], 'hormonal': ['func_hormonal', 0], 'tpm': ['func_hormonal', 0], 'menopausa': ['func_hormonal', 0],
+            'anti-inflamatória': ['func_antiinflamatoria', 0], 'antiinflamatoria': ['func_antiinflamatoria', 0], 'inflamação': ['func_antiinflamatoria', 0], 'inflamacao': ['func_antiinflamatoria', 0], 'dores': ['func_antiinflamatoria', 0],
+            'suplemento': ['func_suplementacao', 0], 'suplementação': ['func_suplementacao', 0], 'vitamina': ['func_suplementacao', 0], 'mineral': ['func_suplementacao', 0],
+            'esporte': ['esport_atletas', 0], 'esportivo': ['esport_atletas', 0], 'atleta': ['esport_atletas', 0], 'atividade física': ['esport_atletas', 0], 'exercício': ['esport_atletas', 0], 'performance': ['esport_performance', 0], 'rendimento': ['esport_performance', 0],
+            'suplemento esportivo': ['esport_suplementos', 0], 'whey': ['esport_suplementos', 0], 'creatina': ['esport_suplementos', 0],
+            'grávida': ['materno_gravidez', 0], 'gravidez': ['materno_gravidez', 0], 'gestante': ['materno_gravidez', 0], 'amamentação': ['materno_gravidez', 0], 'amamentar': ['materno_gravidez', 0],
+            'fertilidade': ['materno_fertilidade', 0], 'engravidar': ['materno_fertilidade', 0], 'tentante': ['materno_fertilidade', 0],
+            'introdução alimentar': ['materno_introducao', 0], 'introducao alimentar': ['materno_introducao', 0], 'comida bebê': ['materno_introducao', 0], 'papinha': ['materno_introducao', 0], 'blw': ['materno_introducao', 0],
+            'nutrição infantil': ['materno_infantil', 0], 'alimentação infantil': ['materno_infantil', 0], 'criança': ['materno_infantil', 0], 'crianca': ['materno_infantil', 0],
+            'mindful eating': ['comp_mindful', 0], 'comer consciente': ['comp_mindful', 0], 'atenção plena': ['comp_mindful', 0],
+            'ansiedade alimentar': ['comp_ansiedade', 0], 'comer emocional': ['comp_ansiedade', 0], 'compulsão': ['disturbios_alimentares', 0], // Pode ser comportamental ou clínico
+            'hábito alimentar': ['comp_habitos', 0], 'habito alimentar': ['comp_habitos', 0], 'rotina alimentar': ['comp_habitos', 0],
+            'autoestima': ['comp_autoestima', 0], 'imagem corporal': ['comp_autoestima', 0], 'relação com o corpo': ['comp_autoestima', 0],
+            'vegetariano': ['veg_plano', 0], 'vegan': ['veg_plano', 0], 'vegano': ['veg_plano', 0], 'plant based': ['veg_plano', 0], 'sem carne': ['veg_plano', 0],
+            'b12': ['veg_suplementacao', 0], 'suplemento vegano': ['veg_suplementacao', 0],
+            'transição vegana': ['veg_transicao', 0], 'virar vegano': ['veg_transicao', 0],
+            'idoso': ['idoso_sarcopenia', 0], 'terceira idade': ['idoso_sarcopenia', 0], 'sarcopenia': ['idoso_sarcopenia', 0], 'perda muscular idoso': ['idoso_sarcopenia', 0],
+            'imunidade idoso': ['idoso_imunidade_ossos', 0], 'ossos idoso': ['idoso_imunidade_ossos', 0],
+            'doença crônica idoso': ['idoso_doencas_cronicas', 0],
+
+            // Ações Gerais com Prioridade Alta (2)
+            'agendar': ['schedule_general', 2], 'agenda': ['schedule_general', 2], 'marcar': ['schedule_general', 2], 'consulta': ['schedule_general', 2], 'avaliação': ['schedule_general', 2], 'sessão': ['schedule_general', 2], 'quero agendar': ['schedule_general', 2], 'quero marcar': ['schedule_general', 2], 'nutricionista': ['schedule_general', 2],
+            'preço': ['price', 2], 'valor': ['price', 2], 'quanto custa': ['price', 2], 'orçamento': ['price', 2],
+            'pagamento': ['payment', 2], 'pagar': ['payment', 2], 'cartão': ['payment', 2], 'pix': ['payment', 2],
+            'ajuda': ['talk_human', 2], 'atendente': ['talk_human', 2], 'humano': ['talk_human', 2], 'falar com alguém': ['talk_human', 2], 'preciso de ajuda': ['talk_human', 2], 'socorro': ['talk_human', 2], 'atendimento': ['talk_human', 2], 'falar com atendente': ['talk_human', 2], 'conversar com atendente': ['talk_human', 2], 'dúvida': ['talk_human', 2], 'duvida': ['talk_human', 2],
+
+            // Ações de Info com Prioridade Média (1)
+            'endereço': ['info_address', 1], 'endereco': ['info_address', 1], 'local': ['info_address', 1], 'onde fica': ['info_address', 1], 'clínica': ['info_address', 1], 'consultório': ['info_address', 1], 'petrolina': ['info_address', 1], 'casa nova': ['info_address', 1], 'juazeiro': ['info_address', 1],
+            'horário': ['info_hours', 1], 'horario': ['info_hours', 1], 'horas': ['info_hours', 1], 'funcionamento': ['info_hours', 1], 'abre': ['info_hours', 1], 'fecha': ['info_hours', 1],
+            'telefone': ['info_phone', 1], 'whatsapp': ['info_phone', 1], 'contato': ['info_phone', 1], 'zap': ['info_phone', 1],
+            'informações': ['info', 1], 'informacoes': ['info', 1], 'sobre a clínica': ['info', 1],
+
+            // Ações Genéricas com Prioridade Baixa (-1)
+            'tratamento': ['treatment_category', -1], 'acompanhamento': ['treatment_category', -1], 'nutrição': ['treatment_category', -1], 'dieta': ['treatment_category', -1], 'plano alimentar': ['treatment_category', -1], 'quero saber mais': ['treatment_category', -1],
+        };
+
+
+        // --- FUNÇÕES DE VALIDAÇÃO --- (Mantidas)
+        function validateName(name) { return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
+        function validatePhone(phone) { const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
+
+        // --- FUNÇÕES DE UTILIDADE --- (Mantidas, texto do WhatsApp ajustado)
+        function generateProtocol() { const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
+        function generateWhatsAppLink(context = '', treatName = '', userPref = '') {
+            const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`;
+            let txt = 'Olá! ';
+            switch(context){
+                case 'agendamento':
+                    const tN = treatName==='Avaliação Geral'?'uma consulta/avaliação geral':`uma consulta para ${treatName}`;
+                    const uP = userPref?` para ${userPref}`:'';
+                    txt += `Gostaria de agendar ${tN}${uP}. ${userPart}`;
+                    break;
+                // case 'promocoes': // Removido promoção por enquanto, focar no agendamento e informação
+                //     const prN = treatName?` para ${treatName}`:'';
+                //     txt += `Gostaria de saber sobre valores/pacotes${prN}. ${userPart}`;
+                //     break;
+                case 'orcamento': // Renomeado para 'valores' ou 'informações'
+                    txt += `Gostaria de mais informações sobre valores e como funciona a consulta. ${userPart}`;
+                    break;
+                case 'talk_human':
+                    txt += `Gostaria de falar com um atendente. ${userPart}`;
+                    break;
+                case 'duvidas':
+                default:
+                    txt += `Tenho dúvidas/Gostaria de mais informações sobre os atendimentos. ${userPart}`;
+                    break;
+            }
+            return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`;
+        }
+
+        // --- FUNÇÕES DE CHAT --- (Mantidas)
+        function addMessage(content, isUser, options = null) {
+            if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); } const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            // Sanitize basic HTML - prevent script injection
+            const cleanContent = content.replace(/<script.*?>.*?<\/script>/gi, '');
+            messageDiv.innerHTML = cleanContent; // Use innerHTML to render formatting like <br> and <strong>
+
+            if (!isUser && options) { const optsCont = document.createElement('div'); optsCont.className = 'options-container'; options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'option-button'; btn.setAttribute('data-choice', opt.action); btn.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text.replace(/<\/?strong>/g, '')}`); btn.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optsCont.appendChild(btn); }); messageDiv.appendChild(optsCont); } if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
+         }
+        function scrollToBottom() { chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
+        function showThinking(show = true) { if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
+        function disablePreviousButtons() { const prevBtns = chatBody.querySelectorAll('.option-button:not(:disabled)'); prevBtns.forEach(btn => { const msgCont = btn.closest('.message.bot-message'); const lastBotMsg = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (msgCont !== lastBotMsg) { btn.disabled = true; } }); }
+
+        // --- FUNÇÃO SALVAR/ATUALIZAR (UPSERT) --- (Mantida)
+        async function saveOrUpdateConversation() { if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); } }
+
+        // --- GERADORES DE MENU COM BOTÕES (Atualizado para Nutrição) ---
+        function sendInitialMenu() {
+            const text = `Como posso te ajudar hoje, ${userData.name}? ✨`;
+            const options = [
+                { letter: 'A', text: '🔎 Saber sobre <strong>tratamentos</strong>', action: 'treatment_category'},
+                { letter: 'B', text: '📅 <strong>Agendar consulta</strong>/avaliação', action: 'schedule_general'},
+                { letter: 'C', text: '📍 <strong>Endereços e Horários</strong>', action: 'info'},
+                { letter: 'D', text: '💬 Falar com <strong>atendente</strong>', action: 'talk_human'},
+                { letter: 'E', text: '❓ <strong>Outra dúvida</strong>', action: 'other_doubt'}
+            ];
+            addMessage(text, false, options);
+            isWaitingFor = 'initial_choice';
+        }
+
+        function sendTreatmentCategoryMenu() {
+            const txt = `Temos diversas áreas de atuação! Qual categoria te interessa mais? 👇`;
+            const opts = Object.entries(categoryMap).map(([key, val]) => ({ letter: val.letter, text: val.text, action: key }));
+            opts.push({ letter: String.fromCharCode(65 + opts.length), text: 'Voltar ao início', action: 'back_to_start'}); // 'H' ou próxima letra
+            addMessage(txt, false, opts);
+            isWaitingFor = 'treatment_category_choice';
+        }
+
+         function sendTreatmentListMenu(categoryKey) {
+            let treatmentMap;
+            let categoryName = '';
+            switch(categoryKey) {
+                case 'CAT_CLINICA': treatmentMap = treatmentLetterMap_Clinica; categoryName = 'Clínicos'; break;
+                case 'CAT_FUNCIONAL': treatmentMap = treatmentLetterMap_Funcional; categoryName = 'Funcional'; break;
+                case 'CAT_ESPORTIVA': treatmentMap = treatmentLetterMap_Esportiva; categoryName = 'Esportiva'; break;
+                case 'CAT_MATERNO': treatmentMap = treatmentLetterMap_Materno; categoryName = 'Materno-Infantil'; break;
+                case 'CAT_COMPORT': treatmentMap = treatmentLetterMap_Comport; categoryName = 'Comportamental'; break;
+                case 'CAT_VEG': treatmentMap = treatmentLetterMap_Veg; categoryName = 'Vegetariana/Vegana'; break;
+                case 'CAT_IDOSO': treatmentMap = treatmentLetterMap_Idoso; categoryName = 'para Idosos'; break;
+                default: sendTreatmentCategoryMenu(); return; // Volta se categoria inválida
+            }
+
+            const txt = `Dentro da Nutrição <strong>${categoryName}</strong>, qual tratamento você gostaria de conhecer?`;
+            const opts = Object.entries(treatmentMap).map(([l, k]) => ({ letter: l, text: treatmentDetails[k]?.name || k, action: k }));
+            opts.push({ letter: String.fromCharCode(65 + opts.length), text: 'Ver outras categorias', action: 'treatment_category'});
+            opts.push({ letter: String.fromCharCode(65 + opts.length + 1), text: 'Voltar ao início', action: 'back_to_start'});
+            addMessage(txt, false, opts);
+            isWaitingFor = 'treatment_choice';
+        }
+
+        function sendTreatmentActionMenu(treatKey) {
+            const name = treatmentDetails[treatKey]?.name || 'este tratamento';
+            const txt = `Sobre <strong>${name}</strong>, o que gostaria de saber?`;
+            const opts = [
+                { letter: 'A', text: 'Mais <strong>detalhes</strong>', action: 'details' },
+                { letter: 'B', text: '<strong>Agendar consulta</strong> específica', action: 'schedule_specific' },
+                // { letter: 'C', text: 'Verificar <strong>valores/pacotes</strong>', action: 'price' }, // Removido promoção, direcionar para Wpp
+                { letter: 'C', text: 'Ver <strong>outros tratamentos</strong>', action: 'other_treatment' } // Letra ajustada
+            ];
+            addMessage(txt, false, opts);
+            isWaitingFor = 'treatment_action';
+        }
+
+        function sendDetailsSubMenu(treatKey) {
+            const name = treatmentDetails[treatKey]?.name || 'este tratamento';
+            const txt = `Gostaria de agendar uma consulta para <strong>${name}</strong>? 😊`;
+            const opts = [
+                { letter: 'A', text: 'Sim, <strong>agendar</strong>!', action: 'schedule_specific' },
+                // { letter: 'B', text: `Saber <strong>valores</strong> p/ ${name}`, action: 'price' }, // Removido
+                { letter: 'B', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_treat' }, // Letra ajustada
+                { letter: 'C', text: 'Ver <strong>outros</strong> tratamentos', action: 'other_treatment' } // Letra ajustada
+            ];
+            addMessage(txt, false, opts);
+            isWaitingFor = 'treatment_action_after_details';
+        }
+
+        function sendInfoClinicSubMenu() {
+             // Atualizado para opções de nutrição
+            const txt = `O que mais gostaria de saber sobre a clínica, ${userData.name}?`;
+            const opts = [
+                { letter: 'A', text: '📍 Ver <strong>Endereços</strong>', action: 'info_address' },
+                { letter: 'B', text: '⏰ Ver <strong>Horários</strong>', action: 'info_hours' },
+                { letter: 'C', text: '📞 Ver <strong>Telefone</strong>/WhatsApp', action: 'info_phone'},
+                { letter: 'D', text: '💰 Formas de <strong>Pagamento</strong>', action: 'payment' },
+                { letter: 'E', text: '🔎 Ver <strong>Tratamentos</strong>', action: 'treatment_category' },
+                { letter: 'F', text: '📅 <strong>Agendar consulta</strong>', action: 'schedule_general' },
+                { letter: 'G', text: 'Voltar ao início', action: 'back_to_start'}
+            ];
+            addMessage(txt, false, opts);
+            isWaitingFor = 'info_choice';
+        }
+
+        function sendFinalConfirmationMenu() {
+            const txt = `Posso te ajudar com mais algo, ${userData.name}? 😊`;
+            const opts = [
+                { letter: 'A', text: 'Ver <strong>outros tratamentos</strong>', action: 'treatment_category' },
+                { letter: 'B', text: '<strong>Informações da clínica</strong> (Endereço, Horário...)', action: 'info' },
+                { letter: 'C', text: 'Não, obrigada!', action: 'end' }
+            ];
+            addMessage(txt, false, opts);
+            isWaitingFor = 'final_confirmation';
+        }
+
+        // --- FUNÇÃO DE REDIRECIONAMENTO (Ajustada) ---
+        function sendWhatsappRedirect(context = 'duvidas', treatName = '', userPref = '') {
+             let message = ''; let link = '';
+             if (context === 'agendamento') {
+                 const tN=treatName==='Avaliação Geral'?'Consulta/Avaliação Geral':treatName;
+                 link=generateWhatsAppLink(context,tN,userPref);
+                 message=`Perfeito, ${userData.name}! 😊 Para agendar sua <strong>${tN}</strong>${userPref?` (preferência: ${userPref})`:''} e verificar horários disponíveis, por favor, clique no link abaixo para falar conosco no WhatsApp:<br><br>➡️ <a href="${link}" target="_blank">Agendar ${tN} via WhatsApp</a>`;
+             } else if (context === 'price' || context === 'orcamento') { // Unificado preço/orçamento
+                 link=generateWhatsAppLink('orcamento', treatName); // Usa contexto 'orcamento' no link
+                 message=`Entendido! Para informações detalhadas sobre valores e pacotes ${treatName ? `para <strong>${treatName}</strong> ` : ''}entre em contato pelo WhatsApp. 😉<br><br>➡️ <a href="${link}" target="_blank">Consultar Valores via WhatsApp</a>`;
+             } else if (context === 'talk_human') {
+                 link=generateWhatsAppLink(context);
+                 message = `Com certeza, ${userData.name}! Nossa equipe está pronta para te atender diretamente no WhatsApp. Clique abaixo: 😊<br><br>➡️ <a href="${link}" target="_blank">Falar com Atendente via WhatsApp</a>`;
+             } else { // 'duvidas' ou 'other_doubt'
+                 link=generateWhatsAppLink('duvidas', treatName); // Adiciona nome do tratamento se houver dúvida específica
+                 message=`Entendi, ${userData.name}. Para tirar suas dúvidas ${treatName ? `sobre <strong>${treatName}</strong> ` : ''}ou obter mais informações, fale conosco pelo WhatsApp:<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`;
+             }
+             addMessage(message, false);
+             // if (['price', 'talk_human', 'duvidas'].includes(context)) {
+             //     isWaitingFor = 'message'; // Deixa aberto para mais perguntas
+             // } else {
+                 setTimeout(sendFinalConfirmationMenu, 1200); // Sempre oferece menu final após redirecionamento
+             // }
+        }
+
+         // --- FUNÇÕES INFO CLÍNICA (Atualizadas) ---
+         function showAddress() {
+             addMessage(`📍 Nossos locais de atendimento são:<br><br>
+            <strong>VALE SEM DOR - Clinica Plena</strong><br>
+            Av Integração 320 2º Andar<br>
+            Centro - Petrolina/PE<br>
+            Telefone: (74) 98841-4187<br><br>
+
+            <strong>Policlin - Casa Nova</strong><br>
+            Ao Lado do hospital<br>
+            Centro - Casa Nova/BA<br>
+            Telefone: (74) 98841-4187<br><br>
+
+            <strong>Izza Drehmer Pilates</strong><br>
+            Av. Adolfo Viana 765 Ao lado da Academia Refea Center<br>
+            Centro - Juazeiro/BA<br>
+            Telefone: (74) 98841-4187<br><br>
+
+            Será um prazer recebê-lo(a)! 😊`, false);
+             setTimeout(sendFinalConfirmationMenu, 800);
+         }
+         function showHours() {
+             // !! IMPORTANTE: Verifique se este horário está correto !!
+             addMessage(`⏰ Nosso horário de atendimento geral é:<br><strong>Segunda a Sexta: 08:00h às 18:00h</strong><br><strong>Sábado: 08:00h às 12:00h</strong><br>(Consulte a disponibilidade de horários específicos para cada localidade via WhatsApp!)`, false);
+             setTimeout(sendFinalConfirmationMenu, 800);
+         }
+         function showPhone() {
+             // Telefone Atualizado
+             addMessage(`📞 Nosso principal contato para agendamentos e dúvidas é via WhatsApp:<br><strong>(74) 98841-4187</strong><br><br>Clique aqui para chamar: <a href="${generateWhatsAppLink('duvidas')}" target="_blank">(74) 98841-4187</a>`, false);
+             setTimeout(sendFinalConfirmationMenu, 800);
+         }
+         function showPayment() {
+              // Atualizado
+             addMessage(`💰 Aceitamos: <strong>Dinheiro, PIX, Cartões de Débito e Crédito</strong>.<br>Para informações sobre pacotes ou parcelamentos, por favor, consulte via WhatsApp. 😊`, false);
+             setTimeout(sendFinalConfirmationMenu, 800);
+         }
+
+        // --- FUNÇÃO PARA PROCESSAR KEYWORDS (Mantida) ---
+        function processKeywords(text) {
+            const lowerText = text.toLowerCase().trim(); let matchedAction = null; let highestPriority = -2; // Começa mais baixo que -1
+            const map = keywordToActionMap;
+            // Verifica keywords completas primeiro
+            for (const [keyword, actionData] of Object.entries(map)) { const action = Array.isArray(actionData) ? actionData[0] : actionData; const priority = Array.isArray(actionData) ? actionData[1] : 0; if (lowerText === keyword) { // Match exato
+                 if (priority >= highestPriority) { // >= para pegar o último de mesma prioridade (pode ser mais específico)
+                     matchedAction = action; highestPriority = priority;
+                 }
+            } else if (lowerText.includes(keyword)) { // Match parcial
+                 if (priority > highestPriority) { // Apenas se a prioridade for maior que o match atual
+                     matchedAction = action; highestPriority = priority;
+                 }
+             }
+            }
+            console.log("Keyword check:", lowerText, "-> Matched Action:", matchedAction, "Priority:", highestPriority); return matchedAction;
+        }
+
+        // --- PROCESSAMENTO CENTRAL (ATUALIZADO PARA NUTRIÇÃO) ---
+        async function processMessage(message, isButtonClick = false) {
+            if (isProcessing && !isButtonClick) return;
+
+            const inputText = isButtonClick ? message : message; // Ação ou texto
+
+            if (!isButtonClick) { addMessage(inputText, true); userInput.value = ''; }
+
+            isProcessing = true; userInput.disabled = true; showThinking(true); disablePreviousButtons();
+
+            let keywordAction = null;
+            let actionProcessedSuccessfully = false; // Flag
+
+            try {
+                // 0. Verifica Keywords (APENAS para input digitado)
+                if (!isButtonClick && isWaitingFor !== 'name_phone') {
+                    keywordAction = processKeywords(inputText);
+                }
+
+                // LÓGICA PRINCIPAL
+                const currentAction = keywordAction || inputText; // Usa keyword se houver, senão usa input/ação do botão
+
+                // 1. Trata Ações Diretas (identificadas por keyword ou botão com prioridade alta/média)
+                 if (['price', 'talk_human', 'info_address', 'info_hours', 'info_phone', 'payment', 'info'].includes(currentAction)) {
+                    actionProcessedSuccessfully = true; // Ação direta foi identificada
+                    switch(currentAction) {
+                        case 'price': sendWhatsappRedirect('price'); break; // Direciona para Wpp para valores
+                        case 'talk_human': sendWhatsappRedirect('talk_human'); break;
+                        case 'info_address': showAddress(); break;
+                        case 'info_hours': showHours(); break;
+                        case 'info_phone': showPhone(); break;
+                        case 'payment': showPayment(); break;
+                        case 'info': sendInfoClinicSubMenu(); break; // Mostra submenu de informações
+                    }
+                }
+                // 2. Trata Tratamentos Específicos (identificados por keyword ou botão)
+                else if (treatmentDetails[currentAction]) {
+                    actionProcessedSuccessfully = true;
+                    currentTreatment = currentAction; // Atualiza tratamento atual
+                    addMessage(treatmentDetails[currentAction].description, false);
+                    setTimeout(() => sendTreatmentActionMenu(currentAction), 300); // Pequeno delay
+                }
+                 // 3. Trata Categorias de Tratamento (botão ou keyword 'tratamento')
+                else if (categoryMap[currentAction] || currentAction === 'treatment_category') {
+                    actionProcessedSuccessfully = true;
+                    if (categoryMap[currentAction]) { // Veio de um botão de categoria
+                         sendTreatmentListMenu(currentAction);
+                    } else { // Veio da keyword 'tratamento' ou botão geral
+                        sendTreatmentCategoryMenu();
+                    }
+                }
+                // 4. Trata Ações Genéricas baseadas no ESTADO ATUAL
+                 else {
+                     console.log("Processing State:", isWaitingFor, "Input/Action:", currentAction);
+                     let isValidForState = false;
+                     switch (isWaitingFor) {
+                        case 'initial_choice':
+                            isValidForState = ['treatment_category', 'schedule_general', 'info', 'talk_human', 'other_doubt'].includes(currentAction);
+                             if (isValidForState) {
+                                 actionProcessedSuccessfully = true;
+                                 if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
+                                 else if (currentAction === 'schedule_general') { currentTreatment = 'general'; addMessage(`Ótimo! Para agendar sua consulta/avaliação, qual seria sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)? Isso nos ajuda a verificar a disponibilidade. 😊`, false); isWaitingFor = 'scheduling_preference'; }
+                                 else if (currentAction === 'info') { sendInfoClinicSubMenu(); } // Mostra submenu de infos
+                                 else if (currentAction === 'other_doubt') { sendWhatsappRedirect('duvidas'); }
+                                 else if (currentAction === 'talk_human') { sendWhatsappRedirect('talk_human');}
+                             }
+                             break;
+                         case 'treatment_category_choice':
+                             isValidForState = (categoryMap[currentAction] || currentAction === 'back_to_start');
+                              if (isValidForState) {
+                                  actionProcessedSuccessfully = true;
+                                  if(currentAction === 'back_to_start') { sendInitialMenu(); }
+                                  else { sendTreatmentListMenu(currentAction); }
+                              }
+                             break;
+                         case 'treatment_choice':
+                              isValidForState = (treatmentDetails[currentAction] || currentAction === 'treatment_category' || currentAction === 'back_to_start');
+                              if (isValidForState) {
+                                 actionProcessedSuccessfully = true;
+                                 if (treatmentDetails[currentAction]) { currentTreatment = currentAction; addMessage(treatmentDetails[currentAction].description, false); setTimeout(() => sendTreatmentActionMenu(currentAction), 300); }
+                                 else if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
+                                 else if (currentAction === 'back_to_start') { sendInitialMenu(); }
+                              }
+                              break;
+                         case 'treatment_action':
+                              isValidForState = ['details', 'schedule_specific', 'price', 'other_treatment'].includes(currentAction);
+                              if(isValidForState) {
+                                 actionProcessedSuccessfully = true;
+                                 if (currentAction === 'details' && currentTreatment) { addMessage(treatmentDetails[currentTreatment].details || `Mais detalhes sobre <strong>${treatmentDetails[currentTreatment].name}</strong>... (informação detalhada aqui)`, false); setTimeout(() => sendDetailsSubMenu(currentTreatment), 500); }
+                                 else if (currentAction === 'schedule_specific' && currentTreatment) { addMessage(`Excelente! Para agendar sua consulta para <strong>${treatmentDetails[currentTreatment].name}</strong>, qual sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
+                                 else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); } // Redireciona para Wpp sobre preço
+                                 else if (currentAction === 'other_treatment') { sendTreatmentCategoryMenu(); } // Volta para categorias
+                              }
+                              break;
+                          case 'treatment_action_after_details':
+                               isValidForState = ['schedule_specific', 'price', 'other_doubt_treat', 'other_treatment'].includes(currentAction);
+                               if(isValidForState){
+                                  actionProcessedSuccessfully = true;
+                                  if (currentAction === 'schedule_specific' && currentTreatment) { addMessage(`Vamos agendar para <strong>${treatmentDetails[currentTreatment].name}</strong>! Qual sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
+                                  else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); }
+                                  else if (currentAction === 'other_doubt_treat') { sendWhatsappRedirect('duvidas', treatmentDetails[currentTreatment]?.name); }
+                                  else if (currentAction === 'other_treatment') { sendTreatmentCategoryMenu(); }
+                               }
+                               break;
+                          case 'info_choice':
+                               isValidForState = ['info_address', 'info_hours', 'info_phone', 'payment', 'treatment_category', 'schedule_general', 'back_to_start'].includes(currentAction);
+                               if(isValidForState){
+                                   actionProcessedSuccessfully = true;
+                                   if(currentAction === 'info_address') { showAddress(); }
+                                   else if(currentAction === 'info_hours') { showHours(); }
+                                   else if(currentAction === 'info_phone') { showPhone(); }
+                                   else if(currentAction === 'payment') { showPayment(); }
+                                   else if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
+                                   else if (currentAction === 'schedule_general') { currentTreatment = 'general'; addMessage(`Agendar consulta/avaliação geral! Qual sua preferência de <strong>dia</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
+                                   else if (currentAction === 'back_to_start') { sendInitialMenu(); }
+                               }
+                               break;
+                           case 'final_confirmation':
+                                isValidForState = ['treatment_category', 'info', 'end'].includes(currentAction);
+                                if(isValidForState){
+                                    actionProcessedSuccessfully = true;
+                                    if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
+                                    else if (currentAction === 'info') { sendInfoClinicSubMenu(); }
+                                    else if (currentAction === 'end') { addMessage(`Perfeito, ${userData.name}! Foi um prazer te ajudar. Se precisar de mais algo, é só chamar! 😊`, false); isWaitingFor = 'message'; } // Mensagem final ajustada
+                                }
+                                break;
+                           case 'scheduling_preference':
+                                actionProcessedSuccessfully = true;
+                                const userPreference = currentAction; // Captura a preferência digitada
+                                const treatName = currentTreatment==='general'?'Avaliação Geral':treatmentDetails[currentTreatment]?.name||'sua consulta';
+                                sendWhatsappRedirect('agendamento', treatName, userPreference); // Envia para o Wpp com a preferência
+                                break;
+                           case 'name_phone':
+                                actionProcessedSuccessfully = true; // A validação ocorre aqui
+                                const cleanedInput = inputText.replace(/[.,()-\s]/g, ''); // Limpa caracteres comuns
+                                const phoneMatch = cleanedInput.match(/(\d{10,11})$/); // Tenta pegar 10 ou 11 dígitos no final
+                                let pName = null;
+                                let pPhone = null;
+                                if (phoneMatch) {
+                                    pPhone = phoneMatch[1];
+                                    // O que sobrar antes do telefone é o nome
+                                    pName = inputText.replace(phoneMatch[0].replace(/^(\d{2})/, '($1) '), '').replace(/[,()-\s]*$/, '').trim(); // Remove o telefone (e formatação) do input original
+                                    // Tenta limpar espaços extras no nome
+                                    pName = pName.replace(/\s+/g, ' ').trim();
+                                } else {
+                                    // Se não achou telefone no final, tenta uma separação por vírgula ou último espaço
+                                    const parts = inputText.split(/,最后一个空格(?=\S)/); // Tenta separar por vírgula ou último espaço
+                                    if (parts.length >= 2) {
+                                        pName = parts.slice(0, -1).join(' ').trim();
+                                        pPhone = parts[parts.length - 1].replace(/\D/g, '');
+                                    } else {
+                                        pName = inputText.trim(); // Assume tudo como nome se não conseguir separar
+                                        pPhone = null; // Não identificou telefone
+                                    }
+                                }
+
+                                if(pName && pPhone && validateName(pName) && validatePhone(pPhone)){
+                                    userData.name = pName.split(' ').map(w => w.length > 2 ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w).join(' '); // Capitaliza nomes
+                                    userData.phone = pPhone;
+                                    userData.protocol = generateProtocol();
+                                    await saveOrUpdateConversation();
+                                    addMessage(`Que prazer te atender, ${userData.name}! 😊 Seu protocolo é <strong>${userData.protocol}</strong>.`, false);
+                                    sendInitialMenu();
+                                } else {
+                                    addMessage(`Hmm, não consegui identificar seu nome e telefone. 🤔 Por favor, digite seu <strong>nome completo</strong> e, em seguida, o <strong>telefone com DDD</strong>.<br>Exemplo: <i>Ana Silva (74) 988414187</i> ou <i>Ana Silva 74988414187</i>`, false);
+                                    isWaitingFor = 'name_phone'; // Permanece esperando
+                                }
+                                break;
+                           case 'message': // Estado aberto, qualquer input é "válido" mas pode cair no fallback abaixo
+                                actionProcessedSuccessfully = false; // Força fallback se não foi tratado por keyword
+                                break;
+                           default: console.warn("Estado não reconhecido:", isWaitingFor); break;
+                     } // Fim do Switch(isWaitingFor)
+                 } // Fim do Else (Trata Ações Genéricas / Estado)
+
+                // --- 5. Fallback ESTRITO ---
+                if (!actionProcessedSuccessfully && isWaitingFor !== 'name_phone') {
+                    console.log("Executing Fallback: Unrecognized input/action.", "Input:", inputText, "State:", isWaitingFor);
+                    const escapedInput = inputText.replace(/</g, "<").replace(/>/g, ">"); // Evita XSS simples
+                    addMessage(`Desculpe, não entendi "<strong>${escapedInput}</strong>". 😕 Posso te ajudar com informações sobre os tratamentos, agendamentos ou sobre a clínica.`, false);
+                    sendInitialMenu(); // Volta ao menu inicial
+                }
+
+                // Salva conversa (exceto na coleta inicial de nome/telefone)
+                if (isWaitingFor !== 'name_phone') { await saveOrUpdateConversation(); }
+
+            } catch (error) {
+                console.error("Erro GERAL no processamento:", error);
+                addMessage("⚠️ Ocorreu um erro inesperado. Por favor, tente novamente ou entre em contato pelo WhatsApp.", false);
+                 setTimeout(() => sendWhatsappRedirect('talk_human'), 1500); // Oferece Wpp após erro
+                isWaitingFor = 'message'; // Reseta para estado aberto
+            } finally {
+                showThinking(false); isProcessing = false; userInput.disabled = false;
+                // Só foca no input se não estiver esperando nome/telefone ou se acabou de mostrar um menu
+                if (isWaitingFor !== 'name_phone' && document.querySelector('.options-container:last-of-type') === null) {
+                    userInput.focus();
+                 }
+                scrollToBottom();
+            }
+        }
+
+        // --- FUNÇÃO PARA LIDAR COM CLIQUE NO BOTÃO ---
+        function handleButtonClick(choiceAction, choiceText) {
+            if (isProcessing) return;
+            // Opcional: Adicionar a escolha do botão como mensagem do usuário (visual)
+            // addMessage(choiceText, true);
+            processMessage(choiceAction, true); // Processa a AÇÃO interna do botão
+        }
+
+        // --- FUNÇÃO DE ENVIO PRINCIPAL ---
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '' || isProcessing) return; // Evita envio vazio ou durante processamento
+            processMessage(message, false); // Processa texto digitado
+        }
+
+        // --- INICIALIZAÇÃO ---
+        function initializeChat() {
+            chatHistory = []; userData = { name: null, phone: null, protocol: null }; isWaitingFor = 'name_phone'; currentTreatment = null; isProcessing = false; userInput.disabled = false;
+            const messages = chatBody.querySelectorAll('.message:not(.thinking)'); messages.forEach(msg => msg.remove()); showThinking(false);
+            // Mensagem inicial Atualizada
+            addMessage('Olá! Bem-vindo(a) ao atendimento virtual da <strong>Clínica Dra. Ana Jessica Silva - Nutrição</strong>. 🥗 Para começarmos, por favor, informe seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>.<br>(Ex: <i>Maria Souza (74) 912345678</i>)', false);
+            userInput.focus();
+        }
+
+        // --- EVENT LISTENER ---
+        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+        // --- START ---
+        document.addEventListener('DOMContentLoaded', initializeChat);
+
+    </script>
+
+</body>
+</html>
