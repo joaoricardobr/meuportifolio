@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Pets IA - Análise Inteligente</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF para gerar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos CSS (mantidos da versão anterior com tema azul) */
+        /* --- Base & Transitions --- */
+        body { font-family: 'Inter', sans-serif; background-color: #f7f8fc; color: #1f2937; transition: background-color 0.3s ease, color 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .smooth-transition { transition: all 0.2s ease-in-out; }
+
+        /* --- Dark Theme --- */
+        .dark-theme { background-color: #111827; color: #e5e7eb; }
+        .dark-theme .card-bg { background-color: #1f2937; }
+        .dark-theme .secondary-bg { background-color: #374151; }
+        .dark-theme .tertiary-bg { background-color: #4b5563; }
+        .dark-theme .text-color-base { color: #e5e7eb; }
+        .dark-theme .text-color-secondary { color: #d1d5db; }
+        .dark-theme .text-color-muted { color: #9ca3af; }
+        .dark-theme .text-color-faint { color: #6b7280; }
+        .dark-theme .border-color-light { border-color: #374151; }
+        .dark-theme .border-color-base { border-color: #4b5563; }
+        .dark-theme .shadow-card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }
+        .dark-theme input, .dark-theme select, .dark-theme textarea { background-color: #374151; color: #e5e7eb; border-color: #4b5563; }
+        .dark-theme input::placeholder, .dark-theme textarea::placeholder { color: #9ca3af; }
+        .dark-theme input:focus, .dark-theme select:focus, .dark-theme textarea:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3); }
+        .dark-theme .dropzone { background-color: #1f2937; border-color: #60a5fa; }
+        .dark-theme .dropzone.dragover { background-color: #374151; border-color: #3b82f6; }
+        .dark-theme .modal-content { background-color: #1f2937; border: 1px solid #374151; }
+        .dark-theme .tab-button { color: #9ca3af; } .dark-theme .tab-button:hover { color: #e5e7eb; } .dark-theme .tab-button.active { color: #93c5fd; border-color: #93c5fd; }
+        .dark-theme .icon-button:hover { background-color: #374151; }
+        .dark-theme .text-green-600 { color: #6ee7b7; } .dark-theme .bg-green-600 { background-color: #10b981; color: #fff; } .dark-theme .hover\:bg-green-700:hover { background-color: #059669; }
+        .dark-theme .text-blue-600 { color: #93c5fd; } .dark-theme .bg-blue-600 { background-color: #60a5fa; color: #111827; } .dark-theme .hover\:bg-blue-700:hover { background-color: #3b82f6; }
+        .dark-theme .text-red-600 { color: #f87171; } .dark-theme .bg-red-600 { background-color: #dc2626; color: #fff; } .dark-theme .hover\:bg-red-700:hover { background-color: #b91c1c; }
+        .dark-theme .text-teal-600 { color: #5eead4; } .dark-theme .bg-teal-600 { background-color: #14b8a6; color: #fff; } .dark-theme .hover\:bg-teal-700:hover { background-color: #0d9488; }
+        .dark-theme .text-orange-500 { color: #fb923c; } .dark-theme .text-purple-500 { color: #c084fc; }
+        .dark-theme .history-item { background-color: #1f2937; } .dark-theme .history-item:hover { background-color: #374151; } .dark-theme .history-item img { border: 1px solid #4b5563; }
+        .dark-theme .active-view { background-color: #4b5563; } .dark-theme .pagination-button { background-color: #374151; color: #d1d5db; } .dark-theme .pagination-button:hover { background-color: #4b5563; }
+        .dark-theme .report-section h4 { color: #93c5fd; border-bottom-color: #4b5563; }
+        .dark-theme .text-color-heading { color: #f9fafb; }
+        .dark-theme .loading-overlay .fa-spinner { color: #60a5fa; }
+        .dark-theme .dropzone .icon { color: #93c5fd; }
+        .dark-theme .modal-content { scrollbar-color: #718096 #1f2937; } .dark-theme .modal-content::-webkit-scrollbar-track { background: #1f2937; } .dark-theme .modal-content::-webkit-scrollbar-thumb { background: #718096; }
+        .dark-theme .report-error-box { color: #fca5a5; background-color: rgba(153, 27, 27, 0.2); border-color: rgba(220, 38, 38, 0.3); }
+
+        /* --- General Styles --- */
+        .card-bg { background-color: #ffffff; } .secondary-bg { background-color: #f9fafb; } .tertiary-bg { background-color: #f3f4f6; }
+        .text-color-base { color: #1f2937; } .text-color-secondary { color: #374151; } .text-color-muted { color: #6b7280; } .text-color-faint { color: #9ca3af; }
+        .border-color-light { border-color: #e5e7eb; } .border-color-base { border-color: #d1d5db; } .shadow-card { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04); }
+        .text-color-heading { color: #111827; }
+
+        /* --- Header --- */
+        header { border-bottom: 1px solid; }
+        #apiKeyIndicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-left: 6px; transition: background-color 0.3s ease; }
+        #apiKeyIndicator.valid { background-color: #10b981; } #apiKeyIndicator.invalid { background-color: #ef4444; }
+
+        /* --- Buttons --- */
+        .button { padding: 10px 20px; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; line-height: 1.25; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.15s ease-in-out; }
+        .button:hover { transform: translateY(-1px); box-shadow: 0 3px 5px rgba(0,0,0,0.07); } .button:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,0.05); } .button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        .button-primary { background-color: #3b82f6; color: white; } .dark-theme .button-primary { background-color: #60a5fa; color: #111827; } .button-primary:hover { background-color: #2563eb; } .dark-theme .button-primary:hover { background-color: #3b82f6; }
+        .button-secondary { background-color: #e5e7eb; color: #374151; } .dark-theme .button-secondary { background-color: #4b5563; color: #e5e7eb; } .button-secondary:hover { background-color: #d1d5db; } .dark-theme .button-secondary:hover { background-color: #6b7280; }
+        .button-danger { background-color: #ef4444; color: white; } .dark-theme .button-danger { background-color: #dc2626; } .button-danger:hover { background-color: #dc2626; } .dark-theme .button-danger:hover { background-color: #b91c1c; }
+        .icon-button { padding: 0; width: 36px; height: 36px; border-radius: 50%; font-size: 0.9rem; background-color: transparent; color: #6b7280; box-shadow: none; transition: background-color 0.2s ease, color 0.2s ease; }
+        .icon-button:hover { background-color: #f3f4f6; color: #1f2937; } .dark-theme .icon-button { color: #9ca3af; } .dark-theme .icon-button:hover { background-color: #374151; color: #e5e7eb; }
+
+        /* --- Inputs, Selects & Textarea --- */
+        input[type="text"], input[type="password"], input[type="file"], select, textarea { padding: 10px 14px; border: 1px solid; border-radius: 8px; background-color: #ffffff; transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; font-size: 0.9rem; border-color: #d1d5db; }
+        input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+        select { appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 14px center; background-size: 1em; padding-right: 40px; }
+        .dark-theme select { background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20fill%3D%22none%22%20stroke%3D%22%239ca3af%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); }
+        textarea { min-height: 80px; resize: vertical; }
+
+        /* --- Dropzone --- */
+        .dropzone { border: 2px dashed; border-radius: 12px; padding: 2rem 1rem; text-align: center; position: relative; min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease; border-color: #60a5fa; background-color: #eff6ff; }
+        .dropzone.dragover { border-color: #3b82f6; background-color: #dbeafe; }
+        .dropzone video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 11px; z-index: 1; }
+        .dropzone .camera-controls-container { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 2; background-color: rgba(0, 0, 0, 0.65); padding: 0.5rem 0.75rem; border-radius: 8px; display: flex; gap: 0.75rem; }
+        #dropzone-content .icon { font-size: 3rem; margin-bottom: 0.75rem; color: #3b82f6; } .dark-theme #dropzone-content .icon { color: #93c5fd; }
+
+        /* --- Tabs --- */
+        .tab-list { border-bottom: 1px solid; }
+        .tab-button { padding: 0.75rem 1rem; font-weight: 500; font-size: 0.95rem; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; color: #6b7280; transition: color 0.2s ease, border-color 0.2s ease; }
+        .tab-button:hover { color: #1f2937; } .tab-button.active { color: #2563eb; border-bottom-color: #2563eb; }
+        .tab-panel { padding-top: 1.5rem; }
+
+        /* --- Report Section (Pet Themed) --- */
+        #reportContentWrapper { max-height: none; overflow-y: visible; padding-right: 0; scrollbar-width: none; } #reportContentWrapper::-webkit-scrollbar { display: none; }
+        #reportContent { font-size: 0.95rem; line-height: 1.7; }
+        #reportContent hr { border: none; border-top: 1px dashed #d1d5db; margin: 1.5rem 0; }
+        .dark-theme #reportContent hr { border-top-color: #4b5563; }
+        .report-section h4 { font-weight: 600; font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0.6rem; color: #1e3a8a; display: flex; align-items: center; gap: 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid; } .dark-theme .report-section h4 { color: #93c5fd; border-bottom-color: #4b5563; }
+        .report-section h4 i { width: 18px; text-align: center; } .report-section p { margin-bottom: 0.7rem; }
+        /* Ícones mantidos genéricos, pois a função formatResult atual não os usa diretamente com o novo prompt */
+        .report-section .fa-paw { color: #f97316; }
+        .report-section .fa-dog, .report-section .fa-cat { color: #a855f7; }
+        .report-section .fa-eye { color: #3b82f6; }
+        .report-section .fa-comment-dots { color: #14b8a6; }
+        .report-section .fa-heartbeat { color: #ef4444; }
+        .report-section .fa-lightbulb { color: #10b981; }
+
+        /* --- History Section --- */
+        .history-controls { margin-bottom: 1.25rem; }
+        .history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+        .history-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .history-item { border-radius: 10px; padding: 1rem; display: flex; overflow: hidden; transition: background-color 0.2s ease, box-shadow 0.2s ease; border: 1px solid; }
+        .history-item:hover { background-color: #f9fafb; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .history-list .history-item { flex-direction: row; align-items: center; } .history-grid .history-item { flex-direction: column; align-items: stretch; text-align: center; }
+        .history-item img { object-fit: cover; border-radius: 6px; background-color: #f3f4f6; }
+        .history-list .history-item img { width: 56px; height: 56px; margin-right: 1rem; flex-shrink: 0; } .history-grid .history-item img { width: 100%; height: 160px; margin-bottom: 0.75rem; }
+        .history-item-content { flex-grow: 1; min-width: 0; }
+        .history-item-summary { font-weight: 500; font-size: 0.9rem; line-height: 1.4; margin-bottom: 0.25rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        .history-item-meta { font-size: 0.75rem; margin-bottom: 0.25rem; }
+        .history-item-actions { display: flex; gap: 0.5rem; } .history-list .history-item-actions { margin-left: 1rem; flex-shrink: 0; } .history-grid .history-item-actions { margin-top: 0.75rem; justify-content: center; }
+        .active-view { background-color: #e5e7eb; } .pagination-button { background-color: #e5e7eb; color: #374151; } .pagination-button:hover { background-color: #d1d5db; }
+
+        /* --- Modal --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.65); justify-content: center; align-items: center; padding: 1rem; }
+        .modal-content { background-color: #ffffff; margin: auto; padding: 1.5rem 2rem; border-radius: 12px; width: 100%; max-width: 750px; max-height: 90vh; overflow-y: auto; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); position: relative; scrollbar-width: thin; scrollbar-color: #a0aec0 #f0f0f0; }
+        .modal-content::-webkit-scrollbar { width: 8px; } .modal-content::-webkit-scrollbar-thumb { background: #a0aec0; border-radius: 4px; } .modal-content::-webkit-scrollbar-track { background: #f0f0f0; }
+        .dark-theme .modal-content { scrollbar-color: #718096 #1f2937; } .dark-theme .modal-content::-webkit-scrollbar-track { background: #1f2937; } .dark-theme .modal-content::-webkit-scrollbar-thumb { background: #718096; }
+
+        /* --- Notification --- */
+        .notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 0.9rem 1.5rem; border-radius: 8px; z-index: 1500; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); color: white; font-weight: 500; font-size: 0.9rem; transform: translate(-50%, 20px); }
+        .notification.show { opacity: 1; transform: translateX(-50%); }
+        .notification.success { background-color: #10b981; } .notification.error { background-color: #ef4444; } .notification.info { background-color: #3b82f6; }
+
+        /* --- Loading Overlay --- */
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 2000; justify-content: center; align-items: center; } .dark-theme .loading-overlay { background: rgba(17, 24, 39, 0.85); }
+        .loading-content { display: flex; align-items: center; gap: 1rem; background: #ffffff; padding: 1.25rem 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); color: #1f2937; } .dark-theme .loading-content { background: #1f2937; color: #e5e7eb; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .loading-overlay .fa-spinner { font-size: 1.5rem; color: #3b82f6; } .dark-theme .loading-overlay .fa-spinner { color: #60a5fa; }
+
+        /* --- Utility --- */
+        .hidden { display: none !important; }
+        /* --- Aviso de Erro no Relatório --- */
+        .report-error-box { padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 0.375rem; border: 1px solid; color: #991b1b; background-color: #fef2f2; border-color: #fecaca;}
+        .dark-theme .report-error-box { color: #fca5a5; background-color: rgba(153, 27, 27, 0.2); border-color: rgba(220, 38, 38, 0.3); }
+        .report-error-box strong { font-weight: 600;}
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-color-base">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-b border-color-light dark:border-color-base smooth-transition">
+        <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-paw text-2xl text-blue-600"></i>
+                <span class="text-xl font-bold text-color-heading">Análise de Pets IA</span>
+            </div>
+            <div class="flex items-center gap-3">
+                 <div class="text-xs text-color-muted hidden md:flex items-center gap-2" id="apiKeyStatusContainer">API Key: <span id="apiKeyStatusText">Não configurada</span><span id="apiKeyIndicator" class="invalid" title="Status da Chave API"></span></div>
+                 <button id="configApiKeyButton" class="icon-button" title="Configurar Chave API"><i class="fas fa-key"></i></button>
+                 <button id="themeToggle" class="icon-button" title="Alternar Tema"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto flex-1 p-4 md:px-6 md:py-8 w-full">
+
+        <!-- Action Zone: Config, Upload & Description -->
+        <section class="mb-8 md:mb-12 fade-in">
+             <div class="card-bg dark:card-bg border border-color-light dark:border-color-base rounded-xl shadow-card p-5 md:p-8">
+                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
+                     <!-- API Key Input -->
+                     <div class="md:col-span-4">
+                         <h2 class="text-lg font-semibold mb-3 text-color-heading">1. Configurar API</h2>
+                         <label for="apiKey" class="block text-sm font-medium mb-1 text-color-secondary">Chave Google AI (Gemini)</label>
+                         <input type="password" id="apiKey" placeholder="Cole sua chave aqui..." class="w-full mb-1">
+                         <p class="text-xs text-color-muted">Necessária para análise. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Obter chave</a></p>
+                     </div>
+
+                     <!-- Upload/Camera + Description Zone -->
+                     <div class="md:col-span-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                         <div>
+                              <h2 class="text-lg font-semibold mb-3 text-color-heading">2. Enviar Imagem do Pet</h2>
+                              <div class="dropzone border-color-base dark:border-color-base card-bg dark:card-bg" id="dropzone">
+                                  <video id="cameraPreview" class="hidden" playsinline autoplay muted></video>
+                                  <div id="dropzone-content" class="flex flex-col items-center justify-center text-center">
+                                      <i class="fas fa-camera-retro icon text-blue-500 dark:text-blue-400"></i>
+                                      <p class="text-color-secondary font-medium mb-2">Arraste e solte uma foto do seu pet ou use a câmera</p>
+                                      <p class="text-color-muted text-sm mb-4">Formatos: JPG, PNG, WEBP</p>
+                                      <div class="flex flex-col sm:flex-row justify-center gap-3">
+                                          <button id="uploadButton" class="button button-secondary text-sm">
+                                              <i class="fas fa-upload"></i> Selecionar Arquivo
+                                          </button>
+                                          <button id="cameraButton" class="button button-secondary text-sm">
+                                              <i class="fas fa-video"></i> Usar Câmera (1 foto)
+                                          </button>
+                                      </div>
+                                  </div>
+                                  <div id="cameraControlsContainer" class="camera-controls-container hidden">
+                                       <button id="captureButton" class="button button-danger text-sm px-3 py-2"><i class="fas fa-camera"></i> Capturar & Analisar</button>
+                                       <button id="stopCameraButton" class="button button-secondary text-sm px-3 py-2"><i class="fas fa-stop"></i> Parar</button>
+                                  </div>
+                                   <canvas id="cameraCanvas" class="hidden"></canvas>
+                              </div>
+                               <input type="file" id="imageInput" accept="image/jpeg, image/png, image/webp" class="hidden">
+                         </div>
+
+                         <!-- Área de Descrição -->
+                         <div>
+                             <h2 class="text-lg font-semibold mb-3 text-color-heading">3. Adicionar Descrição</h2>
+                             <label for="petDescription" class="block text-sm font-medium mb-1 text-color-secondary">Detalhes sobre o Pet</label>
+                             <textarea id="petDescription" rows="6" placeholder="Informe idade, peso, raça, sintomas, comportamento, alimentação atual e o que deseja saber..." class="w-full"></textarea>
+                             <p class="text-xs text-color-muted mt-1">Quanto mais detalhes, melhor a análise da IA.</p>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Results Zone: Tabs for Report & History -->
+        <section class="fade-in" style="animation-delay: 0.1s;">
+             <div class="card-bg dark:card-bg border border-color-light dark:border-color-base rounded-xl shadow-card overflow-hidden">
+                 <div class="tab-list flex border-b border-color-light dark:border-color-base px-4 md:px-6">
+                     <button id="tabButtonReport" role="tab" aria-controls="tabPanelReport" aria-selected="true" class="tab-button active"><i class="fas fa-comment-alt mr-2"></i>Análise Atual</button>
+                     <button id="tabButtonHistory" role="tab" aria-controls="tabPanelHistory" aria-selected="false" class="tab-button"><i class="fas fa-history mr-2"></i>Histórico</button>
+                 </div>
+                 <div class="p-5 md:p-8">
+                     <div id="tabPanelReport" role="tabpanel" aria-labelledby="tabButtonReport" class="tab-panel">
+                         <section id="reportSection">
+                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                                 <h3 class="text-xl font-semibold text-color-heading">Resultado da Análise</h3>
+                                 <div id="reportControls" class="flex items-center gap-1 sm:gap-2 flex-wrap hidden">
+                                     <button id="fontDecrease" class="icon-button" title="Diminuir Fonte"><i class="fas fa-minus"></i></button>
+                                     <button id="fontIncrease" class="icon-button" title="Aumentar Fonte"><i class="fas fa-plus"></i></button>
+                                     <button id="speakButton" class="icon-button" title="Ler Relatório Atual" disabled><i class="fas fa-volume-up"></i></button>
+                                     <button id="fullScreenButton" class="icon-button text-blue-600 dark:text-blue-400" title="Ver em Tela Cheia" disabled><i class="fas fa-expand"></i></button>
+                                 </div>
+                             </div>
+                             <div id="reportContentWrapper" class="min-h-[200px]">
+                                 <div id="reportContent" class="text-color-secondary">
+                                     <p id="reportPlaceholder" class="text-center text-color-muted py-10">Envie a foto e a descrição do seu pet para análise.</p>
+                                 </div>
+                             </div>
+                         </section>
+                     </div>
+                     <div id="tabPanelHistory" role="tabpanel" aria-labelledby="tabButtonHistory" class="tab-panel hidden">
+                         <section id="historySection">
+                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-3">
+                                 <h3 class="text-xl font-semibold text-color-heading">Histórico de Análises de Pets</h3>
+                                 <div class="flex items-center gap-2 self-end sm:self-center">
+                                      <span class="text-sm text-color-muted mr-1">Ver:</span>
+                                      <button id="listView" class="icon-button active-view" title="Lista"><i class="fas fa-list"></i></button>
+                                      <button id="gridView" class="icon-button" title="Grade"><i class="fas fa-th-large"></i></button>
+                                 </div>
+                             </div>
+                             <div class="history-controls grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
+                                 <div class="relative md:col-span-2">
+                                     <label for="searchInput" class="block text-xs font-medium mb-1 text-color-muted">Buscar no texto</label>
+                                     <input type="text" id="searchInput" placeholder="Ex: vômito, ração, labrador..." class="w-full pl-10 text-sm">
+                                     <i class="fas fa-search text-color-faint absolute left-3 bottom-[11px]"></i>
+                                 </div>
+                                 <div>
+                                     <label for="categoryFilter" class="block text-xs font-medium mb-1 text-color-muted">Tipo de Pet (Estimado)</label>
+                                     <select id="categoryFilter" class="w-full text-sm">
+                                         <option value="">Todos</option>
+                                         <option value="Cachorro">Cachorro</option>
+                                         <option value="Gato">Gato</option>
+                                         <option value="Pássaro">Pássaro</option>
+                                         <option value="Outro">Outro</option>
+                                         <option value="Indefinido">Indefinido</option>
+                                     </select>
+                                 </div>
+                                  <div>
+                                     <label for="sortOrder" class="block text-xs font-medium mb-1 text-color-muted">Ordenar</label>
+                                     <select id="sortOrder" class="w-full text-sm">
+                                         <option value="recent">Recentes</option><option value="oldest">Antigos</option>
+                                     </select>
+                                  </div>
+                                 <button id="applyFilters" class="button button-primary text-sm h-[38px] mt-auto w-full md:w-auto"><i class="fas fa-filter text-xs"></i> Filtrar</button>
+                             </div>
+                             <div id="historyContainer" class="history-list min-h-[200px]"></div>
+                             <p id="noHistory" class="text-center text-color-muted mt-6 py-10 border-t border-dashed border-color-light dark:border-color-base hidden">Nenhuma análise de pet encontrada no histórico.</p>
+                             <div id="pagination" class="mt-6 text-center hidden">
+                                 <button id="loadMore" class="button pagination-button dark:pagination-button text-sm"><i class="fas fa-chevron-down"></i> Carregar Mais</button>
+                             </div>
+                         </section>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-10 text-sm text-color-muted border-t border-color-light dark:border-color-base">
+        Desenvolvido por João Ricardo | <a href="https://instagram.com/joaoricardo.pe" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">@joaoricardo.pe</a>
+        <br><span class="text-xs">IA para observação e análise preliminar de pets. Não substitui consulta veterinária.</span>
+    </footer>
+
+    <!-- Modal for Full Report -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content card-bg dark:card-bg fade-in">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-color-light dark:border-color-base">
+                <h2 class="text-xl font-semibold text-color-heading">Relatório Completo da Análise</h2>
+                <button id="closeModal" class="icon-button text-red-600" title="Fechar"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modalReportContent" class="mb-6 text-color-secondary"></div>
+            <div class="flex flex-wrap justify-center gap-3 pt-4 border-t border-color-light dark:border-color-base">
+                 <button id="printButton" class="button button-secondary" title="Imprimir"><i class="fas fa-print"></i> Imprimir</button>
+                 <button id="whatsappButton" class="button bg-green-600 text-white hover:bg-green-700" title="Compartilhar no WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                 <button id="shareButton" class="button bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" title="Compartilhar"><i class="fas fa-share-alt"></i> Compartilhar</button>
+                 <button id="downloadButton" class="button bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600" title="Baixar PDF"><i class="fas fa-download"></i> Baixar PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+         <div class="loading-content">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span id="loadingMessage">Analisando seu pet...</span>
+        </div>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // --- DOM Elements ---
+        const apiKeyInput = document.getElementById('apiKey');
+        const apiKeyStatusContainer = document.getElementById('apiKeyStatusContainer');
+        const apiKeyStatusText = document.getElementById('apiKeyStatusText');
+        const apiKeyIndicator = document.getElementById('apiKeyIndicator');
+        const configApiKeyButton = document.getElementById('configApiKeyButton');
+        const imageInput = document.getElementById('imageInput');
+        const uploadButton = document.getElementById('uploadButton');
+        const cameraButton = document.getElementById('cameraButton');
+        const dropzone = document.getElementById('dropzone');
+        const dropzoneContent = document.getElementById('dropzone-content');
+        const cameraPreview = document.getElementById('cameraPreview');
+        const cameraCanvas = document.getElementById('cameraCanvas');
+        const cameraControlsContainer = document.getElementById('cameraControlsContainer');
+        const captureButton = document.getElementById('captureButton');
+        const stopCameraButton = document.getElementById('stopCameraButton');
+        const petDescriptionInput = document.getElementById('petDescription');
+        const reportSection = document.getElementById('reportSection');
+        const reportControls = document.getElementById('reportControls');
+        const reportContentWrapper = document.getElementById('reportContentWrapper');
+        const reportContent = document.getElementById('reportContent');
+        const reportPlaceholder = document.getElementById('reportPlaceholder');
+        const themeToggle = document.getElementById('themeToggle');
+        const historySection = document.getElementById('historySection');
+        const historyContainer = document.getElementById('historyContainer');
+        const searchInput = document.getElementById('searchInput');
+        const fullScreenButton = document.getElementById('fullScreenButton');
+        const reportModal = document.getElementById('reportModal');
+        const modalReportContent = document.getElementById('modalReportContent');
+        const closeModal = document.getElementById('closeModal');
+        const printButton = document.getElementById('printButton');
+        const whatsappButton = document.getElementById('whatsappButton');
+        const shareButton = document.getElementById('shareButton');
+        const downloadButton = document.getElementById('downloadButton');
+        const fontIncrease = document.getElementById('fontIncrease');
+        const fontDecrease = document.getElementById('fontDecrease');
+        const speakButton = document.getElementById('speakButton');
+        const loadMore = document.getElementById('loadMore');
+        const pagination = document.getElementById('pagination');
+        const gridView = document.getElementById('gridView');
+        const listView = document.getElementById('listView');
+        const sortOrder = document.getElementById('sortOrder');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const applyFilters = document.getElementById('applyFilters');
+        const notification = document.getElementById('notification');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const noHistory = document.getElementById('noHistory');
+        const tabButtonReport = document.getElementById('tabButtonReport');
+        const tabButtonHistory = document.getElementById('tabButtonHistory');
+        const tabPanelReport = document.getElementById('tabPanelReport');
+        const tabPanelHistory = document.getElementById('tabPanelHistory');
+
+        // --- State Variables ---
+        let currentResultText = '';
+        let currentImageBase64 = '';
+        let currentDescription = '';
+        let lastSuccessfulAnalysisHTML = '';
+        let fontSize = 15.2;
+        let currentPage = 1;
+        const itemsPerPage = 8;
+        let viewMode = 'list';
+        let filterTerm = '';
+        let sortType = 'recent';
+        let selectedCategory = '';
+        let db;
+        let cameraStream = null;
+        let allHistoryItems = [];
+        let synth = window.speechSynthesis;
+        let utterance = null;
+        let currentApiKey = '';
+        let isProcessing = false;
+
+        // --- Constants ---
+        const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+        const REPORT_DISCLAIMER_HTML = `<p class="p-3 mb-4 rounded-md bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700/40 text-yellow-800 dark:text-yellow-300 text-sm"><strong><i class="fas fa-exclamation-triangle mr-1"></i> Atenção:</strong> Esta é uma análise preliminar gerada por IA com base na imagem e descrição fornecidas. Ela serve para observação e sugestões gerais, mas <strong>NÃO substitui</strong> a avaliação, diagnóstico ou recomendação de um <strong>médico veterinário qualificado</strong>. Sempre consulte um profissional para questões de saúde do seu pet.</p>`;
+        const PLACEHOLDER_IMG = 'https://via.placeholder.com/150/f0f0f0/cccccc?text=Sem+Imagem';
+
+        // --- IndexedDB Setup ---
+        const dbRequest = indexedDB.open('PetAnalysisDB_v1', 1);
+        dbRequest.onupgradeneeded = (event) => {
+            console.log("Creating or upgrading DB to version", event.newVersion);
+            db = event.target.result;
+            let store;
+            if (!db.objectStoreNames.contains('analyses')) {
+                store = db.createObjectStore('analyses', { keyPath: 'id', autoIncrement: true });
+                console.log("Object store 'analyses' created.");
+                 store.createIndex('timestamp', 'timestamp', { unique: false });
+                 store.createIndex('category', 'category', { unique: false });
+                 store.createIndex('text', 'text', { unique: false });
+                 console.log("DB indices created.");
+            } else {
+                 console.log("Object store 'analyses' already exists.");
+            }
+        };
+        dbRequest.onsuccess = (event) => {
+            db = event.target.result; console.log("Database opened successfully.");
+            loadApiKey(); loadInitialHistory();
+        };
+        dbRequest.onerror = (event) => {
+            console.error("Database error:", event.target.error);
+            notify('Erro crítico ao acessar o banco de dados local. O histórico não funcionará.', 'error', 5000);
+        };
+
+        // --- Utility Functions ---
+        function showLoading(message = "Analisando seu pet...") { loadingMessage.textContent = message; loadingOverlay.style.display = 'flex'; }
+        function hideLoading() { loadingOverlay.style.display = 'none'; }
+        function notify(message, type = 'info', duration = 3500) { /* ... same ... */
+            notification.textContent = message; notification.className = `notification ${type}`;
+            requestAnimationFrame(() => { notification.classList.add('show'); });
+            if (notification.timeoutId) clearTimeout(notification.timeoutId);
+            notification.timeoutId = setTimeout(() => { notification.classList.remove('show'); }, duration);
+        }
+        function getBase64(file) { /* ... same ... */
+            return new Promise((resolve, reject) => {
+                if (!file) return reject(new Error("Arquivo nulo fornecido."));
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
+            });
+        }
+        function formatResult(text, fileName = '') { // Mantida para formatar negrito/itálico e adicionar nome do arquivo
+            let cleanText = (text || '')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/_(.*?)_/g, '<em>$1</em>');
+
+            // A estrutura de seções agora é definida pelo prompt da IA
+            // Esta função apenas garante a formatação básica e adiciona o cabeçalho do arquivo
+            let structuredHtml = `<div class="report-file-header text-sm text-color-muted mb-2"><i class="fas fa-image mr-1"></i> Arquivo: ${fileName || 'Desconhecido'}</div>`;
+            structuredHtml += cleanText.replace(/\n/g, '<br>'); // Simplesmente substitui novas linhas por <br>
+
+            return structuredHtml;
+        }
+        function getCategory(text) { /* ... same pet category detection ... */
+             const lowerText = (text || '').toLowerCase();
+             if (lowerText.includes('cachorro') || lowerText.includes('cão') || lowerText.includes('canino')) return 'Cachorro';
+             if (lowerText.includes('gato') || lowerText.includes('felino')) return 'Gato';
+             if (lowerText.includes('pássaro') || lowerText.includes('ave') || lowerText.includes('calopsita') || lowerText.includes('papagaio')) return 'Pássaro';
+             if (lowerText.includes('animal') || lowerText.includes('pet')) return 'Outro';
+             return 'Indefinido';
+        }
+        function createErrorBoxHTML(fileName, errorMessage) { /* ... same ... */
+             return `
+                 <div class="report-error-box">
+                     <div class="text-sm text-color-muted mb-1"><i class="fas fa-image mr-1"></i> Arquivo: ${fileName || 'Desconhecido'}</div>
+                     <strong><i class="fas fa-times-circle mr-1"></i> Erro na Análise:</strong> ${errorMessage}
+                 </div>
+             `;
+         }
+
+        // --- API Key Handling ---
+        function loadApiKey() { /* ... same ... */ currentApiKey = localStorage.getItem('geminiApiKey') || ''; apiKeyInput.value = currentApiKey; updateApiKeyStatus(); }
+        function saveApiKey() { /* ... same ... */ currentApiKey = apiKeyInput.value.trim(); if (currentApiKey) { localStorage.setItem('geminiApiKey', currentApiKey); notify('Chave API salva localmente.', 'success'); } else { localStorage.removeItem('geminiApiKey'); notify('Chave API removida.', 'info'); } updateApiKeyStatus(); }
+        function updateApiKeyStatus() { /* ... same ... */
+             const isValid = !!currentApiKey;
+             apiKeyIndicator.classList.toggle('valid', isValid); apiKeyIndicator.classList.toggle('invalid', !isValid);
+             apiKeyStatusText.textContent = isValid ? 'Configurada' : 'Não configurada'; apiKeyStatusContainer.title = isValid ? "Chave API configurada." : "Chave API não configurada.";
+        }
+        apiKeyInput.addEventListener('change', saveApiKey);
+        configApiKeyButton.addEventListener('click', () => { apiKeyInput.focus(); apiKeyInput.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+
+        // --- File Processing Logic ---
+        async function processFiles(file) { /* ... same logic adapted for single file + description ... */
+            if (isProcessing) { notify("Aguarde a análise atual terminar.", "info"); return; }
+            if (!currentApiKey) { notify('Por favor, configure sua chave de API Gemini primeiro.', 'error'); apiKeyInput.focus(); return; }
+            if (!file) { notify('Nenhuma imagem selecionada.', 'info'); return; }
+
+            const fileType = file.type || '';
+            const isValidType = VALID_MIME_TYPES.includes(fileType.toLowerCase());
+            if (!isValidType) {
+                notify(`Tipo de arquivo não suportado (${fileType || 'desconhecido'}). Use JPG, PNG ou WEBP.`, 'error');
+                return;
+            }
+
+            isProcessing = true;
+            activateTab('report');
+            reportContent.innerHTML = '';
+            reportPlaceholder.classList.add('hidden');
+            reportControls.classList.add('hidden');
+            speakButton.disabled = true;
+            fullScreenButton.disabled = true;
+
+            const description = petDescriptionInput.value.trim();
+
+            showLoading(`Analisando ${file.name}...`);
+
+            const success = await analyzePetImage(file, description); // Chama a função de análise
+
+            hideLoading();
+            isProcessing = false;
+
+            if (success) {
+                reportControls.classList.remove('hidden');
+                speakButton.disabled = false;
+                fullScreenButton.disabled = false;
+                notify(`Análise de '${file.name}' concluída com sucesso!`, 'success');
+            } else {
+                reportPlaceholder.classList.remove('hidden');
+                 reportPlaceholder.textContent = "Falha ao analisar a imagem do pet.";
+            }
+
+            reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+
+        // --- Core Functionality: analyzePetImage (com NOVO PROMPT DETALHADO) ---
+        async function analyzePetImage(file, description) {
+             let base64Image;
+             let analysisText = '';
+             let analysisHTML = '';
+
+            try {
+                base64Image = await getBase64(file);
+                const mimeType = file.type;
+
+                const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${currentApiKey}`;
+
+                // ***** NOVO PROMPT DETALHADO *****
+                const petPrompt = `Você é um especialista em saúde animal, nutrição pet e comportamento veterinário. Atue em português do Brasil.
+
+Seu objetivo é analisar a imagem fornecida e a descrição do usuário sobre um pet (cão, gato ou outro) e gerar um relatório informativo, seguindo ESTRITAMENTE o formato abaixo.
+
+**Instruções Detalhadas:**
+1.  **Análise da Imagem:** Observe atentamente a imagem para identificar espécie, porte, condição corporal aparente, pelagem, postura e quaisquer sinais visuais óbvios.
+2.  **Integração da Descrição:** Considere a descrição fornecida pelo usuário como contexto crucial. Use as informações sobre idade, peso, raça (se informada), sintomas, comportamento, alimentação atual e as dúvidas do tutor.
+3.  **Geração do Relatório (Formato Obrigatório):** Use EXATAMENTE os títulos abaixo em negrito.
+
+    *   **Resumo do Pet:** Compile as informações básicas disponíveis (espécie inferida ou informada, raça se aplicável, idade e peso se informados, características gerais da imagem).
+    *   **Análise de Saúde:** Com base nos sintomas descritos e observações da imagem, liste possíveis condições de saúde ou áreas que merecem atenção. Indique sinais de alerta claros. Classifique o nível de risco percebido (baixo, médio, alto) para a necessidade de atenção veterinária, justificando brevemente. **Importante:** NÃO FAÇA DIAGNÓSTICOS DEFINITIVOS. Use termos como "pode indicar", "sugere", "requer avaliação".
+    *   **Alimentação Indicada:** Sugira um tipo geral de alimentação (ex: ração super premium para filhotes de porte pequeno, dieta caseira balanceada com acompanhamento). Mencione alimentos naturais geralmente permitidos (com moderação, ex: cenoura cozida para cães) e estritamente proibidos (ex: chocolate, uva, cebola). Adapte as sugestões à idade, porte e condições mencionadas (ex: ração renal, light).
+    *   **Cuidados Especiais:** Aponte restrições alimentares (ex: se houver suspeita de alergia), necessidade de suplementos (apenas se MUITO evidente e com recomendação de consultar vet), e cuidados específicos relacionados à raça (ex: tendência a problemas de pele em bulldogs) ou idade (ex: cuidados com articulações em idosos).
+    *   **Recomendação Veterinária:** Indique CLARAMENTE se o tutor deve procurar um veterinário. Especifique o tipo de urgência:
+        *   Emergência (imediatamente).
+        *   Consulta (agendar em breve).
+        *   Exame de Rotina/Vacinação (manter calendário).
+        *   Observação (monitorar em casa e procurar vet se piorar).
+    *   **Dicas Extras:** Forneça 2-3 dicas práticas de cuidados gerais relevantes (ex: frequência de exercícios, importância da higiene dental, vermifugação/antipulgas, enriquecimento ambiental).
+
+4.  **Linguagem:** Use uma linguagem clara, empática e responsável. Evite jargões excessivos.
+5.  **Informações Insuficientes:** Se a descrição for muito vaga para uma análise útil, explique educadamente quais informações adicionais seriam importantes (idade, peso, raça específica, detalhes dos sintomas, alimentação atual). Mesmo assim, tente fornecer o máximo de análise possível com base na imagem.
+6.  **Disclaimer:** O disclaimer sobre não substituir o veterinário será adicionado automaticamente pelo sistema. Não o inclua na sua resposta.
+
+**Descrição Fornecida pelo Usuário:**
+---
+${description || "Nenhuma descrição adicional fornecida."}
+---
+
+Analise a imagem e a descrição acima e forneça o relatório formatado conforme as instruções.`;
+                // ***** FIM DO NOVO PROMPT *****
+
+                 const requestBody = {
+                     contents: [{
+                         parts: [
+                             { text: petPrompt },
+                             { inline_data: { mime_type: mimeType, data: base64Image } }
+                         ]
+                     }],
+                     // Ajuste opcional de temperatura, pode manter 0.5 ou reduzir para 0.4 para mais objetividade
+                     generationConfig: { temperature: 0.45, /* maxOutputTokens: 1500 */ }, // Um pouco mais tokens talvez?
+                     safetySettings: [ // Mantém configurações de segurança
+                          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+                     ]
+                 };
+
+                 // 3. Call API
+                 const response = await fetch(GEMINI_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
+                 const responseData = await response.json();
+
+                 // 4. Process Response
+                 if (!response.ok) {
+                      console.error(`API Error for ${file.name}:`, responseData);
+                      const errorMsg = responseData.error?.message || `Erro ${response.status} na API.`;
+                      if (response.status === 400 && errorMsg.toLowerCase().includes('api key not valid')) throw new Error("Chave API inválida.");
+                      if (response.status === 429) throw new Error("Limite de requisições da API atingido. Tente mais tarde.");
+                      // Verifica se há erro de segurança no promptFeedback também
+                      if(responseData.promptFeedback?.blockReason) {
+                          throw new Error(`Análise bloqueada por segurança (${responseData.promptFeedback.blockReason}). Tente uma imagem ou descrição diferente.`);
+                      }
+                      throw new Error(errorMsg);
+                 }
+                 // Validações adicionais da resposta
+                 if (!responseData.candidates?.length || !responseData.candidates[0].content?.parts?.length || !responseData.candidates[0].content.parts[0].text) {
+                     let reason = "A API retornou uma resposta inesperada ou vazia.";
+                     if (responseData.candidates?.[0]?.finishReason && responseData.candidates[0].finishReason !== "STOP") {
+                         reason = `Análise interrompida pela IA (${responseData.candidates[0].finishReason}).`;
+                     } else if (responseData.promptFeedback?.blockReason) {
+                          reason = `Análise bloqueada por segurança (${responseData.promptFeedback.blockReason}).`;
+                      }
+                     throw new Error(reason);
+                 }
+
+                  analysisText = responseData.candidates[0].content.parts[0].text;
+                  // Pré-anexa o disclaimer e formata o resultado
+                  analysisHTML = REPORT_DISCLAIMER_HTML + formatResult(analysisText, file.name);
+
+                 reportContent.innerHTML = analysisHTML;
+
+                 currentResultText = analysisText;
+                 currentImageBase64 = base64Image;
+                 currentDescription = description;
+                 lastSuccessfulAnalysisHTML = analysisHTML;
+
+                 // 5. Save to History
+                 saveToHistory(analysisText, base64Image, getCategory(analysisText), file.name, description);
+                 return true;
+
+            } catch (error) {
+                console.error(`Error analyzing ${file.name}:`, error);
+                reportContent.innerHTML = createErrorBoxHTML(file.name, error.message);
+                notify(`Erro ao analisar ${file.name}: ${error.message}`, 'error', 5000);
+                return false;
+            } finally {
+                imageInput.value = '';
+                stopCamera();
+            }
+        }
+
+        // --- History Management ---
+        function saveToHistory(text, imageBase64, category, fileName = 'Analise_Pet', description = '') { /* ... same ... */
+            if (!db) { console.warn("DB not ready, skipping history save."); return; }
+            const analysisData = { text, imageBase64, timestamp: new Date().toISOString(), category, fileName, description };
+            const transaction = db.transaction(['analyses'], 'readwrite');
+            const store = transaction.objectStore('analyses');
+            const request = store.add(analysisData);
+            request.onsuccess = (e) => { analysisData.id = e.target.result; allHistoryItems.unshift(analysisData); console.log("Pet analysis saved ID:", analysisData.id); };
+            request.onerror = (event) => { console.error("Error saving history:", event.target.error); notify('Erro ao salvar análise do pet no histórico.', 'error'); };
+        }
+        function loadInitialHistory() { /* ... same ... */
+            if (!db) { return; }
+            if (allHistoryItems.length > 0 && !historyContainer.innerHTML.includes('Carregando')) { console.log("History already loaded."); applyFiltersAndRenderHistory(); return; }
+            showLoading("Carregando histórico de pets...");
+            historyContainer.innerHTML = '<p class="text-center text-color-muted py-10">Carregando...</p>';
+             const transaction = db.transaction(['analyses'], 'readonly');
+             const store = transaction.objectStore('analyses');
+             const request = store.getAll();
+             request.onsuccess = () => { allHistoryItems = request.result || []; applyFiltersAndRenderHistory(); hideLoading(); };
+             request.onerror = (event) => { console.error("Error loading history:", event.target.error); notify('Erro ao carregar histórico.', 'error'); historyContainer.innerHTML = ''; noHistory.classList.remove('hidden'); noHistory.textContent = "Erro ao carregar o histórico de pets."; hideLoading(); };
+        }
+        function getFilteredAndSortedHistory() { /* ... same (including search in description) ... */
+              let filtered = [...allHistoryItems];
+              if (filterTerm) {
+                   const lowerFilter = filterTerm.toLowerCase();
+                   filtered = filtered.filter(item =>
+                       (item.text || '').toLowerCase().includes(lowerFilter) ||
+                       (item.fileName || '').toLowerCase().includes(lowerFilter) ||
+                       (item.description || '').toLowerCase().includes(lowerFilter)
+                   );
+              }
+              if (selectedCategory) { filtered = filtered.filter(item => item.category === selectedCategory); }
+              switch (sortType) {
+                  case 'oldest': filtered.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)); break;
+                  case 'recent': default: filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); break;
+              }
+              return filtered;
+        }
+
+        // --- Rendering History ---
+        function applyFiltersAndRenderHistory() { /* ... same ... */
+            filterTerm = searchInput.value.trim(); sortType = sortOrder.value; selectedCategory = categoryFilter.value;
+            currentPage = 1; renderHistory();
+        }
+        function renderHistory() { /* ... same ... */
+             const filteredItems = getFilteredAndSortedHistory();
+             noHistory.classList.toggle('hidden', filteredItems.length > 0 || allHistoryItems.length === 0);
+             noHistory.classList.toggle('block', filteredItems.length === 0 && allHistoryItems.length > 0);
+             noHistory.textContent = allHistoryItems.length === 0 ? "Nenhuma análise de pet encontrada no histórico." : "Nenhuma análise de pet encontrada com os filtros atuais.";
+
+             const start = (currentPage - 1) * itemsPerPage;
+             const end = start + itemsPerPage;
+             const paginatedItems = filteredItems.slice(start, end);
+
+             historyContainer.className = `min-h-[200px] ${viewMode === 'grid' ? 'history-grid' : 'history-list'}`;
+             if (currentPage === 1) { historyContainer.innerHTML = ''; }
+
+             const fragment = document.createDocumentFragment();
+             paginatedItems.forEach(item => { const element = document.createElement('div'); element.innerHTML = createHistoryItemHTML(item); fragment.appendChild(element.firstElementChild); });
+             historyContainer.appendChild(fragment);
+
+             addHistoryItemListeners(historyContainer);
+
+             const hasMoreItems = end < filteredItems.length;
+             pagination.classList.toggle('hidden', !hasMoreItems);
+             loadMore.disabled = !hasMoreItems;
+             listView.classList.toggle('active-view', viewMode === 'list');
+             gridView.classList.toggle('active-view', viewMode === 'grid');
+        }
+        function addHistoryItemListeners(container) { /* ... same ... */
+            container.querySelectorAll('.view-btn[data-id]').forEach(viewBtn => { const id = parseInt(viewBtn.dataset.id); if (!viewBtn.dataset.listenerAttached) { viewBtn.onclick = () => viewAnalysis(id); viewBtn.dataset.listenerAttached = 'true'; } });
+            container.querySelectorAll('.delete-btn[data-id]').forEach(deleteBtn => { const id = parseInt(deleteBtn.dataset.id); if (!deleteBtn.dataset.listenerAttached) { deleteBtn.onclick = () => deleteAnalysis(id); deleteBtn.dataset.listenerAttached = 'true'; } });
+        }
+        function createHistoryItemHTML(item) { /* ... same pet themed HTML ... */
+            const date = new Date(item.timestamp).toLocaleString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const firstSentenceMatch = (item.text || '').match(/^.*?[.!?](?:\s|$)/);
+            let summaryText = firstSentenceMatch ? firstSentenceMatch[0].trim() : (item.text || '').substring(0, 90).replace(/\n/g, ' ');
+            summaryText = summaryText.replace(/<[^>]*>/g, '').replace(/[\*_#]+/g, '').trim();
+            if ((item.text || '').length > 90 && !firstSentenceMatch) summaryText += '...';
+            const category = item.category || 'Indefinido';
+            let categoryColor = 'text-color-muted';
+             if (category === 'Cachorro') categoryColor = 'text-orange-600 dark:text-orange-400';
+             else if (category === 'Gato') categoryColor = 'text-purple-600 dark:text-purple-400';
+             else if (category === 'Pássaro') categoryColor = 'text-teal-600 dark:text-teal-400';
+             else if (category === 'Outro') categoryColor = 'text-blue-600 dark:text-blue-400';
+            const imageSrc = item.imageBase64 ? `data:image/jpeg;base64,${item.imageBase64}` : PLACEHOLDER_IMG;
+            const fileName = item.fileName || 'Analise_Pet';
+             return `
+                 <div class="history-item card-bg dark:history-item border-color-light dark:border-color-base" data-id="${item.id}">
+                     <img src="${imageSrc}" alt="Imagem de ${fileName}" loading="lazy" class="border border-color-light dark:history-item-img">
+                     <div class="history-item-content text-color-secondary dark:text-color-secondary">
+                          <p class="history-item-summary text-color-base dark:text-color-base">${summaryText || 'Análise sem texto.'}</p>
+                         <p class="history-item-meta text-color-muted dark:text-color-muted">
+                            <span class="${categoryColor} font-medium">${category}</span> • ${fileName} • ${date}
+                         </p>
+                         ${item.description ? `<p class="text-xs italic text-color-faint mt-1 truncate" title="Descrição: ${item.description}">Desc: "${item.description.substring(0, 50)}..."</p>` : ''}
+                     </div>
+                     <div class="history-item-actions">
+                         <button data-id="${item.id}" class="view-btn icon-button text-blue-600 dark:text-blue-400" title="Visualizar Análise"><i class="fas fa-eye"></i></button>
+                         <button data-id="${item.id}" class="delete-btn icon-button text-red-600 dark:text-red-400" title="Excluir Análise"><i class="fas fa-trash"></i></button>
+                     </div>
+                 </div>`;
+        }
+        function viewAnalysis(id) { /* ... same (loads description too) ... */
+             if (!db) return notify("Banco de dados não disponível.", "error");
+             const transaction = db.transaction(['analyses'], 'readonly');
+             const store = transaction.objectStore('analyses');
+             const request = store.get(id);
+             request.onsuccess = () => {
+                 const analysis = request.result;
+                 if (analysis) {
+                     currentResultText = analysis.text || '';
+                     currentImageBase64 = analysis.imageBase64 || '';
+                     currentDescription = analysis.description || '';
+                     const formattedResult = REPORT_DISCLAIMER_HTML + formatResult(analysis.text, analysis.fileName);
+                     lastSuccessfulAnalysisHTML = formattedResult;
+                     reportContent.innerHTML = formattedResult;
+                     reportPlaceholder.classList.add('hidden');
+                     modalReportContent.innerHTML = formattedResult;
+                     reportControls.classList.remove('hidden');
+                     speakButton.disabled = !currentResultText;
+                     fullScreenButton.disabled = !currentResultText;
+                     activateTab('report');
+                     reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     notify(`Visualizando análise de '${analysis.fileName}'`, 'info');
+                 } else { notify("Análise de pet não encontrada no histórico.", "error"); }
+             };
+             request.onerror = (event) => { notify('Erro ao carregar análise do histórico.', 'error'); console.error(event.target.error);};
+        }
+        function deleteAnalysis(id) { /* ... same ... */
+             if (!db) return notify("Banco de dados não disponível.", "error");
+             if (!confirm("Excluir esta análise de pet do histórico? Esta ação não pode ser desfeita.")) return;
+             const transaction = db.transaction(['analyses'], 'readwrite');
+             const store = transaction.objectStore('analyses');
+             const request = store.delete(id);
+             request.onsuccess = () => { notify('Análise de pet excluída do histórico!', 'success'); allHistoryItems = allHistoryItems.filter(item => item.id !== id); applyFiltersAndRenderHistory(); };
+             request.onerror = (event) => { notify('Erro ao excluir análise.', 'error'); console.error(event.target.error);};
+        }
+
+        // --- Event Listeners ---
+        themeToggle.addEventListener('click', () => { const isDark = document.body.classList.toggle('dark-theme'); themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; localStorage.setItem('theme', isDark ? 'dark' : 'light'); });
+        if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-theme'); themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; }
+
+        uploadButton.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', (event) => { if (event.target.files && event.target.files.length > 0) { processFiles(event.target.files[0]); } event.target.value = null; });
+
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) { processFiles(e.dataTransfer.files[0]); } else { notify("Nenhum arquivo solto.", "info"); } });
+        dropzoneContent.addEventListener('click', (e) => { if (!e.target.closest('button') && !isProcessing) imageInput.click(); });
+
+        // --- Camera Functions ---
+        async function startCamera() { /* ... same ... */
+            if (isProcessing) { notify("Aguarde a análise atual terminar.", "info"); return; }
+            if (!navigator.mediaDevices?.getUserMedia) { notify("Câmera não suportada.", "error"); return; }
+            if (!currentApiKey) { notify('Configure a API Key primeiro.', 'error'); apiKeyInput.focus(); return; }
+            stopCamera(); showLoading("Iniciando câmera...");
+            try {
+                 const constraints = { video: { facingMode: "environment" } };
+                 try { cameraStream = await navigator.mediaDevices.getUserMedia(constraints); }
+                 catch (err) { console.warn("Câmera traseira falhou:", err); cameraStream = await navigator.mediaDevices.getUserMedia({ video: true }); }
+                 cameraPreview.srcObject = cameraStream; await cameraPreview.play();
+                 cameraPreview.classList.remove('hidden'); cameraControlsContainer.classList.remove('hidden'); dropzoneContent.classList.add('hidden');
+                 hideLoading(); notify("Câmera iniciada. Aponte para seu pet!", "info");
+             } catch (err) { hideLoading(); console.error("Camera Error:", err); let eMsg="Erro"; if(err.name === 'NotAllowedError'||err.name==='PermissionDeniedError')eMsg="Permissão negada."; else if(err.name==='NotFoundError'||err.name==='DevicesNotFoundError')eMsg="Câmera não encontrada."; else if(err.name==='NotReadableError'||err.name==='TrackStartError')eMsg="Câmera em uso?"; notify(eMsg,"error"); stopCamera(); }
+        }
+        function stopCamera() { /* ... same ... */ if (cameraStream) { cameraStream.getTracks().forEach(track => track.stop()); cameraStream = null; } cameraPreview.srcObject = null; cameraPreview.classList.add('hidden'); cameraControlsContainer.classList.add('hidden'); dropzoneContent.classList.remove('hidden'); }
+        cameraButton.addEventListener('click', startCamera);
+        stopCameraButton.addEventListener('click', stopCamera);
+        captureButton.addEventListener('click', async () => { /* ... same ... */
+            if (isProcessing) { notify("Aguarde a análise atual terminar.", "info"); return; }
+            if (!cameraStream || !cameraPreview.videoWidth || cameraPreview.paused) return notify("Câmera não está pronta.", "error");
+            const context = cameraCanvas.getContext('2d'); cameraCanvas.width = cameraPreview.videoWidth; cameraCanvas.height = cameraPreview.videoHeight;
+            context.drawImage(cameraPreview, 0, 0, cameraCanvas.width, cameraCanvas.height);
+            stopCamera(); showLoading("Capturando e processando...");
+            cameraCanvas.toBlob(async (blob) => { if (blob) { const file = new File([blob], `pet-capture-${Date.now()}.jpg`, { type: 'image/jpeg' }); await processFiles(file); } else { notify("Falha ao capturar imagem.", "error"); hideLoading(); isProcessing = false; } }, 'image/jpeg', 0.9);
+        });
+
+        // --- Report Controls ---
+        fontIncrease.addEventListener('click', () => { if (fontSize < 24) { fontSize += 1; reportContent.style.fontSize = `${fontSize}px`; modalReportContent.style.fontSize = `${fontSize}px`; } });
+        fontDecrease.addEventListener('click', () => { if (fontSize > 10) { fontSize -= 1; reportContent.style.fontSize = `${fontSize}px`; modalReportContent.style.fontSize = `${fontSize}px`; } });
+        speakButton.addEventListener('click', () => { /* ... same ... */
+             if (!synth) return notify('Leitura de voz não suportada.', 'error');
+             if (!currentResultText) return notify('Nenhuma análise válida para ler.', 'info');
+             if (synth.speaking) { synth.cancel(); speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.title = "Ler Relatório Atual"; speakButton.classList.remove('speaking'); }
+             else {
+                 const txt = currentResultText.replace(/<[^>]*>/g,' ').replace(/[\*\_#]+/g,'').replace(/\s\s+/g,' ').trim(); if (!txt) { notify("Não há texto para ler.", "info"); return; }
+                 utterance = new SpeechSynthesisUtterance(txt); utterance.lang = 'pt-BR';
+                 utterance.onerror = (e) => { console.error('Speech err:', e.error); notify(`Erro: ${e.error}`, 'error'); speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.classList.remove('speaking'); };
+                 utterance.onend = () => { speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.classList.remove('speaking'); };
+                 synth.speak(utterance); speakButton.innerHTML = '<i class="fas fa-stop-circle"></i>'; speakButton.title = "Parar Leitura"; speakButton.classList.add('speaking');
+             }
+        });
+        window.addEventListener('beforeunload', () => { if (synth?.speaking) synth.cancel(); });
+
+        // --- Modal Handling & Actions ---
+        fullScreenButton.addEventListener('click', () => { if (lastSuccessfulAnalysisHTML) { modalReportContent.innerHTML = lastSuccessfulAnalysisHTML; reportModal.style.display = 'flex'; modalReportContent.style.fontSize = `${fontSize}px`; } else { notify('Nenhuma análise válida para tela cheia.', 'info'); } });
+        closeModal.addEventListener('click', () => { reportModal.style.display = 'none'; if (synth?.speaking) synth.cancel(); });
+        reportModal.addEventListener('click', (event) => { if (event.target === reportModal) { reportModal.style.display = 'none'; if (synth?.speaking) synth.cancel(); } });
+        printButton.addEventListener('click', () => { /* ... same print logic ... */
+             if (!lastSuccessfulAnalysisHTML) return notify("Nenhuma análise válida para imprimir.", "info");
+             const printWindow = window.open('', '_blank');
+             printWindow.document.write(`<!DOCTYPE html>...`); // (Usa a mesma estrutura de impressão da versão anterior)
+              printWindow.document.write(`
+                 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Análise de Pet IA</title>...<style>...</style></head>
+                 <body><h2>Análise de Pet - IA</h2>
+                 ${currentImageBase64 ? '<img src="data:image/jpeg;base64,'+currentImageBase64+'" alt="Imagem do Pet Analisada">' : ''}
+                 ${lastSuccessfulAnalysisHTML.replace(REPORT_DISCLAIMER_HTML, '<p class="bg-yellow-50"><strong>Atenção:</strong> Análise preliminar por IA. Não substitui consulta veterinária.</p>')}
+                 <script>setTimeout(() => { window.print(); window.close(); }, 750);<\/script></body></html>`);
+             printWindow.document.close();
+        });
+        whatsappButton.addEventListener('click', () => { /* ... same WhatsApp logic ... */
+             if (!currentResultText) return notify("Nenhuma análise válida para compartilhar.", "info");
+             const disclaimer = "Atenção: Análise preliminar por IA. Não substitui consulta veterinária.";
+             const short = currentResultText.substring(0, 600).replace(/Lembre-se:.*profissional\./i,'').trim()+(currentResultText.length>600?'...':'');
+             const msg = encodeURIComponent(`*Análise do meu Pet (IA):*\n\n${short}\n\n_${disclaimer}_\n\n_Gerado por Análise de Pets IA_`);
+             window.open(`https://wa.me/?text=${msg}`, '_blank', 'noopener,noreferrer');
+        });
+        shareButton.addEventListener('click', async () => { /* ... same share logic ... */
+             if (!currentResultText) return notify("Nenhuma análise válida para compartilhar.", "info");
+             const disclaimer = "\nAtenção: Análise preliminar por IA. Não substitui consulta veterinária.";
+             const shareTxt = currentResultText.replace(/Lembre-se:.*profissional\./i, '').trim() + disclaimer;
+             const shareData = { title: 'Análise de Pet - IA', text: shareTxt };
+             try { if (navigator.share) { await navigator.share(shareData); } else { navigator.clipboard.writeText(shareData.text).then(()=>notify('Copiado!', 'success')).catch(e=>notify('Falha.', 'error')); } }
+             catch (err) { if (err.name !== 'AbortError') notify(`Erro: ${err.message}`, 'error'); }
+        });
+        downloadButton.addEventListener('click', () => { /* ... same PDF logic ... */
+             if (!currentResultText) return notify("Nenhuma análise válida para baixar.", "info");
+             try {
+                 const doc = new jsPDF({orientation:'p',unit:'mm',format:'a4'}); doc.setFont('helvetica','normal'); const margin=15; const width=doc.internal.pageSize.width-2*margin; let y=margin;
+                 doc.setFontSize(16); doc.setFont('helvetica','bold'); doc.text('Análise de Pet - IA',doc.internal.pageSize.width/2,y,{align:'center'}); y+=10;
+                 if(currentImageBase64){ try{ const imgD=`data:image/jpeg;base64,${currentImageBase64}`; const props=doc.getImageProperties(imgD); const r=props.width/props.height; let w=80,h=w/r; const maxH=80; if(h>maxH){h=maxH;w=h*r;} const x=(doc.internal.pageSize.width-w)/2; if(y+h<doc.internal.pageSize.height-margin){doc.addImage(imgD,'JPEG',x,y,w,h);y+=h+10;} else{doc.addPage();y=margin;doc.addImage(imgD,'JPEG',x,y,w,h);y+=h+10;} } catch(imgErr){ console.error("PDF Img Err:",imgErr); y+=5; }}
+                 doc.setFontSize(9); doc.setFont('helvetica','italic'); doc.setTextColor(100,100,100); const discLines=doc.splitTextToSize("Atenção: Esta é uma análise preliminar por IA e NÃO substitui a avaliação de um médico veterinário qualificado.",width); discLines.forEach(l=>{if(y+4>doc.internal.pageSize.height-margin){doc.addPage();y=margin;} doc.text(l,margin,y);y+=4;}); doc.setTextColor(0,0,0); y+=6;
+                 doc.setFontSize(10); doc.setFont('helvetica','normal'); let pdfTxt = currentResultText.replace(/<p[^>]*>/gi,'\n').replace(/<\/p>/gi,'').replace(/<br\s*\/?>/gi,'\n').replace(/<strong[^>]*>/gi,'').replace(/<\/strong>/gi,'').replace(/<em[^>]*>/gi,'').replace(/<\/em>/gi,'').replace(/<h4[^>]*>.*?<\/h4>/gi, '\n').replace(/<[^>]*>/g,'').replace(/[\*_]+/g,'').replace(/\n\s*\n/g,'\n').replace(/ /g,' ').replace(/Lembre-se:.*profissional\./i,'').trim();
+                 const lines=doc.splitTextToSize(pdfTxt,width); lines.forEach(l=>{if(y+5>doc.internal.pageSize.height-margin){doc.addPage();y=margin;} doc.text(l,margin,y);y+=5;});
+                 doc.save(`AnalisePetIA_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.pdf`); notify('PDF gerado!', 'success');
+             } catch (error) { console.error("jsPDF Err:", error); notify(`Erro ao gerar PDF: ${error.message||error}`, 'error'); }
+        });
+
+        // --- History Filters/Pagination/View Listeners ---
+        applyFilters.addEventListener('click', applyFiltersAndRenderHistory);
+        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') applyFiltersAndRenderHistory(); });
+        searchInput.addEventListener('search', applyFiltersAndRenderHistory);
+        loadMore.addEventListener('click', () => { if (!loadMore.disabled) { currentPage++; renderHistory(); } });
+        listView.addEventListener('click', () => { if (viewMode !== 'list') { viewMode = 'list'; currentPage = 1; renderHistory(); } });
+        gridView.addEventListener('click', () => { if (viewMode !== 'grid') { viewMode = 'grid'; currentPage = 1; renderHistory(); } });
+        categoryFilter.addEventListener('change', applyFiltersAndRenderHistory);
+        sortOrder.addEventListener('change', applyFiltersAndRenderHistory);
+
+        // --- Tab Switching Logic ---
+        function activateTab(tabName) { /* ... same ... */
+             const isReportTab = tabName === 'report';
+             tabButtonReport.classList.toggle('active', isReportTab); tabButtonReport.setAttribute('aria-selected', isReportTab);
+             tabButtonHistory.classList.toggle('active', !isReportTab); tabButtonHistory.setAttribute('aria-selected', !isReportTab);
+             tabPanelReport.classList.toggle('hidden', !isReportTab);
+             tabPanelHistory.classList.toggle('hidden', isReportTab);
+             if (!isReportTab && allHistoryItems.length === 0 && !historyContainer.innerHTML.includes('Carregando')) { loadInitialHistory(); }
+             else if (!isReportTab) { applyFiltersAndRenderHistory(); }
+        }
+        tabButtonReport.addEventListener('click', () => activateTab('report'));
+        tabButtonHistory.addEventListener('click', () => activateTab('history'));
+
+        // --- Initial Setup ---
+        updateApiKeyStatus();
+        reportContent.style.fontSize = `${fontSize}px`;
+        modalReportContent.style.fontSize = `${fontSize}px`;
+        reportPlaceholder.classList.remove('hidden');
+
+    </script>
+</body>
+</html>
