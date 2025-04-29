@@ -23,11 +23,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome para ícones (Adicionado integrity e crossorigin por segurança) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- jsPDF para gerar PDF (Adicionado integrity e crossorigin por segurança) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznUtBP9VJFxsOVfgkvHuh+ZFL5GdIqLikLwFNBC8E/DPOFjckGjSfGEZpZtGyXzoxLK5eCLGzOWcGgB+O==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         /* Estilos CSS (mantidos da versão anterior com tema azul) */
         /* --- Base & Transitions --- */
@@ -274,7 +272,7 @@
         </section>
 
         <!-- NEW: How to Use Section (Workflow) -->
-        <section class="mb-8 md:mb-12 fade-in" style="animation-delay: 0.15s;">
+        <section id="howToUseSection" class="mb-8 md:mb-12 fade-in" style="animation-delay: 0.15s;">
              <div class="card-bg dark:card-bg border border-color-light dark:border-color-base rounded-xl shadow-card p-5 md:p-8">
                   <h2 class="text-xl font-semibold mb-4 text-color-heading"><i class="fas fa-info-circle mr-2 text-blue-500"></i>Como usar o sistema</h2>
                   <ol class="list-decimal list-inside space-y-2 text-color-secondary">
@@ -282,7 +280,7 @@
                        <li>Na seção "2. Enviar Imagem do Pet", selecione uma foto clara do seu pet arrastando-a para a área indicada ou clicando em "Selecionar Arquivo". Você também pode usar a câmera do seu dispositivo, se disponível.</li>
                        <li>Na seção "3. Adicionar Descrição", forneça o máximo de detalhes possível sobre o pet e o que você observou (idade, peso, raça, sintomas, comportamento, alimentação, etc.). Isso ajuda a IA a fazer uma análise mais relevante.</li>
                        <li>Após carregar a imagem (e adicionar a descrição), a análise automática começará. Aguarde enquanto o sistema processa.</li>
-                       <li>O resultado da análise aparecerá na aba "Análise Atual". Leia com atenção, lembrando-se do aviso em destaque.</li>
+                       <li>O resultado da análise aparecerá na aba "Análise Atual". Leia com atenção, lembrando-se do <strong style="color: #b91c1c;">aviso em destaque</strong>.</li>
                        <li>Use os botões de controle na aba "Análise Atual" para aumentar/diminuir a fonte, ler o relatório em voz alta, copiar o texto ou compartilhar (apenas texto) via WhatsApp. Você também pode ver o relatório completo em tela cheia ou baixar um PDF.</li>
                        <li>Todas as análises realizadas (que não apresentarem erros críticos) são salvas no "Histórico". Você pode acessá-lo na outra aba para rever análises passadas e usar os filtros de busca.</li>
                   </ol>
@@ -404,9 +402,37 @@
         </div>
     </div>
 
+    <!-- jsPDF CDN - Place before your main script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznUtBP9VJFxsOVfgkvHuh+ZFL5GdIqLikLwFNBC8E/DPOFjckGjSfGEZpZtGyXzoxLK5eCLGzOWcGgB+O==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="initializeJsPDF();"></script>
+
     <script>
-        // Declara jsPDF em um escopo global para que possa ser acessado DENTRO de DOMContentLoaded
-        let jsPDF;
+        // Declare jsPDF in a scope accessible by functions that need it
+        // It will be assigned the actual jsPDF object by the initializeJsPDF function
+        let jsPDF = null; // Initialize as null
+
+        // Function called when the jsPDF script finishes loading
+        function initializeJsPDF() {
+            if (window.jspdf && window.jspdf.jsPDF) {
+                jsPDF = window.jspdf.jsPDF; // Assign the loaded library instance
+                console.log("jsPDF loaded and initialized successfully.");
+
+                // Re-enable PDF buttons if they exist and were disabled due to initial check
+                const downloadButtonModal = document.getElementById('downloadButton');
+                const printButton = document.getElementById('printButton');
+                if(downloadButtonModal) downloadButtonModal.disabled = false;
+                if(printButton) printButton.disabled = false;
+
+            } else {
+                console.error("jsPDF library not found or not initialized correctly after load event.");
+                notify("Erro ao carregar a biblioteca de PDF. Baixar/Imprimir PDF não funcionará.", "error", 7000);
+                 // Ensure PDF buttons are disabled if initialization fails
+                 const downloadButtonModal = document.getElementById('downloadButton');
+                 const printButton = document.getElementById('printButton');
+                 if(downloadButtonModal) downloadButtonModal.disabled = true;
+                 if(printButton) printButton.disabled = true;
+            }
+        }
+
 
         // --- State Variables (Global Scope) ---
         let currentResultText = ''; // Stores the text of the *last* successful analysis for modal/share
@@ -742,7 +768,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                      throw new Error(reason);
                  }
 
-                 // Extrai o generated text from the API response
+                 // Extract the generated text from the API response
                  analysisText = responseData.candidates[0].content.parts[0].text;
                  console.log("API Response Text:", analysisText.substring(0, 200) + "..."); // Log snippet of the text
 
@@ -1261,16 +1287,19 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             const reportControls = document.getElementById('reportControls');
 
 
-            // --- Initialize jsPDF (NOW INSIDE DOMContentLoaded) ---
-            // Assign the jsPDF object to the global variable jsPDF
+            // --- Initialize jsPDF (NOW INSIDE DOMContentLoaded, assigned to global variable) ---
+             // The jsPDF library should have loaded via the script tag with onload="initializeJsPDF()"
+             // If window.jspdf is still not available here, there's a deeper issue with loading
              if (window.jspdf && window.jspdf.jsPDF) {
-                 jsPDF = window.jspdf.jsPDF;
-                 console.log("jsPDF loaded and initialized.");
+                 jsPDF = window.jspdf.jsPDF; // Assign to the global variable
+                 console.log("jsPDF loaded and initialized successfully inside DOMContentLoaded.");
+                 // Buttons are enabled later when report is available
              } else {
-                 console.error("jsPDF library not found or not initialized correctly.");
-                 notify("Erro ao carregar a biblioteca de PDF. Baixar PDF não funcionará.", "error", 5000);
-                 // Optionally disable PDF button if it exists
+                 console.error("jsPDF library not found or not initialized correctly by the time DOMContentLoaded fired.");
+                 notify("Erro ao carregar a biblioteca de PDF. Baixar/Imprimir PDF não funcionará.", "error", 7000);
+                 // Ensure PDF buttons are disabled if initialization fails
                  if(downloadButtonModal) downloadButtonModal.disabled = true;
+                 if(printButton) printButton.disabled = true;
              }
 
 
@@ -1439,7 +1468,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             if(reportModal) reportModal.addEventListener('click', (e) => { if (e.target === reportModal) { reportModal.style.display = 'none'; if (synth?.speaking) synth.cancel(); } });
 
             // Modal Print Button
-            if(printButton && lastSuccessfulAnalysisHTML) printButton.addEventListener('click', () => {
+            if(printButton) printButton.addEventListener('click', () => {
                 if (!lastSuccessfulAnalysisHTML) return notify("Nada para imprimir.", "info");
                  // Check if jsPDF is available before trying to use it
                  if (!jsPDF) {
@@ -1557,7 +1586,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                     doc.setFont('helvetica', 'normal');
                     let pdfText = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').replace(/Lembre-se: Sou uma IA.*profissional\./i, '').replace(/\n\s*\n/g, '\n').replace(/ /g, ' ').trim();
                     const textLines = doc.splitTextToSize(pdfText, contentWidth);
-                    textLines.forEach(line => { if (currentY + 5 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; } doc.text(line, margin, currentY); currentY += 5; });
+                    textLines.forEach(line => { if (currentY + 5 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; } doc.text(line, margin, currentY); y += 5; }); // Fix: Should use currentY += 5
 
                     doc.save(`AnalisePetIA_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.pdf`);
                     notify('PDF da análise gerado!', 'success');
@@ -1605,6 +1634,9 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             console.log("Inicialização do DOM e configuração de listeners concluída.");
 
         }); // --- END OF DOMContentLoaded ---
+
+        // Note: loadInitialHistory and loadApiKey are called in db.onsuccess, which is triggered by dbRequest.
+        // initializeJsPDF is called by the onload event of the jsPDF script tag.
 
     </script>
 
