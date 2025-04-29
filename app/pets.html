@@ -5,12 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise de Pets IA - Análise Inteligente</title>
+
+    <!-- --- Favicons --- -->
+    <!-- Certifique-se de que os caminhos 'icons/' abaixo correspondem à localização real dos seus arquivos de ícone -->
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icons8-dog-leash-3d-fluency-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icons8-dog-leash-3d-fluency-32.png">
+    <link rel="icon" type="image/png" sizes="72x72" href="icons/icons8-dog-leash-3d-fluency-72.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/icons8-dog-leash-3d-fluency-96.png">
+    <link rel="icon" type="image/png" sizes="144x144" href="icons/icons8-dog-leash-3d-fluency-144.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icons8-dog-leash-3d-fluency-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icons8-dog-leash-3d-fluency-512.png">
+    <!-- Adicione outros tamanhos ou formatos (.ico, .svg) se desejar -->
+    <!-- <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"> -->
+
+
     <!-- Tailwind CSS via CDN (Aviso: Melhor instalar para produção) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome para ícones (Adicionado integrity e crossorigin por segurança) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- jsPDF para gerar PDF (Adicionado integrity e crossorigin por segurança) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznUtBP9VJFxsOVfgkvHuh+®L7MMHXGecEoWAYpcADS+QCCLaDYCErJE4+X7ySdw3Sjcnw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznUtBP9VJFxsOVfgkvHuh+ZFL5GdIqLikLwFNBC8E/DPOFjckGjSfGEZpZtGyXzoxLK5eCLGzOWcGgB+O==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -144,6 +159,38 @@
         .dark-theme .report-error-box { color: #fca5a5; background-color: rgba(153, 27, 27, 0.2); border-color: rgba(220, 38, 38, 0.3); }
         .report-error-box strong { font-weight: 600;}
 
+        /* --- Disclaimer Prominente em Vermelho --- */
+        .prominent-red-disclaimer {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            background-color: #fee2e2; /* Light red background */
+            border: 2px solid #f87171; /* Medium red border */
+            color: #b91c1c; /* Dark red text */
+            font-weight: 600; /* Bold text */
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .dark-theme .prominent-red-disclaimer {
+            background-color: rgba(220, 38, 38, 0.2); /* Dark theme light red background */
+            border-color: #ef4444; /* Dark theme medium red border */
+            color: #fca5a5; /* Dark theme light red text */
+        }
+
+        /* Ajuste para o disclaimer DENTRO da caixa de relatório */
+        #reportContent .p-3.mb-4.rounded-md.bg-yellow-50 {
+             background-color: #fee2e2 !important; /* Override yellow background with red */
+             border-color: #f87171 !important; /* Override yellow border with red */
+             color: #b91c1c !important; /* Override text color with dark red */
+             font-weight: 600;
+        }
+         .dark-theme #reportContent .p-3.mb-4.rounded-md.bg-yellow-50 {
+             background-color: rgba(220, 38, 38, 0.2) !important;
+             border-color: #ef4444 !important;
+             color: #fca5a5 !important;
+         }
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col text-color-base">
@@ -159,12 +206,20 @@
                  <div class="text-xs text-color-muted hidden md:flex items-center gap-2" id="apiKeyStatusContainer">API Key: <span id="apiKeyStatusText">Não configurada</span><span id="apiKeyIndicator" class="invalid" title="Status da Chave API"></span></div>
                  <button id="configApiKeyButton" class="icon-button" title="Configurar Chave API"><i class="fas fa-key"></i></button>
                  <button id="themeToggle" class="icon-button" title="Alternar Tema"><i class="fas fa-moon"></i></button>
+                 <!-- Botão Entrar em Tela Cheia Nativa -->
+                 <button id="fullscreenNativeButton" class="icon-button" title="Entrar em Tela Cheia"><i class="fas fa-expand-alt"></i></button>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="container mx-auto flex-1 p-4 md:px-6 md:py-8 w-full">
+
+         <!-- Prominent Red Disclaimer at the top -->
+        <div class="prominent-red-disclaimer">
+            <i class="fas fa-syringe mr-2"></i> Lembre-se: Esta ferramenta utiliza IA para observações e sugestões informativas. **NUNCA** substitui a avaliação, diagnóstico e tratamento de um **MÉDICO VETERINÁRIO QUALIFICADO**. Procure sempre um profissional para cuidar da saúde do seu pet.
+        </div>
+
 
         <!-- Action Zone: Config, Upload & Description -->
         <section class="mb-8 md:mb-12 fade-in">
@@ -218,8 +273,25 @@
             </div>
         </section>
 
+        <!-- NEW: How to Use Section (Workflow) -->
+        <section class="mb-8 md:mb-12 fade-in" style="animation-delay: 0.15s;">
+             <div class="card-bg dark:card-bg border border-color-light dark:border-color-base rounded-xl shadow-card p-5 md:p-8">
+                  <h2 class="text-xl font-semibold mb-4 text-color-heading"><i class="fas fa-info-circle mr-2 text-blue-500"></i>Como usar o sistema</h2>
+                  <ol class="list-decimal list-inside space-y-2 text-color-secondary">
+                       <li>Certifique-se de ter uma <strong>chave de API Google AI (Gemini)</strong> configurada na seção "1. Configurar API". É essencial para a análise.</li>
+                       <li>Na seção "2. Enviar Imagem do Pet", selecione uma foto clara do seu pet arrastando-a para a área indicada ou clicando em "Selecionar Arquivo". Você também pode usar a câmera do seu dispositivo, se disponível.</li>
+                       <li>Na seção "3. Adicionar Descrição", forneça o máximo de detalhes possível sobre o pet e o que você observou (idade, peso, raça, sintomas, comportamento, alimentação, etc.). Isso ajuda a IA a fazer uma análise mais relevante.</li>
+                       <li>Após carregar a imagem (e adicionar a descrição), a análise automática começará. Aguarde enquanto o sistema processa.</li>
+                       <li>O resultado da análise aparecerá na aba "Análise Atual". Leia com atenção, lembrando-se do aviso em destaque.</li>
+                       <li>Use os botões de controle na aba "Análise Atual" para aumentar/diminuir a fonte, ler o relatório em voz alta, copiar o texto ou compartilhar (apenas texto) via WhatsApp. Você também pode ver o relatório completo em tela cheia ou baixar um PDF.</li>
+                       <li>Todas as análises realizadas (que não apresentarem erros críticos) são salvas no "Histórico". Você pode acessá-lo na outra aba para rever análises passadas e usar os filtros de busca.</li>
+                  </ol>
+                   <p class="mt-4 text-sm text-color-muted italic">Este é um serviço baseado em Inteligência Artificial para fins informativos e não substitui uma consulta profissional.</p>
+             </div>
+        </section>
+
         <!-- Results Zone: Tabs for Report & History -->
-        <section class="fade-in" style="animation-delay: 0.1s;">
+        <section class="fade-in" style="animation-delay: 0.2s;">
              <div class="card-bg dark:card-bg border border-color-light dark:border-color-base rounded-xl shadow-card overflow-hidden">
                  <div class="tab-list flex border-b border-color-light dark:border-color-base px-4 md:px-6">
                      <button id="tabButtonReport" role="tab" aria-controls="tabPanelReport" aria-selected="true" class="tab-button active"><i class="fas fa-comment-alt mr-2"></i>Análise Atual</button>
@@ -236,7 +308,9 @@
                                      <button id="fontIncrease" class="icon-button" title="Aumentar Fonte" disabled><i class="fas fa-plus"></i></button>
                                      <button id="speakButton" class="icon-button" title="Ler Relatório Atual" disabled><i class="fas fa-volume-up"></i></button>
                                      <button id="copyReportButton" class="icon-button text-gray-600 dark:text-gray-400" title="Copiar Relatório Completo" disabled><i class="fas fa-copy"></i></button>
-                                     <button id="whatsappShareButton" class="icon-button text-green-600 dark:text-green-400" title="Compartilhar Relatório no WhatsApp" disabled><i class="fab fa-whatsapp"></i></button>
+                                     <!-- Botão WhatsApp nos controles principais (compartilha SÓ TEXTO) -->
+                                     <button id="whatsappShareReportButton" class="icon-button text-green-600 dark:text-green-400" title="Compartilhar Relatório no WhatsApp" disabled><i class="fab fa-whatsapp"></i></button>
+                                     <!-- Botão de Tela Cheia (do MODAL, que abre o modal) -->
                                      <button id="fullScreenButton" class="icon-button text-blue-600 dark:text-blue-400" title="Ver em Tela Cheia" disabled><i class="fas fa-expand"></i></button>
                                  </div>
                              </div>
@@ -311,7 +385,7 @@
             <div id="modalReportContent" class="mb-6 text-color-secondary"></div>
             <div class="flex flex-wrap justify-center gap-3 pt-4 border-t border-color-light dark:border-color-base">
                  <button id="printButton" class="button button-secondary" title="Imprimir"><i class="fas fa-print"></i> Imprimir</button>
-                 <!-- No modal, manter botões existentes -->
+                 <!-- Botões do modal (já existiam, mantidos) -->
                  <button id="whatsappButton" class="button bg-green-600 text-white hover:bg-green-700" title="Compartilhar no WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
                  <button id="shareButton" class="button bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" title="Compartilhar"><i class="fas fa-share-alt"></i> Compartilhar</button>
                  <button id="downloadButton" class="button bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600" title="Baixar PDF"><i class="fas fa-download"></i> Baixar PDF</button>
@@ -331,8 +405,8 @@
     </div>
 
     <script>
-        // Garante que o jsPDF esteja disponível globalmente
-        const { jsPDF } = window.jspdf;
+        // Declara jsPDF em um escopo global para que possa ser acessado DENTRO de DOMContentLoaded
+        let jsPDF;
 
         // --- State Variables (Global Scope) ---
         let currentResultText = ''; // Stores the text of the *last* successful analysis for modal/share
@@ -356,8 +430,8 @@
 
         // --- Constants (Global Scope) ---
         const VALID_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp']; // Accepted image types
-        // Disclaimer HTML to prepend to the AI report
-        const REPORT_DISCLAIMER_HTML = `<p class="p-3 mb-4 rounded-md bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700/40 text-yellow-800 dark:text-yellow-300 text-sm"><strong><i class="fas fa-exclamation-triangle mr-1"></i> Atenção:</strong> Esta é uma análise preliminar gerada por IA com base na imagem e descrição fornecidas. Ela serve para observação e sugestões gerais, mas <strong>NÃO substitui</strong> a avaliação, diagnóstico ou recomendação de um <strong>médico veterinário qualificado</strong>. Sempre consulte um profissional para questões de saúde do seu pet.</p>`;
+        // Disclaimer HTML to prepend to the AI report - NOW RED
+        const REPORT_DISCLAIMER_HTML = `<p class="p-3 mb-4 rounded-md bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700/40 text-yellow-800 dark:text-yellow-300 text-sm"><strong><i class="fas fa-exclamation-triangle mr-1"></i> ATENÇÃO:</strong> Esta é uma análise preliminar gerada por IA com base na imagem e descrição fornecidas. Ela serve para observação e sugestões informativas, mas <span style="color: #b91c1c; font-weight: bold;">NÃO substitui</span> a avaliação, diagnóstico ou recomendação de um <span style="color: #b91c1c; font-weight: bold;">MÉDICO VETERINÁRIO QUALIFICADO</span>. <span style="color: #b91c1c; font-weight: bold;">SEMPRE procure um profissional</span> para questões de saúde do seu pet.</p>`;
         // SVG placeholder for cases where image is not available in history
         const PLACEHOLDER_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22150%22%20height%3D%22150%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20150%20150%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_150x150%20text%20%7B%20fill%3A%23AAAAAA%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_150x150%22%3E%3Crect%20width%3D%22150%22%20height%3D%22150%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2240%22%20y%3D%2279.5%22%3ESem%20Imagem%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E';
 
@@ -381,7 +455,7 @@
         dbRequest.onsuccess = (event) => {
             db = event.target.result;
             console.log("DB: Opened successfully.");
-            // Load API key and initial history AFTER DB is ready and opened successfully
+            // Load API key and initial history AFTER DB is ready
             loadApiKey();
             loadInitialHistory();
         };
@@ -471,8 +545,7 @@
         // --- API Key Handling (Global Scope) ---
         function loadApiKey() {
             currentApiKey = localStorage.getItem('geminiApiKey') || '';
-            const apiKeyInput = document.getElementById('apiKey');
-            // Set input value only if element exists
+            const apiKeyInput = document.getElementById('apiKey'); // Get element inside function
             if (apiKeyInput) apiKeyInput.value = currentApiKey;
             updateApiKeyStatus(); // Update the status indicator
         }
@@ -515,7 +588,7 @@
             const speakButton = document.getElementById('speakButton');
             const fullScreenButton = document.getElementById('fullScreenButton');
              const copyReportButton = document.getElementById('copyReportButton'); // New button
-             const whatsappShareButton = document.getElementById('whatsappShareButton'); // New button
+             const whatsappShareReportButton = document.getElementById('whatsappShareReportButton'); // New button
             const petDescriptionInput = document.getElementById('petDescription');
             const reportSection = document.getElementById('reportSection');
 
@@ -541,7 +614,7 @@
             if(speakButton) speakButton.disabled = true;
             if(fullScreenButton) fullScreenButton.disabled = true;
              if(copyReportButton) copyReportButton.disabled = true; // Disable new button
-             if(whatsappShareButton) whatsappShareButton.disabled = true; // Disable new button
+             if(whatsappShareReportButton) whatsappShareReportButton.disabled = true; // Disable new button
 
             // Get the description from the textarea
             const description = petDescriptionInput?.value.trim() || '';
@@ -563,7 +636,7 @@
                 if(speakButton) speakButton.disabled = false;
                 if(fullScreenButton) fullScreenButton.disabled = false;
                  if(copyReportButton) copyReportButton.disabled = false; // Enable new button
-                 if(whatsappShareButton) whatsappShareButton.disabled = false; // Enable new button
+                 if(whatsappShareReportButton) whatsappShareReportButton.disabled = false; // Enable new button
 
                 notify(`Análise de '${file.name}' concluída!`, 'success');
             } else {
@@ -587,11 +660,8 @@
              const reportContent = document.getElementById('reportContent'); // Get element reference
 
             try {
-                // 1. Convert image to Base64
                 base64Image = await getBase64(file);
                 const mimeType = file.type;
-
-                // 2. Prepare the API request URL
                 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${currentApiKey}`;
 
                 // ***** DETAILED PET PROMPT *****
@@ -600,7 +670,7 @@
 
 **Instruções Detalhadas:**
 1.  **Análise da Imagem:** Observe atentamente a imagem (espécie, porte, condição corporal, pelagem, postura, sinais visuais óbvios).
-2.  **Integração da Descrição:** Use a descrição do usuário como contexto crucial (idade, peso, raça, sintomas, comportamento, alimentação, dúvidas).
+2.  **Integração da Descrição:** Use a descrição do usuário como contexto crucial (idade, peso, raça (se informada), sintomas, comportamento, alimentação, dúvidas).
 3.  **Geração do Relatório (Formato Obrigatório):** Use EXATAMENTE os títulos abaixo em negrito. Seja conciso e direto.
     *   **Resumo do Pet:** Compile as informações básicas disponíveis (espécie inferida ou informada, raça se aplicável, idade e peso se informados, características gerais da imagem).
     *   **Análise de Saúde:** Com base nos sintomas descritos e observações da imagem, liste possíveis condições de saúde ou áreas que merecem atenção. Indique sinais de alerta claros. Classifique o nível de risco percebido (baixo, médio, alto) para a necessidade de atenção veterinária, justificando brevemente. **NÃO FAÇA DIAGNÓSTICOS DEFINITIVOS.** Use "pode indicar", "sugere", "requer avaliação".
@@ -633,7 +703,6 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                      ]
                  };
 
-                 // 4. Send the API request
                  console.log("API: Enviando requisição...");
                  const response = await fetch(GEMINI_API_URL, {
                      method: 'POST',
@@ -673,7 +742,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                      throw new Error(reason);
                  }
 
-                 // Extract the generated text from the API response
+                 // Extrai o generated text from the API response
                  analysisText = responseData.candidates[0].content.parts[0].text;
                  console.log("API Response Text:", analysisText.substring(0, 200) + "..."); // Log snippet of the text
 
@@ -704,7 +773,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                 const imageInput = document.getElementById('imageInput');
                 if(imageInput) imageInput.value = ''; // Clear the file input
                 stopCamera(); // Ensure camera is stopped if it was used
-                console.log("Analysis process finished for:", file?.name || 'arquivo');
+                console.log("Analysis process finished for:", file?.name || 'arquivo desconhecido');
             }
         }
 
@@ -727,10 +796,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                     console.error("DB: Error saving record -", event.target.error);
                     notify('Erro ao salvar no histórico.', 'error');
                 };
-            } catch (dbError) {
-                console.error("DB: Error starting save transaction -", dbError);
-                notify('Erro de banco de dados ao salvar.', 'error');
-            }
+            } catch (dbError) { console.error("DB: Error starting save transaction -", dbError); notify('Erro DB ao salvar.', 'error'); }
         }
         // Loads all history items from IndexedDB into memory when the app starts or tab is switched
         function loadInitialHistory() {
@@ -837,7 +903,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
              // Show/hide "No history found" message
              noHistory.classList.toggle('hidden', filteredItems.length > 0 || allHistoryItems.length === 0);
              noHistory.classList.toggle('block', filteredItems.length === 0 && allHistoryItems.length > 0);
-             noHistory.textContent = allHistoryItems.length === 0 ? "Nenhuma análise de pet encontrada no histórico." : "Nenhuma análise encontrada com os filtros atuais.";
+             noHistory.textContent = allHistoryItems.length === 0 ? "Nenhum histórico." : "Nenhuma análise encontrada com filtros.";
 
              // Calculate the items for the current page
              const start = (currentPage - 1) * itemsPerPage;
@@ -891,7 +957,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
         // Generates the HTML string for a single history item preview
         function createHistoryItemHTML(item) {
             // Format timestamp
-            const date = new Date(item.timestamp).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            const date = new Date(item.timestamp).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); // Shortened date
 
             // Create a short summary from the analysis text
             const firstSentenceMatch = (item.text || '').match(/^(.*?[\.!?])(?:\s|$)/); // Find the first sentence
@@ -945,11 +1011,11 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                      const speakButton = document.getElementById('speakButton');
                      const fullScreenButton = document.getElementById('fullScreenButton');
                       const copyReportButton = document.getElementById('copyReportButton'); // New button
-                      const whatsappShareButton = document.getElementById('whatsappShareButton'); // New button
+                      const whatsappShareReportButton = document.getElementById('whatsappShareReportButton'); // New button
                      const reportPlaceholder = document.getElementById('reportPlaceholder');
                      const reportSection = document.getElementById('reportSection');
 
-                     if (analysis && reportContent && modalReportContent && reportControls && speakButton && fullScreenButton && copyReportButton && whatsappShareButton && reportPlaceholder && reportSection) {
+                     if (analysis && reportContent && modalReportContent && reportControls && speakButton && fullScreenButton && copyReportButton && whatsappShareReportButton && reportPlaceholder && reportSection) {
                          // Update global state variables with loaded data
                          currentResultText = analysis.text || '';
                          currentImageBase64 = analysis.imageBase64 || '';
@@ -969,7 +1035,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                          speakButton.disabled = !currentResultText;
                          fullScreenButton.disabled = !currentResultText;
                           copyReportButton.disabled = !currentResultText; // Enable/Disable new button
-                          whatsappShareButton.disabled = !currentResultText; // Enable/Disable new button
+                          whatsappShareReportButton.disabled = !currentResultText; // Enable/Disable new button
 
                          activateTab('report'); // Switch to the report tab
                          reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to view
@@ -1154,6 +1220,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             console.log("DOM fully loaded and parsed. Initializing UI and listeners.");
 
             // --- Get DOM Elements (Inside DOMContentLoaded for safety) ---
+            // Getting elements here ensures they exist when listeners are attached
             const apiKeyInput = document.getElementById('apiKey');
             const configApiKeyButton = document.getElementById('configApiKeyButton');
             const imageInput = document.getElementById('imageInput');
@@ -1173,7 +1240,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             const gridView = document.getElementById('gridView');
             const categoryFilter = document.getElementById('categoryFilter');
             const sortOrder = document.getElementById('sortOrder');
-            const fullScreenButton = document.getElementById('fullScreenButton');
+            const fullScreenButton = document.getElementById('fullScreenButton'); // Modal Fullscreen button
             const closeModal = document.getElementById('closeModal');
             const reportModal = document.getElementById('reportModal');
             const printButton = document.getElementById('printButton');
@@ -1183,14 +1250,28 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             const fontIncrease = document.getElementById('fontIncrease');
             const fontDecrease = document.getElementById('fontDecrease');
             const speakButton = document.getElementById('speakButton');
-             const copyReportButton = document.getElementById('copyReportButton'); // New button in report controls
-             const whatsappShareButton = document.getElementById('whatsappShareButton'); // New button in report controls
+            const copyReportButton = document.getElementById('copyReportButton'); // Copy button in report controls
+            const whatsappShareReportButton = document.getElementById('whatsappShareReportButton'); // WhatsApp button in report controls
+             const fullscreenNativeButton = document.getElementById('fullscreenNativeButton'); // NEW Native Fullscreen button
             const tabButtonReport = document.getElementById('tabButtonReport');
             const tabButtonHistory = document.getElementById('tabButtonHistory');
             const reportContent = document.getElementById('reportContent');
             const modalReportContent = document.getElementById('modalReportContent');
             const reportPlaceholder = document.getElementById('reportPlaceholder');
-            const reportControls = document.getElementById('reportControls'); // Need for initial disabled state
+            const reportControls = document.getElementById('reportControls');
+
+
+            // --- Initialize jsPDF (NOW INSIDE DOMContentLoaded) ---
+            // Assign the jsPDF object to the global variable jsPDF
+             if (window.jspdf && window.jspdf.jsPDF) {
+                 jsPDF = window.jspdf.jsPDF;
+                 console.log("jsPDF loaded and initialized.");
+             } else {
+                 console.error("jsPDF library not found or not initialized correctly.");
+                 notify("Erro ao carregar a biblioteca de PDF. Baixar PDF não funcionará.", "error", 5000);
+                 // Optionally disable PDF button if it exists
+                 if(downloadButtonModal) downloadButtonModal.disabled = true;
+             }
 
 
             // --- Add Event Listeners ---
@@ -1213,15 +1294,50 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                 }
             }
 
+             // ** NEW: Native Fullscreen Button Listener **
+             if (fullscreenNativeButton) {
+                 fullscreenNativeButton.addEventListener('click', () => {
+                     // Check if fullscreen is currently active
+                     if (document.fullscreenElement) {
+                         // If active, exit fullscreen
+                          document.exitFullscreen().catch(err => {
+                              console.error("Erro ao sair de tela cheia:", err);
+                              notify(`Falha ao sair de tela cheia: ${err.message}`, 'error', 5000);
+                          });
+                     } else {
+                          // If not active, request fullscreen for the entire document
+                         if (document.documentElement.requestFullscreen) {
+                             document.documentElement.requestFullscreen().catch(err => {
+                                 console.error("Erro ao tentar entrar em tela cheia:", err);
+                                 notify(`Falha ao entrar em tela cheia: ${err.message}`, 'error', 5000);
+                             });
+                         } else {
+                             notify("Tela cheia não suportada neste navegador.", "info", 5000);
+                         }
+                     }
+                 });
+                 // Optional: Change button icon based on fullscreen state
+                 document.addEventListener('fullscreenchange', () => {
+                     if (document.fullscreenElement) {
+                         fullscreenNativeButton.innerHTML = '<i class="fas fa-compress-alt"></i>'; // Icon for exiting
+                         fullscreenNativeButton.title = 'Sair de Tela Cheia';
+                     } else {
+                         fullscreenNativeButton.innerHTML = '<i class="fas fa-expand-alt"></i>'; // Icon for entering
+                         fullscreenNativeButton.title = 'Entrar em Tela Cheia';
+                     }
+                 });
+
+             } else {
+                 console.warn("Botão nativo de tela cheia não encontrado.");
+             }
+
+
             // Upload Button and Input
             if (uploadButton && imageInput) {
                 uploadButton.addEventListener('click', () => imageInput.click());
                 imageInput.addEventListener('change', (event) => {
-                     // Check if files were selected and process the first one
-                    if (event.target.files?.[0]) {
-                        processFiles(event.target.files[0]);
-                    }
-                    event.target.value = null; // Clear the input to allow selecting the same file again
+                    if (event.target.files?.[0]) { processFiles(event.target.files[0]); }
+                    event.target.value = null;
                 });
             }
 
@@ -1232,14 +1348,12 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                 dropzone.addEventListener('drop', (e) => {
                     e.preventDefault();
                     dropzone.classList.remove('dragover');
-                    // Check if files were dropped and process the first one
                     if (e.dataTransfer?.files?.[0]) {
                          processFiles(e.dataTransfer.files[0]);
                     } else {
                          notify("Nenhum arquivo válido foi solto.", "info");
                     }
                 });
-                // Allow clicking the dropzone area (except buttons) to open file selector
                 dropzoneContent.addEventListener('click', (e) => {
                     if (!e.target.closest('button') && !isProcessing) {
                         imageInput.click();
@@ -1253,37 +1367,22 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             if (captureButton && cameraCanvas && cameraPreview) {
                  captureButton.addEventListener('click', async () => {
                     if (isProcessing) { notify("Aguarde análise.", "info"); return; }
-                    // Check if camera stream is active and ready
                     if (!cameraStream || !cameraPreview.videoWidth || cameraPreview.videoWidth === 0 || cameraPreview.paused || cameraPreview.ended) {
                          notify("Câmera não pronta ou ativa.", "error"); stopCamera(); return;
                     }
                     const context = cameraCanvas.getContext('2d');
                     if (!context) { notify("Erro canvas.", "error"); return; }
-                    // Set canvas dimensions to the video dimensions for accurate capture
                     cameraCanvas.width = cameraPreview.videoWidth;
                     cameraCanvas.height = cameraPreview.videoHeight;
-                    console.log(`Capturando frame com ${cameraCanvas.width}x${cameraCanvas.height}`);
-                    // Draw the current video frame onto the canvas
                     context.drawImage(cameraPreview, 0, 0, cameraCanvas.width, cameraCanvas.height);
-                    stopCamera(); // Stop the camera *after* drawing the frame
-                    showLoading("Processando captura..."); // Show loading for processing
-
-                    // Convert the canvas content to a Blob (image file format)
+                    stopCamera();
+                    showLoading("Processando captura...");
                     cameraCanvas.toBlob(async (blob) => {
-                        if (blob) {
-                             // Create a File object from the Blob and process it
-                            await processFiles(new File([blob],`capture-${Date.now()}.jpg`,{type:'image/jpeg'}));
-                        } else {
-                            // Handle error if Blob creation failed
-                            notify("Falha ao criar imagem a partir da captura.", "error");
-                            hideLoading();
-                            isProcessing = false; // Reset processing flag
-                        }
-                    }, 'image/jpeg', 0.9); // Convert to JPEG with 90% quality
+                        if (blob) { await processFiles(new File([blob],`capture-${Date.now()}.jpg`,{type:'image/jpeg'})); }
+                        else { notify("Falha ao criar imagem.", "error"); hideLoading(); isProcessing = false; }
+                    }, 'image/jpeg', 0.9);
                 });
-            } else {
-                console.warn("Elementos essenciais da câmera (botão, canvas, preview) não encontrados.");
-            }
+            } else { console.warn("Elementos essenciais da câmera não encontrados."); }
 
             // --- Report Controls Buttons ---
             if(fontIncrease && reportContent && modalReportContent) fontIncrease.addEventListener('click', () => { if (fontSize < 24) { fontSize += 1; reportContent.style.fontSize = `${fontSize}px`; modalReportContent.style.fontSize = `${fontSize}px`; } });
@@ -1291,94 +1390,50 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             if(speakButton) speakButton.addEventListener('click', () => {
                 if (!synth) { notify('Leitura de voz não suportada.', 'error'); return; }
                 if (!currentResultText) { notify('Nada para ler.', 'info'); return; }
-
-                if (synth.speaking) { // If currently speaking, stop
-                    synth.cancel();
-                    // Button state reset is handled by onend/onerror callbacks
-                } else { // If not speaking, start
-                    // Clean text for speaking (remove HTML, markdown)
+                if (synth.speaking) { synth.cancel(); }
+                else {
                     const txt = currentResultText.replace(/<[^>]*>/g, ' ').replace(/[\*_#]+/g, ' ').replace(/\s\s+/g, ' ').trim();
-                    if (!txt) { notify("Texto inválido para leitura.", "info"); return; }
-                    utterance = new SpeechSynthesisUtterance(txt);
-                    utterance.lang = 'pt-BR'; // Set language
-
-                    // Set up event listeners for speak end and error
-                    utterance.onerror = (e) => {
-                        console.error('Speech Error:', e.error); notify(`Erro leitura: ${e.error}`, 'error');
-                        if(speakButton){speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.title = "Ler Relatório Atual"; speakButton.classList.remove('speaking');}
-                    };
-                    utterance.onend = () => {
-                         if(speakButton){speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.title = "Ler Relatório Atual"; speakButton.classList.remove('speaking');}
-                    };
-
-                    synth.speak(utterance); // Start speaking
-                    // Update button UI
-                    speakButton.innerHTML = '<i class="fas fa-stop-circle"></i>';
-                    speakButton.title = "Parar Leitura";
-                    speakButton.classList.add('speaking');
+                    if (!txt) { notify("Texto inválido.", "info"); return; }
+                    utterance = new SpeechSynthesisUtterance(txt); utterance.lang = 'pt-BR';
+                    utterance.onerror = (e) => { console.error('Speech Error:', e.error); notify(`Erro leitura: ${e.error}`, 'error'); if(speakButton){speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.classList.remove('speaking');}};
+                    utterance.onend = () => { if(speakButton){speakButton.innerHTML = '<i class="fas fa-volume-up"></i>'; speakButton.title = "Ler Relatório Atual"; speakButton.classList.remove('speaking');}};
+                    synth.speak(utterance);
+                    speakButton.innerHTML = '<i class="fas fa-stop-circle"></i>'; speakButton.title = "Parar Leitura"; speakButton.classList.add('speaking');
                 }
              });
-            // Stop speech if the user leaves the page
             window.addEventListener('beforeunload', () => { if (synth?.speaking) { synth.cancel(); } });
 
-            // ** NEW: Copy Report Button **
+            // Copy Report Button
             if(copyReportButton) {
                 copyReportButton.addEventListener('click', async () => {
-                    if (!currentResultText) {
-                        notify('Nenhum relatório para copiar.', 'info');
-                        return;
-                    }
+                    if (!currentResultText) { notify('Nada para copiar.', 'info'); return; }
                     try {
-                        // Clean text for plain text copy
-                        const textToCopy = currentResultText
-                            .replace(/<br\s*\/?>/gi, '\n') // Convert HTML breaks to newlines
-                            .replace(/<[^>]*>/g, '')     // Remove other HTML tags (strong, em, etc.)
-                            .replace(/[\*_]+/g, '')      // Remove Markdown formatting characters (*, _)
-                            .trim();
-                        // Add a disclaimer at the end
-                        const disclaimer = "\n\nAtenção: Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
-
-                        // Use Clipboard API to copy text
-                        await navigator.clipboard.writeText(textToCopy + disclaimer);
+                        const textToCopy = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').trim() + "\n\nAtenção: Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
+                        await navigator.clipboard.writeText(textToCopy);
                         notify('Relatório copiado para a área de transferência!', 'success');
                     } catch (err) {
-                        console.error('Falha ao copiar relatório:', err);
+                        console.error('Falha ao copiar:', err);
                         notify('Falha ao copiar relatório.', 'error');
                     }
                 });
-            } else { console.warn("Botão de copiar relatório não encontrado."); }
+            }
 
-             // ** NEW: WhatsApp Share Button (Report Controls) **
-             if(whatsappShareButton) {
-                 whatsappShareButton.addEventListener('click', () => {
-                    if (!currentResultText) {
-                        notify('Nenhum relatório para compartilhar.', 'info');
-                        return;
-                    }
-                     // Clean text for WhatsApp plain text share
-                    const textToShare = currentResultText
-                        .replace(/<br\s*\/?>/gi, '\n') // Convert HTML breaks to newlines
-                        .replace(/<[^>]*>/g, '')     // Remove other HTML tags
-                        .replace(/[\*_]+/g, '')      // Remove Markdown characters
-                        .trim();
-                     // Add disclaimer formatted for WhatsApp (using markdown *bold*)
+             // WhatsApp Share Button (Report Controls - TEXT ONLY)
+             if(whatsappShareReportButton) {
+                 whatsappShareReportButton.addEventListener('click', () => {
+                    if (!currentResultText) { notify('Nada para compartilhar.', 'info'); return; }
+                    const textToShare = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').trim();
                     const disclaimer = "\n\n*Atenção:* Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
                     const generatedBy = "\n_Gerado por Análise de Pets IA_";
-
-                    // Construct the WhatsApp message text
                     const fullMessage = `*Análise de Pet (IA):*\n\n${textToShare}${disclaimer}${generatedBy}`;
-
-                    // Encode the message for the URL
                     const message = encodeURIComponent(fullMessage);
-
-                    // Open the WhatsApp share URL in a new tab
-                    // Note: Sharing images directly via wa.me link is not possible.
                     window.open(`https://wa.me/?text=${message}`, '_blank');
                  });
-             } else { console.warn("Botão de compartilhar WhatsApp (controles) não encontrado."); }
+             }
 
 
             // --- Modal Handling & Actions ---
+            // Note: fullScreenButton *in the modal controls* still opens the modal. The NEW fullscreenNativeButton in the header activates native fullscreen.
             if(fullScreenButton && reportModal && modalReportContent) fullScreenButton.addEventListener('click', () => { if (lastSuccessfulAnalysisHTML) { modalReportContent.innerHTML = lastSuccessfulAnalysisHTML; reportModal.style.display = 'flex'; modalReportContent.style.fontSize = `${fontSize}px`; } else { notify('Nada para tela cheia.', 'info'); } });
             if(closeModal && reportModal) closeModal.addEventListener('click', () => { reportModal.style.display = 'none'; if (synth?.speaking) synth.cancel(); });
             if(reportModal) reportModal.addEventListener('click', (e) => { if (e.target === reportModal) { reportModal.style.display = 'none'; if (synth?.speaking) synth.cancel(); } });
@@ -1386,6 +1441,12 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             // Modal Print Button
             if(printButton && lastSuccessfulAnalysisHTML) printButton.addEventListener('click', () => {
                 if (!lastSuccessfulAnalysisHTML) return notify("Nada para imprimir.", "info");
+                 // Check if jsPDF is available before trying to use it
+                 if (!jsPDF) {
+                     notify("Erro na biblioteca de PDF. Não é possível imprimir.", "error");
+                     console.error("jsPDF is not available for printing.");
+                     return; // Exit the function if jsPDF is not ready
+                 }
                 const printWindow = window.open('', '_blank');
                 if (!printWindow) { notify("Permita pop-ups para imprimir.", "error"); return; }
                  // Write the HTML structure for the print page
@@ -1402,8 +1463,8 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                      /* Print-specific adjustments */
                      @media print{
                          body{padding:10px;}
-                         img{max-width:70%;} /* Allow image to be slightly larger in print */
-                         p.disclaimer{background-color:#ffffcc!important; border-color:#ffeeaa!important;} /* Ensure background prints */
+                         img{max-width:70%;}
+                         p.disclaimer{background-color:#ffffcc!important; border-color:#ffeeaa!important;}
                      }
                  </style>
                  </head><body><h2>Relatório de Análise de Pet - IA</h2>
@@ -1421,66 +1482,40 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                 printWindow.document.close(); // Close the document stream
             });
 
-            // Modal WhatsApp Button (Shares TEXT only)
+            // Modal WhatsApp Button (Shares TEXT only - kept the same as requested)
             if(whatsappButtonModal) whatsappButtonModal.addEventListener('click', () => {
                  if (!currentResultText) return notify("Nada para compartilhar.", "info");
-                 // Clean text for WhatsApp plain text share
-                const textToShare = currentResultText
-                    .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<[^>]*>/g, '')
-                    .replace(/[\*_]+/g, '')
-                    .trim();
-                 // Add disclaimer formatted for WhatsApp
-                const disclaimer = "\n\n*Atenção:* Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
+                 const textToShare = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').trim();
+                 const disclaimer = "\n\n*Atenção:* Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
                  const generatedBy = "\n_Gerado por Análise de Pets IA_";
-
                 const fullMessage = `*Análise de Pet (IA):*\n\n${textToShare}${disclaimer}${generatedBy}`;
                 const message = encodeURIComponent(fullMessage);
                 window.open(`https://wa.me/?text=${message}`, '_blank');
             });
 
-            // Modal Share Button (Uses Web Share API or Clipboard fallback)
+            // Modal Share Button (Uses Web Share API or Clipboard fallback - kept the same as requested)
             if(shareButtonModal) shareButtonModal.addEventListener('click', async () => {
                  if (!currentResultText) return notify("Nada para compartilhar.", "info");
-                 // Prepare text for sharing (clean + disclaimer)
-                 const textToShare = currentResultText
-                    .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<[^>]*>/g, '')
-                    .replace(/[\*_]+/g, '')
-                    .trim();
+                 const textToShare = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').trim();
                  const disclaimer = "\n\nAtenção: Esta análise é preliminar e não substitui uma consulta veterinária. Consulte sempre um profissional.";
                  const shareText = `Análise de Pet (IA):\n\n${textToShare}${disclaimer}`;
-
-                 const shareData = {
-                     title: 'Análise de Pet - IA',
-                     text: shareText,
-                     // Optional: url: window.location.href // Share the page URL
-                 };
-
+                 const shareData = { title: 'Análise de Pet - IA', text: shareText };
                  try {
-                     // Use the Web Share API if available (mobile browsers often support this)
-                     if (navigator.share) {
-                          await navigator.share(shareData);
-                          console.log('Conteúdo compartilhado com sucesso via Web Share API.');
-                     } else if (navigator.clipboard) { // Fallback: Copy to clipboard if Share API not available
-                          await navigator.clipboard.writeText(shareData.text);
-                          notify('Relatório copiado para a área de transferência!', 'success');
-                     } else {
-                          // Fallback for older browsers without Clipboard API
-                          notify('Compartilhamento não suportado neste navegador.', 'info');
-                     }
-                 } catch (err) {
-                     // Ignore AbortError (user cancelled sharing)
-                     if (err.name !== 'AbortError') {
-                         console.error('Erro ao compartilhar:', err);
-                         notify(`Erro ao compartilhar: ${err.message}`, 'error');
-                     }
-                 }
+                     if (navigator.share) { await navigator.share(shareData); console.log('Shared via Web Share.'); }
+                     else if (navigator.clipboard) { await navigator.clipboard.writeText(shareData.text); notify('Relatório copiado!', 'success'); }
+                     else { notify('Compartilhamento não suportado.', 'info'); }
+                 } catch (err) { if (err.name !== 'AbortError') { console.error('Share Error:', err); notify(`Erro: ${err.message}`, 'error'); } }
              });
 
-            // Modal Download PDF Button
+            // Modal Download PDF Button (kept the same as requested)
             if(downloadButtonModal) downloadButtonModal.addEventListener('click', () => {
                 if (!currentResultText) return notify("Nada para baixar.", "info");
+                 // Check if jsPDF is available before trying to use it
+                 if (!jsPDF) {
+                     notify("Erro na biblioteca de PDF. Não é possível baixar PDF.", "error");
+                     console.error("jsPDF is not available for PDF generation.");
+                     return; // Exit the function if jsPDF is not ready
+                 }
                 try {
                     const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
                     doc.setFont('helvetica', 'normal');
@@ -1488,13 +1523,11 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                     const contentWidth = doc.internal.pageSize.width - 2 * margin;
                     let currentY = margin;
 
-                    // Title
                     doc.setFontSize(16);
                     doc.setFont('helvetica', 'bold');
                     doc.text('Análise de Pet - IA', doc.internal.pageSize.width / 2, currentY, { align: 'center' });
                     currentY += 10;
 
-                    // Image (if exists)
                     if (currentImageBase64) {
                          try {
                              const imgData = `data:image/jpeg;base64,${currentImageBase64}`;
@@ -1508,53 +1541,27 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                              if (currentY + imgHeight > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; }
                              doc.addImage(imgData, 'JPEG', imgX, currentY, imgWidth, imgHeight);
                              currentY += imgHeight + 10;
-                         } catch (imgError) {
-                             console.error("Erro ao adicionar imagem ao PDF:", imgError);
-                             currentY += 5;
-                         }
+                         } catch (imgError) { console.error("PDF Img Err:", imgError); currentY += 5; }
                     }
 
-                    // Disclaimer
                     doc.setFontSize(9);
                     doc.setFont('helvetica', 'italic');
                     doc.setTextColor(100, 100, 100);
                     const disclaimerTextPdf = "Atenção: Esta é uma análise preliminar gerada por IA e NÃO substitui a avaliação ou diagnóstico de um médico veterinário qualificado. Sempre consulte um profissional.";
                     const disclaimerLines = doc.splitTextToSize(disclaimerTextPdf, contentWidth);
-                    disclaimerLines.forEach(line => {
-                        if (currentY + 4 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; }
-                        doc.text(line, margin, currentY);
-                        currentY += 4;
-                    });
+                    disclaimerLines.forEach(line => { if (currentY + 4 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; } doc.text(line, margin, currentY); currentY += 4; });
                     doc.setTextColor(0, 0, 0);
                     currentY += 6;
 
-                    // Analysis Text
                     doc.setFontSize(10);
                     doc.setFont('helvetica', 'normal');
-                    // Clean text for PDF (remove HTML, Markdown, and the AI's disclaimer if present)
-                    let pdfText = currentResultText
-                        .replace(/<br\s*\/?>/gi, '\n')
-                        .replace(/<[^>]*>/g, '')
-                        .replace(/[\*_]+/g, '')
-                         .replace(/Lembre-se: Sou uma IA.*profissional\./i, '') // Remove AI's final disclaimer
-                        .replace(/\n\s*\n/g, '\n')
-                        .replace(/ /g, ' ')
-                        .trim();
-
+                    let pdfText = currentResultText.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').replace(/[\*_]+/g, '').replace(/Lembre-se: Sou uma IA.*profissional\./i, '').replace(/\n\s*\n/g, '\n').replace(/ /g, ' ').trim();
                     const textLines = doc.splitTextToSize(pdfText, contentWidth);
-                    textLines.forEach(line => {
-                        if (currentY + 5 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; }
-                        doc.text(line, margin, currentY);
-                        currentY += 5;
-                    });
+                    textLines.forEach(line => { if (currentY + 5 > doc.internal.pageSize.height - margin) { doc.addPage(); currentY = margin; } doc.text(line, margin, currentY); currentY += 5; });
 
-                    // Save the PDF file
                     doc.save(`AnalisePetIA_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.pdf`);
                     notify('PDF da análise gerado!', 'success');
-                } catch (error) {
-                    console.error("Erro ao gerar PDF com jsPDF:", error);
-                    notify(`Erro ao gerar PDF: ${error.message || error}`, 'error');
-                }
+                } catch (error) { console.error("jsPDF Err:", error); notify(`Erro ao gerar PDF: ${error.message || error}`, 'error'); }
              });
 
 
@@ -1562,9 +1569,7 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
             if(applyFilters) applyFilters.addEventListener('click', applyFiltersAndRenderHistory);
             if(searchInput) {
                 searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') applyFiltersAndRenderHistory(); });
-                searchInput.addEventListener('search', applyFiltersAndRenderHistory); // Handles clear 'x' button
-                // Optional: Filter dynamically as user types (can be slow for large history)
-                // searchInput.addEventListener('input', applyFiltersAndRenderHistory);
+                searchInput.addEventListener('search', applyFiltersAndRenderHistory);
             }
             if(loadMore) loadMore.addEventListener('click', () => { if (!loadMore.disabled) { currentPage++; renderHistory(); } });
             if(listView) listView.addEventListener('click', () => { if (viewMode !== 'list') { viewMode = 'list'; currentPage = 1; renderHistory(); } });
@@ -1588,20 +1593,14 @@ Analise a imagem e a descrição e forneça o relatório formatado.`;
                  reportPlaceholder.classList.add('hidden');
             }
 
-            // Ensure report controls are disabled initially
+            // Ensure report controls buttons are disabled initially
             if(reportControls) {
-                 // Disable all buttons within reportControls
                  reportControls.querySelectorAll('button').forEach(button => {
                      button.disabled = true;
                  });
-                 // Controls are hidden by default in HTML, will be shown by processFiles/viewAnalysis
             } else {
                 console.warn("Report controls container not found.");
             }
-
-
-            // Database opening is asynchronous. loadInitialHistory and loadApiKey are called in db.onsuccess.
-            // No need to call them directly here inside DOMContentLoaded.
 
             console.log("Inicialização do DOM e configuração de listeners concluída.");
 
