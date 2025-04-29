@@ -90,18 +90,19 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // --- CONFIGURAÇÕES ---
-        const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co'; // Mantenha se ainda for usar o mesmo Supabase
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o'; // Mantenha se ainda for usar o mesmo Supabase ANON KEY
+        const SUPABASE_URL = 'https://wrsjjnlpwwtrwekjhjcy.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyc2pqbmxwd3d0cndla2poamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDY5MjcsImV4cCI6MjA2MDM4MjkyN30.5hjlREAHW6Zd-PKTB3eGuKSbJFHSW5s8OCGd_jr-f4o';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const WHATSAPP_NUMBER = '5574988414187'; // <-- TELEFONE ATUALIZADO (com código do país)
+        const WHATSAPP_NUMBER = '5574988414187'; // Telefone da Dra. Ana Jessica
 
         // --- ESTADO DA APLICAÇÃO ---
         let userData = { name: null, phone: null, protocol: null };
         let chatHistory = [];
         let isWaitingFor = 'name_phone';
-        let currentTreatment = null; // Renomeado de currentProcedure
+        let currentTreatment = null;
         let isProcessing = false;
 
         // --- ELEMENTOS DO DOM ---
@@ -109,8 +110,8 @@
         const userInput = document.getElementById('userInput');
         const thinkingMessageDiv = chatBody.querySelector('.thinking');
 
-        // --- DADOS DOS TRATAMENTOS NUTRICIONAIS ---
-        const treatmentDetails = {
+        // --- DADOS DOS TRATAMENTOS NUTRICIONAIS (Mantidos como na resposta anterior) ---
+        const treatmentDetails = { /* ... (Cole aqui os treatmentDetails completos da resposta anterior) ... */
             // 🥗 Tratamentos Clínicos
             'reeducacao': { key: 'reeducacao', name: 'Reeducação Alimentar', description: '🥗 **Reeducação Alimentar**<br>Aprenda a comer de forma equilibrada, sem dietas restritivas, criando hábitos saudáveis e duradouros.', details: '<strong>Foco:</strong> Mudança de comportamento alimentar, escolhas conscientes, prazer em comer bem, adaptação à rotina.' },
             'perda_peso': { key: 'perda_peso', name: 'Controle e Perda de Peso', description: '⚖️ **Controle e Perda de Peso**<br>Alcance um peso saudável com acompanhamento nutricional individualizado, focado no seu bem-estar (obesidade/sobrepeso).', details: '<strong>Estratégias:</strong> Plano alimentar personalizado, metas realistas, acompanhamento de evolução, suporte motivacional.' },
@@ -156,11 +157,7 @@
             'idoso_imunidade_ossos': { key: 'idoso_imunidade_ossos', name: 'Melhora da Imunidade e Saúde Óssea', description: '🛡️🦴 **Imunidade e Saúde Óssea**<br>Fortaleça o sistema imune e cuide dos ossos com um plano alimentar ajustado à idade.', details: '<strong>Nutrientes Chave:</strong> Zinco, selênio, vitamina C, vitamina D, cálcio, magnésio, proteínas.' },
             'idoso_doencas_cronicas': { key: 'idoso_doencas_cronicas', name: 'Acompanhamento de Doenças Crônicas', description: '🩺👴 **Acompanhamento de Doenças Crônicas**<br>Alimentação adequada para manter a qualidade de vida mesmo com condições como diabetes, hipertensão, etc.', details: '<strong>Abordagem:</strong> Adaptação do plano alimentar às condições existentes, controle de sintomas, prevenção de complicações.' }
         };
-
-         // MAPA DE LETRAS PARA TRATAMENTOS (AJUSTADO) - Ordem baseada na sua lista
-         // Máximo de ~10 opções por menu é ideal para UI. Dividirei em categorias se necessário.
-         // Vamos criar um menu inicial de categorias.
-         const categoryMap = {
+        const categoryMap = { /* ... (Mantido) ... */
              'CAT_CLINICA': { letter: 'A', text: '🥗 <strong>Tratamentos Clínicos</strong> (Peso, Diabetes, Colesterol...)' },
              'CAT_FUNCIONAL': { letter: 'B', text: '🍏 <strong>Nutrição Funcional</strong> (Detox, Hormônios, Inflamação...)' },
              'CAT_ESPORTIVA': { letter: 'C', text: '🏃‍♀️ <strong>Nutrição Esportiva</strong> (Performance, Hipertrofia...)' },
@@ -169,33 +166,29 @@
              'CAT_VEG': { letter: 'F', text: '🌱 <strong>Nutrição Vegetariana/Vegana</strong>' },
              'CAT_IDOSO': { letter: 'G', text: '🧓 <strong>Nutrição para Idosos</strong>' }
          };
-
-         // Mapas por categoria
-         const treatmentLetterMap_Clinica = {
+         const treatmentLetterMap_Clinica = { /* ... (Mantido) ... */
             'A': 'reeducacao', 'B': 'perda_peso', 'C': 'ganho_peso_massa', 'D': 'disturbios_alimentares',
             'E': 'controle_metabolico', 'F': 'diabetes', 'G': 'doencas_intestinais', 'H': 'doencas_renais_hepaticas'
          };
-         const treatmentLetterMap_Funcional = {
+         const treatmentLetterMap_Funcional = { /* ... (Mantido) ... */
              'A': 'func_detox', 'B': 'func_intolerancias', 'C': 'func_hormonal', 'D': 'func_antiinflamatoria', 'E': 'func_suplementacao'
          };
-          const treatmentLetterMap_Esportiva = {
+          const treatmentLetterMap_Esportiva = { /* ... (Mantido) ... */
              'A': 'esport_atletas', 'B': 'esport_hipertrofia', 'C': 'esport_performance', 'D': 'esport_suplementos'
          };
-         const treatmentLetterMap_Materno = {
+         const treatmentLetterMap_Materno = { /* ... (Mantido) ... */
              'A': 'materno_gravidez', 'B': 'materno_fertilidade', 'C': 'materno_introducao', 'D': 'materno_infantil'
          };
-          const treatmentLetterMap_Comport = {
+          const treatmentLetterMap_Comport = { /* ... (Mantido) ... */
              'A': 'comp_mindful', 'B': 'comp_ansiedade', 'C': 'comp_habitos', 'D': 'comp_autoestima'
          };
-          const treatmentLetterMap_Veg = {
+          const treatmentLetterMap_Veg = { /* ... (Mantido) ... */
              'A': 'veg_plano', 'B': 'veg_suplementacao', 'C': 'veg_transicao'
          };
-          const treatmentLetterMap_Idoso = {
+          const treatmentLetterMap_Idoso = { /* ... (Mantido) ... */
              'A': 'idoso_sarcopenia', 'B': 'idoso_imunidade_ossos', 'C': 'idoso_doencas_cronicas'
          };
-
-        // --- MAPA DE KEYWORDS (ATUALIZADO PARA NUTRIÇÃO) ---
-        const keywordToActionMap = {
+        const keywordToActionMap = { /* ... (Mantido como na resposta anterior) ... */
             // Tratamentos Específicos (mapeia para a key em treatmentDetails) - Prioridade 0
             'reeducação alimentar': ['reeducacao', 0], 'reeducacao': ['reeducacao', 0], 'aprender a comer': ['reeducacao', 0],
             'perder peso': ['perda_peso', 0], 'emagrecer': ['perda_peso', 0], 'emagrecimento': ['perda_peso', 0], 'obesidade': ['perda_peso', 0], 'sobrepeso': ['perda_peso', 0], 'controle de peso': ['perda_peso', 0],
@@ -228,7 +221,7 @@
             'doença crônica idoso': ['idoso_doencas_cronicas', 0],
 
             // Ações Gerais com Prioridade Alta (2)
-            'agendar': ['schedule_general', 2], 'agenda': ['schedule_general', 2], 'marcar': ['schedule_general', 2], 'consulta': ['schedule_general', 2], 'avaliação': ['schedule_general', 2], 'sessão': ['schedule_general', 2], 'quero agendar': ['schedule_general', 2], 'quero marcar': ['schedule_general', 2], 'nutricionista': ['schedule_general', 2],
+            'agendar': ['schedule_start', 2], 'agenda': ['schedule_start', 2], 'marcar': ['schedule_start', 2], 'consulta': ['schedule_start', 2], 'avaliação': ['schedule_start', 2], 'sessão': ['schedule_start', 2], 'quero agendar': ['schedule_start', 2], 'quero marcar': ['schedule_start', 2], 'nutricionista': ['schedule_start', 2], // schedule_start em vez de general
             'preço': ['price', 2], 'valor': ['price', 2], 'quanto custa': ['price', 2], 'orçamento': ['price', 2],
             'pagamento': ['payment', 2], 'pagar': ['payment', 2], 'cartão': ['payment', 2], 'pix': ['payment', 2],
             'ajuda': ['talk_human', 2], 'atendente': ['talk_human', 2], 'humano': ['talk_human', 2], 'falar com alguém': ['talk_human', 2], 'preciso de ajuda': ['talk_human', 2], 'socorro': ['talk_human', 2], 'atendimento': ['talk_human', 2], 'falar com atendente': ['talk_human', 2], 'conversar com atendente': ['talk_human', 2], 'dúvida': ['talk_human', 2], 'duvida': ['talk_human', 2],
@@ -243,62 +236,60 @@
             'tratamento': ['treatment_category', -1], 'acompanhamento': ['treatment_category', -1], 'nutrição': ['treatment_category', -1], 'dieta': ['treatment_category', -1], 'plano alimentar': ['treatment_category', -1], 'quero saber mais': ['treatment_category', -1],
         };
 
-
         // --- FUNÇÕES DE VALIDAÇÃO --- (Mantidas)
-        function validateName(name) { return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
-        function validatePhone(phone) { const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
+        function validateName(name) { /* ... (Mantido) ... */ return name.trim().length > 2 && (name.includes(' ') || name.trim().length > 3); }
+        function validatePhone(phone) { /* ... (Mantido) ... */ const cleaned = phone.replace(/\D/g, ''); return /^\d{10,11}$/.test(cleaned); }
 
-        // --- FUNÇÕES DE UTILIDADE --- (Mantidas, texto do WhatsApp ajustado)
-        function generateProtocol() { const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
-        function generateWhatsAppLink(context = '', treatName = '', userPref = '') {
+        // --- FUNÇÕES DE UTILIDADE ---
+        function generateProtocol() { /* ... (Mantido) ... */ const now = new Date(); const ts = now.toISOString().replace(/[-T:.Z]/g, '').slice(0, 14); const rnd = String(Math.floor(1000 + Math.random() * 9000)); return `${ts}-${rnd}`; }
+
+        // --- generateWhatsAppLink ATUALIZADA ---
+        function generateWhatsAppLink(context = 'duvidas', treatName = '', selectedDay = '') { // Renomeado userPref para selectedDay
             const userPart = userData.name ? `${userData.name} (${userData.protocol || 'N/A'})` : `Protocolo: ${userData.protocol || 'N/A'}`;
             let txt = 'Olá! ';
             switch(context){
                 case 'agendamento':
-                    const tN = treatName==='Avaliação Geral'?'uma consulta/avaliação geral':`uma consulta para ${treatName}`;
-                    const uP = userPref?` para ${userPref}`:'';
-                    txt += `Gostaria de agendar ${tN}${uP}. ${userPart}`;
+                    const tN = treatName === 'Avaliação Geral' ? 'uma consulta/avaliação geral' : `uma consulta para ${treatName}`;
+                    // Inclui o dia selecionado e a observação sobre o horário
+                    const dayInfo = selectedDay ? ` para *${selectedDay}*.` : '.'; // Adiciona o dia selecionado
+                    txt += `Gostaria de agendar ${tN}${dayInfo} O *horário exato* será confirmado pela clínica. ${userPart}`;
                     break;
-                // case 'promocoes': // Removido promoção por enquanto, focar no agendamento e informação
-                //     const prN = treatName?` para ${treatName}`:'';
-                //     txt += `Gostaria de saber sobre valores/pacotes${prN}. ${userPart}`;
-                //     break;
-                case 'orcamento': // Renomeado para 'valores' ou 'informações'
-                    txt += `Gostaria de mais informações sobre valores e como funciona a consulta. ${userPart}`;
+                case 'orcamento':
+                    txt += `Gostaria de mais informações sobre valores e como funciona a consulta${treatName ? ` para ${treatName}`:''}. ${userPart}`;
                     break;
                 case 'talk_human':
                     txt += `Gostaria de falar com um atendente. ${userPart}`;
                     break;
                 case 'duvidas':
                 default:
-                    txt += `Tenho dúvidas/Gostaria de mais informações sobre os atendimentos. ${userPart}`;
+                    txt += `Tenho dúvidas/Gostaria de mais informações sobre os atendimentos${treatName ? ` (${treatName})`:''}. ${userPart}`;
                     break;
             }
+            // Substitui espaços por %20 e caracteres especiais para URL
+            // O WhatsApp lida bem com * para negrito.
             return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(txt)}`;
         }
 
         // --- FUNÇÕES DE CHAT --- (Mantidas)
-        function addMessage(content, isUser, options = null) {
-            if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); } const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            // Sanitize basic HTML - prevent script injection
-            const cleanContent = content.replace(/<script.*?>.*?<\/script>/gi, '');
-            messageDiv.innerHTML = cleanContent; // Use innerHTML to render formatting like <br> and <strong>
-
-            if (!isUser && options) { const optsCont = document.createElement('div'); optsCont.className = 'options-container'; options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'option-button'; btn.setAttribute('data-choice', opt.action); btn.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text.replace(/<\/?strong>/g, '')}`); btn.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optsCont.appendChild(btn); }); messageDiv.appendChild(optsCont); } if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
-         }
-        function scrollToBottom() { chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
-        function showThinking(show = true) { if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
-        function disablePreviousButtons() { const prevBtns = chatBody.querySelectorAll('.option-button:not(:disabled)'); prevBtns.forEach(btn => { const msgCont = btn.closest('.message.bot-message'); const lastBotMsg = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (msgCont !== lastBotMsg) { btn.disabled = true; } }); }
+        function addMessage(content, isUser, options = null) { /* ... (Mantido) ... */
+             if (!content.startsWith('⚠️') && !(thinkingMessageDiv && content === thinkingMessageDiv.innerHTML) ) { chatHistory.push({ role: isUser ? 'user' : 'model', parts: [{ text: content + (options ? '\n[Opções apresentadas]' : '') }] }); } const messageDiv = document.createElement('div'); messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+             const cleanContent = content.replace(/<script.*?>.*?<\/script>/gi, '');
+             messageDiv.innerHTML = cleanContent;
+             if (!isUser && options) { const optsCont = document.createElement('div'); optsCont.className = 'options-container'; options.forEach(opt => { const btn = document.createElement('button'); btn.className = 'option-button'; btn.setAttribute('data-choice', opt.action); btn.onclick = () => handleButtonClick(opt.action, `${opt.letter}) ${opt.text.replace(/<\/?strong>/g, '')}`); btn.innerHTML = `<span class="option-letter">${opt.letter})</span> ${opt.text}`; optsCont.appendChild(btn); }); messageDiv.appendChild(optsCont); } if (thinkingMessageDiv && chatBody.contains(thinkingMessageDiv)) { chatBody.insertBefore(messageDiv, thinkingMessageDiv); } else { chatBody.appendChild(messageDiv); } scrollToBottom();
+        }
+        function scrollToBottom() { /* ... (Mantido) ... */ chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' }); }
+        function showThinking(show = true) { /* ... (Mantido) ... */ if (!thinkingMessageDiv) return; thinkingMessageDiv.style.display = show ? 'block' : 'none'; if(show) scrollToBottom(); }
+        function disablePreviousButtons() { /* ... (Mantido) ... */ const prevBtns = chatBody.querySelectorAll('.option-button:not(:disabled)'); prevBtns.forEach(btn => { const msgCont = btn.closest('.message.bot-message'); const lastBotMsg = chatBody.querySelector('.message.bot-message:has(.options-container):last-of-type'); if (msgCont !== lastBotMsg) { btn.disabled = true; } }); }
 
         // --- FUNÇÃO SALVAR/ATUALIZAR (UPSERT) --- (Mantida)
-        async function saveOrUpdateConversation() { if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); } }
+        async function saveOrUpdateConversation() { /* ... (Mantido) ... */ if (!userData.protocol) return; const hist = chatHistory.map(i => ({ sender: i.role, message: i.parts[0].text })); try { const { error } = await supabase.from('conversations').upsert({ protocol: userData.protocol, name: userData.name, phone: userData.phone, chat_history: hist }, { onConflict: 'protocol' }); if (error) console.error('Erro upsert:', error); } catch (err) { console.error('Catch upsert:', err); } }
 
-        // --- GERADORES DE MENU COM BOTÕES (Atualizado para Nutrição) ---
+        // --- GERADORES DE MENU COM BOTÕES ---
         function sendInitialMenu() {
             const text = `Como posso te ajudar hoje, ${userData.name}? ✨`;
             const options = [
                 { letter: 'A', text: '🔎 Saber sobre <strong>tratamentos</strong>', action: 'treatment_category'},
-                { letter: 'B', text: '📅 <strong>Agendar consulta</strong>/avaliação', action: 'schedule_general'},
+                { letter: 'B', text: '📅 <strong>Agendar consulta</strong>/avaliação', action: 'schedule_start'}, // Action: schedule_start
                 { letter: 'C', text: '📍 <strong>Endereços e Horários</strong>', action: 'info'},
                 { letter: 'D', text: '💬 Falar com <strong>atendente</strong>', action: 'talk_human'},
                 { letter: 'E', text: '❓ <strong>Outra dúvida</strong>', action: 'other_doubt'}
@@ -307,15 +298,14 @@
             isWaitingFor = 'initial_choice';
         }
 
-        function sendTreatmentCategoryMenu() {
+        function sendTreatmentCategoryMenu() { /* ... (Mantido) ... */
             const txt = `Temos diversas áreas de atuação! Qual categoria te interessa mais? 👇`;
             const opts = Object.entries(categoryMap).map(([key, val]) => ({ letter: val.letter, text: val.text, action: key }));
             opts.push({ letter: String.fromCharCode(65 + opts.length), text: 'Voltar ao início', action: 'back_to_start'}); // 'H' ou próxima letra
             addMessage(txt, false, opts);
             isWaitingFor = 'treatment_category_choice';
         }
-
-         function sendTreatmentListMenu(categoryKey) {
+        function sendTreatmentListMenu(categoryKey) { /* ... (Mantido) ... */
             let treatmentMap;
             let categoryName = '';
             switch(categoryKey) {
@@ -336,50 +326,43 @@
             addMessage(txt, false, opts);
             isWaitingFor = 'treatment_choice';
         }
-
         function sendTreatmentActionMenu(treatKey) {
             const name = treatmentDetails[treatKey]?.name || 'este tratamento';
             const txt = `Sobre <strong>${name}</strong>, o que gostaria de saber?`;
             const opts = [
                 { letter: 'A', text: 'Mais <strong>detalhes</strong>', action: 'details' },
-                { letter: 'B', text: '<strong>Agendar consulta</strong> específica', action: 'schedule_specific' },
-                // { letter: 'C', text: 'Verificar <strong>valores/pacotes</strong>', action: 'price' }, // Removido promoção, direcionar para Wpp
-                { letter: 'C', text: 'Ver <strong>outros tratamentos</strong>', action: 'other_treatment' } // Letra ajustada
+                { letter: 'B', text: '<strong>Agendar consulta</strong> específica', action: 'schedule_start' }, // Action: schedule_start
+                { letter: 'C', text: 'Ver <strong>outros tratamentos</strong>', action: 'other_treatment' }
             ];
             addMessage(txt, false, opts);
             isWaitingFor = 'treatment_action';
         }
-
         function sendDetailsSubMenu(treatKey) {
             const name = treatmentDetails[treatKey]?.name || 'este tratamento';
             const txt = `Gostaria de agendar uma consulta para <strong>${name}</strong>? 😊`;
             const opts = [
-                { letter: 'A', text: 'Sim, <strong>agendar</strong>!', action: 'schedule_specific' },
-                // { letter: 'B', text: `Saber <strong>valores</strong> p/ ${name}`, action: 'price' }, // Removido
-                { letter: 'B', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_treat' }, // Letra ajustada
-                { letter: 'C', text: 'Ver <strong>outros</strong> tratamentos', action: 'other_treatment' } // Letra ajustada
+                { letter: 'A', text: 'Sim, <strong>agendar</strong>!', action: 'schedule_start' }, // Action: schedule_start
+                { letter: 'B', text: `<strong>Outra dúvida</strong> sobre ${name}`, action: 'other_doubt_treat' },
+                { letter: 'C', text: 'Ver <strong>outros</strong> tratamentos', action: 'other_treatment' }
             ];
             addMessage(txt, false, opts);
             isWaitingFor = 'treatment_action_after_details';
         }
-
-        function sendInfoClinicSubMenu() {
-             // Atualizado para opções de nutrição
-            const txt = `O que mais gostaria de saber sobre a clínica, ${userData.name}?`;
+        function sendInfoClinicSubMenu() { /* ... (Mantido) ... */
+             const txt = `O que mais gostaria de saber sobre a clínica, ${userData.name}?`;
             const opts = [
                 { letter: 'A', text: '📍 Ver <strong>Endereços</strong>', action: 'info_address' },
                 { letter: 'B', text: '⏰ Ver <strong>Horários</strong>', action: 'info_hours' },
                 { letter: 'C', text: '📞 Ver <strong>Telefone</strong>/WhatsApp', action: 'info_phone'},
                 { letter: 'D', text: '💰 Formas de <strong>Pagamento</strong>', action: 'payment' },
                 { letter: 'E', text: '🔎 Ver <strong>Tratamentos</strong>', action: 'treatment_category' },
-                { letter: 'F', text: '📅 <strong>Agendar consulta</strong>', action: 'schedule_general' },
+                { letter: 'F', text: '📅 <strong>Agendar consulta</strong>', action: 'schedule_start' }, // Action: schedule_start
                 { letter: 'G', text: 'Voltar ao início', action: 'back_to_start'}
             ];
             addMessage(txt, false, opts);
             isWaitingFor = 'info_choice';
         }
-
-        function sendFinalConfirmationMenu() {
+        function sendFinalConfirmationMenu() { /* ... (Mantido) ... */
             const txt = `Posso te ajudar com mais algo, ${userData.name}? 😊`;
             const opts = [
                 { letter: 'A', text: 'Ver <strong>outros tratamentos</strong>', action: 'treatment_category' },
@@ -390,33 +373,45 @@
             isWaitingFor = 'final_confirmation';
         }
 
-        // --- FUNÇÃO DE REDIRECIONAMENTO (Ajustada) ---
-        function sendWhatsappRedirect(context = 'duvidas', treatName = '', userPref = '') {
-             let message = ''; let link = '';
+        // --- NOVA FUNÇÃO PARA MENU DE DIAS ---
+        function sendSchedulingDayMenu() {
+            const treatName = currentTreatment === 'general' ? 'Consulta/Avaliação Geral' : treatmentDetails[currentTreatment]?.name || 'sua consulta';
+            const text = `Ótimo! Para agendar sua <strong>${treatName}</strong>, por favor, selecione o <strong>dia da semana</strong> de sua preferência. O horário exato será confirmado posteriormente pela clínica. 👇`;
+            const daysOfWeek = [
+                { letter: 'A', text: 'Segunda-feira', action: 'schedule_day_Segunda-feira' },
+                { letter: 'B', text: 'Terça-feira', action: 'schedule_day_Terça-feira' },
+                { letter: 'C', text: 'Quarta-feira', action: 'schedule_day_Quarta-feira' },
+                { letter: 'D', text: 'Quinta-feira', action: 'schedule_day_Quinta-feira' },
+                { letter: 'E', text: 'Sexta-feira', action: 'schedule_day_Sexta-feira' },
+                { letter: 'F', text: 'Sábado', action: 'schedule_day_Sábado' },
+                { letter: 'G', text: 'Cancelar Agendamento', action: 'back_to_start' } // Opção para voltar
+            ];
+            addMessage(text, false, daysOfWeek);
+            isWaitingFor = 'scheduling_day_choice'; // Novo estado esperando a escolha do dia
+        }
+
+
+        // --- FUNÇÃO DE REDIRECIONAMENTO (Atualizada para usar a nova generateWhatsAppLink) ---
+        function sendWhatsappRedirect(context = 'duvidas', treatName = '', selectedDay = '') { // Renomeado userPref para selectedDay
+             let message = '';
+             let link = generateWhatsAppLink(context, treatName, selectedDay); // Gera o link com o dia selecionado
+
              if (context === 'agendamento') {
                  const tN=treatName==='Avaliação Geral'?'Consulta/Avaliação Geral':treatName;
-                 link=generateWhatsAppLink(context,tN,userPref);
-                 message=`Perfeito, ${userData.name}! 😊 Para agendar sua <strong>${tN}</strong>${userPref?` (preferência: ${userPref})`:''} e verificar horários disponíveis, por favor, clique no link abaixo para falar conosco no WhatsApp:<br><br>➡️ <a href="${link}" target="_blank">Agendar ${tN} via WhatsApp</a>`;
-             } else if (context === 'price' || context === 'orcamento') { // Unificado preço/orçamento
-                 link=generateWhatsAppLink('orcamento', treatName); // Usa contexto 'orcamento' no link
+                 message=`Perfeito, ${userData.name}! 😊 Sua solicitação de agendamento para <strong>${tN}</strong> na <strong>${selectedDay}</strong> foi registrada. Para confirmar e verificar os horários disponíveis nesse dia, por favor, clique no link abaixo e envie a mensagem no WhatsApp:<br><br>➡️ <a href="${link}" target="_blank">Confirmar Agendamento (${selectedDay}) via WhatsApp</a>`;
+             } else if (context === 'price' || context === 'orcamento') {
                  message=`Entendido! Para informações detalhadas sobre valores e pacotes ${treatName ? `para <strong>${treatName}</strong> ` : ''}entre em contato pelo WhatsApp. 😉<br><br>➡️ <a href="${link}" target="_blank">Consultar Valores via WhatsApp</a>`;
              } else if (context === 'talk_human') {
-                 link=generateWhatsAppLink(context);
                  message = `Com certeza, ${userData.name}! Nossa equipe está pronta para te atender diretamente no WhatsApp. Clique abaixo: 😊<br><br>➡️ <a href="${link}" target="_blank">Falar com Atendente via WhatsApp</a>`;
              } else { // 'duvidas' ou 'other_doubt'
-                 link=generateWhatsAppLink('duvidas', treatName); // Adiciona nome do tratamento se houver dúvida específica
                  message=`Entendi, ${userData.name}. Para tirar suas dúvidas ${treatName ? `sobre <strong>${treatName}</strong> ` : ''}ou obter mais informações, fale conosco pelo WhatsApp:<br><br>➡️ <a href="${link}" target="_blank">Falar com a Equipe no WhatsApp</a>`;
              }
              addMessage(message, false);
-             // if (['price', 'talk_human', 'duvidas'].includes(context)) {
-             //     isWaitingFor = 'message'; // Deixa aberto para mais perguntas
-             // } else {
-                 setTimeout(sendFinalConfirmationMenu, 1200); // Sempre oferece menu final após redirecionamento
-             // }
+             setTimeout(sendFinalConfirmationMenu, 1200);
         }
 
-         // --- FUNÇÕES INFO CLÍNICA (Atualizadas) ---
-         function showAddress() {
+         // --- FUNÇÕES INFO CLÍNICA --- (Mantidas)
+         function showAddress() { /* ... (Mantido) ... */
              addMessage(`📍 Nossos locais de atendimento são:<br><br>
             <strong>VALE SEM DOR - Clinica Plena</strong><br>
             Av Integração 320 2º Andar<br>
@@ -435,28 +430,24 @@
 
             Será um prazer recebê-lo(a)! 😊`, false);
              setTimeout(sendFinalConfirmationMenu, 800);
-         }
-         function showHours() {
-             // !! IMPORTANTE: Verifique se este horário está correto !!
-             addMessage(`⏰ Nosso horário de atendimento geral é:<br><strong>Segunda a Sexta: 08:00h às 18:00h</strong><br><strong>Sábado: 08:00h às 12:00h</strong><br>(Consulte a disponibilidade de horários específicos para cada localidade via WhatsApp!)`, false);
+          }
+         function showHours() { /* ... (Mantido) ... */
+            addMessage(`⏰ Nosso horário de atendimento geral é:<br><strong>Segunda a Sexta: 08:00h às 18:00h</strong><br><strong>Sábado: 08:00h às 12:00h</strong><br>(Consulte a disponibilidade de horários específicos para cada localidade via WhatsApp!)`, false);
              setTimeout(sendFinalConfirmationMenu, 800);
-         }
-         function showPhone() {
-             // Telefone Atualizado
+          }
+         function showPhone() { /* ... (Mantido) ... */
              addMessage(`📞 Nosso principal contato para agendamentos e dúvidas é via WhatsApp:<br><strong>(74) 98841-4187</strong><br><br>Clique aqui para chamar: <a href="${generateWhatsAppLink('duvidas')}" target="_blank">(74) 98841-4187</a>`, false);
              setTimeout(sendFinalConfirmationMenu, 800);
-         }
-         function showPayment() {
-              // Atualizado
+          }
+         function showPayment() { /* ... (Mantido) ... */
              addMessage(`💰 Aceitamos: <strong>Dinheiro, PIX, Cartões de Débito e Crédito</strong>.<br>Para informações sobre pacotes ou parcelamentos, por favor, consulte via WhatsApp. 😊`, false);
              setTimeout(sendFinalConfirmationMenu, 800);
-         }
+          }
 
         // --- FUNÇÃO PARA PROCESSAR KEYWORDS (Mantida) ---
-        function processKeywords(text) {
+        function processKeywords(text) { /* ... (Mantido) ... */
             const lowerText = text.toLowerCase().trim(); let matchedAction = null; let highestPriority = -2; // Começa mais baixo que -1
             const map = keywordToActionMap;
-            // Verifica keywords completas primeiro
             for (const [keyword, actionData] of Object.entries(map)) { const action = Array.isArray(actionData) ? actionData[0] : actionData; const priority = Array.isArray(actionData) ? actionData[1] : 0; if (lowerText === keyword) { // Match exato
                  if (priority >= highestPriority) { // >= para pegar o último de mesma prioridade (pode ser mais específico)
                      matchedAction = action; highestPriority = priority;
@@ -470,54 +461,65 @@
             console.log("Keyword check:", lowerText, "-> Matched Action:", matchedAction, "Priority:", highestPriority); return matchedAction;
         }
 
-        // --- PROCESSAMENTO CENTRAL (ATUALIZADO PARA NUTRIÇÃO) ---
+        // --- PROCESSAMENTO CENTRAL (ATUALIZADO) ---
         async function processMessage(message, isButtonClick = false) {
             if (isProcessing && !isButtonClick) return;
 
-            const inputText = isButtonClick ? message : message; // Ação ou texto
+            const inputText = isButtonClick ? message : message;
 
             if (!isButtonClick) { addMessage(inputText, true); userInput.value = ''; }
 
             isProcessing = true; userInput.disabled = true; showThinking(true); disablePreviousButtons();
 
             let keywordAction = null;
-            let actionProcessedSuccessfully = false; // Flag
+            let actionProcessedSuccessfully = false;
 
             try {
-                // 0. Verifica Keywords (APENAS para input digitado)
+                // 0. Verifica Keywords
                 if (!isButtonClick && isWaitingFor !== 'name_phone') {
                     keywordAction = processKeywords(inputText);
                 }
 
                 // LÓGICA PRINCIPAL
-                const currentAction = keywordAction || inputText; // Usa keyword se houver, senão usa input/ação do botão
+                const currentAction = keywordAction || inputText;
 
-                // 1. Trata Ações Diretas (identificadas por keyword ou botão com prioridade alta/média)
-                 if (['price', 'talk_human', 'info_address', 'info_hours', 'info_phone', 'payment', 'info'].includes(currentAction)) {
-                    actionProcessedSuccessfully = true; // Ação direta foi identificada
+                // 1. Trata Ações Diretas e Agendamento Inicial
+                if (['price', 'talk_human', 'info_address', 'info_hours', 'info_phone', 'payment', 'info', 'schedule_start', 'back_to_start'].includes(currentAction)) {
+                    actionProcessedSuccessfully = true;
                     switch(currentAction) {
-                        case 'price': sendWhatsappRedirect('price'); break; // Direciona para Wpp para valores
+                        case 'price': sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); break; // Passa o nome do tratamento atual se houver
                         case 'talk_human': sendWhatsappRedirect('talk_human'); break;
                         case 'info_address': showAddress(); break;
                         case 'info_hours': showHours(); break;
                         case 'info_phone': showPhone(); break;
                         case 'payment': showPayment(); break;
-                        case 'info': sendInfoClinicSubMenu(); break; // Mostra submenu de informações
+                        case 'info': sendInfoClinicSubMenu(); break;
+                        case 'schedule_start': // <-- NOVO: Inicia o fluxo de agendamento
+                            // Se currentTreatment não estiver definido (veio do menu inicial), define como 'general'
+                            if (!currentTreatment) {
+                                currentTreatment = 'general';
+                            }
+                            sendSchedulingDayMenu(); // Mostra o menu de seleção de dias
+                            break;
+                        case 'back_to_start': // Ação para voltar ao início
+                            currentTreatment = null; // Reseta tratamento atual
+                            sendInitialMenu();
+                            break;
                     }
                 }
                 // 2. Trata Tratamentos Específicos (identificados por keyword ou botão)
                 else if (treatmentDetails[currentAction]) {
                     actionProcessedSuccessfully = true;
-                    currentTreatment = currentAction; // Atualiza tratamento atual
+                    currentTreatment = currentAction;
                     addMessage(treatmentDetails[currentAction].description, false);
-                    setTimeout(() => sendTreatmentActionMenu(currentAction), 300); // Pequeno delay
+                    setTimeout(() => sendTreatmentActionMenu(currentAction), 300);
                 }
-                 // 3. Trata Categorias de Tratamento (botão ou keyword 'tratamento')
+                // 3. Trata Categorias de Tratamento
                 else if (categoryMap[currentAction] || currentAction === 'treatment_category') {
                     actionProcessedSuccessfully = true;
-                    if (categoryMap[currentAction]) { // Veio de um botão de categoria
+                    if (categoryMap[currentAction]) {
                          sendTreatmentListMenu(currentAction);
-                    } else { // Veio da keyword 'tratamento' ou botão geral
+                    } else {
                         sendTreatmentCategoryMenu();
                     }
                 }
@@ -527,64 +529,61 @@
                      let isValidForState = false;
                      switch (isWaitingFor) {
                         case 'initial_choice':
-                            isValidForState = ['treatment_category', 'schedule_general', 'info', 'talk_human', 'other_doubt'].includes(currentAction);
+                            // 'schedule_general' foi substituído por 'schedule_start' acima
+                            isValidForState = ['treatment_category', /*'schedule_start' já tratado*/ , 'info', 'talk_human', 'other_doubt'].includes(currentAction);
                              if (isValidForState) {
                                  actionProcessedSuccessfully = true;
                                  if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
-                                 else if (currentAction === 'schedule_general') { currentTreatment = 'general'; addMessage(`Ótimo! Para agendar sua consulta/avaliação, qual seria sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)? Isso nos ajuda a verificar a disponibilidade. 😊`, false); isWaitingFor = 'scheduling_preference'; }
-                                 else if (currentAction === 'info') { sendInfoClinicSubMenu(); } // Mostra submenu de infos
+                                 else if (currentAction === 'info') { sendInfoClinicSubMenu(); }
                                  else if (currentAction === 'other_doubt') { sendWhatsappRedirect('duvidas'); }
                                  else if (currentAction === 'talk_human') { sendWhatsappRedirect('talk_human');}
                              }
                              break;
                          case 'treatment_category_choice':
-                             isValidForState = (categoryMap[currentAction] || currentAction === 'back_to_start');
+                             // 'back_to_start' já tratado
+                             isValidForState = (categoryMap[currentAction] /*|| currentAction === 'back_to_start'*/);
                               if (isValidForState) {
                                   actionProcessedSuccessfully = true;
-                                  if(currentAction === 'back_to_start') { sendInitialMenu(); }
-                                  else { sendTreatmentListMenu(currentAction); }
+                                  sendTreatmentListMenu(currentAction);
                               }
                              break;
                          case 'treatment_choice':
-                              isValidForState = (treatmentDetails[currentAction] || currentAction === 'treatment_category' || currentAction === 'back_to_start');
+                              // 'back_to_start' já tratado
+                              isValidForState = (treatmentDetails[currentAction] || currentAction === 'treatment_category' /*|| currentAction === 'back_to_start'*/);
                               if (isValidForState) {
                                  actionProcessedSuccessfully = true;
                                  if (treatmentDetails[currentAction]) { currentTreatment = currentAction; addMessage(treatmentDetails[currentAction].description, false); setTimeout(() => sendTreatmentActionMenu(currentAction), 300); }
                                  else if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
-                                 else if (currentAction === 'back_to_start') { sendInitialMenu(); }
                               }
                               break;
                          case 'treatment_action':
-                              isValidForState = ['details', 'schedule_specific', 'price', 'other_treatment'].includes(currentAction);
+                              // 'schedule_specific' substituído por 'schedule_start'
+                              isValidForState = ['details', /*'schedule_start' já tratado*/, 'other_treatment'].includes(currentAction);
                               if(isValidForState) {
                                  actionProcessedSuccessfully = true;
-                                 if (currentAction === 'details' && currentTreatment) { addMessage(treatmentDetails[currentTreatment].details || `Mais detalhes sobre <strong>${treatmentDetails[currentTreatment].name}</strong>... (informação detalhada aqui)`, false); setTimeout(() => sendDetailsSubMenu(currentTreatment), 500); }
-                                 else if (currentAction === 'schedule_specific' && currentTreatment) { addMessage(`Excelente! Para agendar sua consulta para <strong>${treatmentDetails[currentTreatment].name}</strong>, qual sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
-                                 else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); } // Redireciona para Wpp sobre preço
-                                 else if (currentAction === 'other_treatment') { sendTreatmentCategoryMenu(); } // Volta para categorias
+                                 if (currentAction === 'details' && currentTreatment) { addMessage(treatmentDetails[currentTreatment].details || `Mais detalhes...`, false); setTimeout(() => sendDetailsSubMenu(currentTreatment), 500); }
+                                 // else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); } // Já tratado acima
+                                 else if (currentAction === 'other_treatment') { sendTreatmentCategoryMenu(); }
                               }
                               break;
                           case 'treatment_action_after_details':
-                               isValidForState = ['schedule_specific', 'price', 'other_doubt_treat', 'other_treatment'].includes(currentAction);
+                               // 'schedule_specific' substituído por 'schedule_start'
+                               isValidForState = [/*'schedule_start' já tratado*/, 'other_doubt_treat', 'other_treatment'].includes(currentAction);
                                if(isValidForState){
                                   actionProcessedSuccessfully = true;
-                                  if (currentAction === 'schedule_specific' && currentTreatment) { addMessage(`Vamos agendar para <strong>${treatmentDetails[currentTreatment].name}</strong>! Qual sua preferência de <strong>dia da semana</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
-                                  else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); }
-                                  else if (currentAction === 'other_doubt_treat') { sendWhatsappRedirect('duvidas', treatmentDetails[currentTreatment]?.name); }
+                                  // else if (currentAction === 'price') { sendWhatsappRedirect('price', treatmentDetails[currentTreatment]?.name); } // Já tratado
+                                  if (currentAction === 'other_doubt_treat') { sendWhatsappRedirect('duvidas', treatmentDetails[currentTreatment]?.name); }
                                   else if (currentAction === 'other_treatment') { sendTreatmentCategoryMenu(); }
                                }
                                break;
                           case 'info_choice':
-                               isValidForState = ['info_address', 'info_hours', 'info_phone', 'payment', 'treatment_category', 'schedule_general', 'back_to_start'].includes(currentAction);
+                               // 'schedule_general' substituído por 'schedule_start'
+                               // 'back_to_start', 'info_address', etc já tratados
+                               isValidForState = ['payment', 'treatment_category'].includes(currentAction);
                                if(isValidForState){
                                    actionProcessedSuccessfully = true;
-                                   if(currentAction === 'info_address') { showAddress(); }
-                                   else if(currentAction === 'info_hours') { showHours(); }
-                                   else if(currentAction === 'info_phone') { showPhone(); }
-                                   else if(currentAction === 'payment') { showPayment(); }
+                                   if(currentAction === 'payment') { showPayment(); } // Mostra pagamento e depois menu final
                                    else if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
-                                   else if (currentAction === 'schedule_general') { currentTreatment = 'general'; addMessage(`Agendar consulta/avaliação geral! Qual sua preferência de <strong>dia</strong> e <strong>período</strong> (manhã/tarde)?`, false); isWaitingFor = 'scheduling_preference'; }
-                                   else if (currentAction === 'back_to_start') { sendInitialMenu(); }
                                }
                                break;
                            case 'final_confirmation':
@@ -593,41 +592,40 @@
                                     actionProcessedSuccessfully = true;
                                     if (currentAction === 'treatment_category') { sendTreatmentCategoryMenu(); }
                                     else if (currentAction === 'info') { sendInfoClinicSubMenu(); }
-                                    else if (currentAction === 'end') { addMessage(`Perfeito, ${userData.name}! Foi um prazer te ajudar. Se precisar de mais algo, é só chamar! 😊`, false); isWaitingFor = 'message'; } // Mensagem final ajustada
+                                    else if (currentAction === 'end') { addMessage(`Perfeito, ${userData.name}! Foi um prazer te ajudar. Se precisar de mais algo, é só chamar! 😊`, false); isWaitingFor = 'message'; }
                                 }
                                 break;
-                           case 'scheduling_preference':
-                                actionProcessedSuccessfully = true;
-                                const userPreference = currentAction; // Captura a preferência digitada
-                                const treatName = currentTreatment==='general'?'Avaliação Geral':treatmentDetails[currentTreatment]?.name||'sua consulta';
-                                sendWhatsappRedirect('agendamento', treatName, userPreference); // Envia para o Wpp com a preferência
+                           // --- NOVO ESTADO: scheduling_day_choice ---
+                           case 'scheduling_day_choice':
+                                // Verifica se a ação começa com 'schedule_day_'
+                                if (currentAction.startsWith('schedule_day_')) {
+                                    actionProcessedSuccessfully = true;
+                                    const selectedDay = currentAction.replace('schedule_day_', '').replace(/-/g, ' '); // Extrai o nome do dia
+                                    const treatName = currentTreatment === 'general' ? 'Avaliação Geral' : treatmentDetails[currentTreatment]?.name || 'sua consulta';
+                                    sendWhatsappRedirect('agendamento', treatName, selectedDay); // Envia para Wpp com dia selecionado
+                                }
+                                // 'back_to_start' já é tratado no início
                                 break;
                            case 'name_phone':
-                                actionProcessedSuccessfully = true; // A validação ocorre aqui
-                                const cleanedInput = inputText.replace(/[.,()-\s]/g, ''); // Limpa caracteres comuns
-                                const phoneMatch = cleanedInput.match(/(\d{10,11})$/); // Tenta pegar 10 ou 11 dígitos no final
-                                let pName = null;
-                                let pPhone = null;
+                                actionProcessedSuccessfully = true; // Validação feita abaixo
+                                // Lógica de extração de nome/telefone (Mantida)
+                                const cleanedInput = inputText.replace(/[.,()-\s]/g, '');
+                                const phoneMatch = cleanedInput.match(/(\d{10,11})$/);
+                                let pName = null; let pPhone = null;
                                 if (phoneMatch) {
                                     pPhone = phoneMatch[1];
-                                    // O que sobrar antes do telefone é o nome
-                                    pName = inputText.replace(phoneMatch[0].replace(/^(\d{2})/, '($1) '), '').replace(/[,()-\s]*$/, '').trim(); // Remove o telefone (e formatação) do input original
-                                    // Tenta limpar espaços extras no nome
-                                    pName = pName.replace(/\s+/g, ' ').trim();
+                                    pName = inputText.replace(phoneMatch[0].replace(/^(\d{2})/, '($1) '), '').replace(/[,()-\s]*$/, '').trim().replace(/\s+/g, ' ');
                                 } else {
-                                    // Se não achou telefone no final, tenta uma separação por vírgula ou último espaço
-                                    const parts = inputText.split(/,最后一个空格(?=\S)/); // Tenta separar por vírgula ou último espaço
+                                    const parts = inputText.split(/, | (?=\S+$)/); // Tenta por vírgula+espaço ou último espaço
                                     if (parts.length >= 2) {
                                         pName = parts.slice(0, -1).join(' ').trim();
                                         pPhone = parts[parts.length - 1].replace(/\D/g, '');
                                     } else {
-                                        pName = inputText.trim(); // Assume tudo como nome se não conseguir separar
-                                        pPhone = null; // Não identificou telefone
+                                        pName = inputText.trim(); pPhone = null;
                                     }
                                 }
-
                                 if(pName && pPhone && validateName(pName) && validatePhone(pPhone)){
-                                    userData.name = pName.split(' ').map(w => w.length > 2 ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w).join(' '); // Capitaliza nomes
+                                    userData.name = pName.split(' ').map(w => w.length > 2 ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w).join(' ');
                                     userData.phone = pPhone;
                                     userData.protocol = generateProtocol();
                                     await saveOrUpdateConversation();
@@ -635,37 +633,36 @@
                                     sendInitialMenu();
                                 } else {
                                     addMessage(`Hmm, não consegui identificar seu nome e telefone. 🤔 Por favor, digite seu <strong>nome completo</strong> e, em seguida, o <strong>telefone com DDD</strong>.<br>Exemplo: <i>Ana Silva (74) 988414187</i> ou <i>Ana Silva 74988414187</i>`, false);
-                                    isWaitingFor = 'name_phone'; // Permanece esperando
+                                    isWaitingFor = 'name_phone';
                                 }
                                 break;
-                           case 'message': // Estado aberto, qualquer input é "válido" mas pode cair no fallback abaixo
+                           case 'message':
                                 actionProcessedSuccessfully = false; // Força fallback se não foi tratado por keyword
                                 break;
                            default: console.warn("Estado não reconhecido:", isWaitingFor); break;
-                     } // Fim do Switch(isWaitingFor)
-                 } // Fim do Else (Trata Ações Genéricas / Estado)
+                     }
+                 }
 
-                // --- 5. Fallback ESTRITO ---
-                if (!actionProcessedSuccessfully && isWaitingFor !== 'name_phone') {
-                    console.log("Executing Fallback: Unrecognized input/action.", "Input:", inputText, "State:", isWaitingFor);
-                    const escapedInput = inputText.replace(/</g, "<").replace(/>/g, ">"); // Evita XSS simples
+                // 5. Fallback ESTRITO
+                if (!actionProcessedSuccessfully && isWaitingFor !== 'name_phone' && isWaitingFor !== 'scheduling_day_choice') { // Não mostra fallback se esperando escolha de dia
+                    console.log("Executing Fallback:", "Input:", inputText, "State:", isWaitingFor);
+                    const escapedInput = inputText.replace(/</g, "<").replace(/>/g, ">");
                     addMessage(`Desculpe, não entendi "<strong>${escapedInput}</strong>". 😕 Posso te ajudar com informações sobre os tratamentos, agendamentos ou sobre a clínica.`, false);
-                    sendInitialMenu(); // Volta ao menu inicial
+                    sendInitialMenu();
                 }
 
-                // Salva conversa (exceto na coleta inicial de nome/telefone)
+                // Salva conversa
                 if (isWaitingFor !== 'name_phone') { await saveOrUpdateConversation(); }
 
             } catch (error) {
                 console.error("Erro GERAL no processamento:", error);
                 addMessage("⚠️ Ocorreu um erro inesperado. Por favor, tente novamente ou entre em contato pelo WhatsApp.", false);
-                 setTimeout(() => sendWhatsappRedirect('talk_human'), 1500); // Oferece Wpp após erro
-                isWaitingFor = 'message'; // Reseta para estado aberto
+                 setTimeout(() => sendWhatsappRedirect('talk_human'), 1500);
+                isWaitingFor = 'message';
             } finally {
                 showThinking(false); isProcessing = false; userInput.disabled = false;
-                // Só foca no input se não estiver esperando nome/telefone ou se acabou de mostrar um menu
                 if (isWaitingFor !== 'name_phone' && document.querySelector('.options-container:last-of-type') === null) {
-                    userInput.focus();
+                    // userInput.focus(); // Não focar se acabou de mostrar botões
                  }
                 scrollToBottom();
             }
@@ -674,26 +671,24 @@
         // --- FUNÇÃO PARA LIDAR COM CLIQUE NO BOTÃO ---
         function handleButtonClick(choiceAction, choiceText) {
             if (isProcessing) return;
-            // Opcional: Adicionar a escolha do botão como mensagem do usuário (visual)
-            // addMessage(choiceText, true);
-            processMessage(choiceAction, true); // Processa a AÇÃO interna do botão
+            // Não adicionar a escolha do botão como mensagem do usuário
+            processMessage(choiceAction, true);
         }
 
         // --- FUNÇÃO DE ENVIO PRINCIPAL ---
         function sendMessage() {
             const message = userInput.value.trim();
-            if (message === '' || isProcessing) return; // Evita envio vazio ou durante processamento
-            processMessage(message, false); // Processa texto digitado
+            if (message === '' || isProcessing) return;
+            processMessage(message, false);
         }
 
         // --- INICIALIZAÇÃO ---
-        function initializeChat() {
+        function initializeChat() { /* ... (Mantido) ... */
             chatHistory = []; userData = { name: null, phone: null, protocol: null }; isWaitingFor = 'name_phone'; currentTreatment = null; isProcessing = false; userInput.disabled = false;
             const messages = chatBody.querySelectorAll('.message:not(.thinking)'); messages.forEach(msg => msg.remove()); showThinking(false);
-            // Mensagem inicial Atualizada
             addMessage('Olá! Bem-vindo(a) ao atendimento virtual da <strong>Clínica Dra. Ana Jessica Silva - Nutrição</strong>. 🥗 Para começarmos, por favor, informe seu <strong>nome completo</strong> e <strong>telefone com DDD</strong>.<br>(Ex: <i>Maria Souza (74) 912345678</i>)', false);
             userInput.focus();
-        }
+         }
 
         // --- EVENT LISTENER ---
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
@@ -702,6 +697,5 @@
         document.addEventListener('DOMContentLoaded', initializeChat);
 
     </script>
-
 </body>
 </html>
