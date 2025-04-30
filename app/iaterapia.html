@@ -197,7 +197,7 @@
             display: flex;
             align-items: center;
         }
-        .plan-card {
+        .plan-card { /* This now represents a Day */
             background: var(--white);
             border-radius: 1rem;
             padding: 1.5rem;
@@ -214,15 +214,20 @@
             align-items: center;
         }
         .day-number { font-weight: 600; font-size: 1.2rem; color: var(--primary); }
+
+        /* Activity Item (Individual activity within a day) */
         .activity-item {
             padding: 1.25rem;
-            border-left: 5px solid var(--secondary);
+            border: 1px solid var(--light); /* Lighter border */
             background-color: var(--light);
             border-radius: 0.5rem;
+            margin-bottom: 1rem; /* Space between activities */
+            position: relative; /* For positioning buttons */
         }
+        .activity-item:last-child { margin-bottom: 0; }
         .activity-item h5 { font-weight: 600; color: var(--text-dark); margin-bottom: 0.25rem; }
         .activity-item p { color: #4B5563; margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
-        .activity-details { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .activity-details { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; } /* Added bottom margin */
         .badge {
             padding: 0.4em 0.8em;
             font-size: 0.8rem;
@@ -242,6 +247,32 @@
         .intensity-leve { background-color: var(--success); }
         .intensity-média { background-color: var(--warning); color: var(--text-dark); }
         .intensity-profunda { background-color: var(--danger); }
+
+        /* Action Buttons Styling */
+        .activity-actions {
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            gap: 0.5rem; /* Space between buttons */
+            border-top: 1px solid var(--border-color); /* Separator line */
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.1rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        .action-btn.favorited i { color: var(--danger); } /* Style for favorited items */
+
         #loadingIndicator { display: none; text-align: center; padding: 2rem; color: var(--primary); }
         .spinner-border { width: 3rem; height: 3rem; color: var(--primary); }
         .disclaimer {
@@ -275,17 +306,35 @@
         .settings-card .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
         .settings-card .btn-primary { background-color: var(--primary); border-color: var(--primary); font-weight: 600; }
         .settings-card .btn-primary:hover { background-color: var(--secondary); border-color: var(--secondary); }
+
+        /* Share Modal */
+        #shareModal .modal-body a {
+            display: inline-block;
+            margin: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: transform 0.2s ease;
+        }
+         #shareModal .modal-body a:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+         }
+
+
         @media (max-width: 768px) {
             .sentiment-btn { font-size: 0.9rem; padding: 1rem 0.4rem; }
             #planScreen h2 { font-size: 1.5rem; }
             .plan-card { padding: 1rem; }
             .activity-item { padding: 1rem; }
+            .action-btn { font-size: 1rem; padding: 0.2rem 0.4rem;}
         }
         @media (max-width: 576px) {
             #homeScreen { padding-top: 3rem; padding-bottom: 3rem; }
             #homeScreen h2 { font-size: 1.8rem; }
             .search-container { max-width: 90%; margin-bottom: 1.5rem; }
             .sentiment-btn { font-size: 0.85rem; padding: 0.8rem 0.3rem; }
+            .activity-actions { gap: 0.3rem; }
+            .action-btn { font-size: 0.9rem; padding: 0.15rem 0.3rem;}
         }
     </style>
 </head>
@@ -372,6 +421,31 @@
         </div>
     </div>
 
+    <!-- Share Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shareModalLabel">Compartilhar Atividade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="shareModalText" class="mb-4"></p>
+                    <div>
+                        <a href="#" id="shareWhatsapp" target="_blank" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" id="shareTwitter" target="_blank" title="Twitter / X"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" id="shareFacebook" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" id="shareEmail" target="_blank" title="Email"><i class="bi bi-envelope-fill"></i></a>
+                        <a href="#" id="shareTelegram" target="_blank" title="Telegram"><i class="bi bi-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (needed for Modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         try {
             console.log("Script loaded");
@@ -379,12 +453,15 @@
             // Constants and State
             const API_ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
             const MODEL_NAME = 'gemini-1.5-flash-latest';
-            const DEFAULT_API_KEY = '';
+            const DEFAULT_API_KEY = ''; // Add your key here for testing if needed, but better use settings
             let currentScreen = 'home';
             let currentSentiment = null;
+            let favorites = []; // Simple in-memory favorites for now
+            let shareModalInstance = null; // To hold the Bootstrap modal instance
 
             // DOM Elements
             const bodyElement = document.body;
+            const bgVideo = document.getElementById('bgVideo');
             const homeScreen = document.getElementById('homeScreen');
             const planScreen = document.getElementById('planScreen');
             const historyScreen = document.getElementById('historyScreen');
@@ -399,16 +476,28 @@
             const historyEmptyMessage = document.getElementById('historyEmptyMessage');
             const favoritesList = document.getElementById('favoritesList');
             const favoritesEmptyMessage = document.getElementById('favoritesEmptyMessage');
+            const shareModalElement = document.getElementById('shareModal');
+            const shareModalTextElement = document.getElementById('shareModalText');
+            const shareWhatsapp = document.getElementById('shareWhatsapp');
+            const shareTwitter = document.getElementById('shareTwitter');
+            const shareFacebook = document.getElementById('shareFacebook');
+            const shareEmail = document.getElementById('shareEmail');
+            const shareTelegram = document.getElementById('shareTelegram');
+
 
             // IndexedDB Setup
-            const DB_NAME = 'TherapyPlannerDB', DB_VERSION = 2;
-            const PLAN_STORE = 'plans', SETTINGS_STORE = 'settings';
+            const DB_NAME = 'TherapyPlannerDB', DB_VERSION = 3; // Incremented version for favorites store
+            const PLAN_STORE = 'plans', SETTINGS_STORE = 'settings', FAVORITES_STORE = 'favorites'; // Added favorites store
             let db;
             const request = indexedDB.open(DB_NAME, DB_VERSION);
             request.onupgradeneeded = function(event) {
                 db = event.target.result;
+                console.log(`Upgrading DB from ${event.oldVersion} to ${DB_VERSION}`);
                 if (event.oldVersion < 2 && db.objectStoreNames.contains(PLAN_STORE)) {
-                    db.deleteObjectStore(PLAN_STORE);
+                     // Ensure keypath is correct if migrating from old versions
+                    if (!db.objectStoreNames.contains(PLAN_STORE)) {
+                        db.createObjectStore(PLAN_STORE, { keyPath: 'sentiment' });
+                    }
                 }
                 if (!db.objectStoreNames.contains(PLAN_STORE)) {
                     db.createObjectStore(PLAN_STORE, { keyPath: 'sentiment' });
@@ -416,72 +505,120 @@
                 if (!db.objectStoreNames.contains(SETTINGS_STORE)) {
                     db.createObjectStore(SETTINGS_STORE, { keyPath: 'id' });
                 }
+                 // Add Favorites Store in version 3
+                if (event.oldVersion < 3 && !db.objectStoreNames.contains(FAVORITES_STORE)) {
+                    // Use autoIncrementing key for simplicity
+                    db.createObjectStore(FAVORITES_STORE, { keyPath: 'id', autoIncrement: true });
+                    // Optionally add indexes if needed later: store.createIndex('activityId', 'activityId', { unique: true });
+                    console.log("Favorites store created.");
+                }
             };
             request.onsuccess = function(event) {
                 db = event.target.result;
-                console.log('DB opened.');
+                console.log('DB opened successfully.');
                 loadApiKeyFromDB();
+                loadFavoritesFromDB(); // Load favorites on startup
             };
             request.onerror = function(event) {
                 console.error('DB error:', event.target.error);
-                alert('Erro ao abrir o banco de dados.');
+                alert('Erro ao abrir o banco de dados local. Funcionalidades como salvar API Key e Favoritos podem não funcionar.');
                 apiKeyInput.value = DEFAULT_API_KEY;
             };
 
-            // IndexedDB Helper Functions
+            // IndexedDB Helper Functions (Add delete and get specific favorite)
             function saveData(storeName, data) {
                 if (!db) return Promise.reject('Banco de dados não inicializado');
                 return new Promise((res, rej) => {
-                    const r = db.transaction(storeName, 'readwrite').objectStore(storeName).put(data);
-                    r.onsuccess = () => res();
-                    r.onerror = (e) => rej(e.target.error);
-                });
-            }
-            function getData(storeName, key) {
-                if (!db) return Promise.resolve(null);
-                return new Promise((res) => {
-                    const r = db.transaction(storeName, 'readonly').objectStore(storeName).get(key);
-                    r.onsuccess = () => res(r.result || null);
-                    r.onerror = () => res(null);
-                });
-            }
-            function getAllData(storeName) {
-                if (!db) return Promise.resolve([]);
-                return new Promise((res) => {
-                    const r = db.transaction(storeName, 'readonly').objectStore(storeName).getAll();
-                    r.onsuccess = () => res(r.result || []);
-                    r.onerror = () => res([]);
+                    const transaction = db.transaction(storeName, 'readwrite');
+                    const store = transaction.objectStore(storeName);
+                    const request = store.put(data);
+                    request.onsuccess = () => res(request.result); // Return the key/result
+                    request.onerror = (e) => rej(e.target.error);
+                    transaction.onerror = (e) => rej(e.target.error); // Catch transaction errors
                 });
             }
 
+            function getData(storeName, key) {
+                if (!db) return Promise.resolve(null);
+                return new Promise((res, rej) => {
+                    const transaction = db.transaction(storeName, 'readonly');
+                    const store = transaction.objectStore(storeName);
+                    const request = store.get(key);
+                    request.onsuccess = () => res(request.result || null);
+                    request.onerror = (e) => rej(e.target.error); // Handle read errors
+                });
+            }
+
+            function getAllData(storeName) {
+                if (!db) return Promise.resolve([]);
+                return new Promise((res, rej) => {
+                    const transaction = db.transaction(storeName, 'readonly');
+                    const store = transaction.objectStore(storeName);
+                    const request = store.getAll();
+                    request.onsuccess = () => res(request.result || []);
+                    request.onerror = (e) => rej(e.target.error); // Handle read errors
+                });
+            }
+
+             function deleteData(storeName, key) {
+                if (!db) return Promise.reject('Banco de dados não inicializado');
+                return new Promise((res, rej) => {
+                    const transaction = db.transaction(storeName, 'readwrite');
+                    const store = transaction.objectStore(storeName);
+                    const request = store.delete(key);
+                    request.onsuccess = () => res();
+                    request.onerror = (e) => rej(e.target.error);
+                    transaction.onerror = (e) => rej(e.target.error);
+                });
+            }
+
+
             // API Key Management
             async function loadApiKeyFromDB() {
-                const d = await getData(SETTINGS_STORE, 'apiKey');
-                apiKeyInput.value = d?.value || DEFAULT_API_KEY;
-                console.log(d?.value ? 'API Key loaded.' : 'No API Key found.');
+                try {
+                    const setting = await getData(SETTINGS_STORE, 'apiKey');
+                    apiKeyInput.value = setting?.value || DEFAULT_API_KEY;
+                    console.log(setting?.value ? 'API Key loaded from DB.' : 'No API Key found in DB.');
+                } catch (error) {
+                    console.error("Failed to load API key:", error);
+                    apiKeyInput.value = DEFAULT_API_KEY;
+                }
             }
             async function saveApiKey() {
-                const k = apiKeyInput.value.trim();
-                if (k) {
-                    await saveData(SETTINGS_STORE, { id: 'apiKey', value: k });
-                    alert('Chave API salva com sucesso!');
-                } else {
-                    if (db) {
-                        db.transaction(SETTINGS_STORE, 'readwrite').objectStore(SETTINGS_STORE).delete('apiKey');
-                        alert('Chave API removida.');
+                const apiKey = apiKeyInput.value.trim();
+                try {
+                    if (apiKey) {
+                        await saveData(SETTINGS_STORE, { id: 'apiKey', value: apiKey });
+                        alert('Chave API salva com sucesso localmente!');
                     } else {
-                        alert('Erro ao acessar o banco de dados.');
+                        // Attempt to delete if the key exists
+                        await deleteData(SETTINGS_STORE, 'apiKey').catch(err => {
+                            // Ignore error if key didn't exist
+                            if (err.name !== 'NotFoundError') throw err;
+                        });
+                         alert('Chave API removida.');
                     }
+                } catch (error) {
+                    console.error("Failed to save/delete API key:", error);
+                    alert(`Erro ao salvar a chave API: ${error.message}`);
                 }
             }
 
             // Navigation / Screen Management
             function showScreen(screenId) {
                 ['homeScreen', 'planScreen', 'historyScreen', 'favoritesScreen', 'settingsScreen'].forEach(id => {
-                    document.getElementById(id).classList.add('d-none');
+                    document.getElementById(id)?.classList.add('d-none');
                 });
                 loadingIndicator.style.display = 'none';
-                document.getElementById(screenId).classList.remove('d-none');
+                const screenElement = document.getElementById(screenId);
+                if (screenElement) {
+                    screenElement.classList.remove('d-none');
+                } else {
+                    console.error(`Screen element not found: ${screenId}`);
+                    // Fallback to home screen if the target screen doesn't exist
+                    document.getElementById('homeScreen')?.classList.remove('d-none');
+                    screenId = 'homeScreen';
+                }
                 currentScreen = screenId;
                 bodyElement.classList.toggle('video-background-active', screenId === 'homeScreen');
                 window.scrollTo(0, 0);
@@ -494,286 +631,726 @@
 
             // Plan Generation and Display
             async function generatePlan(sentiment) {
-                if (!sentiment?.trim()) {
-                    alert('Por favor, insira um sentimento válido.');
+                sentiment = sentiment?.trim(); // Handle potential null/undefined
+                if (!sentiment) {
+                    alert('Por favor, insira ou selecione um sentimento válido.');
                     return;
                 }
-                sentiment = sentiment.trim().toLowerCase();
+                sentiment = sentiment.toLowerCase();
                 currentSentiment = sentiment;
+
                 const apiKey = apiKeyInput.value.trim();
                 if (!apiKey) {
-                    alert('Insira a chave API nas configurações.');
+                    alert('Por favor, insira sua chave API do Google Gemini nas Configurações antes de gerar um plano.');
                     showScreen('settingsScreen');
                     return;
                 }
-                console.log(`Gen plan: ${sentiment}`);
+
+                console.log(`Gerando plano para: ${sentiment}`);
                 showScreen('planScreen');
                 planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
-                planContainer.innerHTML = '';
+                planContainer.innerHTML = ''; // Clear previous plan
                 loadingIndicator.style.display = 'block';
+
                 try {
-                    const savedPlanData = await getData(PLAN_STORE, sentiment);
-                    if (savedPlanData?.planData) {
-                        console.log(`DB hit: ${sentiment}.`);
-                        displayPlan(savedPlanData.planData, sentiment);
-                    } else {
-                        console.log(`DB miss: ${sentiment}. Fetching...`);
+                     // Check local cache first (optional but good practice)
+                    // const cachedPlan = await getData(PLAN_STORE, sentiment);
+                    // if (cachedPlan?.planData) {
+                    //     console.log(`Plano encontrado no cache para: ${sentiment}.`);
+                    //     displayPlan(cachedPlan.planData, sentiment);
+                    // } else {
+                        console.log(`Gerando novo plano via API para: ${sentiment}.`);
                         await fetchGeminiPlan(sentiment, apiKey);
-                    }
+                    // }
                 } catch (error) {
-                    console.error('Gen plan err:', error);
-                    planContainer.innerHTML = `<div class="alert alert-danger">Erro ao gerar o plano: ${error.message || error}</div>`;
+                    console.error('Erro ao gerar plano:', error);
+                    planContainer.innerHTML = `<div class="alert alert-danger">Ocorreu um erro ao gerar o plano: ${error.message || String(error)}</div>`;
                     loadingIndicator.style.display = 'none';
                 }
             }
             function generateCustomPlan() {
-                generatePlan(sentimentInput.value.trim());
+                generatePlan(sentimentInput.value);
             }
 
-            // Fetch Gemini Plan
+             // Fetch Gemini Plan (MODIFIED PROMPT)
             async function fetchGeminiPlan(sentiment, apiKey) {
                 const fullApiUrl = `${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=${apiKey}`;
-                console.log(`Fetch: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=HIDDEN`);
+                console.log(`Fetching plan from: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=...`);
 
-                const generalPromptTemplate = (s) => `Gere um plano JSON de 7 dias para "${s}". Estrutura: {"disclaimer":"**Aviso: Ferramenta IA, não substitui médico/psicólogo. Procure profissional.**","introduction":"(1-2 frases acolhedoras relacionadas a '${s}')","dia1":{"titulo":"Título curto","descricao":"(2-4 frases, 50-80 palavras) Atividade prática adaptada para '${s}', tom empático/motivador.","duracao":NUMERO_INTEIRO,"intensidade":"leve/média/profunda","categoria":"Ex:Respiração,Escrita","beneficio":"Ex:Melhora bem-estar"},"dia2":{...},"dia3":{...},"dia4":{...},"dia5":{...},"dia6":{...},"dia7":{...},"closing":"(1-2 frases) Motivação final."} REGRAS: Varie atividades/categorias. Linguagem simples. 'duracao' DEVE ser um número inteiro. APENAS JSON válido.`;
-                const prompt = generalPromptTemplate(sentiment);
+                // *** MODIFIED PROMPT to request 3 activities per day ***
+                const promptTemplate = (s) => `Gere um plano terapêutico JSON de 7 dias para lidar com "${s}".
+Estrutura JSON OBRIGATÓRIA:
+{
+  "disclaimer": "**Importante:** Esta é uma ferramenta gerada por IA e não substitui o aconselhamento médico ou psicológico profissional. Consulte um especialista para necessidades específicas.",
+  "introduction": "(Texto introdutório de 1-2 frases, acolhedor e relevante para '${s}')",
+  "dia1": {
+    "atividades": [
+      { "titulo": "Atividade 1 Curta", "descricao": "(Descrição prática de 2-3 frases, 40-70 palavras)", "duracao": NUMERO_INTEIRO_MINUTOS, "intensidade": "leve/média/profunda", "categoria": "Ex: Mindfulness", "beneficio": "Ex: Reduzir ansiedade" },
+      { "titulo": "Atividade 2 Curta", "descricao": "(Descrição prática de 2-3 frases, 40-70 palavras)", "duracao": NUMERO_INTEIRO_MINUTOS, "intensidade": "leve/média/profunda", "categoria": "Ex: Escrita", "beneficio": "Ex: Promover clareza" },
+      { "titulo": "Atividade 3 Curta", "descricao": "(Descrição prática de 2-3 frases, 40-70 palavras)", "duracao": NUMERO_INTEIRO_MINUTOS, "intensidade": "leve/média/profunda", "categoria": "Ex: Movimento", "beneficio": "Ex: Liberar tensão" }
+    ]
+  },
+  "dia2": { "atividades": [ {...}, {...}, {...} ] },
+  "dia3": { "atividades": [ {...}, {...}, {...} ] },
+  "dia4": { "atividades": [ {...}, {...}, {...} ] },
+  "dia5": { "atividades": [ {...}, {...}, {...} ] },
+  "dia6": { "atividades": [ {...}, {...}, {...} ] },
+  "dia7": { "atividades": [ {...}, {...}, {...} ] },
+  "closing": "(Mensagem final de 1-2 frases, encorajadora ou de reflexão)"
+}
+REGRAS E DIRETRIZES:
+- **Gere EXATAMENTE 3 atividades distintas para CADA dia.**
+- Varie os tipos de atividades (respiração, escrita, física leve, mindfulness, criativa, etc.) e categorias ao longo da semana.
+- Mantenha as descrições concisas, práticas e em tom empático.
+- 'duracao' DEVE ser um número inteiro representando minutos (ex: 15, não "15 min").
+- 'intensidade' DEVE ser uma das opções: 'leve', 'média', 'profunda'.
+- Adapte o tom e o conteúdo das atividades ao sentimento "${s}".
+- **A SAÍDA DEVE SER APENAS O JSON VÁLIDO, sem nenhum texto adicional antes ou depois, nem markdown como \`\`\`json.**`;
 
-                let rawPlanText = '';
+                const prompt = promptTemplate(sentiment);
+
                 try {
                     const response = await fetch(fullApiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                     });
+
                     if (!response.ok) {
-                        const errTxt = await response.text();
-                        let msg = `Erro na API: ${response.status} ${response.statusText}.`;
-                        if (response.status === 400) msg += ' Verifique a chave ou requisição.';
-                        else if (response.status === 403) msg += ' Permissão negada.';
-                        else if (response.status === 429) msg += ' Limite de cota excedido.';
-                        else if (response.status >= 500) msg += ' Erro no servidor.';
-                        throw new Error(msg + ` Detalhes: ${errTxt}`);
+                        const errorText = await response.text();
+                        let errorMsg = `Erro na API Gemini (${response.status} ${response.statusText}).`;
+                        try { // Try to parse API error response for more details
+                           const errorJson = JSON.parse(errorText);
+                           errorMsg += ` Detalhes: ${errorJson.error?.message || errorText}`;
+                        } catch {
+                           errorMsg += ` Resposta: ${errorText}`;
+                        }
+                         // Specific common errors
+                        if (response.status === 400) errorMsg += ' Verifique a chave API ou a formatação da requisição.';
+                        else if (response.status === 403) errorMsg += ' Permissão negada (Chave API inválida ou sem permissão para o modelo?).';
+                        else if (response.status === 429) errorMsg += ' Cota da API excedida. Tente novamente mais tarde.';
+                        else if (response.status >= 500) errorMsg += ' Erro interno no servidor da API.';
+                        throw new Error(errorMsg);
                     }
 
                     const data = await response.json();
-                    console.log('API Resp:', data);
+                    console.log('API Response Data:', data);
 
-                    if (data.candidates?.[0]?.content?.parts?.[0]) {
-                        rawPlanText = data.candidates[0].content.parts[0].text;
-                        console.log('Raw API Text (first 500):', rawPlanText.substring(0, 500) + '...');
+                    if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                        let rawPlanText = data.candidates[0].content.parts[0].text;
+                        console.log('Raw API Text (first 500 chars):', rawPlanText.substring(0, 500) + '...');
 
-                        // Extract JSON from Markdown
+                        // --- JSON Extraction and Parsing ---
+                         // Remove potential markdown backticks and clean up
                         let jsonString = rawPlanText.replace(/^```json\s*|\s*```$/g, '').trim();
+
+                        // Find the first '{' and the last '}'
                         const firstBrace = jsonString.indexOf('{');
                         const lastBrace = jsonString.lastIndexOf('}');
+
                         if (firstBrace === -1 || lastBrace < firstBrace) {
-                            console.error('No JSON {} found:', jsonString);
-                            throw new Error('Formato JSON não encontrado na resposta.');
+                            console.error('JSON braces not found or invalid in response:', jsonString);
+                            throw new Error('Formato de resposta inesperado da API (JSON não encontrado).');
                         }
+
+                        // Extract the JSON part
                         jsonString = jsonString.substring(firstBrace, lastBrace + 1);
 
-                        // Parse JSON
                         let planJson;
                         try {
                             planJson = JSON.parse(jsonString);
-                        } catch (e) {
-                            console.error('JSON Parse failed:', e, 'Raw:', jsonString);
-                            throw new Error('Erro ao parsear JSON da resposta.');
-                        }
-
-                        // Validate structure
-                        if (!planJson?.disclaimer || !planJson.introduction || !planJson.closing || !planJson.dia1?.titulo) {
-                            console.error('Invalid JSON structure:', planJson);
-                            throw new Error('Estrutura JSON incompleta.');
-                        }
-
-                        // Fetch external insights
-                        const externalInsights = await fetchExternalInsights(sentiment);
-
-                        // Enhance plan with insights
-                        planJson.introduction = `${planJson.introduction} ${externalInsights.motivationalQuote || ''}`.trim();
-                        planJson.closing = `${planJson.closing} ${externalInsights.additionalBenefits || ''}`.trim();
-                        const daysOrder = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5', 'dia6', 'dia7'];
-                        daysOrder.forEach((dayKey, index) => {
-                            if (planJson[dayKey] && externalInsights.suggestedCategory && index === 6) {
-                                planJson[dayKey].categoria = externalInsights.suggestedCategory;
-                                planJson[dayKey].beneficio = `${planJson[dayKey].beneficio} ${externalInsights.additionalBenefits}`.trim();
+                        } catch (parseError) {
+                            console.error('Falha ao parsear JSON:', parseError);
+                            console.error('JSON String que falhou:', jsonString);
+                            // Attempt to fix common JSON issues like trailing commas (simple cases)
+                            try {
+                                jsonString = jsonString.replace(/,\s*([}\]])/g, '$1'); // Remove trailing commas before } or ]
+                                planJson = JSON.parse(jsonString);
+                                console.log("JSON parseado com sucesso após correção de vírgula final.");
+                            } catch (retryParseError) {
+                                throw new Error(`Erro ao processar a resposta da API (JSON inválido): ${parseError.message}. Tente gerar novamente.`);
                             }
-                        });
+                        }
 
-                        // Save and display plan
+                        // --- Basic Validation ---
+                        if (!planJson || typeof planJson !== 'object' || !planJson.dia1?.atividades || !Array.isArray(planJson.dia1.atividades)) {
+                            console.error('Estrutura JSON inválida ou incompleta recebida:', planJson);
+                            throw new Error('A resposta da API não continha a estrutura de plano esperada.');
+                        }
+
+                        // --- Saving and Displaying ---
                         const planDataToSave = {
                             sentiment: sentiment,
                             planData: planJson,
                             timestamp: Date.now()
                         };
-                        await saveData(PLAN_STORE, planDataToSave);
-                        displayPlan(planJson, sentiment);
+                         // Don't cache by default for now, generate fresh each time
+                        // await saveData(PLAN_STORE, planDataToSave);
+                        // console.log(`Plano para '${sentiment}' salvo no DB.`);
+
+                        displayPlan(planJson, sentiment); // Pass sentiment for context if needed
+
                     } else {
-                        throw new Error('Resposta da API não contém conteúdo esperado.');
+                        console.error('Resposta da API vazia ou mal formatada:', data);
+                        const safetyFeedback = data.candidates?.[0]?.safetyRatings;
+                         if (safetyFeedback) {
+                             console.warn("Safety Feedback:", safetyFeedback);
+                             throw new Error('A geração do plano foi bloqueada devido a políticas de segurança. Tente um sentimento diferente ou reformule.');
+                         }
+                        throw new Error('Resposta da API não contém o texto do plano esperado.');
                     }
                 } catch (error) {
-                    console.error('fetch Err:', error);
-                    planContainer.innerHTML = `<div class="alert alert-danger">Falha ao buscar o plano.<br><small>${error.message || error}</small></div>`;
+                    console.error('Falha na chamada fetchGeminiPlan:', error);
+                    planContainer.innerHTML = `<div class="alert alert-danger">Falha ao buscar ou processar o plano.<br><small>${error.message || error}</small></div>`;
                     loadingIndicator.style.display = 'none';
                 }
             }
 
-            // External Insights
+            // External Insights (Kept for potential future use, but not integrated into the 3-activity structure for now)
             async function fetchExternalInsights(sentiment) {
-                console.log(`Buscando insights para: ${sentiment}`);
+                console.log(`Buscando insights externos para: ${sentiment}`);
+                // Placeholder - In a real app, this could fetch data from another source
+                await new Promise(resolve => setTimeout(resolve, 50)); // Simulate network delay
                 try {
                     const insightsMap = {
                         ansiedade: { additionalBenefits: 'Promove calma e equilíbrio.', suggestedCategory: 'Mindfulness', motivationalQuote: 'Respire fundo e confie no processo.' },
                         alegria: { additionalBenefits: 'Amplifica a felicidade e energia positiva.', suggestedCategory: 'Criatividade', motivationalQuote: 'Espalhe alegria em cada momento!' },
-                        default: { additionalBenefits: 'Melhora o bem-estar geral.', suggestedCategory: 'Bem-estar', motivationalQuote: 'Você está no caminho certo.' }
+                        default: { additionalBenefits: 'Melhora o bem-estar geral.', suggestedCategory: 'Bem-estar', motivationalQuote: 'Você está no caminho certo para se sentir melhor.' }
                     };
                     return insightsMap[sentiment.toLowerCase()] || insightsMap.default;
                 } catch (error) {
-                    console.error('Erro ao buscar insights:', error);
-                    return { additionalBenefits: '', suggestedCategory: '', motivationalQuote: '' };
+                    console.error('Erro ao buscar insights externos:', error);
+                    return { additionalBenefits: '', suggestedCategory: '', motivationalQuote: '' }; // Return empty object on error
                 }
             }
 
-            // Display Plan
+            // Display Plan (MODIFIED to handle 3 activities)
             function displayPlan(plan, sentiment) {
-                planContainer.innerHTML = '';
+                planContainer.innerHTML = ''; // Clear previous content
                 if (!plan || typeof plan !== 'object') {
-                    planContainer.innerHTML = `<div class="alert alert-warning">Plano inválido.</div>`;
+                    planContainer.innerHTML = `<div class="alert alert-warning">Não foi possível exibir o plano (dados inválidos).</div>`;
                     loadingIndicator.style.display = 'none';
                     return;
                 }
+
                 const sanitize = (str) => {
-                    const t = document.createElement('div');
-                    t.textContent = String(str ?? '');
-                    return t.innerHTML;
+                    const temp = document.createElement('div');
+                    temp.textContent = String(str ?? ''); // Ensure it's a string, handle null/undefined
+                    return temp.innerHTML; // Get HTML escaped string
                 };
+
+                // Display Disclaimer and Introduction
                 if (plan.disclaimer) {
-                    const el = document.createElement('div');
-                    el.className = 'disclaimer';
-                    el.textContent = plan.disclaimer.replace(/\*\*/g, '');
-                    planContainer.appendChild(el);
+                    const disclaimerEl = document.createElement('div');
+                    disclaimerEl.className = 'disclaimer';
+                    // Remove potential markdown bold tags if API includes them
+                    disclaimerEl.textContent = plan.disclaimer.replace(/\*\*/g, '');
+                    planContainer.appendChild(disclaimerEl);
                 }
                 if (plan.introduction) {
-                    const el = document.createElement('p');
-                    el.className = 'plan-introduction';
-                    el.textContent = plan.introduction;
-                    planContainer.appendChild(el);
+                    const introEl = document.createElement('p');
+                    introEl.className = 'plan-introduction';
+                    introEl.textContent = plan.introduction;
+                    planContainer.appendChild(introEl);
                 }
+
                 const daysOrder = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5', 'dia6', 'dia7'];
-                daysOrder.forEach(dayKey => {
-                    if (plan[dayKey]) {
-                        const activity = plan[dayKey];
-                        if (!activity.titulo || !activity.descricao) return;
+
+                daysOrder.forEach((dayKey, dayIndex) => {
+                    const dayData = plan[dayKey];
+                    // Check if day data and activities array exist
+                    if (dayData && Array.isArray(dayData.atividades) && dayData.atividades.length > 0) {
+
                         const dayCard = document.createElement('div');
-                        dayCard.className = 'plan-card';
-                        const intClassMap = {
-                            'leve': 'intensity-leve',
-                            'média': 'intensity-média',
-                            'media': 'intensity-média',
-                            'profunda': 'intensity-profunda'
-                        };
-                        const normInt = activity.intensidade?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') || 'leve';
-                        const intClass = intClassMap[normInt] || 'bg-secondary';
-                        const fDay = formatDay(dayKey);
-                        dayCard.innerHTML = `
-                            <div class="day-header">
-                                <span class="day-number">${sanitize(fDay)}</span>
-                                <span class="badge intensity-badge ${intClass}"><i class="bi bi-activity me-1"></i> ${sanitize(activity.intensidade?.charAt(0).toUpperCase() + activity.intensidade?.slice(1) || 'N/A')}</span>
-                            </div>
-                            <div class="activity-item">
+                        dayCard.className = 'plan-card'; // This card holds all activities for the day
+
+                        const formattedDayName = formatDay(dayKey);
+
+                        // Day Header (Inside the Day Card)
+                        const dayHeader = document.createElement('div');
+                        dayHeader.className = 'day-header';
+                        dayHeader.innerHTML = `<span class="day-number">${sanitize(formattedDayName)}</span>`; // Add day name
+                        dayCard.appendChild(dayHeader);
+
+
+                        // Loop through activities for the current day
+                        dayData.atividades.forEach((activity, activityIndex) => {
+                            if (!activity || !activity.titulo || !activity.descricao) {
+                                console.warn(`Atividade inválida ou incompleta encontrada em ${dayKey}, índice ${activityIndex}:`, activity);
+                                return; // Skip this invalid activity
+                            }
+
+                            const activityItem = document.createElement('div');
+                            activityItem.className = 'activity-item';
+
+                             // Generate a unique ID for this specific activity instance
+                            const activityUniqueId = `${sentiment}-${dayKey}-activity-${activityIndex}`;
+                            activityItem.dataset.activityId = activityUniqueId; // Store unique ID
+
+                             // Store text content for easy access by buttons
+                            const activityText = `${activity.titulo}. ${activity.descricao}`;
+                            activityItem.dataset.activityText = activityText; // Store text for speak/copy/share
+                            activityItem.dataset.activityTitle = activity.titulo; // Store title separately if needed
+
+
+                            const intensityClassMap = {
+                                'leve': 'intensity-leve',
+                                'média': 'intensity-média',
+                                'media': 'intensity-média', // Handle common variations
+                                'profunda': 'intensity-profunda'
+                            };
+                             // Normalize intensity string (lowercase, remove accents)
+                            const normalizedIntensity = activity.intensidade?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || 'leve';
+                            const intensityClass = intensityClassMap[normalizedIntensity] || 'bg-secondary'; // Default class
+
+                            activityItem.innerHTML = `
                                 <h5>${sanitize(activity.titulo)}</h5>
                                 <p>${sanitize(activity.descricao)}</p>
                                 <div class="activity-details">
-                                    <span class="badge badge-category"><i class="bi bi-bookmark-fill"></i> ${sanitize(activity.categoria || 'N/A')}</span>
-                                    <span class="badge badge-duration"><i class="bi bi-clock-fill"></i> ${sanitize(activity.duracao || 'N/A')} min</span>
-                                    <span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill"></i> ${sanitize(activity.beneficio || 'N/A')}</span>
+                                    <span class="badge badge-category"><i class="bi bi-bookmark-fill me-1"></i> ${sanitize(activity.categoria || 'N/A')}</span>
+                                    <span class="badge badge-duration"><i class="bi bi-clock-fill me-1"></i> ${sanitize(activity.duracao || 'N/A')} min</span>
+                                    <span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill me-1"></i> ${sanitize(activity.beneficio || 'N/A')}</span>
+                                    <span class="badge intensity-badge ${intensityClass} ms-auto"><i class="bi bi-bar-chart-line-fill me-1"></i> ${sanitize(activity.intensidade?.charAt(0).toUpperCase() + activity.intensidade?.slice(1) || 'N/A')}</span>
                                 </div>
-                            </div>`;
-                        planContainer.appendChild(dayCard);
+                                <div class="activity-actions">
+                                    <button class="action-btn copy-btn" title="Copiar Texto"><i class="bi bi-clipboard"></i></button>
+                                    <button class="action-btn speak-btn" title="Ouvir Texto"><i class="bi bi-volume-up"></i></button>
+                                    <button class="action-btn favorite-btn" title="Adicionar/Remover Favorito"><i class="bi bi-heart"></i></button> <!-- Icon changes dynamically -->
+                                    <button class="action-btn share-btn" title="Compartilhar"><i class="bi bi-share"></i></button>
+                                </div>
+                            `;
+
+                             // Check if this activity is favorited and update the icon
+                            updateFavoriteButtonState(activityItem.querySelector('.favorite-btn'), activityUniqueId);
+
+
+                            dayCard.appendChild(activityItem); // Add activity to the day card
+                        });
+
+                        planContainer.appendChild(dayCard); // Add the day card to the main container
+                    } else {
+                         console.warn(`Dados do dia '${dayKey}' estão ausentes ou não contêm um array 'atividades' válido.`);
                     }
                 });
+
+                 // Display Closing message
                 if (plan.closing) {
-                    const el = document.createElement('p');
-                    el.className = 'plan-closing';
-                    el.textContent = plan.closing;
-                    planContainer.appendChild(el);
+                    const closingEl = document.createElement('p');
+                    closingEl.className = 'plan-closing';
+                    closingEl.textContent = plan.closing;
+                    planContainer.appendChild(closingEl);
                 }
+
                 loadingIndicator.style.display = 'none';
             }
 
-            // Format Day
+             // Format Day Name
             function formatDay(dayKey) {
-                const days = {
-                    'dia1': 'Segunda', 'dia2': 'Terça', 'dia3': 'Quarta', 'dia4': 'Quinta',
-                    'dia5': 'Sexta', 'dia6': 'Sábado', 'dia7': 'Domingo'
+                // Simple mapping, adjust if needed
+                const daysMap = {
+                    'dia1': 'Dia 1', 'dia2': 'Dia 2', 'dia3': 'Dia 3', 'dia4': 'Dia 4',
+                    'dia5': 'Dia 5', 'dia6': 'Dia 6', 'dia7': 'Dia 7'
                 };
-                return days[dayKey] || dayKey;
+                return daysMap[dayKey] || dayKey.replace('dia', 'Dia '); // Fallback formatting
             }
 
-            // History and Favorites
-            async function showHistory() {
-                showScreen('historyScreen');
-                historyList.innerHTML = '';
-                historyEmptyMessage.classList.add('d-none');
-                const allPlans = await getAllData(PLAN_STORE);
-                if (allPlans.length === 0) {
-                    historyEmptyMessage.classList.remove('d-none');
+
+            // --- Action Button Handlers ---
+
+            // Copy Text
+            async function handleCopyClick(button) {
+                const activityItem = button.closest('.activity-item');
+                const textToCopy = activityItem?.dataset.activityText;
+                if (textToCopy && navigator.clipboard) {
+                    try {
+                        await navigator.clipboard.writeText(textToCopy);
+                         // Visual feedback
+                        button.innerHTML = '<i class="bi bi-check-lg"></i>'; // Show checkmark
+                        setTimeout(() => {
+                            button.innerHTML = '<i class="bi bi-clipboard"></i>'; // Revert icon
+                        }, 1500); // Revert after 1.5 seconds
+                        console.log('Texto copiado:', textToCopy);
+                    } catch (err) {
+                        console.error('Falha ao copiar texto:', err);
+                        alert('Não foi possível copiar o texto. Seu navegador pode não suportar esta funcionalidade ou a permissão foi negada.');
+                    }
+                } else {
+                     alert('Não foi possível encontrar o texto para copiar ou a área de transferência não está disponível.');
+                }
+            }
+
+            // Speak Text (Text-to-Speech)
+            function handleSpeakClick(button) {
+                const activityItem = button.closest('.activity-item');
+                const textToSpeak = activityItem?.dataset.activityText;
+                if (textToSpeak && 'speechSynthesis' in window) {
+                    // Cancel any ongoing speech first
+                    window.speechSynthesis.cancel();
+
+                    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                    utterance.lang = 'pt-BR'; // Set language to Brazilian Portuguese
+                    utterance.rate = 1.0; // Normal speed
+                    utterance.pitch = 1.0; // Normal pitch
+
+                    // Optional: provide feedback while speaking
+                    button.innerHTML = '<i class="bi bi-pause-fill"></i>'; // Indicate speaking
+                    utterance.onend = () => {
+                         button.innerHTML = '<i class="bi bi-volume-up"></i>'; // Revert when done
+                         console.log("Speech finished.");
+                    };
+                    utterance.onerror = (event) => {
+                        console.error('Erro na síntese de voz:', event.error);
+                        button.innerHTML = '<i class="bi bi-volume-mute"></i>'; // Indicate error
+                         setTimeout(() => { button.innerHTML = '<i class="bi bi-volume-up"></i>'; }, 2000);
+                         alert(`Erro ao tentar falar o texto: ${event.error}`);
+                    };
+
+                    window.speechSynthesis.speak(utterance);
+                    console.log('Tentando falar:', textToSpeak);
+                } else if (!('speechSynthesis' in window)) {
+                    alert('Seu navegador não suporta a funcionalidade de leitura de texto (Text-to-Speech).');
+                } else {
+                    alert('Não foi possível encontrar o texto para ler.');
+                }
+            }
+
+            // --- Favorite Functionality ---
+
+             async function loadFavoritesFromDB() {
+                 try {
+                     favorites = await getAllData(FAVORITES_STORE);
+                     console.log(`Carregados ${favorites.length} favoritos do DB.`);
+                     // Optionally update UI immediately if favorites screen is visible
+                     if (currentScreen === 'favoritesScreen') {
+                         showFavorites();
+                     }
+                 } catch (error) {
+                     console.error("Erro ao carregar favoritos do DB:", error);
+                     favorites = []; // Reset to empty array on error
+                 }
+            }
+
+            function isFavorited(activityId) {
+                return favorites.some(fav => fav.activityId === activityId);
+            }
+
+            function updateFavoriteButtonState(button, activityId) {
+                 if (!button) return;
+                 const favorited = isFavorited(activityId);
+                 button.classList.toggle('favorited', favorited); // Add/remove class
+                 button.innerHTML = favorited ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>';
+                 button.title = favorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos";
+            }
+
+            async function handleFavoriteClick(button) {
+                const activityItem = button.closest('.activity-item');
+                if (!activityItem) return;
+
+                const activityId = activityItem.dataset.activityId;
+                const activityTitle = activityItem.dataset.activityTitle;
+                const activityText = activityItem.dataset.activityText;
+
+                if (!activityId || !activityTitle || !activityText) {
+                     console.error("Dados da atividade ausentes para adicionar aos favoritos.");
+                     alert("Não foi possível adicionar aos favoritos (dados incompletos).");
+                     return;
+                }
+
+                const existingFavorite = favorites.find(fav => fav.activityId === activityId);
+
+                try {
+                    if (existingFavorite) {
+                         // Remove from favorites
+                         await deleteData(FAVORITES_STORE, existingFavorite.id); // Use the DB's auto-incremented key
+                         favorites = favorites.filter(fav => fav.activityId !== activityId); // Update local array
+                         console.log(`Atividade '${activityTitle}' removida dos favoritos.`);
+                    } else {
+                         // Add to favorites
+                         const newFavorite = {
+                             activityId: activityId,
+                             title: activityTitle,
+                             text: activityText,
+                             addedAt: Date.now()
+                         };
+                         const savedKey = await saveData(FAVORITES_STORE, newFavorite);
+                         newFavorite.id = savedKey; // Store the DB key in the local object
+                         favorites.push(newFavorite); // Add to local array
+                         console.log(`Atividade '${activityTitle}' adicionada aos favoritos com ID ${savedKey}.`);
+                    }
+                     // Update button appearance
+                    updateFavoriteButtonState(button, activityId);
+                     // Optionally update the favorites screen if it's visible
+                     if (currentScreen === 'favoritesScreen') {
+                         showFavorites();
+                     }
+                } catch (error) {
+                    console.error("Erro ao salvar/remover favorito:", error);
+                    alert(`Ocorreu um erro ao atualizar os favoritos: ${error.message}`);
+                }
+            }
+
+
+            // Share Functionality
+            function handleShareClick(button) {
+                const activityItem = button.closest('.activity-item');
+                const textToShare = activityItem?.dataset.activityText;
+                const titleToShare = activityItem?.dataset.activityTitle || "Atividade Terapêutica";
+
+                if (!textToShare) {
+                    alert('Não foi possível encontrar o texto para compartilhar.');
                     return;
                 }
-                allPlans.sort((a, b) => b.timestamp - a.timestamp);
-                allPlans.forEach(item => {
-                    const li = document.createElement('a');
-                    li.href = '#';
-                    li.className = 'list-group-item list-group-item-action';
-                    const date = new Date(item.timestamp);
-                    li.innerHTML = `<strong>${item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}</strong><br><small>${date.toLocaleString('pt-BR')}</small>`;
-                    li.onclick = (e) => {
-                        e.preventDefault();
-                        currentSentiment = item.sentiment;
-                        showScreen('planScreen');
-                        planTitle.textContent = item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1);
-                        displayPlan(item.planData, item.sentiment);
-                    };
-                    historyList.appendChild(li);
+
+                const encodedText = encodeURIComponent(textToShare);
+                const encodedTitle = encodeURIComponent(titleToShare);
+                const appUrl = encodeURIComponent(window.location.href); // URL of the app itself
+
+                // Update modal content
+                shareModalTextElement.textContent = `Compartilhar: "${titleToShare}"`;
+
+                // Update social media links
+                shareWhatsapp.href = `https://wa.me/?text=${encodedText}%0A%0AVia:%20${appUrl}`;
+                shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${appUrl}`;
+                shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${appUrl}"e=${encodedText}`;
+                shareEmail.href = `mailto:?subject=${encodedTitle}&body=${encodedText}%0A%0AVia:%20${appUrl}`;
+                shareTelegram.href = `https://t.me/share/url?url=${appUrl}&text=${encodedText}`;
+
+                // Show the modal
+                if (!shareModalInstance) {
+                     // Initialize modal only once
+                     if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                         shareModalInstance = new bootstrap.Modal(shareModalElement);
+                     } else {
+                         console.error("Bootstrap Modal JS não encontrado.");
+                         alert("Erro ao inicializar a funcionalidade de compartilhamento.");
+                         return;
+                     }
+                }
+                shareModalInstance.show();
+                console.log('Abrindo modal de compartilhamento para:', textToShare);
+            }
+
+
+            // Event Delegation for Action Buttons on Plan Container
+            planContainer.addEventListener('click', function(event) {
+                const button = event.target.closest('.action-btn'); // Find the closest action button clicked
+                if (!button) return; // Exit if click wasn't on or inside an action button
+
+                if (button.classList.contains('copy-btn')) {
+                    handleCopyClick(button);
+                } else if (button.classList.contains('speak-btn')) {
+                    handleSpeakClick(button);
+                } else if (button.classList.contains('favorite-btn')) {
+                    handleFavoriteClick(button);
+                } else if (button.classList.contains('share-btn')) {
+                    handleShareClick(button);
+                }
+            });
+
+
+            // History Functionality
+            async function showHistory() {
+                 showScreen('historyScreen');
+                 historyList.innerHTML = ''; // Clear previous list
+                 historyEmptyMessage.classList.add('d-none'); // Hide empty message initially
+
+                 try {
+                     const allPlans = await getAllData(PLAN_STORE);
+                     if (allPlans.length === 0) {
+                         historyEmptyMessage.classList.remove('d-none'); // Show if no plans
+                         return;
+                     }
+
+                     // Sort by timestamp, newest first
+                     allPlans.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+                     allPlans.forEach(item => {
+                         // Basic check for valid item structure
+                         if (!item || !item.sentiment || !item.planData || !item.timestamp) {
+                             console.warn("Item de histórico inválido encontrado:", item);
+                             return; // Skip invalid items
+                         }
+
+                         const li = document.createElement('a');
+                         li.href = '#';
+                         li.className = 'list-group-item list-group-item-action flex-column align-items-start';
+                         const date = new Date(item.timestamp);
+
+                         li.innerHTML = `
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">${item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}</h5>
+                                <small>${date.toLocaleDateString('pt-BR')} ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</small>
+                            </div>
+                            <small class="text-muted">Clique para visualizar o plano gerado.</small>
+                         `;
+
+                         li.onclick = (e) => {
+                             e.preventDefault();
+                             currentSentiment = item.sentiment;
+                             showScreen('planScreen');
+                             planTitle.textContent = item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1);
+                             displayPlan(item.planData, item.sentiment); // Pass sentiment
+                         };
+                         historyList.appendChild(li);
+                     });
+                 } catch (error) {
+                     console.error("Erro ao carregar histórico:", error);
+                     historyList.innerHTML = '<li class="list-group-item text-danger">Erro ao carregar o histórico.</li>';
+                 }
+            }
+
+            // Favorites Screen Functionality
+            async function showFavorites() {
+                 showScreen('favoritesScreen');
+                 favoritesList.innerHTML = ''; // Clear previous list
+                 favoritesEmptyMessage.classList.add('d-none'); // Hide empty message initially
+
+                 // Ensure favorites are loaded (might be called before initial load finishes)
+                 if (!favorites || favorites.length === 0) {
+                     await loadFavoritesFromDB(); // Try loading again just in case
+                 }
+
+
+                 if (favorites.length === 0) {
+                     favoritesEmptyMessage.classList.remove('d-none'); // Show if no favorites
+                     return;
+                 }
+
+                 // Sort favorites by date added, newest first (optional)
+                 favorites.sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+
+                 favorites.forEach(fav => {
+                     if (!fav || !fav.id || !fav.activityId || !fav.title || !fav.text) {
+                        console.warn("Item favorito inválido encontrado:", fav);
+                        return; // Skip malformed favorite items
+                     }
+
+                     const li = document.createElement('div');
+                     li.className = 'list-group-item list-group-item-action flex-column align-items-start mb-2 border rounded p-3'; // Style item
+
+                     const addedDate = fav.addedAt ? new Date(fav.addedAt) : null;
+                     const dateString = addedDate ? addedDate.toLocaleDateString('pt-BR') : 'Data indisponível';
+
+                      // Extract sentiment and day from activityId if possible (format: sentiment-dayKey-activity-index)
+                     let sentimentFromId = 'Desconhecido';
+                     let dayFromId = '';
+                     const parts = fav.activityId.split('-');
+                     if (parts.length >= 2) {
+                        sentimentFromId = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+                        dayFromId = formatDay(parts[1]); // Format day name
+                     }
+
+
+                     li.innerHTML = `
+                         <div class="d-flex w-100 justify-content-between">
+                             <h5 class="mb-1">${sanitize(fav.title)}</h5>
+                             <small class="text-muted">${dateString}</small>
+                         </div>
+                         <p class="mb-1">${sanitize(fav.text)}</p>
+                         <div class="d-flex justify-content-between align-items-center mt-2">
+                             <small class="text-muted">Origem: ${sentimentFromId} - ${dayFromId}</small>
+                             <button class="btn btn-sm btn-outline-danger remove-favorite-btn" data-favorite-db-id="${fav.id}" title="Remover Favorito"><i class="bi bi-trash"></i></button>
+                         </div>
+                     `;
+
+                      // Add event listener specifically for the remove button on this item
+                     const removeBtn = li.querySelector('.remove-favorite-btn');
+                     if(removeBtn) {
+                        removeBtn.addEventListener('click', async (e) => {
+                            e.stopPropagation(); // Prevent triggering other clicks if nested
+                            const dbIdToRemove = parseInt(removeBtn.dataset.favoriteDbId, 10);
+                            if (!isNaN(dbIdToRemove)) {
+                                try {
+                                    await deleteData(FAVORITES_STORE, dbIdToRemove);
+                                    // Remove from local array and refresh display
+                                    favorites = favorites.filter(f => f.id !== dbIdToRemove);
+                                    showFavorites(); // Re-render the list
+                                    console.log(`Favorito com ID ${dbIdToRemove} removido.`);
+                                     // Also update button state if the original activity is currently visible on planScreen
+                                    const activityElement = planContainer.querySelector(`.activity-item[data-activity-id="${fav.activityId}"] .favorite-btn`);
+                                    if (activityElement) {
+                                         updateFavoriteButtonState(activityElement, fav.activityId);
+                                    }
+                                } catch (error) {
+                                    console.error(`Erro ao remover favorito ID ${dbIdToRemove}:`, error);
+                                    alert("Erro ao remover favorito.");
+                                }
+                            }
+                        });
+                     }
+
+                     favoritesList.appendChild(li);
+                 });
+            }
+
+
+            // --- Event Listeners ---
+             // Ensure video loops (using JS as requested for certainty)
+            if (bgVideo) {
+                bgVideo.addEventListener('ended', () => {
+                    console.log("Video ended, restarting.");
+                    bgVideo.currentTime = 0;
+                    bgVideo.play().catch(error => {
+                         // Autoplay might be blocked initially by browser policy
+                         console.warn("Could not restart video programmatically:", error);
+                    });
                 });
-            }
-            function showFavorites() {
-                showScreen('favoritesScreen');
-                favoritesList.innerHTML = '';
-                favoritesEmptyMessage.classList.remove('d-none');
+                 // Attempt to play initially in case autoplay attribute fails
+                 bgVideo.play().catch(error => {
+                     console.warn("Initial video autoplay failed:", error);
+                     // Browsers often require user interaction to start media with sound.
+                     // Since it's muted, this might still work, but good to log.
+                 });
             }
 
-            // Event Listeners
-            document.getElementById('homeLink').addEventListener('click', (e) => {
-                e.preventDefault();
-                backToHome();
+
+            // Navbar and Screen Navigation Buttons
+            document.getElementById('homeLink')?.addEventListener('click', (e) => { e.preventDefault(); backToHome(); });
+            document.getElementById('settingsBtn')?.addEventListener('click', () => showScreen('settingsScreen'));
+            document.getElementById('saveApiKeyBtn')?.addEventListener('click', saveApiKey);
+            document.getElementById('backToHomeBtn')?.addEventListener('click', backToHome);
+            document.getElementById('backToHomeHistoryBtn')?.addEventListener('click', backToHome);
+            document.getElementById('backToHomeFavoritesBtn')?.addEventListener('click', backToHome);
+            document.getElementById('backToAppBtn')?.addEventListener('click', () => {
+                 // Go back to the last relevant screen (plan if generated, else home)
+                 showScreen(currentSentiment ? 'planScreen' : 'homeScreen');
             });
-            document.getElementById('settingsBtn').addEventListener('click', () => showScreen('settingsScreen'));
-            document.getElementById('saveApiKeyBtn').addEventListener('click', saveApiKey);
-            document.getElementById('backToHomeBtn').addEventListener('click', backToHome);
-            document.getElementById('backToHomeHistoryBtn').addEventListener('click', backToHome);
-            document.getElementById('backToHomeFavoritesBtn').addEventListener('click', backToHome);
-            document.getElementById('backToAppBtn').addEventListener('click', () => showScreen(currentSentiment ? 'planScreen' : 'homeScreen'));
-            document.getElementById('historyBtn').addEventListener('click', showHistory);
-            document.getElementById('favoritesBtn').addEventListener('click', showFavorites);
-            document.getElementById('searchBtn').addEventListener('click', generateCustomPlan);
+            document.getElementById('historyBtn')?.addEventListener('click', showHistory);
+            document.getElementById('favoritesBtn')?.addEventListener('click', showFavorites);
+
+            // Sentiment Input/Button
+            document.getElementById('searchBtn')?.addEventListener('click', generateCustomPlan);
+            sentimentInput?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent potential form submission
+                    generateCustomPlan();
+                }
+            });
+
+            // Sentiment Preset Buttons
             document.querySelectorAll('.sentiment-btn').forEach(button => {
-                button.addEventListener('click', () => generatePlan(button.dataset.sentiment));
-            });
-            sentimentInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') generateCustomPlan();
+                button.addEventListener('click', () => {
+                    const sentiment = button.dataset.sentiment;
+                    if (sentiment) {
+                        sentimentInput.value = sentiment; // Optional: update input field
+                        generatePlan(sentiment);
+                    }
+                });
             });
 
-            // Initial Setup
-            showScreen('homeScreen');
-            console.log('generatePlan defined:', typeof generatePlan);
-            console.log('showHistory defined:', typeof showHistory);
-            console.log('saveApiKey defined:', typeof saveApiKey);
+            // --- Initial Setup ---
+            showScreen('homeScreen'); // Start on the home screen
+            // Load initial data (API Key, Favorites) - happens via DB onsuccess callbacks
+            console.log('Initial setup complete. Waiting for DB...');
+
         } catch (e) {
-            console.error('Script error:', e);
-            alert('Erro ao carregar a aplicação. Verifique o console para detalhes.');
+            console.error('Erro fatal no script principal:', e);
+            alert(`Ocorreu um erro crítico ao carregar a aplicação: ${e.message}. Por favor, recarregue a página ou verifique o console do navegador.`);
+             // Fallback: ensure home screen is somewhat visible
+             document.getElementById('homeScreen')?.classList.remove('d-none');
+             document.body.classList.add('video-background-active');
         }
     </script>
+
 </body>
 </html>
