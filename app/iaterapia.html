@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano Terapêutico Personalizado</title>
+    <!-- CSS Links (Bootstrap, Fonts, Icons) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Embedded CSS -->
+    <style>
+        /* Estilos CSS completos (sem alterações nesta versão) */
+        :root{--primary:#4F46E5;--secondary:#6366F1;--accent:#C7D2FE;--bg-light:#F9FAFB;--text-dark:#1F2937;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--info:#3B82F6;--light:#F3F4F6;--white:#FFFFFF;--border-color:#E5E7EB;}body{font-family:'Inter',sans-serif;background-color:var(--bg-light);color:var(--text-dark);min-height:100vh;display:flex;flex-direction:column;}.navbar{background:var(--primary)!important;box-shadow:0 2px 4px rgba(0,0,0,0.1);}.navbar-brand{font-weight:600;color:var(--white)!important;}.nav-link{color:var(--white)!important;}.settings-btn{background-color:rgba(255,255,255,0.2);border:none;color:var(--white);padding:0.375rem 0.75rem;border-radius:0.375rem;transition:background-color 0.3s ease;}.settings-btn:hover{background-color:rgba(255,255,255,0.3);}#app{flex-grow:1;}#homeScreen h2{color:var(--primary);font-weight:600;}.search-container{position:relative;max-width:500px;margin:0 auto 2.5rem auto;}.search-container input[type="text"]{width:100%;padding:0.85rem 1.2rem;border-radius:50px;border:1px solid var(--border-color);font-size:1rem;padding-right:3.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:border-color 0.3s ease,box-shadow 0.3s ease;}.search-container input[type="text"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);outline:none;}.search-container button{position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:var(--primary);border:none;color:var(--white);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;transition:background-color 0.3s ease;}.search-container button:hover{background-color:var(--secondary);}.search-container button i{font-size:1.1rem;}.sentiment-btn{background-color:var(--white);color:var(--primary);border:1px solid var(--accent);transition:all 0.3s ease;border-radius:0.75rem;font-weight:600;box-shadow:0 2px 4px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;text-align:center;height:100%;padding:1rem 0.5rem;}.sentiment-btn:hover{transform:translateY(-3px);box-shadow:0 6px 12px rgba(79,70,229,0.15);background-color:var(--accent);color:var(--primary);border-color:var(--secondary);}.sentiment-btn i{margin-right:0.5rem;font-size:1.2rem;}#planScreen h2{color:var(--primary);font-weight:600;}.plan-card{background:var(--white);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);overflow:hidden;}.day-header{border-bottom:2px solid var(--accent);padding-bottom:0.75rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;}.day-number{font-weight:600;font-size:1.2rem;color:var(--primary);}.activity-item{padding:1.25rem;margin:0;border-left:5px solid var(--secondary);background-color:var(--light);border-radius:0.5rem;position:relative;}.activity-item h5{font-weight:600;color:var(--text-dark);margin-bottom:0.25rem;}.activity-item p{color:#4B5563;margin-bottom:1rem;font-size:0.95rem;line-height:1.6;}.activity-details{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;}.badge{padding:0.4em 0.8em;font-size:0.8rem;font-weight:600;display:inline-flex;align-items:center;border-radius:50px;}.badge i{margin-right:0.3rem;}.badge-category{background-color:var(--secondary);color:var(--white);}.badge-duration{background-color:var(--info);color:var(--white);}.badge-benefit{background-color:var(--success);color:var(--white);}.intensity-badge{font-size:0.85rem;padding:0.3rem 0.7rem;border-radius:5px;color:var(--white);}.intensity-leve{background-color:var(--success);}.intensity-média{background-color:var(--warning);color:var(--text-dark);}.intensity-profunda{background-color:var(--danger);}#settingsScreen h2{color:var(--primary);font-weight:600;}.settings-card{background:var(--white);border-radius:1rem;padding:2rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);}.settings-card .form-label{font-weight:600;margin-bottom:0.5rem;}.settings-card .form-control{background-color:var(--white);cursor:text;}.settings-card .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);}.settings-card .text-muted{font-size:0.9rem;margin-top:0.5rem;margin-bottom:1.5rem;}.settings-card .btn-primary{background-color:var(--primary);border-color:var(--primary);font-weight:600;}.settings-card .btn-primary:hover{background-color:var(--secondary);border-color:var(--secondary);}.btn-secondary{background-color:#6B7280;border-color:#6B7280;color:var(--white);}.btn-secondary:hover{background-color:#4B5563;border-color:#4B5563;}.btn-outline-primary{color:var(--primary);border-color:var(--primary);font-weight:600;}.btn-outline-primary:hover{background-color:var(--primary);color:var(--white);}#loadingIndicator{display:none;text-align:center;padding:2rem;color:var(--primary);}.spinner-border{width:3rem;height:3rem;color:var(--primary);}@media (max-width:768px){.sentiment-btn{font-size:0.9rem;padding:0.8rem 0.4rem;}.activity-details{font-size:0.8rem;}#planScreen h2{font-size:1.5rem;}.plan-card{padding:1rem;}.activity-item{padding:1rem;}}@media (max-width:576px){.search-container{max-width:90%;}.sentiment-btn{font-size:0.85rem;padding:0.7rem 0.3rem;}.sentiment-btn i{font-size:1rem;margin-right:0.3rem;}.day-header{flex-direction:column;align-items:flex-start;gap:0.25rem;}.activity-details .badge{padding:0.3em 0.6em;font-size:0.75rem;}}
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" onclick="backToHome(); return false;">
+                <i class="bi bi-heart-pulse-fill me-2"></i>Plano Terapêutico Pessoal
+            </a>
+            <button class="settings-btn" id="settingsBtn" aria-label="Configurações">
+                <i class="bi bi-gear-fill"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main App Container -->
+    <div class="container py-4" id="app">
+        <!-- Tela Inicial -->
+        <div id="homeScreen">
+            <h2 class="mb-4 text-center">Como você está se sentindo hoje?</h2>
+            <div class="search-container mb-5">
+                <input type="text" id="sentimentInput" placeholder="Digite um sentimento (ex: sobrecarga, gratidão...)" aria-label="Digite seu sentimento">
+                <button onclick="generateCustomPlan()" aria-label="Gerar plano para sentimento digitado">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+            <h3 class="text-center mb-4" style="font-weight: 400; color: var(--text-dark);">Ou escolha uma opção:</h3>
+            <div class="row g-3 justify-content-center">
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('ansiedade')"><i class="bi bi-wind"></i> Ansiedade</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('estresse')"><i class="bi bi-lightning-charge-fill"></i> Estresse</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('tristeza')"><i class="bi bi-cloud-drizzle"></i> Tristeza</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('cansaço')"><i class="bi bi-battery-half"></i> Cansaço</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('motivação')"><i class="bi bi-rocket-takeoff-fill"></i> Motivação</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('foco')"><i class="bi bi-bullseye"></i> Foco</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('gratidão')"><i class="bi bi-brightness-high-fill"></i> Gratidão</button></div>
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('autoconhecimento')"><i class="bi bi-search-heart"></i> Autoconhecimento</button></div>
+            </div>
+        </div>
+
+        <!-- Tela de Plano -->
+        <div id="planScreen" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Seu Plano Semanal para <span id="planTitle" style="color: var(--secondary);"></span></h2>
+                <button class="btn btn-outline-primary" onclick="backToHome()">
+                    <i class="bi bi-arrow-left me-1"></i> Voltar
+                </button>
+            </div>
+            <div id="loadingIndicator">
+                <div class="spinner-border" role="status"><span class="visually-hidden">Gerando...</span></div>
+                <p class="mt-2">Gerando seu plano personalizado...</p>
+            </div>
+            <div id="planContainer"></div>
+        </div>
+
+        <!-- Tela de Configurações -->
+        <div id="settingsScreen" class="d-none">
+             <div class="d-flex justify-content-between align-items-center mb-4">
+                 <h2 class="mb-0">Configurações</h2>
+                  <button class="btn btn-outline-primary" onclick="backToApp()">
+                      <i class="bi bi-arrow-left me-1"></i> Voltar
+                  </button>
+             </div>
+            <div class="settings-card p-4">
+                <div class="mb-3">
+                    <label for="apiKeyInput" class="form-label">Chave da API Gemini</label>
+                    <input type="password" class="form-control" id="apiKeyInput" placeholder="Cole sua chave API aqui">
+                </div>
+                <p class="text-muted">
+                    Insira sua própria chave da API Google Gemini (obtida no Google AI Studio) para usar o aplicativo. A chave será salva localmente no seu navegador.
+                    <strong class="d-block mt-1">Segurança:</strong> Chaves API são sensíveis. Não compartilhe este arquivo com sua chave preenchida publicamente.
+                </p>
+                 <button class="btn btn-primary" onclick="saveApiKey()">
+                     <i class="bi bi-save me-1"></i> Salvar Chave
+                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        // --- Constants and State ---
+        // Mantendo v1beta e gemini-1.5-flash-latest conforme última tentativa
+        const API_ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+        const MODEL_NAME = 'gemini-1.5-flash-latest';
+        const DEFAULT_API_KEY = "";
+        let currentScreen = 'home';
+        let currentSentiment = null;
+
+        // DOM Elements (sem alterações)
+        const homeScreen = document.getElementById('homeScreen');
+        const planScreen = document.getElementById('planScreen');
+        const settingsScreen = document.getElementById('settingsScreen');
+        const planTitle = document.getElementById('planTitle');
+        const planContainer = document.getElementById('planContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const sentimentInput = document.getElementById('sentimentInput');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+
+        // --- IndexedDB Setup (sem alterações) ---
+        const DB_NAME = "TherapyPlannerDB", DB_VERSION = 1;
+        const PLAN_STORE = "plans", SETTINGS_STORE = "settings";
+        let db;
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = function(event) {
+            console.log("IndexedDB upgrade needed");
+            db = event.target.result;
+            if (!db.objectStoreNames.contains(PLAN_STORE)) { db.createObjectStore(PLAN_STORE, { keyPath: "sentiment" }); }
+            if (!db.objectStoreNames.contains(SETTINGS_STORE)) { db.createObjectStore(SETTINGS_STORE, { keyPath: "id" }); }
+        };
+        request.onsuccess = function(event) { db = event.target.result; console.log("IndexedDB opened."); loadApiKeyFromDB(); };
+        request.onerror = function(event) { console.error("IndexedDB error:", event.target.error); alert("Erro IndexedDB."); apiKeyInput.value = DEFAULT_API_KEY; };
+
+        // --- IndexedDB Helper Functions (sem alterações) ---
+        function saveData(storeName, data) { if (!db) { return Promise.reject("DB not initialized"); } return new Promise((resolve, reject) => { try { const t = db.transaction(storeName, "readwrite"), s = t.objectStore(storeName), r = s.put(data); r.onsuccess = () => { console.log(`Saved ${data.id || data.sentiment}`); resolve(); }; r.onerror = (e) => { console.error(`Save Error:`, e.target.error); reject(e.target.error); }; } catch (err) { console.error(`Transaction Error:`, err); reject(err); } }); }
+        function getData(storeName, key) { if (!db) { return Promise.resolve(null); } return new Promise((resolve) => { try { const t = db.transaction(storeName, "readonly"), s = t.objectStore(storeName), r = s.get(key); r.onsuccess = () => { resolve(r.result ? r.result : null); }; r.onerror = (e) => { console.error(`Get Error:`, e.target.error); resolve(null); }; } catch (err) { console.error(`Read Transaction Error:`, err); resolve(null); } }); }
+
+        // --- API Key Management (sem alterações) ---
+        async function loadApiKeyFromDB() { const d = await getData(SETTINGS_STORE, "apiKey"); if (d && d.value) { apiKeyInput.value = d.value; console.log("API Key loaded."); } else { apiKeyInput.value = DEFAULT_API_KEY; console.log("No API Key found."); } }
+        async function saveApiKey() { const k = apiKeyInput.value.trim(); if (k) { try { await saveData(SETTINGS_STORE, { id: "apiKey", value: k }); alert('Chave salva!'); console.log("API Key saved."); } catch (e) { alert('Erro ao salvar chave.'); console.error("Save key error:", e); } } else { try { if(db){ db.transaction(SETTINGS_STORE, "readwrite").objectStore(SETTINGS_STORE).delete("apiKey"); alert('Chave removida.'); console.log("API Key cleared."); } else { alert("Erro: DB indisponível."); } } catch (e) { alert('Erro ao remover chave.'); console.error("Delete key error:", e); } } }
+
+        // --- Navigation / Screen Management (sem alterações) ---
+        function showScreen(screenId) { homeScreen.classList.add('d-none'); planScreen.classList.add('d-none'); settingsScreen.classList.add('d-none'); loadingIndicator.style.display = 'none'; const s = document.getElementById(screenId); if(s){ s.classList.remove('d-none'); currentScreen = screenId; } else { homeScreen.classList.remove('d-none'); currentScreen = 'home'; } window.scrollTo(0, 0); }
+        function backToHome() { showScreen('homeScreen'); currentSentiment = null; sentimentInput.value = ''; }
+        function showSettings() { showScreen('settingsScreen'); }
+        function backToApp() { showScreen(currentSentiment ? 'planScreen' : 'homeScreen'); }
+
+        // --- Plan Generation and Display (sem alterações na estrutura geral) ---
+        async function generatePlan(sentiment) { if (!sentiment?.trim()) { alert('Sentimento inválido.'); return; } sentiment = sentiment.trim().toLowerCase(); currentSentiment = sentiment; const apiKey = apiKeyInput.value.trim(); if (!apiKey) { alert("Insira a chave API nas Configurações (⚙️)."); showSettings(); return; } console.log(`Generating plan for: ${sentiment}`); showScreen('planScreen'); planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1); planContainer.innerHTML = ''; loadingIndicator.style.display = 'block'; try { const cachedPlanData = await getData(PLAN_STORE, sentiment); if (cachedPlanData?.plan) { console.log("Plan cache hit."); displayPlan(cachedPlanData.plan); } else { console.log("Plan cache miss. Fetching from API..."); await fetchGeminiPlan(sentiment, apiKey); } } catch (error) { console.error("generatePlan error:", error); planContainer.innerHTML = `<div class="alert alert-danger">Erro ao gerar plano: ${error.message || error}</div>`; loadingIndicator.style.display = 'none'; } }
+        function generateCustomPlan() { const s = sentimentInput.value.trim(); generatePlan(s); }
+
+        // fetchGeminiPlan com a lógica de parse JSON robusta
+        async function fetchGeminiPlan(sentiment, apiKey) {
+            const fullApiUrl = `${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=${apiKey}`;
+            console.log(`Fetching from: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=API_KEY_HIDDEN`);
+
+            const prompt = `Você é um assistente terapêutico especializado em bem-estar emocional. Com base no sentimento principal fornecido pelo usuário: "${sentiment}", gere um plano semanal estruturado com 7 atividades terapêuticas personalizadas. Selecione atividades práticas e baseadas em evidências psicológicas de uma ampla gama de categorias (como respiração, mindfulness, escrita emocional, criatividade, gratidão, movimento consciente, conexão social, autocuidado básico, etc.). As atividades devem ser simples de aplicar no dia a dia e adaptadas para ajudar a lidar com o sentimento de "${sentiment}". Para cada um dos 7 dias (nomeados 'dia1' a 'dia7'), forneça um objeto JSON com as seguintes chaves EXATAMENTE: "titulo": (string) Nome claro e conciso. "descricao": (string) Descrição curta e objetiva (1-2 frases). "duracao": (number) Duração estimada em minutos (apenas o número). "intensidade": (string) Nível ('leve', 'média' ou 'profunda'). "categoria": (string) Categoria principal (ex: 'Respiração', 'Mindfulness', 'Escrita', 'Criatividade', 'Gratidão', 'Movimento', 'Conexão', 'Autocuidado'). "beneficio": (string) Principal benefício emocional esperado (ex: 'Reduz ansiedade', 'Promove calma'). Restrições IMPORTANTES: Retorne APENAS o objeto JSON principal contendo as chaves 'dia1' a 'dia7'. NÃO inclua nenhuma explicação, texto adicional, markdown (como \`\`\`json). Certifique-se de que o JSON esteja perfeitamente válido. Adapte as atividades para "${sentiment}". Se for positivo (ex: 'felicidade'), sugira atividades para manter/aprofundar. Exemplo dia1: {"titulo": "Respiração Diafragmática", "descricao": "Sente-se confortavelmente...", "duracao": 5, "intensidade": "leve", "categoria": "Respiração", "beneficio": "Promove calma imediata"}. Gere o plano JSON completo.`;
+
+            console.log("Sending prompt to Gemini...");
+            let jsonStringToParse = null; // Variável para guardar a string que tentaremos parsear
+
+            try {
+                const response = await fetch(fullApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        // safetySettings, generationConfig... (opcional)
+                    })
+                });
+
+                // Tratamento de erro da resposta HTTP (sem alterações)
+                if (!response.ok) {
+                    let errorBodyText = await response.text(); let errorJson = {}; try { errorJson = JSON.parse(errorBodyText); } catch(e){ /* Ignore */ }
+                    console.error("API Error:", response.status, response.statusText, errorJson);
+                    let userMessage = `Erro da API: ${response.status} ${response.statusText}.`;
+                    if (response.status === 400) { userMessage += " Verifique a chave API ou a solicitação."; }
+                    else if (response.status === 403) { userMessage += " Permissão negada (chave/modelo)."; }
+                    else if (response.status === 404) { userMessage += ` Modelo (${MODEL_NAME}) não encontrado no endpoint (${API_ENDPOINT_BASE.includes('v1beta') ? 'v1beta' : 'v1'}).`; }
+                    else if (response.status === 429) { userMessage += " Cota excedida."; }
+                    else if (response.status >= 500) { userMessage += " Erro no servidor API."; }
+                    userMessage += ` Detalhes: ${errorBodyText}`;
+                    throw new Error(userMessage);
+                }
+
+                const data = await response.json();
+                console.log("API Response Data:", data);
+
+                // Processamento da resposta bem-sucedida
+                if (data.candidates?.[0]?.content?.parts?.[0]) {
+                    if (data.candidates[0].finishReason && data.candidates[0].finishReason !== 'STOP') {
+                        console.warn("Finish Reason:", data.candidates[0].finishReason, data.candidates[0].safetyRatings);
+                        if (data.candidates[0].safetyRatings?.some(r => r.blocked)) { throw new Error("Bloqueado por segurança."); }
+                    }
+
+                    const planText = data.candidates[0].content.parts[0].text;
+
+                    // --- INÍCIO DA LÓGICA DE PARSE ROBUSTA ---
+                    console.log("Raw plan text from API:", planText); // Log crucial
+
+                    const firstBraceIndex = planText.indexOf('{');
+                    const lastBraceIndex = planText.lastIndexOf('}');
+
+                    if (firstBraceIndex !== -1 && lastBraceIndex > firstBraceIndex) {
+                        // Extrai a string entre o primeiro '{' e o último '}'
+                        jsonStringToParse = planText.substring(firstBraceIndex, lastBraceIndex + 1);
+                        console.log("Attempting to parse extracted JSON string:", jsonStringToParse);
+                    } else {
+                        // Se não encontrar as chaves, lança um erro claro
+                        console.error("Could not find valid JSON structure starting with '{' and ending with '}' in the response.");
+                        console.error("Received Text:", planText); // Loga o texto problemático
+                        throw new Error("A resposta da API não contém uma estrutura JSON válida (não encontrou '{' e '}').");
+                    }
+                    // --- FIM DA LÓGICA DE PARSE ROBUSTA ---
+
+                    // Tenta fazer o parse da string extraída (agora dentro do try principal)
+                    const planJson = JSON.parse(jsonStringToParse); // Pode lançar erro se extraído for inválido
+
+                    // Validação básica (mesma de antes)
+                    if (!planJson || typeof planJson !== 'object' || Object.keys(planJson).length < 7 || !planJson.dia1?.titulo) {
+                        console.error("Invalid JSON structure after parsing:", planJson);
+                        throw new Error('Formato JSON inválido ou incompleto após o parse.');
+                    }
+
+                    console.log("Parsed Plan JSON:", planJson);
+                    await saveData(PLAN_STORE, { sentiment: sentiment, plan: planJson });
+                    displayPlan(planJson); // Mostra o plano e esconde o loading
+
+                } else if (data.promptFeedback?.blockReason) {
+                    console.error("Prompt blocked:", data.promptFeedback.blockReason);
+                    throw new Error(`Prompt bloqueado: ${data.promptFeedback.blockReason}`);
+                } else {
+                    console.warn("Unexpected API response format:", data);
+                    throw new Error('Resposta inesperada ou vazia da API.');
+                }
+
+            } catch (error) { // Catch para erros de fetch, parse, validação, etc.
+                console.error('fetchGeminiPlan Error:', error);
+                // Se o erro for de parse, logamos a string que falhou (se a extração funcionou)
+                if (error instanceof SyntaxError && jsonStringToParse) {
+                    console.error('String que causou o erro de parse:', jsonStringToParse);
+                }
+                planContainer.innerHTML = `<div class="alert alert-danger" role="alert">Falha ao gerar plano. <br><small>${error.message || error}</small></div>`;
+                loadingIndicator.style.display = 'none'; // Garante que o loading suma em caso de erro
+            }
+        }
+
+        // displayPlan function (sem alterações)
+        function displayPlan(plan) {
+             planContainer.innerHTML = '';
+             if (!plan || typeof plan !== 'object') { console.error("Invalid plan data:", plan); planContainer.innerHTML = `<div class="alert alert-warning">Dados inválidos.</div>`; loadingIndicator.style.display = 'none'; return; }
+             const daysOrder = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5', 'dia6', 'dia7'];
+             daysOrder.forEach(dayKey => {
+                 if (plan[dayKey]) {
+                     const activity = plan[dayKey];
+                     if (typeof activity !== 'object' || !activity.titulo || !activity.descricao) { console.warn(`Dados inválidos ${dayKey}:`, activity); return; }
+                     const dayCard = document.createElement('div'); dayCard.className = 'plan-card';
+                     const intensityClassMap = { 'leve': 'intensity-leve', 'média': 'intensity-média', 'media': 'intensity-média', 'profunda': 'intensity-profunda' };
+                     const normalizedIntensity = activity.intensidade ? activity.intensidade.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : 'leve';
+                     const intensityClass = intensityClassMap[normalizedIntensity] || 'bg-secondary';
+                     const formattedDay = formatDay(dayKey);
+                     const sanitize = (str) => { const temp = document.createElement('div'); temp.textContent = String(str ?? ''); return temp.innerHTML; }; // Convert to string safely
+
+                     dayCard.innerHTML = `
+                         <div class="day-header">
+                             <span class="day-number">${sanitize(formattedDay)}</span>
+                             <span class="badge intensity-badge ${intensityClass}"><i class="bi bi-activity me-1"></i> ${sanitize(activity.intensidade?.charAt(0).toUpperCase() + activity.intensidade?.slice(1) || 'N/A')}</span>
+                         </div>
+                         <div class="activity-item">
+                             <h5>${sanitize(activity.titulo)}</h5>
+                             <p>${sanitize(activity.descricao)}</p>
+                             <div class="activity-details">
+                                 <span class="badge badge-category"><i class="bi bi-bookmark-fill"></i> ${sanitize(activity.categoria || 'N/A')}</span>
+                                 <span class="badge badge-duration"><i class="bi bi-clock-fill"></i> ${sanitize(activity.duracao || 'N/A')} min</span>
+                                 <span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill"></i> ${sanitize(activity.beneficio || 'N/A')}</span>
+                             </div>
+                         </div>`;
+                     planContainer.appendChild(dayCard);
+                 } else { console.warn(`Data for ${dayKey} not found.`); }
+             });
+             loadingIndicator.style.display = 'none'; // Esconde o loading após exibir
+        }
+
+        // formatDay function (sem alterações)
+        function formatDay(dayKey) { const days = { 'dia1': 'Segunda', 'dia2': 'Terça', 'dia3': 'Quarta', 'dia4': 'Quinta', 'dia5': 'Sexta', 'dia6': 'Sábado', 'dia7': 'Domingo' }; return days[dayKey] || dayKey; }
+
+        // --- Event Listeners (sem alterações) ---
+        document.getElementById('settingsBtn').addEventListener('click', showSettings);
+        sentimentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') generateCustomPlan(); });
+
+        // --- Initial Setup ---
+        showScreen('homeScreen');
+
+    </script>
+
+</body>
+</html>
