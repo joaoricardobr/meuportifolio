@@ -10,29 +10,40 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Embedded CSS -->
     <style>
-        /* Estilos CSS completos (sem alterações nesta versão) */
-        :root{--primary:#4F46E5;--secondary:#6366F1;--accent:#C7D2FE;--bg-light:#F9FAFB;--text-dark:#1F2937;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--info:#3B82F6;--light:#F3F4F6;--white:#FFFFFF;--border-color:#E5E7EB;}body{font-family:'Inter',sans-serif;background-color:var(--bg-light);color:var(--text-dark);min-height:100vh;display:flex;flex-direction:column;}.navbar{background:var(--primary)!important;box-shadow:0 2px 4px rgba(0,0,0,0.1);}.navbar-brand{font-weight:600;color:var(--white)!important;}.nav-link{color:var(--white)!important;}.settings-btn{background-color:rgba(255,255,255,0.2);border:none;color:var(--white);padding:0.375rem 0.75rem;border-radius:0.375rem;transition:background-color 0.3s ease;}.settings-btn:hover{background-color:rgba(255,255,255,0.3);}#app{flex-grow:1;}#homeScreen h2{color:var(--primary);font-weight:600;}.search-container{position:relative;max-width:500px;margin:0 auto 2.5rem auto;}.search-container input[type="text"]{width:100%;padding:0.85rem 1.2rem;border-radius:50px;border:1px solid var(--border-color);font-size:1rem;padding-right:3.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:border-color 0.3s ease,box-shadow 0.3s ease;}.search-container input[type="text"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);outline:none;}.search-container button{position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:var(--primary);border:none;color:var(--white);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;transition:background-color 0.3s ease;}.search-container button:hover{background-color:var(--secondary);}.search-container button i{font-size:1.1rem;}.sentiment-btn{background-color:var(--white);color:var(--primary);border:1px solid var(--accent);transition:all 0.3s ease;border-radius:0.75rem;font-weight:600;box-shadow:0 2px 4px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;text-align:center;height:100%;padding:1rem 0.5rem;}.sentiment-btn:hover{transform:translateY(-3px);box-shadow:0 6px 12px rgba(79,70,229,0.15);background-color:var(--accent);color:var(--primary);border-color:var(--secondary);}.sentiment-btn i{margin-right:0.5rem;font-size:1.2rem;}#planScreen h2{color:var(--primary);font-weight:600;}.plan-card{background:var(--white);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);overflow:hidden;}.day-header{border-bottom:2px solid var(--accent);padding-bottom:0.75rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;}.day-number{font-weight:600;font-size:1.2rem;color:var(--primary);}.activity-item{padding:1.25rem;margin:0;border-left:5px solid var(--secondary);background-color:var(--light);border-radius:0.5rem;position:relative;}.activity-item h5{font-weight:600;color:var(--text-dark);margin-bottom:0.25rem;}.activity-item p{color:#4B5563;margin-bottom:1rem;font-size:0.95rem;line-height:1.6;}.activity-details{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;}.badge{padding:0.4em 0.8em;font-size:0.8rem;font-weight:600;display:inline-flex;align-items:center;border-radius:50px;}.badge i{margin-right:0.3rem;}.badge-category{background-color:var(--secondary);color:var(--white);}.badge-duration{background-color:var(--info);color:var(--white);}.badge-benefit{background-color:var(--success);color:var(--white);}.intensity-badge{font-size:0.85rem;padding:0.3rem 0.7rem;border-radius:5px;color:var(--white);}.intensity-leve{background-color:var(--success);}.intensity-média{background-color:var(--warning);color:var(--text-dark);}.intensity-profunda{background-color:var(--danger);}#settingsScreen h2{color:var(--primary);font-weight:600;}.settings-card{background:var(--white);border-radius:1rem;padding:2rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);}.settings-card .form-label{font-weight:600;margin-bottom:0.5rem;}.settings-card .form-control{background-color:var(--white);cursor:text;}.settings-card .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);}.settings-card .text-muted{font-size:0.9rem;margin-top:0.5rem;margin-bottom:1.5rem;}.settings-card .btn-primary{background-color:var(--primary);border-color:var(--primary);font-weight:600;}.settings-card .btn-primary:hover{background-color:var(--secondary);border-color:var(--secondary);}.btn-secondary{background-color:#6B7280;border-color:#6B7280;color:var(--white);}.btn-secondary:hover{background-color:#4B5563;border-color:#4B5563;}.btn-outline-primary{color:var(--primary);border-color:var(--primary);font-weight:600;}.btn-outline-primary:hover{background-color:var(--primary);color:var(--white);}#loadingIndicator{display:none;text-align:center;padding:2rem;color:var(--primary);}.spinner-border{width:3rem;height:3rem;color:var(--primary);}
-        /* Estilo adicional para o aviso */
-        .disclaimer {
-            color: var(--danger); /* Usa a variável de cor vermelha */
-            font-weight: bold;
-            padding: 1rem;
-            background-color: #FEE2E2; /* Fundo vermelho claro (Red-100) */
-            border: 1px solid var(--danger);
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .plan-introduction, .plan-closing {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background-color: var(--white);
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            font-style: italic;
-            color: var(--text-dark);
-        }
-        @media (max-width:768px){.sentiment-btn{font-size:0.9rem;padding:0.8rem 0.4rem;}.activity-details{font-size:0.8rem;}#planScreen h2{font-size:1.5rem;}.plan-card{padding:1rem;}.activity-item{padding:1rem;}}@media (max-width:576px){.search-container{max-width:90%;}.sentiment-btn{font-size:0.85rem;padding:0.7rem 0.3rem;}.sentiment-btn i{font-size:1rem;margin-right:0.3rem;}.day-header{flex-direction:column;align-items:flex-start;gap:0.25rem;}.activity-details .badge{padding:0.3em 0.6em;font-size:0.75rem;}}
+        :root{--primary:#4F46E5;--secondary:#6366F1;--accent:#C7D2FE;--bg-light:#F9FAFB;--text-dark:#1F2937;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--info:#3B82F6;--light:#F3F4F6;--white:#FFFFFF;--border-color:#E5E7EB;--favorite:#FFD700; /* Gold color */ }body{font-family:'Inter',sans-serif;background-color:var(--bg-light);color:var(--text-dark);min-height:100vh;display:flex;flex-direction:column;}.navbar{background:var(--primary)!important;box-shadow:0 2px 4px rgba(0,0,0,0.1);}.navbar-brand{font-weight:600;color:var(--white)!important;}.nav-link{color:var(--white)!important;}.settings-btn,.nav-link-custom{background-color:rgba(255,255,255,0.2);border:none;color:var(--white);padding:0.375rem 0.75rem;border-radius:0.375rem;transition:background-color 0.3s ease;margin-left: 0.5rem;}.settings-btn:hover,.nav-link-custom:hover{background-color:rgba(255,255,255,0.3);}#app{flex-grow:1;}#homeScreen h2{color:var(--primary);font-weight:600;}.search-container{position:relative;max-width:500px;margin:0 auto 2.5rem auto;}.search-container input[type="text"]{width:100%;padding:0.85rem 1.2rem;border-radius:50px;border:1px solid var(--border-color);font-size:1rem;padding-right:3.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:border-color 0.3s ease,box-shadow 0.3s ease;}.search-container input[type="text"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);outline:none;}.search-container button{position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:var(--primary);border:none;color:var(--white);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;transition:background-color 0.3s ease;}.search-container button:hover{background-color:var(--secondary);}.search-container button i{font-size:1.1rem;}.sentiment-btn{background-color:var(--white);color:var(--primary);border:1px solid var(--accent);transition:all 0.3s ease;border-radius:0.75rem;font-weight:600;box-shadow:0 2px 4px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:center;text-align:center;height:100%;padding:1rem 0.5rem;}.sentiment-btn:hover{transform:translateY(-3px);box-shadow:0 6px 12px rgba(79,70,229,0.15);background-color:var(--accent);color:var(--primary);border-color:var(--secondary);}.sentiment-btn i{margin-right:0.5rem;font-size:1.2rem;}#planScreen h2{color:var(--primary);font-weight:600;}.plan-card{background:var(--white);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);overflow:hidden;}.day-header{border-bottom:2px solid var(--accent);padding-bottom:0.75rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;}.day-number{font-weight:600;font-size:1.2rem;color:var(--primary);}.activity-item{padding:1.25rem;margin:0;border-left:5px solid var(--secondary);background-color:var(--light);border-radius:0.5rem;position:relative;}.activity-item h5{font-weight:600;color:var(--text-dark);margin-bottom:0.25rem;}.activity-item p{color:#4B5563;margin-bottom:1rem;font-size:0.95rem;line-height:1.6;}.activity-details{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;}.badge{padding:0.4em 0.8em;font-size:0.8rem;font-weight:600;display:inline-flex;align-items:center;border-radius:50px;}.badge i{margin-right:0.3rem;}.badge-category{background-color:var(--secondary);color:var(--white);}.badge-duration{background-color:var(--info);color:var(--white);}.badge-benefit{background-color:var(--success);color:var(--white);}.intensity-badge{font-size:0.85rem;padding:0.3rem 0.7rem;border-radius:5px;color:var(--white);}.intensity-leve{background-color:var(--success);}.intensity-média{background-color:var(--warning);color:var(--text-dark);}.intensity-profunda{background-color:var(--danger);}#settingsScreen h2,#historyScreen h2,#favoritesScreen h2{color:var(--primary);font-weight:600;}.settings-card{background:var(--white);border-radius:1rem;padding:2rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);}.settings-card .form-label{font-weight:600;margin-bottom:0.5rem;}.settings-card .form-control{background-color:var(--white);cursor:text;}.settings-card .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);}.settings-card .text-muted{font-size:0.9rem;margin-top:0.5rem;margin-bottom:1.5rem;}.settings-card .btn-primary{background-color:var(--primary);border-color:var(--primary);font-weight:600;}.settings-card .btn-primary:hover{background-color:var(--secondary);border-color:var(--secondary);}.btn-secondary{background-color:#6B7280;border-color:#6B7280;color:var(--white);}.btn-secondary:hover{background-color:#4B5563;border-color:#4B5563;}.btn-outline-primary{color:var(--primary);border-color:var(--primary);font-weight:600;}.btn-outline-primary:hover{background-color:var(--primary);color:var(--white);}#loadingIndicator{display:none;text-align:center;padding:2rem;color:var(--primary);}.spinner-border{width:3rem;height:3rem;color:var(--primary);}
+        /* Estilos adicionais para o aviso, intro e closing */
+        .disclaimer { color: var(--danger); font-weight: bold; padding: 1rem; background-color: #FEE2E2; border: 1px solid var(--danger); border-radius: 0.5rem; margin-bottom: 1.5rem; text-align: center; }
+        .plan-introduction, .plan-closing { margin-bottom: 1.5rem; padding: 1rem; background-color: var(--white); border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-style: italic; color: var(--text-dark); }
+
+        /* Favorite button */
+        #favoriteButton {
+             cursor: pointer;
+             font-size: 1.5rem;
+             color: var(--border-color); /* Default grey */
+             transition: color 0.2s ease;
+             margin-left: 1rem; /* Space from title */
+         }
+        #favoriteButton.favorited {
+             color: var(--favorite); /* Gold when favorited */
+         }
+        #favoriteButton:hover {
+             color: var(--favorite); /* Hover makes it gold */
+         }
+
+        /* History/Favorites List Styles */
+        .list-group-item-action {
+             cursor: pointer;
+             transition: background-color 0.2s ease;
+         }
+        .list-group-item-action:hover {
+             background-color: var(--light);
+         }
+        .list-group-item-action strong {
+             color: var(--primary);
+         }
+
+
+        @media (max-width:768px){.sentiment-btn{font-size:0.9rem;padding:0.8rem 0.4rem;}.activity-details{font-size:0.8rem;}#planScreen h2{font-size:1.5rem;}#planScreen h2 #favoriteButton{font-size:1.2rem;}.plan-card{padding:1rem;}.activity-item{padding:1rem;}}@media (max-width:576px){.search-container{max-width:90%;}.sentiment-btn{font-size:0.85rem;padding:0.7rem 0.3rem;}.sentiment-btn i{font-size:1rem;margin-right:0.3rem;}.day-header{flex-direction:column;align-items:flex-start;gap:0.25rem;}.activity-details .badge{padding:0.3em 0.6em;font-size:0.75rem;}}
     </style>
 </head>
 <body>
@@ -42,9 +53,17 @@
             <a class="navbar-brand" href="#" onclick="backToHome(); return false;">
                 <i class="bi bi-heart-pulse-fill me-2"></i>Plano Terapêutico Pessoal
             </a>
-            <button class="settings-btn" id="settingsBtn" aria-label="Configurações">
-                <i class="bi bi-gear-fill"></i>
-            </button>
+             <div class="d-flex ms-auto">
+                 <button class="nav-link-custom" onclick="showHistory()">
+                     <i class="bi bi-clock-history me-1"></i> Histórico
+                 </button>
+                 <button class="nav-link-custom" onclick="showFavorites()">
+                     <i class="bi bi-heart-fill me-1"></i> Favoritos
+                 </button>
+                 <button class="settings-btn" id="settingsBtn" aria-label="Configurações">
+                     <i class="bi bi-gear-fill"></i>
+                 </button>
+             </div>
         </div>
     </nav>
 
@@ -69,13 +88,17 @@
                  <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('foco')"><i class="bi bi-bullseye"></i> Foco</button></div>
                  <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('gratidão')"><i class="bi bi-brightness-high-fill"></i> Gratidão</button></div>
                  <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('autoconhecimento')"><i class="bi bi-search-heart"></i> Autoconhecimento</button></div>
+                 <!-- Added Joy button -->
+                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('alegria')"><i class="bi bi-brightness-alt-high"></i> Alegria</button></div>
             </div>
         </div>
 
         <!-- Tela de Plano -->
         <div id="planScreen" class="d-none">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">Seu Plano Semanal para <span id="planTitle" style="color: var(--secondary);"></span></h2>
+                <h2 class="mb-0">Seu Plano Semanal para <span id="planTitle" style="color: var(--secondary);"></span>
+                     <i id="favoriteButton" class="bi bi-heart-fill" title="Adicionar/Remover dos favoritos"></i>
+                </h2>
                 <button class="btn btn-outline-primary" onclick="backToHome()">
                     <i class="bi bi-arrow-left me-1"></i> Voltar
                 </button>
@@ -84,9 +107,37 @@
                 <div class="spinner-border" role="status"><span class="visually-hidden">Gerando...</span></div>
                 <p class="mt-2">Gerando seu plano personalizado...</p>
             </div>
-            <!-- Container para o plano completo (incluindo aviso, intro, dias, closing) -->
             <div id="planContainer"></div>
         </div>
+
+        <!-- Tela de Histórico -->
+         <div id="historyScreen" class="d-none">
+             <div class="d-flex justify-content-between align-items-center mb-4">
+                 <h2 class="mb-0">Histórico de Planos</h2>
+                  <button class="btn btn-outline-primary" onclick="backToHome()">
+                      <i class="bi bi-arrow-left me-1"></i> Voltar
+                  </button>
+             </div>
+             <div id="historyList" class="list-group">
+                 <!-- History items will be loaded here -->
+             </div>
+             <p id="historyEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum plano gerado ainda.</p>
+         </div>
+
+        <!-- Tela de Favoritos -->
+         <div id="favoritesScreen" class="d-none">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                 <h2 class="mb-0">Meus Favoritos</h2>
+                  <button class="btn btn-outline-primary" onclick="backToHome()">
+                      <i class="bi bi-arrow-left me-1"></i> Voltar
+                  </button>
+             </div>
+             <div id="favoritesList" class="list-group">
+                  <!-- Favorite items will be loaded here -->
+             </div>
+              <p id="favoritesEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum plano favoritado ainda.</p>
+         </div>
+
 
         <!-- Tela de Configurações -->
         <div id="settingsScreen" class="d-none">
@@ -116,87 +167,406 @@
     <script>
         // --- Constants and State ---
         const API_ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
-        const MODEL_NAME = 'gemini-1.5-flash-latest'; // Mantendo o modelo que funcionou
+        const MODEL_NAME = 'gemini-1.5-flash-latest';
         const DEFAULT_API_KEY = "";
         let currentScreen = 'home';
-        let currentSentiment = null;
+        let currentSentiment = null; // Stores the sentiment of the currently displayed plan
+        let currentPlanData = null; // Stores the full plan data object of the currently displayed plan
 
         // DOM Elements
         const homeScreen = document.getElementById('homeScreen');
         const planScreen = document.getElementById('planScreen');
+        const historyScreen = document.getElementById('historyScreen'); // New screen
+        const favoritesScreen = document.getElementById('favoritesScreen'); // New screen
         const settingsScreen = document.getElementById('settingsScreen');
         const planTitle = document.getElementById('planTitle');
-        const planContainer = document.getElementById('planContainer'); // Container geral do plano
+        const planContainer = document.getElementById('planContainer');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const sentimentInput = document.getElementById('sentimentInput');
         const apiKeyInput = document.getElementById('apiKeyInput');
+        const favoriteButton = document.getElementById('favoriteButton'); // Favorite button
+        const historyList = document.getElementById('historyList'); // History list container
+        const historyEmptyMessage = document.getElementById('historyEmptyMessage');
+        const favoritesList = document.getElementById('favoritesList'); // Favorites list container
+        const favoritesEmptyMessage = document.getElementById('favoritesEmptyMessage');
 
-        // --- IndexedDB Setup (sem alterações) ---
-        const DB_NAME = "TherapyPlannerDB", DB_VERSION = 1;
-        const PLAN_STORE = "plans", SETTINGS_STORE = "settings";
+
+        // --- IndexedDB Setup ---
+        const DB_NAME = "TherapyPlannerDB";
+        const DB_VERSION = 2; // Increment version for schema changes
+        const PLAN_STORE = "plans";
+        const SETTINGS_STORE = "settings";
         let db;
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = function(event) { console.log("DB upgrade"); db = event.target.result; if (!db.objectStoreNames.contains(PLAN_STORE)) { db.createObjectStore(PLAN_STORE, { keyPath: "sentiment" }); } if (!db.objectStoreNames.contains(SETTINGS_STORE)) { db.createObjectStore(SETTINGS_STORE, { keyPath: "id" }); } };
-        request.onsuccess = function(event) { db = event.target.result; console.log("DB opened."); loadApiKeyFromDB(); };
-        request.onerror = function(event) { console.error("DB error:", event.target.error); alert("Erro DB."); apiKeyInput.value = DEFAULT_API_KEY; };
 
-        // --- IndexedDB Helper Functions (sem alterações) ---
-        function saveData(storeName, data) { if (!db) { return Promise.reject("DB not initialized"); } return new Promise((resolve, reject) => { try { const t = db.transaction(storeName, "readwrite"), s = t.objectStore(storeName), r = s.put(data); r.onsuccess = () => { console.log(`Saved ${data.id || data.sentiment}`); resolve(); }; r.onerror = (e) => { console.error(`Save Error:`, e.target.error); reject(e.target.error); }; } catch (err) { console.error(`Transaction Error:`, err); reject(err); } }); }
-        function getData(storeName, key) { if (!db) { return Promise.resolve(null); } return new Promise((resolve) => { try { const t = db.transaction(storeName, "readonly"), s = t.objectStore(storeName), r = s.get(key); r.onsuccess = () => { resolve(r.result ? r.result : null); }; r.onerror = (e) => { console.error(`Get Error:`, e.target.error); resolve(null); }; } catch (err) { console.error(`Read Transaction Error:`, err); resolve(null); } }); }
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onupgradeneeded = function(event) {
+            console.log("IndexedDB upgrade needed to version", event.newVersion);
+            db = event.target.result;
+
+            // Remove old store if it exists (clean slate for new structure) - Optional but safe for development
+             if (event.oldVersion < 1) { // Initial setup or upgrade from nothing
+                // No need to delete if it didn't exist or was empty
+             }
+             if (event.oldVersion < 2 && db.objectStoreNames.contains(PLAN_STORE)) {
+                  // Attempt to delete and recreate if the structure is changing fundamentally
+                  try {
+                     db.deleteObjectStore(PLAN_STORE);
+                     console.log(`Object store ${PLAN_STORE} deleted for upgrade.`);
+                  } catch (e) {
+                      console.warn(`Failed to delete old ${PLAN_STORE} store. Might have issues.`, e);
+                  }
+             }
+
+
+            // Create/Recreate PLAN_STORE with new structure (keyPath still sentiment)
+            if (!db.objectStoreNames.contains(PLAN_STORE)) {
+                 // KeyPath is still sentiment, but the *value* will include timestamp and isFavorite
+                 db.createObjectStore(PLAN_STORE, { keyPath: "sentiment" });
+                 console.log(`Object store ${PLAN_STORE} created/recreated.`);
+             }
+
+            // Create SETTINGS_STORE if it doesn't exist
+            if (!db.objectStoreNames.contains(SETTINGS_STORE)) {
+                 db.createObjectStore(SETTINGS_STORE, { keyPath: "id" });
+                 console.log(`Object store ${SETTINGS_STORE} created.`);
+             }
+
+            // Note: In this simplified history approach, we don't need a separate history store.
+            // History is implicitly derived from items in the 'plans' store.
+
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log("IndexedDB opened successfully.");
+            loadApiKeyFromDB(); // Load saved key on startup
+        };
+
+        request.onerror = function(event) {
+            console.error("IndexedDB error:", event.target.error);
+            alert("Erro ao acessar o armazenamento local (IndexedDB). Histórico, favoritos e chave API podem não ser salvos.");
+            apiKeyInput.value = DEFAULT_API_KEY; // Set to default if DB fails
+        };
+
+        // --- IndexedDB Helper Functions (Save/Get All/Delete) ---
+        function saveData(storeName, data) {
+             if (!db) { return Promise.reject("DB not initialized"); }
+             return new Promise((resolve, reject) => {
+                 try {
+                     const transaction = db.transaction(storeName, "readwrite");
+                     const store = transaction.objectStore(storeName);
+                     const request = store.put(data);
+                     request.onsuccess = () => { console.log(`Saved ${data.id || data.sentiment}`); resolve(); };
+                     request.onerror = (e) => { console.error(`Save Error:`, e.target.error); reject(e.target.error); };
+                 } catch (err) { console.error(`Transaction Error:`, err); reject(err); }
+             });
+        }
+
+        function getData(storeName, key) {
+             if (!db) { return Promise.resolve(null); }
+             return new Promise((resolve) => {
+                 try {
+                     const transaction = db.transaction(storeName, "readonly");
+                     const store = transaction.objectStore(storeName);
+                     const request = store.get(key);
+                     request.onsuccess = () => { resolve(request.result ? request.result : null); };
+                     request.onerror = (e) => { console.error(`Get Error:`, e.target.error); resolve(null); };
+                 } catch (err) { console.error(`Read Transaction Error:`, err); resolve(null); }
+             });
+        }
+
+        function getAllData(storeName) {
+             if (!db) { return Promise.resolve([]); }
+             return new Promise((resolve) => {
+                 try {
+                     const transaction = db.transaction(storeName, "readonly");
+                     const store = transaction.objectStore(storeName);
+                     const request = store.getAll();
+                     request.onsuccess = () => { resolve(request.result || []); };
+                     request.onerror = (e) => { console.error(`GetAll Error:`, e.target.error); resolve([]); };
+                 } catch (err) { console.error(`Read Transaction Error (GetAll):`, err); resolve([]); }
+             });
+        }
+
+        function deleteData(storeName, key) {
+             if (!db) { return Promise.reject("DB not initialized"); }
+              return new Promise((resolve, reject) => {
+                 try {
+                     const transaction = db.transaction(storeName, "readwrite");
+                     const store = transaction.objectStore(storeName);
+                     const request = store.delete(key);
+                     request.onsuccess = () => { console.log(`Deleted ${key} from ${storeName}`); resolve(); };
+                     request.onerror = (e) => { console.error(`Delete Error:`, e.target.error); reject(e.target.error); };
+                 } catch (err) { console.error(`Transaction Error (Delete):`, err); reject(err); }
+             });
+        }
+
 
         // --- API Key Management (sem alterações) ---
         async function loadApiKeyFromDB() { const d = await getData(SETTINGS_STORE, "apiKey"); if (d && d.value) { apiKeyInput.value = d.value; console.log("API Key loaded."); } else { apiKeyInput.value = DEFAULT_API_KEY; console.log("No API Key found."); } }
         async function saveApiKey() { const k = apiKeyInput.value.trim(); if (k) { try { await saveData(SETTINGS_STORE, { id: "apiKey", value: k }); alert('Chave salva!'); console.log("API Key saved."); } catch (e) { alert('Erro ao salvar chave.'); console.error("Save key error:", e); } } else { try { if(db){ db.transaction(SETTINGS_STORE, "readwrite").objectStore(SETTINGS_STORE).delete("apiKey"); alert('Chave removida.'); console.log("API Key cleared."); } else { alert("Erro: DB indisponível."); } } catch (e) { alert('Erro ao remover chave.'); console.error("Delete key error:", e); } } }
 
-        // --- Navigation / Screen Management (sem alterações) ---
-        function showScreen(screenId) { homeScreen.classList.add('d-none'); planScreen.classList.add('d-none'); settingsScreen.classList.add('d-none'); loadingIndicator.style.display = 'none'; const s = document.getElementById(screenId); if(s){ s.classList.remove('d-none'); currentScreen = screenId; } else { homeScreen.classList.remove('d-none'); currentScreen = 'home'; } window.scrollTo(0, 0); }
-        function backToHome() { showScreen('homeScreen'); currentSentiment = null; sentimentInput.value = ''; }
+        // --- Navigation / Screen Management ---
+        function showScreen(screenId) {
+             // Hide all main screens first
+            homeScreen.classList.add('d-none');
+            planScreen.classList.add('d-none');
+            historyScreen.classList.add('d-none'); // Hide history
+            favoritesScreen.classList.add('d-none'); // Hide favorites
+            settingsScreen.classList.add('d-none');
+            loadingIndicator.style.display = 'none';
+
+            // Show the requested screen
+            const screenToShow = document.getElementById(screenId);
+            if (screenToShow) {
+                screenToShow.classList.remove('d-none');
+                currentScreen = screenId; // Update current screen state
+            } else {
+                console.error("Screen not found:", screenId);
+                homeScreen.classList.remove('d-none'); // Fallback to home
+                currentScreen = 'home';
+            }
+            window.scrollTo(0, 0); // Scroll to top on screen change
+        }
+
+        function backToHome() { showScreen('homeScreen'); currentSentiment = null; currentPlanData = null; sentimentInput.value = ''; }
         function showSettings() { showScreen('settingsScreen'); }
+        // Back to the screen that was active before settings/history/favorites
         function backToApp() { showScreen(currentSentiment ? 'planScreen' : 'homeScreen'); }
 
-        // --- Plan Generation and Display (sem alterações na estrutura geral) ---
-        async function generatePlan(sentiment) { if (!sentiment?.trim()) { alert('Sentimento inválido.'); return; } sentiment = sentiment.trim().toLowerCase(); currentSentiment = sentiment; const apiKey = apiKeyInput.value.trim(); if (!apiKey) { alert("Insira a chave API nas Configurações (⚙️)."); showSettings(); return; } console.log(`Generating plan for: ${sentiment}`); showScreen('planScreen'); planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1); planContainer.innerHTML = ''; loadingIndicator.style.display = 'block'; try { const cachedPlanData = await getData(PLAN_STORE, sentiment); if (cachedPlanData?.plan) { console.log("Plan cache hit."); displayPlan(cachedPlanData.plan); } else { console.log("Plan cache miss. Fetching from API..."); await fetchGeminiPlan(sentiment, apiKey); } } catch (error) { console.error("generatePlan error:", error); planContainer.innerHTML = `<div class="alert alert-danger">Erro ao gerar plano: ${error.message || error}</div>`; loadingIndicator.style.display = 'none'; } }
+        // --- History and Favorites Logic ---
+
+        async function showHistory() {
+            showScreen('historyScreen');
+            historyList.innerHTML = ''; // Clear previous list
+            historyEmptyMessage.classList.add('d-none');
+
+            const allPlans = await getAllData(PLAN_STORE);
+
+            if (allPlans.length === 0) {
+                historyEmptyMessage.classList.remove('d-none');
+                return;
+            }
+
+             // Sort by timestamp newest first
+             allPlans.sort((a, b) => b.timestamp - a.timestamp);
+
+            allPlans.forEach(item => {
+                const listItem = document.createElement('a');
+                listItem.href = '#'; // Prevent page reload
+                listItem.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+                 // Format timestamp
+                 const date = new Date(item.timestamp);
+                 const formattedDate = date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR');
+
+                listItem.innerHTML = `
+                     <div>
+                         <strong>${item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}</strong>
+                         <br><small>${formattedDate}</small>
+                     </div>
+                     ${item.isFavorite ? '<i class="bi bi-heart-fill" style="color: var(--favorite);"></i>' : ''}
+                 `;
+
+                // Add click listener to load this plan
+                listItem.onclick = (e) => {
+                    e.preventDefault(); // Stop the '#' navigation
+                    // Load the plan directly from the item data
+                    console.log(`Loading plan from history for: ${item.sentiment}`);
+                    showScreen('planScreen');
+                    planTitle.textContent = item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1);
+                    displayPlan(item.planData, item.isFavorite); // Display the saved plan data
+                    currentSentiment = item.sentiment; // Set current sentiment context
+                    currentPlanData = item; // Store the full item data (needed for favoriting)
+                };
+                historyList.appendChild(listItem);
+            });
+        }
+
+        async function showFavorites() {
+            showScreen('favoritesScreen');
+            favoritesList.innerHTML = ''; // Clear previous list
+            favoritesEmptyMessage.classList.add('d-none');
+
+            const allPlans = await getAllData(PLAN_STORE);
+            const favoritePlans = allPlans.filter(item => item.isFavorite);
+
+            if (favoritePlans.length === 0) {
+                favoritesEmptyMessage.classList.remove('d-none');
+                return;
+            }
+
+             // Sort favorites by timestamp newest first (optional, but good practice)
+             favoritePlans.sort((a, b) => b.timestamp - a.timestamp);
+
+
+            favoritePlans.forEach(item => {
+                const listItem = document.createElement('a');
+                 listItem.href = '#';
+                 listItem.className = 'list-group-item list-group-item-action';
+                 const date = new Date(item.timestamp);
+                 const formattedDate = date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR');
+
+                listItem.innerHTML = `
+                     <strong>${item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}</strong>
+                     <br><small>Gerado em: ${formattedDate}</small>
+                 `;
+
+                 // Add click listener to load this favorite plan
+                listItem.onclick = (e) => {
+                    e.preventDefault();
+                    console.log(`Loading favorite plan for: ${item.sentiment}`);
+                    showScreen('planScreen');
+                    planTitle.textContent = item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1);
+                    displayPlan(item.planData, item.isFavorite); // Display the saved plan data
+                    currentSentiment = item.sentiment; // Set current sentiment context
+                    currentPlanData = item; // Store the full item data (needed for unfavoriting)
+                };
+                favoritesList.appendChild(listItem);
+            });
+        }
+
+        // Toggle Favorite status
+        async function toggleFavorite() {
+            if (!currentSentiment || !currentPlanData) {
+                console.warn("No current plan to favorite/unfavorite.");
+                return;
+            }
+
+            // Get the latest version from DB first, in case it was changed elsewhere
+            const latestPlan = await getData(PLAN_STORE, currentSentiment);
+
+            if (latestPlan) {
+                latestPlan.isFavorite = !latestPlan.isFavorite; // Toggle the status
+                await saveData(PLAN_STORE, latestPlan); // Save the updated status
+
+                // Update the UI button immediately
+                if (latestPlan.isFavorite) {
+                    favoriteButton.classList.add('favorited');
+                    favoriteButton.title = "Remover dos favoritos";
+                } else {
+                    favoriteButton.classList.remove('favorited');
+                    favoriteButton.title = "Adicionar aos favoritos";
+                }
+                 currentPlanData = latestPlan; // Update the current data state
+                console.log(`Toggled favorite for ${currentSentiment}: ${latestPlan.isFavorite}`);
+            } else {
+                 console.error(`Could not find plan data for ${currentSentiment} to toggle favorite.`);
+            }
+        }
+
+
+        // --- Plan Generation and Display ---
+        async function generatePlan(sentiment) {
+            if (!sentiment?.trim()) { alert('Sentimento inválido.'); return; }
+            sentiment = sentiment.trim().toLowerCase();
+            currentSentiment = sentiment; // Set current sentiment early
+
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                 alert("Por favor, insira sua chave da API Gemini na tela de Configurações (⚙️) antes de gerar um plano.");
+                 showSettings();
+                 return;
+            }
+
+            console.log(`Generating plan for: ${sentiment}`);
+            showScreen('planScreen');
+            planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+            planContainer.innerHTML = '';
+            loadingIndicator.style.display = 'block';
+            favoriteButton.classList.remove('favorited'); // Reset favorite button state
+            favoriteButton.onclick = null; // Remove previous handler
+            favoriteButton.style.display = 'none'; // Hide until plan is loaded/generated
+
+            try {
+                 // Try to load existing plan first (will include favorite status and timestamp)
+                const savedPlanData = await getData(PLAN_STORE, sentiment);
+
+                if (savedPlanData && savedPlanData.planData) {
+                    console.log(`Plan found in DB for ${sentiment}.`);
+                    displayPlan(savedPlanData.planData, savedPlanData.isFavorite); // Display saved plan
+                    currentPlanData = savedPlanData; // Store for favoriting
+                    favoriteButton.style.display = 'inline'; // Show favorite button
+                    favoriteButton.onclick = toggleFavorite; // Add click handler
+                } else {
+                    console.log(`No plan found in DB for ${sentiment}. Fetching from API...`);
+                    await fetchGeminiPlan(sentiment, apiKey); // Fetch and save new plan
+                    // fetchGeminiPlan will call displayPlan and set currentPlanData on success
+                }
+            } catch (error) {
+                console.error("generatePlan error:", error);
+                planContainer.innerHTML = `<div class="alert alert-danger">Erro ao gerar plano: ${error.message || error}</div>`;
+                loadingIndicator.style.display = 'none';
+                favoriteButton.style.display = 'none'; // Ensure button is hidden on error
+            }
+        }
+
         function generateCustomPlan() { const s = sentimentInput.value.trim(); generatePlan(s); }
 
-        // fetchGeminiPlan com o NOVO PROMPT MODIFICADO
+        // fetchGeminiPlan com prompts condicionais
         async function fetchGeminiPlan(sentiment, apiKey) {
             const fullApiUrl = `${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=${apiKey}`;
             console.log(`Fetching from: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=API_KEY_HIDDEN`);
 
-            // ***** NOVO PROMPT MODIFICADO *****
-            const prompt = `Você é um assistente especializado em criar conteúdo terapêutico e acolhedor para um aplicativo. Sua tarefa é gerar um plano JSON de 7 dias para lidar com o sentimento "${sentiment}" expressado pelo usuário.
-Siga EXATAMENTE a estrutura JSON abaixo, preenchendo os campos com conteúdo variado, tom empático e motivador, sem repetições excessivas.
+            // ***** PROMPTS: GERAL vs ALEGRIA *****
+            // Prompt Geral (adaptado para a nova estrutura JSON com disclaimer, intro, closing)
+            const generalPromptTemplate = (sentiment) => `Você é um assistente terapêutico especializado em bem-estar emocional para um aplicativo. Sua tarefa é gerar um plano JSON de 7 dias para lidar com o sentimento "${sentiment}" expressado pelo usuário.
+Siga EXATAMENTE a estrutura JSON abaixo, preenchendo os campos com conteúdo variado, tom empático e motivador, sem repetições excessivas. Adapte as atividades para ajudar a lidar com o sentimento de "${sentiment}".
 
 Estrutura JSON Requerida:
 {
   "disclaimer": "(string) Gere EXATAMENTE este texto de aviso: **Aviso: Este plano é uma ferramenta de apoio gerada por inteligência artificial e não substitui uma consulta médica ou psicológica. Se você está enfrentando dificuldades emocionais intensas ou persistentes, procure um profissional de saúde qualificado.**",
-  "introduction": "(string) Uma frase curta e acolhedora (1-2 frases) que valide o sentimento '${sentiment}' e introduza o plano. Exemplo para tristeza: 'Sentir tristeza é natural, e este plano vai te ajudar a cuidar de si mesmo com carinho.' Adapte para '${sentiment}'.",
+  "introduction": "(string) Uma frase curta e acolhedora (1-2 frases) que valide o sentimento '${sentiment}' e introduza o plano. Adapte para '${sentiment}'.",
   "dia1": {
     "titulo": "(string) Título curto e claro para a atividade do dia 1.",
-    "descricao": "(string) Descrição detalhada (2-4 frases) de uma atividade prática, simples e terapêutica para o dia 1, adaptada para '${sentiment}'. Use tom acolhedor, empático e motivador. Inclua o objetivo da atividade. Evite jargões. Exemplo para tristeza: 'Escreva como você se sente em um diário hoje. Não julgue, apenas deixe fluir. Isso ajuda a organizar pensamentos e aliviar o peso emocional. Você é forte!'",
+    "descricao": "(string) Descrição detalhada (2-4 frases) de uma atividade prática, simples e terapêutica para o dia 1, adaptada para '${sentiment}'. Use tom acolhedor, empático e motivador. Inclua o objetivo da atividade. Evite jargões. Deve ter cerca de 50-80 palavras.",
     "duracao": "(number) Duração estimada em minutos (ex: 5, 15, 30).",
     "intensidade": "(string) Nível de esforço ('leve', 'média', 'profunda').",
     "categoria": "(string) Categoria principal (ex: 'Respiração', 'Mindfulness', 'Escrita', 'Criatividade', 'Gratidão', 'Movimento', 'Conexão', 'Autocuidado').",
     "beneficio": "(string) Principal benefício emocional esperado (ex: 'Reduz ansiedade', 'Promove calma', 'Expressa emoções')."
   },
   "dia2": { ... (mesma estrutura do dia1, com atividade diferente) },
-  "dia3": { ... (mesma estrutura do dia1, com atividade diferente) },
-  "dia4": { ... (mesma estrutura do dia1, com atividade diferente) },
-  "dia5": { ... (mesma estrutura do dia1, com atividade diferente) },
-  "dia6": { ... (mesma estrutura do dia1, com atividade diferente) },
-  "dia7": { ... (mesma estrutura do dia1, com atividade diferente) },
+  "dia3": { ... }, "dia4": { ... }, "dia5": { ... }, "dia6": { ... }, "dia7": { ... },
   "closing": "(string) Uma frase final motivadora (1-2 frases) encorajando o usuário a continuar o autocuidado após o plano. Exemplo: 'Você deu um grande passo ao seguir este plano! Continue se cuidando com amor e gentileza todos os dias.'"
 }
 
-Instruções Adicionais para o Conteúdo:
+Instruções Adicionais:
 - Varie as atividades entre os dias e evite usar a mesma categoria muitas vezes no mesmo plano.
-- Use linguagem simples e acessível.
-- Para sentimentos positivos (ex: gratidão, alegria), foque em celebrar e ampliar a emoção.
-- Certifique-se de que o campo 'disclaimer' contenha EXATAMENTE o texto solicitado, incluindo a formatação **...**.
-- Retorne APENAS o objeto JSON completo e válido, sem nenhum texto antes ou depois dele, e sem markdown como \`\`\`json.`;
-            // ***** FIM DO NOVO PROMPT *****
+- Use linguagem simples e acessível ("você").
+- Retorne APENAS o objeto JSON completo e válido, sem nenhum texto antes ou depois, e sem markdown como \`\`\`json.`;
 
-            console.log("Sending prompt to Gemini...");
+            // Prompt Específico para ALEGRIA (adaptado para a mesma estrutura JSON)
+            const joyPromptTemplate = (sentiment) => `Você é um assistente especializado em criar conteúdo terapêutico, acolhedor e motivador para um aplicativo. Sua tarefa é gerar um plano JSON de 7 dias para o sentimento de **alegria**, projetado para um aplicativo de terapia onde usuários expressam seus sentimentos. O plano deve amplificar e celebrar a alegria, incentivando o usuário a compartilhar, expressar e prolongar essa emoção por meio de atividades variadas.
+
+Siga EXATAMENTE a estrutura JSON abaixo, preenchendo os campos com conteúdo variado e um tom vibrante, entusiasta e acolhedor. As atividades devem ser práticas, simples, e focadas em celebrar, expressar ou compartilhar a alegria (sociais, digitais, natureza, físico, criativas, reflexivas), variando entre os dias.
+
+Estrutura JSON Requerida:
+{
+  "disclaimer": "(string) Inclua EXATAMENTE este texto de aviso: **Aviso: Este plano é uma ferramenta de apoio gerada por inteligência artificial e não substitui uma consulta médica ou psicológica. Se você está enfrentando dificuldades emocionais intensas ou persistentes, procure um profissional de saúde qualificado.**",
+  "introduction": "(string) Uma frase curta e vibrante (1-2 frases) que celebre a alegria e introduza o plano, adaptada para o sentimento '${sentiment}'. Ex: 'Que maravilha sentir essa alegria! Este plano vai te ajudar a espalhar e prolongar essa energia positiva.'",
+  "dia1": {
+    "titulo": "(string) Título curto e animado para a atividade do dia 1.",
+    "descricao": "(string) Descrição DETALHADA (2-4 frases) de uma atividade prática para o dia 1, focada em amplificar ou compartilhar a alegria. Use tom vibrante e motivador. Inclua o objetivo e uma frase de reforço positivo. Deve ter cerca de 50-80 palavras. Adapte a atividade e descrição para o dia.",
+    "duracao": "(number) Duração estimada em minutos (ex: 10, 25).",
+    "intensidade": "(string) Nível ('leve', 'média', 'profunda').",
+    "categoria": "(string) Categoria principal (ex: 'Conexão Social', 'Movimento', 'Criatividade'). Adapte para a atividade.",
+    "beneficio": "(string) Principal benefício esperado (ex: 'Amplifica felicidade', 'Promove conexão')."
+  },
+  "dia2": { ... (mesma estrutura dia1 com atividade diferente) },
+  "dia3": { ... }, "dia4": { ... }, "dia5": { ... }, "dia6": { ... }, "dia7": { ... },
+  "closing": "(string) Uma frase final motivadora (1-2 frases) que encoraje a continuar espalhando alegria. Ex: 'Você iluminou esses 7 dias com sua alegria. Continue brilhando e compartilhando sua luz com o mundo!'"
+}
+
+Instruções Adicionais:
+- Varie as categorias e atividades (Social, Digital, Natureza, Físico, Criativa, Reflexiva) ao longo dos 7 dias.
+- Use linguagem simples, positiva e acessível ("você").
+- Evite atividades que exijam recursos específicos ou acesso restrito (equipamentos caros, locais privados).
+- Retorne APENAS o objeto JSON completo e válido, sem nenhum texto antes ou depois, e sem markdown (\`\`\`json).`;
+
+            // Seleciona o prompt com base no sentimento
+            const prompt = (sentiment === 'alegria' ? joyPromptTemplate : generalPromptTemplate)(sentiment);
+
+
             let jsonStringToParse = null;
 
             try {
@@ -206,7 +576,8 @@ Instruções Adicionais para o Conteúdo:
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
 
-                if (!response.ok) { /* Tratamento de erro HTTP (sem alterações) */
+                // Tratamento de erro da resposta HTTP
+                if (!response.ok) { /* ... (sem alterações) ... */
                     let errorBodyText = await response.text(); let errorJson = {}; try { errorJson = JSON.parse(errorBodyText); } catch(e){} console.error("API Error:", response.status, response.statusText, errorJson); let userMessage = `Erro API: ${response.status} ${response.statusText}.`; if (response.status === 400) userMessage += " Verifique chave/solicitação."; else if (response.status === 403) userMessage += " Permissão negada."; else if (response.status === 404) userMessage += ` Modelo (${MODEL_NAME}) não encontrado (${API_ENDPOINT_BASE.includes('v1beta')?'v1beta':'v1'}).`; else if (response.status === 429) userMessage += " Cota excedida."; else if (response.status >= 500) userMessage += " Erro servidor API."; userMessage += ` Detalhes: ${errorBodyText}`; throw new Error(userMessage);
                 }
 
@@ -214,7 +585,7 @@ Instruções Adicionais para o Conteúdo:
                 console.log("API Response Data:", data);
 
                 if (data.candidates?.[0]?.content?.parts?.[0]) {
-                    if (data.candidates[0].finishReason && data.candidates[0].finishReason !== 'STOP') { /* Tratamento finishReason (sem alterações) */
+                    if (data.candidates[0].finishReason && data.candidates[0].finishReason !== 'STOP') { /* ... (sem alterações) ... */
                          console.warn("Finish Reason:", data.candidates[0].finishReason, data.candidates[0].safetyRatings); if (data.candidates[0].safetyRatings?.some(r => r.blocked)) { throw new Error("Bloqueado por segurança."); }
                     }
 
@@ -230,51 +601,78 @@ Instruções Adicionais para o Conteúdo:
 
                     const planJson = JSON.parse(jsonStringToParse);
 
-                    // Validação dos CAMPOS NOVOS E ANTIGOS
+                    // Validação dos CAMPOS (incluindo os novos)
                     if (!planJson || typeof planJson !== 'object' || !planJson.disclaimer || !planJson.introduction || !planJson.closing || Object.keys(planJson).length < 10 /* disclaimer, intro, closing + 7 dias */ || !planJson.dia1?.titulo) {
                         console.error("Invalid JSON structure after parsing (missing required fields):", planJson);
+                         console.error("Parsed JSON:", planJson); // Log the parsed JSON for debugging
                         throw new Error('Formato JSON inválido ou incompleto após o parse (faltam campos essenciais).');
                     }
 
                     console.log("Parsed Plan JSON:", planJson);
-                    await saveData(PLAN_STORE, { sentiment: sentiment, plan: planJson });
-                    displayPlan(planJson); // Chama a função de display atualizada
 
-                } else if (data.promptFeedback?.blockReason) { /* Tratamento promptFeedback (sem alterações) */
+                    // *** SALVAR NO DB com timestamp e isFavorite = false ***
+                    const planDataToSave = {
+                        sentiment: sentiment,
+                        planData: planJson, // Store the parsed JSON as planData
+                        isFavorite: false, // Default to not favorited when newly generated
+                        timestamp: Date.now() // Record generation time
+                    };
+                    await saveData(PLAN_STORE, planDataToSave);
+                    currentPlanData = planDataToSave; // Store the saved data object as current
+
+                    // *** Exibir o plano ***
+                    displayPlan(planJson, false); // Pass the plan JSON and initial favorite state (false)
+
+                     // Show and enable the favorite button after successful generation/display
+                    favoriteButton.style.display = 'inline';
+                    favoriteButton.onclick = toggleFavorite; // Attach event listener
+
+                } else if (data.promptFeedback?.blockReason) { /* ... (sem alterações) ... */
                     console.error("Prompt blocked:", data.promptFeedback.blockReason); throw new Error(`Prompt bloqueado: ${data.promptFeedback.blockReason}`);
-                } else { /* Tratamento resposta inesperada (sem alterações) */
+                } else { /* ... (sem alterações) ... */
                      console.warn("Unexpected API response format:", data); throw new Error('Resposta inesperada ou vazia da API.');
                  }
 
-            } catch (error) { /* Catch geral (sem alterações na estrutura) */
-                console.error('fetchGeminiPlan Error:', error); if (error instanceof SyntaxError && jsonStringToParse) { console.error('String que causou erro de parse:', jsonStringToParse); } planContainer.innerHTML = `<div class="alert alert-danger" role="alert">Falha ao gerar plano. <br><small>${error.message || error}</small></div>`; loadingIndicator.style.display = 'none';
+            } catch (error) { /* Catch geral (sem alterações) */
+                console.error('fetchGeminiPlan Error:', error); if (error instanceof SyntaxError && jsonStringToParse) { console.error('String que causou erro de parse:', jsonStringToParse); } planContainer.innerHTML = `<div class="alert alert-danger" role="alert">Falha ao gerar plano. <br><small>${error.message || error}</small></div>`; loadingIndicator.style.display = 'none'; favoriteButton.style.display = 'none'; // Hide on error
             }
         }
 
-        // ***** FUNÇÃO displayPlan ATUALIZADA *****
-        function displayPlan(plan) {
+        // ***** FUNÇÃO displayPlan ATUALIZADA (recebe isFavorite) *****
+        function displayPlan(plan, isFavorited) {
              planContainer.innerHTML = ''; // Limpa container geral
+             // favoriteButton.style.display = 'none'; // Moved showing button to generatePlan/fetchGeminiPlan
+             // favoriteButton.onclick = null; // Moved attaching handler to generatePlan/fetchGeminiPlan
+
+
              if (!plan || typeof plan !== 'object') { console.error("Invalid plan data:", plan); planContainer.innerHTML = `<div class="alert alert-warning">Dados inválidos.</div>`; loadingIndicator.style.display = 'none'; return; }
 
              const sanitize = (str) => { const temp = document.createElement('div'); temp.textContent = String(str ?? ''); return temp.innerHTML; };
 
+             // Set favorite button state based on the loaded/generated plan's status
+             if (isFavorited) {
+                 favoriteButton.classList.add('favorited');
+                 favoriteButton.title = "Remover dos favoritos";
+             } else {
+                 favoriteButton.classList.remove('favorited');
+                 favoriteButton.title = "Adicionar aos favoritos";
+             }
+
+
              // 1. Adiciona o Disclaimer (Aviso)
              if (plan.disclaimer) {
                  const disclaimerEl = document.createElement('div');
-                 disclaimerEl.className = 'disclaimer'; // Usa a nova classe CSS
-                 // Remove o ** e usa a classe CSS para estilo. Assume que o span já vem ou não.
-                 // Para garantir, removemos ** e aplicamos a cor via CSS.
-                 let disclaimerText = plan.disclaimer.replace(/\*\*/g, ''); // Remove asteriscos
-                 // Se precisar garantir o span (caso a IA não o coloque sempre):
-                 // disclaimerText = `<span style="color:red">${disclaimerText.replace(/<\/?span[^>]*>/g, '')}</span>`; // Remove spans existentes e adiciona um novo
-                 disclaimerEl.innerHTML = disclaimerText; // Use innerHTML se o texto da IA incluir o span
+                 disclaimerEl.className = 'disclaimer';
+                 // Remove o ** e usa a classe CSS para estilo.
+                 let disclaimerText = plan.disclaimer.replace(/\*\*/g, '');
+                 disclaimerEl.textContent = disclaimerText; // Use textContent para evitar problemas com HTML dentro do disclaimer
                  planContainer.appendChild(disclaimerEl);
              }
 
              // 2. Adiciona a Introdução
              if (plan.introduction) {
                  const introEl = document.createElement('p');
-                 introEl.className = 'plan-introduction'; // Nova classe CSS
+                 introEl.className = 'plan-introduction';
                  introEl.textContent = plan.introduction;
                  planContainer.appendChild(introEl);
              }
@@ -284,18 +682,16 @@ Instruções Adicionais para o Conteúdo:
              daysOrder.forEach(dayKey => {
                  if (plan[dayKey]) {
                      const activity = plan[dayKey];
-                     // Validação da atividade (titulo e descricao são os mais importantes aqui)
                      if (typeof activity !== 'object' || !activity.titulo || !activity.descricao) { console.warn(`Dados inválidos ${dayKey}:`, activity); return; }
 
                      const dayCard = document.createElement('div');
-                     dayCard.className = 'plan-card'; // Classe existente para o cartão do dia
+                     dayCard.className = 'plan-card';
 
                      const intensityClassMap = { 'leve': 'intensity-leve', 'média': 'intensity-média', 'media': 'intensity-média', 'profunda': 'intensity-profunda' };
                      const normalizedIntensity = activity.intensidade ? activity.intensidade.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : 'leve';
                      const intensityClass = intensityClassMap[normalizedIntensity] || 'bg-secondary';
                      const formattedDay = formatDay(dayKey);
 
-                     // Conteúdo do cartão do dia (semelhante ao anterior, mas usa a nova 'descricao' mais rica)
                      dayCard.innerHTML = `
                          <div class="day-header">
                              <span class="day-number">${sanitize(formattedDay)}</span>
@@ -303,14 +699,14 @@ Instruções Adicionais para o Conteúdo:
                          </div>
                          <div class="activity-item">
                              <h5>${sanitize(activity.titulo)}</h5>
-                             <p>${sanitize(activity.descricao)}</p> <!-- Descrição mais detalhada virá aqui -->
+                             <p>${sanitize(activity.descricao)}</p>
                              <div class="activity-details">
                                  <span class="badge badge-category"><i class="bi bi-bookmark-fill"></i> ${sanitize(activity.categoria || 'N/A')}</span>
                                  <span class="badge badge-duration"><i class="bi bi-clock-fill"></i> ${sanitize(activity.duracao || 'N/A')} min</span>
                                  <span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill"></i> ${sanitize(activity.beneficio || 'N/A')}</span>
                              </div>
                          </div>`;
-                     planContainer.appendChild(dayCard); // Adiciona o cartão do dia ao container geral
+                     planContainer.appendChild(dayCard);
                  } else {
                      console.warn(`Data for ${dayKey} not found.`);
                  }
@@ -319,7 +715,7 @@ Instruções Adicionais para o Conteúdo:
              // 4. Adiciona o Encerramento
              if (plan.closing) {
                  const closingEl = document.createElement('p');
-                 closingEl.className = 'plan-closing'; // Nova classe CSS
+                 closingEl.className = 'plan-closing';
                  closingEl.textContent = plan.closing;
                  planContainer.appendChild(closingEl);
              }
@@ -332,7 +728,7 @@ Instruções Adicionais para o Conteúdo:
         // formatDay function (sem alterações)
         function formatDay(dayKey) { const days = { 'dia1': 'Segunda', 'dia2': 'Terça', 'dia3': 'Quarta', 'dia4': 'Quinta', 'dia5': 'Sexta', 'dia6': 'Sábado', 'dia7': 'Domingo' }; return days[dayKey] || dayKey; }
 
-        // --- Event Listeners (sem alterações) ---
+        // --- Event Listeners ---
         document.getElementById('settingsBtn').addEventListener('click', showSettings);
         sentimentInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') generateCustomPlan(); });
 
