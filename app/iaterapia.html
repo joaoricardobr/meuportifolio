@@ -931,56 +931,37 @@ REGRAS E DIRETRIZES:
                 });
             }
 
-            // --- Topic Button Rendering ---
-            function renderTopicButtons() {
-                const topics = [ "Técnicas de respiração para ansiedade", "Meditação guiada para iniciantes", "Mindfulness para o dia a dia", "Como lidar com crises de pânico", "Técnicas de respiração para ansiedade",
+           function renderTopicButtons() {
+  const topics = [
+    "Técnicas de respiração para ansiedade", "Meditação guiada para iniciantes", "Mindfulness para o dia a dia", "Como lidar com crises de pânico", "Técnicas de respiração para ansiedade",
+    "Meditação guiada para iniciantes", "Mindfulness para o dia a dia", "Como lidar com crises de pânico", "Terapias alternativas (aromaterapia, cromoterapia)",
+    "Benefícios da psicoterapia", "Aplicativos de meditação", "Como identificar gatilhos emocionais", "Exercícios de atenção plena", "Como manter o equilíbrio emocional",
+    "Alimentos que ajudam no humor", "Rotina de sono saudável", "Alongamento para relaxamento", "Exercícios para liberar endorfina", "Yoga para aliviar estresse",
+    "Suplementos naturais para ansiedade", "Importância da hidratação para o cérebro", "Caminhadas como terapia natural", "Dicas para dormir melhor",
+    "Como reduzir o consumo de cafeína", "Visualizações de futuro positivo"
+  ];
 
-"Meditação guiada para iniciantes",
+  const topicButtonsContainer = document.getElementById("topicButtonsContainer");
+  if (!topicButtonsContainer) {
+    console.error("Topic container missing!");
+    return;
+  }
 
-"Mindfulness para o dia a dia",
+  topicButtonsContainer.innerHTML = ''; // Clear first
 
-"Como lidar com crises de pânico",
+  topics.forEach(topic => {
+    const colDiv = document.createElement('div');
+    colDiv.className = 'col-6 col-md-4 col-lg-3 d-flex justify-content-center p-2';
 
-"Terapias alternativas (aromaterapia, cromoterapia)",
+    const button = document.createElement('button');
+    button.className = 'btn sentiment-btn w-100';
+    button.dataset.topic = topic;
+    button.innerHTML = `<span>${sanitize(topic)}</span>`;
 
-"Benefícios da psicoterapia",
-
-"Aplicativos de meditação",
-
-"Como identificar gatilhos emocionais",
-
-"Exercícios de atenção plena",
-
-"Como manter o equilíbrio emocional",
-
-"Alimentos que ajudam no humor",
-
-"Rotina de sono saudável",
-
-"Alongamento para relaxamento",
-
-"Exercícios para liberar endorfina",
-
-"Yoga para aliviar estresse",
-
-"Suplementos naturais para ansiedade",
-
-"Importância da hidratação para o cérebro",
-
-"Caminhadas como terapia natural",
-
-"Dicas para dormir melhor",
-
-"Como reduzir o consumo de cafeína", "Visualizações de futuro positivo" ];
-                 if (!topicButtonsContainer) { console.error("Topic container missing!"); return; }
-                 topicButtonsContainer.innerHTML = ''; // Clear first
-                 topics.forEach(topic => {
-                    const colDiv = document.createElement('div'); colDiv.className = 'col-6 col-md-4 col-lg-3 d-flex';
-                    const button = document.createElement('button'); button.className = 'btn sentiment-btn w-100'; button.dataset.topic = topic; button.innerHTML = `<span>${sanitize(topic)}</span>`;
-                    colDiv.appendChild(button); topicButtonsContainer.appendChild(colDiv);
-                 });
-                 console.log(`${topics.length} topic buttons rendered.`);
-            }
+    colDiv.appendChild(button);
+    topicButtonsContainer.appendChild(colDiv);
+  });
+}
 
 
             // --- Initializing Event Listeners ---
