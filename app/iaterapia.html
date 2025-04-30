@@ -1,323 +1,705 @@
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plano Terapêutico Personalizado</title>
-    <!-- CSS Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Embedded CSS -->
     <style>
-        /* --- Cores e Variáveis --- */
-        :root{--primary:#4F46E5;--secondary:#6366F1;--accent:#C7D2FE;--bg-light:#F9FAFB;--text-dark:#1F2937;--text-light: #f8f9fa; --success:#10B981;--warning:#F59E0B;--danger:#EF4444;--info:#3B82F6;--light:#F3F4F6;--white:#FFFFFF;--border-color:#E5E7EB;--favorite:#FFD700;}
-
-        /* --- Body e Layout Base --- */
-        body{font-family:'Inter',sans-serif;background-color:var(--bg-light);color:var(--text-dark);min-height:100vh;display:flex;flex-direction:column; transition: background-color 0.3s ease; }
-        #app{flex-grow:1; position: relative; z-index: 1; }
-
-        /* --- Navbar --- */
-        .navbar{background:var(--primary)!important;box-shadow:0 2px 4px rgba(0,0,0,0.1); z-index: 10;}
-        .navbar-brand{font-weight:600;color:var(--white)!important;}.nav-link{color:var(--white)!important;}.settings-btn,.nav-link-custom{background-color:rgba(255,255,255,0.2);border:none;color:var(--white);padding:0.375rem 0.75rem;border-radius:0.375rem;transition:background-color 0.3s ease;margin-left: 0.5rem;}.settings-btn:hover,.nav-link-custom:hover{background-color:rgba(255,255,255,0.3);}
-
-        /* --- Video Background (Controlado por Classe no Body) --- */
-        #bgVideo, #videoOverlay {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -2; opacity: 0;
-            pointer-events: none; transition: opacity 0.5s ease-in-out;
-            object-fit: cover;
+        :root {
+            --primary: #4F46E5;
+            --secondary: #6366F1;
+            --accent: #C7D2FE;
+            --bg-light: #F9FAFB;
+            --text-dark: #1F2937;
+            --text-light: #f8f9fa;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --light: #F3F4F6;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --favorite: #FFD700;
         }
-        #videoOverlay { background-color: rgba(0, 0, 0, 0.4); z-index: -1; }
-        body.video-background-active #bgVideo,
-        body.video-background-active #videoOverlay { opacity: 1; }
-         /* Garante texto claro quando vídeo ativo */
-         body.video-background-active #homeScreen h2,
-         body.video-background-active #homeScreen h3 {
-             color: var(--text-light); text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-         }
-         /* Garante fundo claro quando vídeo inativo */
-         body:not(.video-background-active) { background-color: var(--bg-light); }
-
-        /* --- Tela Inicial (Conteúdo) --- */
-        #homeScreen { padding: 4rem 0; min-height: calc(100vh - 56px); display: flex; flex-direction: column; align-items: center; text-align: center; transition: color 0.3s ease; }
-         /* Cor texto padrão sem vídeo */
-         #homeScreen h2, #homeScreen h3 { color: var(--primary); text-shadow: none; transition: color 0.3s ease, text-shadow 0.3s ease; }
-        .search-container { position: relative; max-width: 500px; margin: 0 auto 2rem auto; }
-         .search-container input[type="text"]{width:100%;padding:0.85rem 1.2rem;border-radius:50px;border:1px solid var(--border-color);font-size:1rem;padding-right:3.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:border-color 0.3s ease,box-shadow 0.3s ease;}.search-container input[type="text"]:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);outline:none;}.search-container button{position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:var(--primary);border:none;color:var(--white);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;transition:background-color 0.3s ease;}.search-container button:hover{background-color:var(--secondary);}.search-container button i{font-size:1.1rem;}
-
-        /* --- Botões com Glassmorphism e Efeito Hover --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #app { flex-grow: 1; position: relative; z-index: 1; }
+        .navbar {
+            background: var(--primary) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .navbar-brand { font-weight: 600; color: var(--white) !important; }
+        .nav-link-custom, .settings-btn {
+            background-color: rgba(255,255,255,0.2);
+            border: none;
+            color: var(--white);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        .nav-link-custom:hover, .settings-btn:hover { background-color: rgba(255,255,255,0.3); }
+        #homeScreen {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            min-height: calc(100vh - 56px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        #homeScreen h2 { color: var(--primary); }
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto 2rem auto;
+        }
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            padding-right: 3.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .search-container input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+            outline: none;
+        }
+        .search-container button {
+            position: absolute;
+            right: 0.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            border: none;
+            color: var(--white);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-container button:hover { background-color: var(--secondary); }
         .sentiment-buttons-row { max-width: 1000px; width: 90%; margin-top: 2rem; }
         .sentiment-btn {
-             background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-             border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-             color: var(--text-light); transition: all 0.3s ease, color 0.3s ease;
-             border-radius: 0.75rem; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center;
-             height: 100%; padding: 1.2rem 0.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-             position: relative; overflow: hidden; z-index: 1;
-         }
-         .sentiment-btn::before { /* Efeito Luz Hover */
-             content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
-             background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
-             border-radius: 50%; transform: translate(-50%, -50%); opacity: 0;
-             transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out; z-index: -1;
-         }
-         .sentiment-btn:hover::before { width: 250%; height: 250%; opacity: 1; }
-         .sentiment-btn:hover { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-3px); box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15); color: var(--white); }
-         .sentiment-btn i { margin-right: 0.5rem; font-size: 1.2rem; position: relative; z-index: 2; } /* Icon acima do brilho */
-         .sentiment-btn span { position: relative; z-index: 2; } /* Texto acima do brilho */
-
-         /* Adaptação do botão para quando NÃO há vídeo */
-         body:not(.video-background-active) .sentiment-btn {
-             background: var(--white); backdrop-filter: none; -webkit-backdrop-filter: none;
-             border: 1px solid var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-             color: var(--primary); text-shadow: none;
-         }
-         body:not(.video-background-active) .sentiment-btn:hover {
-             background: var(--accent); border-color: var(--secondary); color: var(--primary);
-             box-shadow: 0 6px 12px rgba(79, 70, 229, 0.15);
-         }
-         body:not(.video-background-active) .sentiment-btn::before { display: none; }
-
-        /* --- Outras Telas --- */
-        #planScreen,#historyScreen,#favoritesScreen,#settingsScreen { padding: 1.5rem; background-color: var(--bg-light); }
-        #planScreen h2,#settingsScreen h2,#historyScreen h2,#favoritesScreen h2{color:var(--primary);font-weight:600;}
-        #planScreen h2{ display: flex; align-items: center; }
-        .plan-card{background:var(--white);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);overflow:hidden;}
-        .day-header{border-bottom:2px solid var(--accent);padding-bottom:0.75rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;}.day-number{font-weight:600;font-size:1.2rem;color:var(--primary);}.activity-item{padding:1.25rem;margin:0;border-left:5px solid var(--secondary);background-color:var(--light);border-radius:0.5rem;position:relative;}.activity-item h5{font-weight:600;color:var(--text-dark);margin-bottom:0.25rem;}.activity-item p{color:#4B5563;margin-bottom:1rem;font-size:0.95rem;line-height:1.6;}
-        .activity-details{display:flex;flex-wrap:wrap;gap: 0.5rem; margin-top:1rem; align-items: center;}
-        .badge{padding:0.4em 0.8em;font-size:0.8rem;font-weight:600;display:inline-flex;align-items:center;border-radius:50px;}.badge i{margin-right:0.3rem;}
-        .badge-category{background-color:var(--secondary);color:var(--white);}.badge-duration{background-color:var(--info);color:var(--white);}.badge-benefit{background-color:var(--success);color:var(--white);}
-        .intensity-badge{font-size:0.85rem;padding:0.3rem 0.7rem;border-radius:5px;color:var(--white);}.intensity-leve{background-color:var(--success);}.intensity-média{background-color:var(--warning);color:var(--text-dark);}.intensity-profunda{background-color:var(--danger);}
-        .day-action-buttons {margin-left: auto;display: flex;gap: 0.75rem;}
-        .day-action-btn {background: none;border: none;padding: 0.25rem;font-size: 1.2rem;cursor: pointer;color: var(--secondary);transition: color 0.2s ease, transform 0.2s ease;}
-        .day-action-btn:hover {color: var(--primary);transform: scale(1.1);}
-        .day-action-btn.day-favorite-btn.favorited {color: var(--favorite);}
-        .day-action-btn.day-favorite-btn:not(.favorited):hover {color: var(--favorite);}
-        .settings-card{background:var(--white);border-radius:1rem;padding:2rem;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:1px solid var(--border-color);}.settings-card .form-label{font-weight:600;margin-bottom:0.5rem;}.settings-card .form-control{background-color:var(--white);cursor:text;}.settings-card .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,0.2);}.settings-card .text-muted{font-size:0.9rem;margin-top:0.5rem;margin-bottom:1.5rem;}.settings-card .btn-primary{background-color:var(--primary);border-color:var(--primary);font-weight:600;}.settings-card .btn-primary:hover{background-color:var(--secondary);border-color:var(--secondary);}
-        .btn-secondary{background-color:#6B7280;border-color:#6B7280;color:var(--white);}.btn-secondary:hover{background-color:#4B5563;border-color:#4B5563;}
-        .btn-outline-primary{color:var(--primary);border-color:var(--primary);font-weight:600;}.btn-outline-primary:hover{background-color:var(--primary);color:var(--white);}
-        #loadingIndicator{display:none;text-align:center;padding:2rem;color:var(--primary);}.spinner-border{width:3rem;height:3rem;color:var(--primary);}
-        .disclaimer { color: var(--danger); font-weight: bold; padding: 1rem; background-color: #FEE2E2; border: 1px solid var(--danger); border-radius: 0.5rem; margin-bottom: 1.5rem; text-align: center; }
-        .plan-introduction, .plan-closing { margin-bottom: 1.5rem; padding: 1rem; background-color: var(--white); border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-style: italic; color: var(--text-dark); }
-        #favoriteButton { cursor: pointer; font-size: 1.5rem; color: var(--border-color); transition: color 0.2s ease; margin-left: 1rem; }
-        #favoriteButton.favorited { color: var(--favorite); }
-        #favoriteButton:hover { color: var(--favorite); }
-        .list-group-item-action { cursor: pointer; transition: background-color 0.2s ease; }
-        .list-group-item-action:hover { background-color: var(--light); }
-        .list-group-item-action strong { color: var(--primary); }
-
-        /* --- Responsividade --- */
-        @media (max-width:768px){ .sentiment-buttons-row { width: 95%; } .sentiment-btn{font-size:0.9rem;padding:1rem 0.4rem;} .activity-details{font-size:0.8rem;} #planScreen h2{font-size:1.5rem;} #planScreen h2 #favoriteButton{font-size:1.2rem;} .plan-card{padding:1rem;} .activity-item{padding:1rem;} .day-action-btn { font-size: 1rem; } }
-        @media (max-width:576px){ #homeScreen { padding-top: 3rem; padding-bottom: 3rem; } #homeScreen h2 { font-size: 1.8rem; } #homeScreen h3 { font-size: 1.1rem; margin-bottom: 1rem;} .search-container{max-width:90%; margin-bottom: 1.5rem;} .sentiment-buttons-row { margin-top: 1rem; } .sentiment-btn{font-size:0.85rem;padding:0.8rem 0.3rem;} .sentiment-btn i{font-size:1rem;margin-right:0.3rem;} .day-header{flex-direction:column;align-items:flex-start;gap:0.25rem;} .activity-details .badge{padding:0.3em 0.6em;font-size:0.75rem;} }
-
+            background: var(--white);
+            border: 1px solid var(--accent);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: var(--primary);
+            border-radius: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 1.2rem 0.5rem;
+        }
+        .sentiment-btn:hover {
+            background: var(--accent);
+            border-color: var(--secondary);
+            color: var(--primary);
+            box-shadow: 0 6px 12px rgba(79,70,229,0.15);
+        }
+        .sentiment-btn i { margin-right: 0.5rem; font-size: 1.2rem; }
+        #planScreen, #settingsScreen { padding: 1.5rem; background-color: var(--bg-light); }
+        #planScreen h2 { color: var(--primary); font-weight: 600; display: flex; align-items: center; }
+        .plan-card {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .day-header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .day-number { font-weight: 600; font-size: 1.2rem; color: var(--primary); }
+        .activity-item {
+            padding: 1.25rem;
+            margin: 0;
+            border-left: 5px solid var(--secondary);
+            background-color: var(--light);
+            border-radius: 0.5rem;
+        }
+        .activity-item h5 { font-weight: 600; color: var(--text-dark); margin-bottom: 0.25rem; }
+        .activity-item p { color: #4B5563; margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        .activity-details { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .badge {
+            padding: 0.4em 0.8em;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: var(--white);
+        }
+        .badge-category { background-color: var(--secondary); }
+        .badge-duration { background-color: var(--info); }
+        .badge-benefit { background-color: var(--success); }
+        .intensity-badge {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 5px;
+            color: var(--white);
+        }
+        .intensity-leve { background-color: var(--success); }
+        .intensity-média { background-color: var(--warning); color: var(--text-dark); }
+        .intensity-profunda { background-color: var(--danger); }
+        #loadingIndicator { display: none; text-align: center; padding: 2rem; color: var(--primary); }
+        .spinner-border { width: 3rem; height: 3rem; color: var(--primary); }
+        .disclaimer {
+            color: var(--danger);
+            font-weight: bold;
+            padding: 1rem;
+            background-color: #FEE2E2;
+            border: 1px solid var(--danger);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .plan-introduction, .plan-closing {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-style: italic;
+            color: var(--text-dark);
+        }
+        .settings-card {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .settings-card .form-label { font-weight: 600; margin-bottom: 0.5rem; }
+        .settings-card .form-control { background-color: var(--white); cursor: text; }
+        .settings-card .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.2); }
+        .settings-card .btn-primary { background-color: var(--primary); border-color: var(--primary); font-weight: 600; }
+        .settings-card .btn-primary:hover { background-color: var(--secondary); border-color: var(--secondary); }
+        @media (max-width: 768px) {
+            .sentiment-btn { font-size: 0.9rem; padding: 1rem 0.4rem; }
+            #planScreen h2 { font-size: 1.5rem; }
+            .plan-card { padding: 1rem; }
+            .activity-item { padding: 1rem; }
+        }
+        @media (max-width: 576px) {
+            #homeScreen { padding-top: 3rem; padding-bottom: 3rem; }
+            #homeScreen h2 { font-size: 1.8rem; }
+            .search-container { max-width: 90%; margin-bottom: 1.5rem; }
+            .sentiment-btn { font-size: 0.85rem; padding: 0.8rem 0.3rem; }
+        }
     </style>
 </head>
 <body>
-    <!-- Video e Overlay (fora do #app) -->
-    <div id="videoOverlay"></div>
-    <video autoplay loop muted playsinline id="bgVideo">
-        <source src="https://cdn.pixabay.com/video/2025/03/29/268528_large.mp4" type="video/mp4">
-        Seu navegador não suporta vídeos HTML5.
-    </video>
-
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" onclick="backToHome(); return false;"> <i class="bi bi-heart-pulse-fill me-2"></i>Plano Terapêutico </a>
-             <div class="d-flex ms-auto">
-                 <button class="nav-link-custom" onclick="showHistory()"><i class="bi bi-clock-history me-1"></i> Histórico</button>
-                 <button class="nav-link-custom" onclick="showFavorites()"><i class="bi bi-heart-fill me-1"></i> Favoritos</button>
-                 <button class="settings-btn" id="settingsBtn" aria-label="Configurações"><i class="bi bi-gear-fill"></i></button>
-             </div>
+            <a class="navbar-brand" href="#" id="homeLink"> <i class="bi bi-heart-pulse-fill me-2"></i>Plano Terapêutico </a>
+            <div class="d-flex ms-auto">
+                <button class="nav-link-custom" id="historyBtn"><i class="bi bi-clock-history me-1"></i> Histórico</button>
+                <button class="nav-link-custom" id="favoritesBtn"><i class="bi bi-heart-fill me-1"></i> Favoritos</button>
+                <button class="settings-btn" id="settingsBtn" aria-label="Configurações"><i class="bi bi-gear-fill"></i></button>
+            </div>
         </div>
     </nav>
 
-    <!-- Main App Container -->
     <div class="container py-4" id="app">
-        <!-- Tela Inicial -->
         <div id="homeScreen">
             <h2 class="mb-3 text-center">Como você está se sentindo hoje?</h2>
             <div class="search-container mb-4">
                 <input type="text" id="sentimentInput" placeholder="Digite um sentimento..." aria-label="Digite seu sentimento">
-                <button onclick="generateCustomPlan()" aria-label="Gerar plano"><i class="bi bi-search"></i></button>
+                <button id="searchBtn" aria-label="Gerar plano"><i class="bi bi-search"></i></button>
             </div>
-            <h3 class="text-center mb-4" style="font-weight: 400;">Ou escolha uma opção:</h3>
+            <h3 class="text-center mb-4" style="font-weight:400;">Ou escolha uma opção:</h3>
             <div class="row g-3 justify-content-center sentiment-buttons-row">
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('ansiedade')"><span><i class="bi bi-wind"></i> Ansiedade</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('estresse')"><span><i class="bi bi-lightning-charge-fill"></i> Estresse</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('tristeza')"><span><i class="bi bi-cloud-drizzle"></i> Tristeza</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('cansaço')"><span><i class="bi bi-battery-half"></i> Cansaço</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('motivação')"><span><i class="bi bi-rocket-takeoff-fill"></i> Motivação</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('foco')"><span><i class="bi bi-bullseye"></i> Foco</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('gratidão')"><span><i class="bi bi-brightness-high-fill"></i> Gratidão</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('autoconhecimento')"><span><i class="bi bi-search-heart"></i> Autoconhecimento</span></button></div>
-                 <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" onclick="generatePlan('alegria')"><span><i class="bi bi-brightness-alt-high"></i> Alegria</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="ansiedade"><span><i class="bi bi-wind"></i> Ansiedade</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="estresse"><span><i class="bi bi-lightning-charge-fill"></i> Estresse</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="tristeza"><span><i class="bi bi-cloud-drizzle"></i> Tristeza</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="cansaço"><span><i class="bi bi-battery-half"></i> Cansaço</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="motivação"><span><i class="bi bi-rocket-takeoff-fill"></i> Motivação</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="foco"><span><i class="bi bi-bullseye"></i> Foco</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="gratidão"><span><i class="bi bi-brightness-high-fill"></i> Gratidão</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="autoconhecimento"><span><i class="bi bi-search-heart"></i> Autoconhecimento</span></button></div>
+                <div class="col-6 col-md-4 col-lg-3"><button class="btn sentiment-btn w-100" data-sentiment="alegria"><span><i class="bi bi-brightness-alt-high"></i> Alegria</span></button></div>
             </div>
         </div>
 
-        <!-- Outras Telas (Plan, History, Favorites, Settings) - HTML sem alterações -->
-        <div id="planScreen" class="d-none"> <div class="d-flex justify-content-between align-items-center mb-4"> <h2 class="mb-0 d-flex align-items-center"> Seu Plano para <span id="planTitle" style="color: var(--secondary); margin-right: 0.5rem;"></span> <i id="favoriteButton" class="bi bi-heart-fill" title="Adicionar/Remover dos favoritos" style="display: none;"></i> </h2> <button class="btn btn-outline-primary" onclick="backToHome()"><i class="bi bi-arrow-left me-1"></i> Voltar</button> </div> <div id="loadingIndicator"> <div class="spinner-border" role="status"><span class="visually-hidden">Gerando...</span></div> <p class="mt-2">Gerando...</p></div> <div id="planContainer"></div> </div>
-        <div id="historyScreen" class="d-none"> <div class="d-flex justify-content-between align-items-center mb-4"> <h2 class="mb-0">Histórico</h2> <button class="btn btn-outline-primary" onclick="backToHome()"><i class="bi bi-arrow-left me-1"></i> Voltar</button> </div> <div id="historyList" class="list-group"></div> <p id="historyEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum plano.</p> </div>
-        <div id="favoritesScreen" class="d-none"> <div class="d-flex justify-content-between align-items-center mb-4"> <h2 class="mb-0">Favoritos</h2> <button class="btn btn-outline-primary" onclick="backToHome()"><i class="bi bi-arrow-left me-1"></i> Voltar</button> </div> <div id="favoritesList" class="list-group"></div> <p id="favoritesEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum favorito.</p> </div>
-        <div id="settingsScreen" class="d-none"> <div class="d-flex justify-content-between align-items-center mb-4"> <h2 class="mb-0">Configurações</h2> <button class="btn btn-outline-primary" onclick="backToApp()"><i class="bi bi-arrow-left me-1"></i> Voltar</button> </div> <div class="settings-card p-4"> <div class="mb-3"> <label for="apiKeyInput" class="form-label">Chave API Gemini</label> <input type="password" class="form-control" id="apiKeyInput" placeholder="Cole sua chave API"></div> <p class="text-muted">Insira sua chave API Google Gemini. Salva localmente.</p> <button class="btn btn-primary" onclick="saveApiKey()"><i class="bi bi-save me-1"></i> Salvar</button> </div> </div>
+        <div id="planScreen" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Seu Plano para <span id="planTitle"></span></h2>
+                <button class="btn btn-outline-primary" id="backToHomeBtn"><i class="bi bi-arrow-left me-1"></i> Voltar</button>
+            </div>
+            <div id="loadingIndicator">
+                <div class="spinner-border" role="status"><span class="visually-hidden">Gerando...</span></div>
+                <p class="mt-2">Gerando...</p>
+            </div>
+            <div id="planContainer"></div>
+        </div>
+        <div id="historyScreen" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Histórico</h2>
+                <button class="btn btn-outline-primary" id="backToHomeHistoryBtn"><i class="bi bi-arrow-left me-1"></i> Voltar</button>
+            </div>
+            <div id="historyList" class="list-group"></div>
+            <p id="historyEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum plano.</p>
+        </div>
+        <div id="favoritesScreen" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Favoritos</h2>
+                <button class="btn btn-outline-primary" id="backToHomeFavoritesBtn"><i class="bi bi-arrow-left me-1"></i> Voltar</button>
+            </div>
+            <div id="favoritesList" class="list-group"></div>
+            <p id="favoritesEmptyMessage" class="text-center text-muted mt-3 d-none">Nenhum favorito.</p>
+        </div>
+        <div id="settingsScreen" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Configurações</h2>
+                <button class="btn btn-outline-primary" id="backToAppBtn"><i class="bi bi-arrow-left me-1"></i> Voltar</button>
+            </div>
+            <div class="settings-card p-4">
+                <div class="mb-3">
+                    <label for="apiKeyInput" class="form-label">Chave API Gemini</label>
+                    <input type="password" class="form-control" id="apiKeyInput" placeholder="Cole sua chave API">
+                </div>
+                <p class="text-muted">Insira sua chave API Google Gemini. Salva localmente.</p>
+                <button class="btn btn-primary" id="saveApiKeyBtn"><i class="bi bi-save me-1"></i> Salvar</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Embedded JavaScript -->
     <script>
-        // --- Constants and State ---
-        const API_ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
-        const MODEL_NAME = 'gemini-1.5-flash-latest';
-        const DEFAULT_API_KEY = "";
-        let currentScreen = 'home';
-        let currentSentiment = null;
-        let currentPlanData = null;
+        try {
+            console.log("Script loaded");
 
-        // DOM Elements
-        const bodyElement = document.body; // Referência ao body
-        const homeScreen = document.getElementById('homeScreen');
-        const planScreen = document.getElementById('planScreen');
-        const historyScreen = document.getElementById('historyScreen');
-        const favoritesScreen = document.getElementById('favoritesScreen');
-        const settingsScreen = document.getElementById('settingsScreen');
-        const planTitle = document.getElementById('planTitle');
-        const planContainer = document.getElementById('planContainer');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const sentimentInput = document.getElementById('sentimentInput');
-        const apiKeyInput = document.getElementById('apiKeyInput');
-        const favoriteButton = document.getElementById('favoriteButton');
-        const historyList = document.getElementById('historyList');
-        const historyEmptyMessage = document.getElementById('historyEmptyMessage');
-        const favoritesList = document.getElementById('favoritesList');
-        const favoritesEmptyMessage = document.getElementById('favoritesEmptyMessage');
+            // Constants and State
+            const API_ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+            const MODEL_NAME = 'gemini-1.5-flash-latest';
+            const DEFAULT_API_KEY = '';
+            let currentScreen = 'home';
+            let currentSentiment = null;
 
+            // DOM Elements
+            const homeScreen = document.getElementById('homeScreen');
+            const planScreen = document.getElementById('planScreen');
+            const historyScreen = document.getElementById('historyScreen');
+            const favoritesScreen = document.getElementById('favoritesScreen');
+            const settingsScreen = document.getElementById('settingsScreen');
+            const planTitle = document.getElementById('planTitle');
+            const planContainer = document.getElementById('planContainer');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const sentimentInput = document.getElementById('sentimentInput');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const historyList = document.getElementById('historyList');
+            const historyEmptyMessage = document.getElementById('historyEmptyMessage');
+            const favoritesList = document.getElementById('favoritesList');
+            const favoritesEmptyMessage = document.getElementById('favoritesEmptyMessage');
 
-        // --- IndexedDB Setup ---
-        const DB_NAME = "TherapyPlannerDB", DB_VERSION = 2;
-        const PLAN_STORE = "plans", SETTINGS_STORE = "settings";
-        let db;
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = function(event) { console.log("DB upgrade v", event.newVersion); db = event.target.result; if (event.oldVersion < 2 && db.objectStoreNames.contains(PLAN_STORE)) { try { db.deleteObjectStore(PLAN_STORE); console.log("Old plan store deleted."); } catch(e){console.warn("Failed delete old plan store",e)} } if (!db.objectStoreNames.contains(PLAN_STORE)) { db.createObjectStore(PLAN_STORE, { keyPath: "sentiment" }); console.log("Plan store created.");} if (!db.objectStoreNames.contains(SETTINGS_STORE)) { db.createObjectStore(SETTINGS_STORE, { keyPath: "id" }); console.log("Settings store created."); } };
-        request.onsuccess = function(event) { db = event.target.result; console.log("DB opened."); loadApiKeyFromDB(); };
-        request.onerror = function(event) { console.error("DB error:", event.target.error); alert("Erro DB."); apiKeyInput.value = DEFAULT_API_KEY; };
-
-        // --- IndexedDB Helper Functions ---
-        function saveData(storeName, data) { if (!db) return Promise.reject("DB err"); return new Promise((res, rej) => { try { const r=db.transaction(storeName,"readwrite").objectStore(storeName).put(data); r.onsuccess=()=>{console.log(`Saved ${data.id||data.sentiment}`);res();}; r.onerror=(e)=>{console.error("Save Err:",e.target.error);rej(e.target.error);}; } catch(err){console.error("Tx Err:",err);rej(err);} }); }
-        function getData(storeName, key) { if (!db) return Promise.resolve(null); return new Promise((res) => { try { const r=db.transaction(storeName,"readonly").objectStore(storeName).get(key); r.onsuccess=()=>{res(r.result||null);}; r.onerror=(e)=>{console.error("Get Err:",e.target.error);res(null);}; } catch(err){console.error("ReadTx Err:",err);res(null);} }); }
-        function getAllData(storeName) { if (!db) return Promise.resolve([]); return new Promise((res) => { try { const r=db.transaction(storeName,"readonly").objectStore(storeName).getAll(); r.onsuccess=()=>{res(r.result||[]);}; r.onerror=(e)=>{console.error("GetAll Err:",e.target.error);res([]);}; } catch(err){console.error("ReadTx Err(All):",err);res([]);} }); }
-
-        // --- API Key Management ---
-        async function loadApiKeyFromDB() { const d=await getData(SETTINGS_STORE,"apiKey"); if(d?.value){apiKeyInput.value=d.value;console.log("API Key loaded.");}else{apiKeyInput.value=DEFAULT_API_KEY;console.log("No API Key found.");} }
-        async function saveApiKey() { const k=apiKeyInput.value.trim(); if(k){try{await saveData(SETTINGS_STORE,{id:"apiKey",value:k});alert('Chave salva!');console.log("API Key saved.");}catch(e){alert('Erro salvar.');console.error("Save key err:",e);}}else{try{if(db){db.transaction(SETTINGS_STORE,"readwrite").objectStore(SETTINGS_STORE).delete("apiKey");alert('Chave removida.');console.log("API Key cleared.");}else{alert("Erro DB.");}}catch(e){alert('Erro remover.');console.error("Del key err:",e);}} }
-
-        // --- Navigation / Screen Management (UPDATED) ---
-        function showScreen(screenId) {
-            ['homeScreen','planScreen','historyScreen','favoritesScreen','settingsScreen'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.classList.add('d-none'); // Hide all screens
-            });
-            loadingIndicator.style.display = 'none'; // Ensure loading is hidden
-
-            const screenToShow = document.getElementById(screenId);
-            if (screenToShow) {
-                screenToShow.classList.remove('d-none');
-                currentScreen = screenId;
-
-                // Add/Remove body class for video background
-                if (screenId === 'homeScreen') {
-                    bodyElement.classList.add('video-background-active');
-                } else {
-                    bodyElement.classList.remove('video-background-active');
+            // IndexedDB Setup
+            const DB_NAME = 'TherapyPlannerDB', DB_VERSION = 2;
+            const PLAN_STORE = 'plans', SETTINGS_STORE = 'settings';
+            let db;
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+            request.onupgradeneeded = function(event) {
+                db = event.target.result;
+                if (event.oldVersion < 2 && db.objectStoreNames.contains(PLAN_STORE)) {
+                    db.deleteObjectStore(PLAN_STORE);
                 }
+                if (!db.objectStoreNames.contains(PLAN_STORE)) {
+                    db.createObjectStore(PLAN_STORE, { keyPath: 'sentiment' });
+                }
+                if (!db.objectStoreNames.contains(SETTINGS_STORE)) {
+                    db.createObjectStore(SETTINGS_STORE, { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = function(event) {
+                db = event.target.result;
+                console.log('DB opened.');
+                loadApiKeyFromDB();
+            };
+            request.onerror = function(event) {
+                console.error('DB error:', event.target.error);
+                alert('Erro DB.');
+                apiKeyInput.value = DEFAULT_API_KEY;
+            };
 
-            } else {
-                console.error("Screen not found:", screenId);
-                homeScreen.classList.remove('d-none'); // Fallback to home
-                bodyElement.classList.add('video-background-active'); // Ensure video is active on fallback
-                currentScreen = 'home';
+            // IndexedDB Helper Functions
+            function saveData(storeName, data) {
+                if (!db) return Promise.reject('DB err');
+                return new Promise((res, rej) => {
+                    const r = db.transaction(storeName, 'readwrite').objectStore(storeName).put(data);
+                    r.onsuccess = () => res();
+                    r.onerror = (e) => rej(e.target.error);
+                });
             }
-            window.scrollTo(0, 0); // Scroll to top
-        }
-
-        // Other navigation functions
-        function backToHome() { showScreen('homeScreen'); currentSentiment=null; currentPlanData=null; sentimentInput.value=''; }
-        function showSettings() { showScreen('settingsScreen'); }
-        function backToApp() { showScreen(currentSentiment ? 'planScreen' : 'homeScreen'); }
-        function showHistory() { showScreen('historyScreen'); loadHistoryList(); }
-        function showFavorites() { showScreen('favoritesScreen'); loadFavoritesList(); }
-
-
-        // --- History and Favorites Logic ---
-         async function loadHistoryList() { historyList.innerHTML = ''; historyEmptyMessage.classList.add('d-none'); const allPlans = await getAllData(PLAN_STORE); if (allPlans.length === 0) { historyEmptyMessage.classList.remove('d-none'); return; } allPlans.sort((a, b) => b.timestamp - a.timestamp); allPlans.forEach(item => { const li=document.createElement('a');li.href='#';li.className='list-group-item list-group-item-action d-flex justify-content-between align-items-center';const date=new Date(item.timestamp);const fDate=date.toLocaleDateString('pt-BR')+' '+date.toLocaleTimeString('pt-BR');li.innerHTML=`<div><strong>${item.sentiment.charAt(0).toUpperCase()+item.sentiment.slice(1)}</strong><br><small>${fDate}</small></div>${item.isFavorite?'<i class="bi bi-heart-fill" style="color: var(--favorite);"></i>':''}`; li.onclick=(e)=>{e.preventDefault();console.log(`Load history: ${item.sentiment}`);currentSentiment=item.sentiment;currentPlanData=item;showScreen('planScreen');planTitle.textContent=item.sentiment.charAt(0).toUpperCase()+item.sentiment.slice(1);displayPlan(item.planData,item.isFavorite,item.sentiment);favoriteButton.style.display='inline';favoriteButton.onclick=toggleFavorite;}; historyList.appendChild(li); }); }
-         async function loadFavoritesList() { favoritesList.innerHTML = ''; favoritesEmptyMessage.classList.add('d-none'); const allPlans = await getAllData(PLAN_STORE); const favPlans = allPlans.filter(item => item.isFavorite); if (favPlans.length === 0) { favoritesEmptyMessage.classList.remove('d-none'); return; } favPlans.sort((a, b) => b.timestamp - a.timestamp); favPlans.forEach(item => { const li=document.createElement('a');li.href='#';li.className='list-group-item list-group-item-action';const date=new Date(item.timestamp);const fDate=date.toLocaleDateString('pt-BR')+' '+date.toLocaleTimeString('pt-BR');li.innerHTML=`<strong>${item.sentiment.charAt(0).toUpperCase()+item.sentiment.slice(1)}</strong><br><small>Gerado em: ${fDate}</small>`; li.onclick=(e)=>{e.preventDefault();console.log(`Load favorite: ${item.sentiment}`);currentSentiment=item.sentiment;currentPlanData=item;showScreen('planScreen');planTitle.textContent=item.sentiment.charAt(0).toUpperCase()+item.sentiment.slice(1);displayPlan(item.planData,item.isFavorite,item.sentiment);favoriteButton.style.display='inline';favoriteButton.onclick=toggleFavorite;}; favoritesList.appendChild(li); }); }
-
-        // Toggle Favorite status
-        async function toggleFavorite() { if (!currentSentiment || !currentPlanData) return; try { const latestPlan = await getData(PLAN_STORE, currentSentiment); if (!latestPlan) return; latestPlan.isFavorite = !latestPlan.isFavorite; await saveData(PLAN_STORE, latestPlan); currentPlanData = latestPlan; const isFav = latestPlan.isFavorite; favoriteButton.classList.toggle('favorited', isFav); favoriteButton.title = isFav ? "Remover" : "Adicionar"; planContainer.querySelectorAll('.day-favorite-btn').forEach(btn => { btn.classList.toggle('favorited', isFav); btn.title = isFav ? "Remover" : "Adicionar"; }); console.log(`Toggled fav ${currentSentiment}: ${isFav}`); } catch (error) { console.error("Err toggle fav:", error); alert("Erro."); } }
-
-        // Share Day Activity Function
-        async function shareDayActivity(dayTitle, dayDescription, sentiment) { const shareText = `Plano Terapêutico para ${sentiment.charAt(0).toUpperCase()+sentiment.slice(1)} - ${dayTitle}:\n"${dayDescription}"\n\n(App Plano Terapêutico)`; if (navigator.share) { try { await navigator.share({ title: `Atividade: ${dayTitle}`, text: shareText }); console.log('Shared!'); } catch (error) { console.error('Share err:', error); alert('Não foi possível compartilhar.'); } } else { try { await navigator.clipboard.writeText(shareText); alert('Texto copiado!'); } catch (err) { console.error('Clipboard err:', err); alert('Compartilhar/copiar não suportado.'); } } }
-
-        // --- Plan Generation and Display ---
-        async function generatePlan(sentiment) { if (!sentiment?.trim()) { alert('Sentimento inválido.'); return; } sentiment = sentiment.trim().toLowerCase(); currentSentiment = sentiment; const apiKey = apiKeyInput.value.trim(); if (!apiKey) { alert("Insira a chave API."); showSettings(); return; } console.log(`Gen plan: ${sentiment}`); showScreen('planScreen'); planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1); planContainer.innerHTML = ''; loadingIndicator.style.display = 'block'; favoriteButton.classList.remove('favorited'); favoriteButton.onclick = null; favoriteButton.style.display = 'none'; try { const savedPlanData = await getData(PLAN_STORE, sentiment); if (savedPlanData?.planData) { console.log(`DB hit: ${sentiment}.`); currentPlanData = savedPlanData; displayPlan(savedPlanData.planData, savedPlanData.isFavorite, sentiment); favoriteButton.style.display = 'inline'; favoriteButton.onclick = toggleFavorite; } else { console.log(`DB miss: ${sentiment}. Fetching...`); await fetchGeminiPlan(sentiment, apiKey); } } catch (error) { console.error("Gen plan err:", error); planContainer.innerHTML=`<div class="alert alert-danger">Erro: ${error.message||error}</div>`; loadingIndicator.style.display='none'; favoriteButton.style.display='none'; } }
-        function generateCustomPlan() { const s = sentimentInput.value.trim(); generatePlan(s); }
-
-        // fetchGeminiPlan (com limpeza JSON)
-        async function fetchGeminiPlan(sentiment, apiKey) {
-            const fullApiUrl = `${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=${apiKey}`;
-            console.log(`Fetch: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=HIDDEN`);
-            const generalPromptTemplate=(s)=>`Gere plano JSON 7 dias para "${s}". Estrutura:{"disclaimer":"**Aviso: Ferramenta IA, não substitui médico/psicólogo. Procure profissional.**","introduction":"(1-2 frases acolhedoras validando '${s}')","dia1":{"titulo":"Título curto","descricao":"(2-4 frases, 50-80 palavras) Atividade prática adaptada para '${s}', tom empático/motivador.","duracao":Num,"intensidade":"leve/média/profunda","categoria":"Ex:Respiração,Escrita","beneficio":"Ex:Reduz ansiedade"},"dia2":{...},"dia3":{...},"dia4":{...},"dia5":{...},"dia6":{...},"dia7":{...},"closing":"(1-2 frases) Motivação final."} REGRAS: Varie atividades/categorias. Linguagem simples. APENAS JSON válido.`;
-            const joyPromptTemplate=(s)=>`Gere plano JSON 7 dias para **alegria** ("${s}"), para amplificar/celebrar. Estrutura:{"disclaimer":"**Aviso: Ferramenta IA, não substitui médico/psicólogo. Procure profissional.**","introduction":"(1-2 frases) Vibrante/celebratória para '${s}'.","dia1":{"titulo":"Título animado","descricao":"(2-4 frases, 50-80 palavras) Atividade para amplificar/compartilhar alegria, tom vibrante/motivador.","duracao":Num,"intensidade":"leve/média/profunda","categoria":"Ex:Conexão Social,Criatividade","beneficio":"Ex:Amplifica felicidade"},"dia2":{...},"dia3":{...},"dia4":{...},"dia5":{...},"dia6":{...},"dia7":{...},"closing":"(1-2 frases) Motivação para continuar espalhando alegria."} REGRAS: Varie atividades (social, digital, natureza, físico, criativa, reflexiva). Linguagem simples/positiva. APENAS JSON válido.`;
-            const prompt = (sentiment === 'alegria' ? joyPromptTemplate : generalPromptTemplate)(sentiment);
-            let jsonStringToParse = null;
-            let cleanedJsonString = null;
-            try {
-                const response = await fetch(fullApiUrl, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) });
-                if (!response.ok) { let errTxt=await response.text(); let errJson={}; try{errJson=JSON.parse(errTxt);}catch(e){} console.error("API Err:",response.status, response.statusText, errJson); let msg=`API Err: ${response.status} ${response.statusText}.`; if(response.status===400)msg+=" Chave/Req?"; else if(response.status===403)msg+=" Perm?"; else if(response.status===404)msg+=` Mod(${MODEL_NAME})?`; else if(response.status===429)msg+=" Cota?"; else if(response.status>=500)msg+=" Servidor?"; msg+=` Det: ${errTxt}`; throw new Error(msg); }
-                const data = await response.json(); console.log("API Resp:", data);
-                if (data.candidates?.[0]?.content?.parts?.[0]) {
-                    if(data.candidates[0].finishReason && data.candidates[0].finishReason !== 'STOP'){ console.warn("Finish:",data.candidates[0].finishReason); if(data.candidates[0].safetyRatings?.some(r=>r.blocked)){throw new Error("Segurança.");}}
-                    const planText = data.candidates[0].content.parts[0].text;
-                    console.log("Raw:", planText.substring(0,100)+"..."); const firstB=planText.indexOf('{'); const lastB=planText.lastIndexOf('}');
-                    if(firstB!==-1&&lastB>firstB){jsonStringToParse=planText.substring(firstB,lastB+1);console.log("Extracted OK");}else{console.error("No JSON{}:",planText);throw new Error("No JSON.");}
-
-                    cleanedJsonString = jsonStringToParse.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
-                    console.log("Cleaned OK");
-
-                    const planJson = JSON.parse(cleanedJsonString); // USA STRING LIMPA
-
-                    if (!planJson?.disclaimer||!planJson.introduction||!planJson.closing||Object.keys(planJson).length<10||!planJson.dia1?.titulo){console.error("Invalid JSON:", planJson);throw new Error('JSON Incompleto.');}
-                    console.log("Parsed JSON OK");
-                    const planDataToSave = { sentiment: sentiment, planData: planJson, isFavorite: false, timestamp: Date.now() };
-                    await saveData(PLAN_STORE, planDataToSave);
-                    currentPlanData = planDataToSave;
-                    displayPlan(planJson, false, sentiment);
-                    favoriteButton.style.display = 'inline'; favoriteButton.onclick = toggleFavorite;
-                } else if (data.promptFeedback?.blockReason) { console.error("Blocked:", data.promptFeedback.blockReason); throw new Error(`Block: ${data.promptFeedback.blockReason}`); }
-                else { console.warn("Unexpected resp:", data); throw new Error('Resp inesperada.'); }
-            } catch (error) {
-                 console.error('fetch Err:', error);
-                 const errStr = cleanedJsonString || jsonStringToParse; // Loga a string limpa se disponível
-                 if(error instanceof SyntaxError && errStr){ console.error('Parse Err Str:', errStr.substring(0,500)+"..."); }
-                 planContainer.innerHTML=`<div class="alert alert-danger">Falha.<br><small>${error.message||error}</small></div>`;
-                 loadingIndicator.style.display='none'; favoriteButton.style.display='none';
+            function getData(storeName, key) {
+                if (!db) return Promise.resolve(null);
+                return new Promise((res) => {
+                    const r = db.transaction(storeName, 'readonly').objectStore(storeName).get(key);
+                    r.onsuccess = () => res(r.result || null);
+                    r.onerror = () => res(null);
+                });
             }
+            function getAllData(storeName) {
+                if (!db) return Promise.resolve([]);
+                return new Promise((res) => {
+                    const r = db.transaction(storeName, 'readonly').objectStore(storeName).getAll();
+                    r.onsuccess = () => res(r.result || []);
+                    r.onerror = () => res([]);
+                });
+            }
+
+            // API Key Management
+            async function loadApiKeyFromDB() {
+                const d = await getData(SETTINGS_STORE, 'apiKey');
+                apiKeyInput.value = d?.value || DEFAULT_API_KEY;
+                console.log(d?.value ? 'API Key loaded.' : 'No API Key found.');
+            }
+            async function saveApiKey() {
+                const k = apiKeyInput.value.trim();
+                if (k) {
+                    await saveData(SETTINGS_STORE, { id: 'apiKey', value: k });
+                    alert('Chave salva!');
+                } else {
+                    if (db) {
+                        db.transaction(SETTINGS_STORE, 'readwrite').objectStore(SETTINGS_STORE).delete('apiKey');
+                        alert('Chave removida.');
+                    } else {
+                        alert('Erro DB.');
+                    }
+                }
+            }
+
+            // Navigation / Screen Management
+            function showScreen(screenId) {
+                ['homeScreen', 'planScreen', 'historyScreen', 'favoritesScreen', 'settingsScreen'].forEach(id => {
+                    document.getElementById(id).classList.add('d-none');
+                });
+                loadingIndicator.style.display = 'none';
+                document.getElementById(screenId).classList.remove('d-none');
+                currentScreen = screenId;
+                window.scrollTo(0, 0);
+            }
+            function backToHome() {
+                showScreen('homeScreen');
+                currentSentiment = null;
+                sentimentInput.value = '';
+            }
+
+            // Plan Generation and Display
+            async function generatePlan(sentiment) {
+                if (!sentiment?.trim()) {
+                    alert('Sentimento inválido.');
+                    return;
+                }
+                sentiment = sentiment.trim().toLowerCase();
+                currentSentiment = sentiment;
+                const apiKey = apiKeyInput.value.trim();
+                if (!apiKey) {
+                    alert('Insira a chave API.');
+                    showScreen('settingsScreen');
+                    return;
+                }
+                console.log(`Gen plan: ${sentiment}`);
+                showScreen('planScreen');
+                planTitle.textContent = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+                planContainer.innerHTML = '';
+                loadingIndicator.style.display = 'block';
+                try {
+                    const savedPlanData = await getData(PLAN_STORE, sentiment);
+                    if (savedPlanData?.planData) {
+                        console.log(`DB hit: ${sentiment}.`);
+                        displayPlan(savedPlanData.planData, sentiment);
+                    } else {
+                        console.log(`DB miss: ${sentiment}. Fetching...`);
+                        await fetchGeminiPlan(sentiment, apiKey);
+                    }
+                } catch (error) {
+                    console.error('Gen plan err:', error);
+                    planContainer.innerHTML = `<div class="alert alert-danger">Erro: ${error.message || error}</div>`;
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+            function generateCustomPlan() {
+                generatePlan(sentimentInput.value.trim());
+            }
+
+            // Fetch Gemini Plan
+            async function fetchGeminiPlan(sentiment, apiKey) {
+                const fullApiUrl = `${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=${apiKey}`;
+                console.log(`Fetch: ${API_ENDPOINT_BASE}${MODEL_NAME}:generateContent?key=HIDDEN`);
+
+                const generalPromptTemplate = (s) => `Gere um plano JSON de 7 dias para "${s}". Estrutura: {"disclaimer":"**Aviso: Ferramenta IA, não substitui médico/psicólogo. Procure profissional.**","introduction":"(1-2 frases acolhedoras relacionadas a '${s}')","dia1":{"titulo":"Título curto","descricao":"(2-4 frases, 50-80 palavras) Atividade prática adaptada para '${s}', tom empático/motivador.","duracao":NUMERO_INTEIRO,"intensidade":"leve/média/profunda","categoria":"Ex:Respiração,Escrita","beneficio":"Ex:Melhora bem-estar"},"dia2":{...},"dia3":{...},"dia4":{...},"dia5":{...},"dia6":{...},"dia7":{...},"closing":"(1-2 frases) Motivação final."} REGRAS: Varie atividades/categorias. Linguagem simples. 'duracao' DEVE ser um número inteiro. APENAS JSON válido.`;
+                const prompt = generalPromptTemplate(sentiment);
+
+                let rawPlanText = '';
+                try {
+                    const response = await fetch(fullApiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+                    if (!response.ok) {
+                        const errTxt = await response.text();
+                        let msg = `API Err: ${response.status} ${response.statusText}.`;
+                        if (response.status === 400) msg += ' Chave/Req?';
+                        else if (response.status === 403) msg += ' Perm?';
+                        else if (response.status === 429) msg += ' Cota?';
+                        else if (response.status >= 500) msg += ' Servidor?';
+                        throw new Error(msg + ` Det: ${errTxt}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('API Resp:', data);
+
+                    if (data.candidates?.[0]?.content?.parts?.[0]) {
+                        rawPlanText = data.candidates[0].content.parts[0].text;
+                        console.log('Raw API Text (first 500):', rawPlanText.substring(0, 500) + '...');
+
+                        // Extract JSON from Markdown
+                        let jsonString = rawPlanText.replace(/^```json\s*|\s*```$/g, '').trim();
+                        const firstBrace = jsonString.indexOf('{');
+                        const lastBrace = jsonString.lastIndexOf('}');
+                        if (firstBrace === -1 || lastBrace < firstBrace) {
+                            console.error('No JSON {} found:', jsonString);
+                            throw new Error('No JSON.');
+                        }
+                        jsonString = jsonString.substring(firstBrace, lastBrace + 1);
+
+                        // Parse JSON
+                        let planJson;
+                        try {
+                            planJson = JSON.parse(jsonString);
+                        } catch (e) {
+                            console.error('JSON Parse failed:', e, 'Raw:', jsonString);
+                            throw new Error('JSON inválido.');
+                        }
+
+                        // Validate structure
+                        if (!planJson?.disclaimer || !planJson.introduction || !planJson.closing || !planJson.dia1?.titulo) {
+                            console.error('Invalid JSON structure:', planJson);
+                            throw new Error('JSON incompleto.');
+                        }
+
+                        // Fetch external insights
+                        const externalInsights = await fetchExternalInsights(sentiment);
+
+                        // Enhance plan with insights
+                        planJson.introduction = `${planJson.introduction} ${externalInsights.motivationalQuote || ''}`.trim();
+                        planJson.closing = `${planJson.closing} ${externalInsights.additionalBenefits || ''}`.trim();
+                        const daysOrder = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5', 'dia6', 'dia7'];
+                        daysOrder.forEach((dayKey, index) => {
+                            if (planJson[dayKey] && externalInsights.suggestedCategory && index === 6) {
+                                planJson[dayKey].categoria = externalInsights.suggestedCategory;
+                                planJson[dayKey].beneficio = `${planJson[dayKey].beneficio} ${externalInsights.additionalBenefits}`.trim();
+                            }
+                        });
+
+                        // Save and display plan
+                        const planDataToSave = {
+                            sentiment: sentiment,
+                            planData: planJson,
+                            timestamp: Date.now()
+                        };
+                        await saveData(PLAN_STORE, planDataToSave);
+                        displayPlan(planJson, sentiment);
+                    } else {
+                        throw new Error('Resposta inesperada.');
+                    }
+                } catch (error) {
+                    console.error('fetch Err:', error);
+                    planContainer.innerHTML = `<div class="alert alert-danger">Falha.<br><small>${error.message || error}</small></div>`;
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+
+            // External Insights
+            async function fetchExternalInsights(sentiment) {
+                console.log(`Buscando insights para: ${sentiment}`);
+                try {
+                    // Simulated insights
+                    const insightsMap = {
+                        ansiedade: { additionalBenefits: 'Promove calma.', suggestedCategory: 'Mindfulness', motivationalQuote: 'Respire fundo.' },
+                        alegria: { additionalBenefits: 'Amplifica felicidade.', suggestedCategory: 'Criatividade', motivationalQuote: 'Espalhe alegria!' },
+                        default: { additionalBenefits: 'Melhora bem-estar.', suggestedCategory: 'Bem-estar', motivationalQuote: 'Você está no caminho certo.' }
+                    };
+                    return insightsMap[sentiment.toLowerCase()] || insightsMap.default;
+
+                    // Real-time search (example, requires backend)
+                    /*
+                    const response = await fetch('https://your-api.com/search', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: `insights for ${sentiment}` })
+                    });
+                    return await response.json();
+                    */
+                } catch (error) {
+                    console.error('Erro insights:', error);
+                    return { additionalBenefits: '', suggestedCategory: '', motivationalQuote: '' };
+                }
+            }
+
+            // Display Plan
+            function displayPlan(plan, sentiment) {
+                planContainer.innerHTML = '';
+                if (!plan || typeof plan !== 'object') {
+                    planContainer.innerHTML = `<div class="alert alert-warning">Inválido.</div>`;
+                    loadingIndicator.style.display = 'none';
+                    return;
+                }
+                const sanitize = (str) => {
+                    const t = document.createElement('div');
+                    t.textContent = String(str ?? '');
+                    return t.innerHTML;
+                };
+                if (plan.disclaimer) {
+                    const el = document.createElement('div');
+                    el.className = 'disclaimer';
+                    el.textContent = plan.disclaimer.replace(/\*\*/g, '');
+                    planContainer.appendChild(el);
+                }
+                if (plan.introduction) {
+                    const el = document.createElement('p');
+                    el.className = 'plan-introduction';
+                    el.textContent = plan.introduction;
+                    planContainer.appendChild(el);
+                }
+                const daysOrder = ['dia1', 'dia2', 'dia3', 'dia4', 'dia5', 'dia6', 'dia7'];
+                daysOrder.forEach(dayKey => {
+                    if (plan[dayKey]) {
+                        const activity = plan[dayKey];
+                        if (!activity.titulo || !activity.descricao) return;
+                        const dayCard = document.createElement('div');
+                        dayCard.className = 'plan-card';
+                        const intClassMap = {
+                            'leve': 'intensity-leve',
+                            'média': 'intensity-média',
+                            'media': 'intensity-média',
+                            'profunda': 'intensity-profunda'
+                        };
+                        const normInt = activity.intensidade?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') || 'leve';
+                        const intClass = intClassMap[normInt] || 'bg-secondary';
+                        const fDay = formatDay(dayKey);
+                        dayCard.innerHTML = `
+                            <div class="day-header">
+                                <span class="day-number">${sanitize(fDay)}</span>
+                                <span class="badge intensity-badge ${intClass}"><i class="bi bi-activity me-1"></i> ${sanitize(activity.intensidade?.charAt(0).toUpperCase() + activity.intensidade?.slice(1) || 'N/A')}</span>
+                            </div>
+                            <div class="activity-item">
+                                <h5>${sanitize(activity.titulo)}</h5>
+                                <p>${sanitize(activity.descricao)}</p>
+                                <div class="activity-details">
+                                    <span class="badge badge-category"><i class="bi bi-bookmark-fill"></i> ${sanitize(activity.categoria || 'N/A')}</span>
+                                    <span class="badge badge-duration"><i class="bi bi-clock-fill"></i> ${sanitize(activity.duracao || 'N/A')} min</span>
+                                    <span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill"></i> ${sanitize(activity.beneficio || 'N/A')}</span>
+                                </div>
+                            </div>`;
+                        planContainer.appendChild(dayCard);
+                    }
+                });
+                if (plan.closing) {
+                    const el = document.createElement('p');
+                    el.className = 'plan-closing';
+                    el.textContent = plan.closing;
+                    planContainer.appendChild(el);
+                }
+                loadingIndicator.style.display = 'none';
+            }
+
+            // Format Day
+            function formatDay(dayKey) {
+                const days = {
+                    'dia1': 'Segunda', 'dia2': 'Terça', 'dia3': 'Quarta', 'dia4': 'Quinta',
+                    'dia5': 'Sexta', 'dia6': 'Sábado', 'dia7': 'Domingo'
+                };
+                return days[dayKey] || dayKey;
+            }
+
+            // History and Favorites (Minimal Implementation)
+            async function showHistory() {
+                showScreen('historyScreen');
+                historyList.innerHTML = '';
+                historyEmptyMessage.classList.add('d-none');
+                const allPlans = await getAllData(PLAN_STORE);
+                if (allPlans.length === 0) {
+                    historyEmptyMessage.classList.remove('d-none');
+                    return;
+                }
+                allPlans.sort((a, b) => b.timestamp - a.timestamp);
+                allPlans.forEach(item => {
+                    const li = document.createElement('a');
+                    li.href = '#';
+                    li.className = 'list-group-item list-group-item-action';
+                    const date = new Date(item.timestamp);
+                    li.innerHTML = `<strong>${item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}</strong><br><small>${date.toLocaleString('pt-BR')}</small>`;
+                    li.onclick = (e) => {
+                        e.preventDefault();
+                        currentSentiment = item.sentiment;
+                        showScreen('planScreen');
+                        planTitle.textContent = item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1);
+                        displayPlan(item.planData, item.sentiment);
+                    };
+                    historyList.appendChild(li);
+                });
+            }
+            function showFavorites() {
+                showScreen('favoritesScreen');
+                favoritesList.innerHTML = '';
+                favoritesEmptyMessage.classList.remove('d-none');
+            }
+
+            // Event Listeners
+            document.getElementById('homeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                backToHome();
+            });
+            document.getElementById('settingsBtn').addEventListener('click', () => showScreen('settingsScreen'));
+            document.getElementById('saveApiKeyBtn').addEventListener('click', saveApiKey);
+            document.getElementById('backToHomeBtn').addEventListener('click', backToHome);
+            document.getElementById('backToHomeHistoryBtn').addEventListener('click', backToHome);
+            document.getElementById('backToHomeFavoritesBtn').addEventListener('click', backToHome);
+            document.getElementById('backToAppBtn').addEventListener('click', () => showScreen(currentSentiment ? 'planScreen' : 'homeScreen'));
+            document.getElementById('historyBtn').addEventListener('click', showHistory);
+            document.getElementById('favoritesBtn').addEventListener('click', showFavorites);
+            document.getElementById('searchBtn').addEventListener('click', generateCustomPlan);
+            document.querySelectorAll('.sentiment-btn').forEach(button => {
+                button.addEventListener('click', () => generatePlan(button.dataset.sentiment));
+            });
+            sentimentInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') generateCustomPlan();
+            });
+
+            // Initial Setup
+            showScreen('homeScreen');
+            console.log('generatePlan defined:', typeof generatePlan);
+            console.log('showHistory defined:', typeof showHistory);
+            console.log('saveApiKey defined:', typeof saveApiKey);
+        } catch (e) {
+            console.error('Script error:', e);
+            alert('Erro ao carregar. Verifique o console.');
         }
-
-        // displayPlan
-        function displayPlan(plan, isFavorited, sentiment) { planContainer.innerHTML = ''; if (!plan || typeof plan !== 'object') { console.error("Invalid plan:", plan); planContainer.innerHTML=`<div class="alert alert-warning">Inválido.</div>`; loadingIndicator.style.display='none'; return; } const sanitize = (str) => { const t=document.createElement('div'); t.textContent=String(str??''); return t.innerHTML; }; favoriteButton.classList.toggle('favorited', isFavorited); favoriteButton.title = isFavorited ? "Remover" : "Adicionar"; if (plan.disclaimer) { const el=document.createElement('div'); el.className='disclaimer'; el.textContent=plan.disclaimer.replace(/\*\*/g, ''); planContainer.appendChild(el); } if (plan.introduction) { const el=document.createElement('p'); el.className='plan-introduction'; el.textContent=plan.introduction; planContainer.appendChild(el); } const daysOrder=['dia1','dia2','dia3','dia4','dia5','dia6','dia7']; daysOrder.forEach(dayKey => { if (plan[dayKey]) { const activity = plan[dayKey]; if (typeof activity !== 'object' || !activity.titulo || !activity.descricao) { console.warn(`Inv ${dayKey}:`, activity); return; } const dayCard = document.createElement('div'); dayCard.className = 'plan-card'; const intClassMap={'leve':'intensity-leve','média':'intensity-média','media':'intensity-média','profunda':'intensity-profunda'}; const normInt=activity.intensidade?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")||'leve'; const intClass=intClassMap[normInt]||'bg-secondary'; const fDay=formatDay(dayKey); const favBtnClass = isFavorited ? 'favorited' : ''; const favBtnTitle = isFavorited ? "Remover" : "Adicionar"; const escapedTitle = sanitize(activity.titulo).replace(/'/g, "\\'"); const escapedDesc = sanitize(activity.descricao).replace(/'/g, "\\'"); const dailyActionsHTML = `<div class="day-action-buttons"><button class="day-action-btn day-favorite-btn ${favBtnClass}" title="${favBtnTitle}" onclick="toggleFavorite()"><i class="bi bi-heart-fill"></i></button><button class="day-action-btn day-share-btn" title="Compartilhar" onclick="shareDayActivity('${escapedTitle}', '${escapedDesc}', '${sanitize(sentiment)}')"><i class="bi bi-share-fill"></i></button></div>`; dayCard.innerHTML = `<div class="day-header"><span class="day-number">${sanitize(fDay)}</span><span class="badge intensity-badge ${intClass}"><i class="bi bi-activity me-1"></i> ${sanitize(activity.intensidade?.charAt(0).toUpperCase()+activity.intensidade?.slice(1)||'N/A')}</span></div><div class="activity-item"><h5>${sanitize(activity.titulo)}</h5><p>${sanitize(activity.descricao)}</p><div class="activity-details"><span class="badge badge-category"><i class="bi bi-bookmark-fill"></i> ${sanitize(activity.categoria||'N/A')}</span><span class="badge badge-duration"><i class="bi bi-clock-fill"></i> ${sanitize(activity.duracao||'N/A')} min</span><span class="badge badge-benefit"><i class="bi bi-emoji-smile-fill"></i> ${sanitize(activity.beneficio||'N/A')}</span>${dailyActionsHTML}</div></div>`; planContainer.appendChild(dayCard); } else { console.warn(`No ${dayKey}.`); } }); if (plan.closing) { const el=document.createElement('p'); el.className='plan-closing'; el.textContent=plan.closing; planContainer.appendChild(el); } loadingIndicator.style.display = 'none'; }
-
-        // formatDay
-        function formatDay(dayKey) { const days={'dia1':'Segunda','dia2':'Terça','dia3':'Quarta','dia4':'Quinta','dia5':'Sexta','dia6':'Sábado','dia7':'Domingo'}; return days[dayKey]||dayKey; }
-
-        // --- Event Listeners ---
-        document.getElementById('settingsBtn').addEventListener('click', showSettings);
-        sentimentInput.addEventListener('keypress', (e)=>{if(e.key==='Enter')generateCustomPlan();});
-
-        // --- Initial Setup ---
-        showScreen('homeScreen'); // Start on home screen
-
     </script>
-
 </body>
 </html>
