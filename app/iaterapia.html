@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -25,7 +22,6 @@
             --light: #F3F4F6;
             --white: #FFFFFF;
             --border-color: #E5E7EB;
-            --favorite: #FFD700;
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -34,6 +30,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s ease;
         }
         #app { flex-grow: 1; position: relative; z-index: 1; }
         .navbar {
@@ -52,6 +49,38 @@
             margin-left: 0.5rem;
         }
         .nav-link-custom:hover, .settings-btn:hover { background-color: rgba(255,255,255,0.3); }
+
+        /* Video Background */
+        #bgVideo, #videoOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            object-fit: cover;
+        }
+        #videoOverlay {
+            background-color: rgba(0,0,0,0.5);
+            z-index: -1;
+        }
+        body.video-background-active #bgVideo,
+        body.video-background-active #videoOverlay {
+            opacity: 1;
+        }
+        body.video-background-active #homeScreen h2,
+        body.video-background-active #homeScreen h3 {
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+        body:not(.video-background-active) {
+            background-color: var(--bg-light);
+        }
+
+        /* Home Screen */
         #homeScreen {
             padding-top: 4rem;
             padding-bottom: 4rem;
@@ -60,8 +89,10 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            transition: color 0.3s ease;
         }
         #homeScreen h2 { color: var(--primary); }
+        body.video-background-active #homeScreen h2 { color: var(--text-light); }
         .search-container {
             position: relative;
             max-width: 500px;
@@ -75,6 +106,18 @@
             font-size: 1rem;
             padding-right: 3.5rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.9);
+        }
+        body.video-background-active .search-container input[type="text"] {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+            color: var(--text-light);
+        }
+        .search-container input[type="text"]::placeholder {
+            color: #aaa;
+        }
+        body.video-background-active .search-container input[type="text"]::placeholder {
+            color: rgba(255,255,255,0.7);
         }
         .search-container input[type="text"]:focus {
             border-color: var(--primary);
@@ -97,12 +140,16 @@
             justify-content: center;
         }
         .search-container button:hover { background-color: var(--secondary); }
+
+        /* Glassmorphic Buttons */
         .sentiment-buttons-row { max-width: 1000px; width: 90%; margin-top: 2rem; }
         .sentiment-btn {
-            background: var(--white);
-            border: 1px solid var(--accent);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            color: var(--primary);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            color: var(--text-light);
             border-radius: 0.75rem;
             font-weight: 600;
             display: flex;
@@ -110,16 +157,46 @@
             justify-content: center;
             height: 100%;
             padding: 1.2rem 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        body:not(.video-background-active) .sentiment-btn {
+            background: var(--white);
+            border: 1px solid var(--accent);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: var(--primary);
+            backdrop-filter: none;
+            text-shadow: none;
         }
         .sentiment-btn:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 6px 25px rgba(0,0,0,0.15);
+            filter: brightness(1.2);
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,0.4);
+            color: var(--text-light);
+        }
+        body:not(.video-background-active) .sentiment-btn:hover {
             background: var(--accent);
-            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 6px 12px rgba(79,70,229,0.15);
             color: var(--primary);
-            box-shadow: 0 6px 12px rgba(79,70,229,0.15);
         }
         .sentiment-btn i { margin-right: 0.5rem; font-size: 1.2rem; }
-        #planScreen, #settingsScreen { padding: 1.5rem; background-color: var(--bg-light); }
-        #planScreen h2 { color: var(--primary); font-weight: 600; display: flex; align-items: center; }
+        .sentiment-btn span { position: relative; z-index: 2; }
+
+        /* Other Screens */
+        #planScreen, #settingsScreen, #historyScreen, #favoritesScreen {
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+        }
+        #planScreen h2, #settingsScreen h2, #historyScreen h2, #favoritesScreen h2 {
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
         .plan-card {
             background: var(--white);
             border-radius: 1rem;
@@ -139,7 +216,6 @@
         .day-number { font-weight: 600; font-size: 1.2rem; color: var(--primary); }
         .activity-item {
             padding: 1.25rem;
-            margin: 0;
             border-left: 5px solid var(--secondary);
             background-color: var(--light);
             border-radius: 0.5rem;
@@ -214,6 +290,13 @@
     </style>
 </head>
 <body>
+    <!-- Video Background -->
+    <div id="videoOverlay"></div>
+    <video autoplay loop muted playsinline id="bgVideo">
+        <source src="https://cdn.pixabay.com/video/2024/11/07/240320_large.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" id="homeLink"> <i class="bi bi-heart-pulse-fill me-2"></i>Plano Terapêutico </a>
@@ -301,6 +384,7 @@
             let currentSentiment = null;
 
             // DOM Elements
+            const bodyElement = document.body;
             const homeScreen = document.getElementById('homeScreen');
             const planScreen = document.getElementById('planScreen');
             const historyScreen = document.getElementById('historyScreen');
@@ -340,13 +424,13 @@
             };
             request.onerror = function(event) {
                 console.error('DB error:', event.target.error);
-                alert('Erro DB.');
+                alert('Erro ao abrir o banco de dados.');
                 apiKeyInput.value = DEFAULT_API_KEY;
             };
 
             // IndexedDB Helper Functions
             function saveData(storeName, data) {
-                if (!db) return Promise.reject('DB err');
+                if (!db) return Promise.reject('Banco de dados não inicializado');
                 return new Promise((res, rej) => {
                     const r = db.transaction(storeName, 'readwrite').objectStore(storeName).put(data);
                     r.onsuccess = () => res();
@@ -380,13 +464,13 @@
                 const k = apiKeyInput.value.trim();
                 if (k) {
                     await saveData(SETTINGS_STORE, { id: 'apiKey', value: k });
-                    alert('Chave salva!');
+                    alert('Chave API salva com sucesso!');
                 } else {
                     if (db) {
                         db.transaction(SETTINGS_STORE, 'readwrite').objectStore(SETTINGS_STORE).delete('apiKey');
-                        alert('Chave removida.');
+                        alert('Chave API removida.');
                     } else {
-                        alert('Erro DB.');
+                        alert('Erro ao acessar o banco de dados.');
                     }
                 }
             }
@@ -399,6 +483,7 @@
                 loadingIndicator.style.display = 'none';
                 document.getElementById(screenId).classList.remove('d-none');
                 currentScreen = screenId;
+                bodyElement.classList.toggle('video-background-active', screenId === 'homeScreen');
                 window.scrollTo(0, 0);
             }
             function backToHome() {
@@ -410,14 +495,14 @@
             // Plan Generation and Display
             async function generatePlan(sentiment) {
                 if (!sentiment?.trim()) {
-                    alert('Sentimento inválido.');
+                    alert('Por favor, insira um sentimento válido.');
                     return;
                 }
                 sentiment = sentiment.trim().toLowerCase();
                 currentSentiment = sentiment;
                 const apiKey = apiKeyInput.value.trim();
                 if (!apiKey) {
-                    alert('Insira a chave API.');
+                    alert('Insira a chave API nas configurações.');
                     showScreen('settingsScreen');
                     return;
                 }
@@ -437,7 +522,7 @@
                     }
                 } catch (error) {
                     console.error('Gen plan err:', error);
-                    planContainer.innerHTML = `<div class="alert alert-danger">Erro: ${error.message || error}</div>`;
+                    planContainer.innerHTML = `<div class="alert alert-danger">Erro ao gerar o plano: ${error.message || error}</div>`;
                     loadingIndicator.style.display = 'none';
                 }
             }
@@ -462,12 +547,12 @@
                     });
                     if (!response.ok) {
                         const errTxt = await response.text();
-                        let msg = `API Err: ${response.status} ${response.statusText}.`;
-                        if (response.status === 400) msg += ' Chave/Req?';
-                        else if (response.status === 403) msg += ' Perm?';
-                        else if (response.status === 429) msg += ' Cota?';
-                        else if (response.status >= 500) msg += ' Servidor?';
-                        throw new Error(msg + ` Det: ${errTxt}`);
+                        let msg = `Erro na API: ${response.status} ${response.statusText}.`;
+                        if (response.status === 400) msg += ' Verifique a chave ou requisição.';
+                        else if (response.status === 403) msg += ' Permissão negada.';
+                        else if (response.status === 429) msg += ' Limite de cota excedido.';
+                        else if (response.status >= 500) msg += ' Erro no servidor.';
+                        throw new Error(msg + ` Detalhes: ${errTxt}`);
                     }
 
                     const data = await response.json();
@@ -483,7 +568,7 @@
                         const lastBrace = jsonString.lastIndexOf('}');
                         if (firstBrace === -1 || lastBrace < firstBrace) {
                             console.error('No JSON {} found:', jsonString);
-                            throw new Error('No JSON.');
+                            throw new Error('Formato JSON não encontrado na resposta.');
                         }
                         jsonString = jsonString.substring(firstBrace, lastBrace + 1);
 
@@ -493,13 +578,13 @@
                             planJson = JSON.parse(jsonString);
                         } catch (e) {
                             console.error('JSON Parse failed:', e, 'Raw:', jsonString);
-                            throw new Error('JSON inválido.');
+                            throw new Error('Erro ao parsear JSON da resposta.');
                         }
 
                         // Validate structure
                         if (!planJson?.disclaimer || !planJson.introduction || !planJson.closing || !planJson.dia1?.titulo) {
                             console.error('Invalid JSON structure:', planJson);
-                            throw new Error('JSON incompleto.');
+                            throw new Error('Estrutura JSON incompleta.');
                         }
 
                         // Fetch external insights
@@ -525,11 +610,11 @@
                         await saveData(PLAN_STORE, planDataToSave);
                         displayPlan(planJson, sentiment);
                     } else {
-                        throw new Error('Resposta inesperada.');
+                        throw new Error('Resposta da API não contém conteúdo esperado.');
                     }
                 } catch (error) {
                     console.error('fetch Err:', error);
-                    planContainer.innerHTML = `<div class="alert alert-danger">Falha.<br><small>${error.message || error}</small></div>`;
+                    planContainer.innerHTML = `<div class="alert alert-danger">Falha ao buscar o plano.<br><small>${error.message || error}</small></div>`;
                     loadingIndicator.style.display = 'none';
                 }
             }
@@ -538,25 +623,14 @@
             async function fetchExternalInsights(sentiment) {
                 console.log(`Buscando insights para: ${sentiment}`);
                 try {
-                    // Simulated insights
                     const insightsMap = {
-                        ansiedade: { additionalBenefits: 'Promove calma.', suggestedCategory: 'Mindfulness', motivationalQuote: 'Respire fundo.' },
-                        alegria: { additionalBenefits: 'Amplifica felicidade.', suggestedCategory: 'Criatividade', motivationalQuote: 'Espalhe alegria!' },
-                        default: { additionalBenefits: 'Melhora bem-estar.', suggestedCategory: 'Bem-estar', motivationalQuote: 'Você está no caminho certo.' }
+                        ansiedade: { additionalBenefits: 'Promove calma e equilíbrio.', suggestedCategory: 'Mindfulness', motivationalQuote: 'Respire fundo e confie no processo.' },
+                        alegria: { additionalBenefits: 'Amplifica a felicidade e energia positiva.', suggestedCategory: 'Criatividade', motivationalQuote: 'Espalhe alegria em cada momento!' },
+                        default: { additionalBenefits: 'Melhora o bem-estar geral.', suggestedCategory: 'Bem-estar', motivationalQuote: 'Você está no caminho certo.' }
                     };
                     return insightsMap[sentiment.toLowerCase()] || insightsMap.default;
-
-                    // Real-time search (example, requires backend)
-                    /*
-                    const response = await fetch('https://your-api.com/search', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ query: `insights for ${sentiment}` })
-                    });
-                    return await response.json();
-                    */
                 } catch (error) {
-                    console.error('Erro insights:', error);
+                    console.error('Erro ao buscar insights:', error);
                     return { additionalBenefits: '', suggestedCategory: '', motivationalQuote: '' };
                 }
             }
@@ -565,7 +639,7 @@
             function displayPlan(plan, sentiment) {
                 planContainer.innerHTML = '';
                 if (!plan || typeof plan !== 'object') {
-                    planContainer.innerHTML = `<div class="alert alert-warning">Inválido.</div>`;
+                    planContainer.innerHTML = `<div class="alert alert-warning">Plano inválido.</div>`;
                     loadingIndicator.style.display = 'none';
                     return;
                 }
@@ -637,7 +711,7 @@
                 return days[dayKey] || dayKey;
             }
 
-            // History and Favorites (Minimal Implementation)
+            // History and Favorites
             async function showHistory() {
                 showScreen('historyScreen');
                 historyList.innerHTML = '';
@@ -698,7 +772,7 @@
             console.log('saveApiKey defined:', typeof saveApiKey);
         } catch (e) {
             console.error('Script error:', e);
-            alert('Erro ao carregar. Verifique o console.');
+            alert('Erro ao carregar a aplicação. Verifique o console para detalhes.');
         }
     </script>
 </body>
