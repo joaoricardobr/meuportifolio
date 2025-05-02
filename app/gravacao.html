@@ -1,219 +1,196 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gravador Inteligente Pro v11 - Completo</title>
+    <title>Gravador Inteligente Pro v8</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Platform Library - Necessário para Sign-In, Calendar, Speech APIs -->
-    <script src="https://apis.google.com/js/api.js" defer></script>
-
     <style>
-        /* --- CSS Embutido (Completo) --- */
         :root {
-            --primary-color: #3498DB; --secondary-color: #7F8C8D; --accent-color: #1ABC9C;
-            --success-color: #2ECC71; --danger-color: #E74C3C; --warning-color: #F1C40F;
-            --info-color: #5DADE2; --purple-color: #8E44AD; --google-color: #DB4437;
-            --gemini-color: #4285F4; --light-bg: #f8f9fa; --white-bg: #FFFFFF;
-            --text-dark: #212529; --text-light: #f8f9fa; --border-color: #dee2e6;
-            --shadow-color: rgba(52, 152, 219, 0.15);
+            --primary-color: #3498DB;
+            --secondary-color: #7F8C8D;
+            --accent-color: #1ABC9C;
+            --success-color: #2ECC71;
+            --danger-color: #E74C3C;
+            --warning-color: #F1C40F;
+            --info-color: #5DADE2;
+            --purple-color: #8E44AD;
+            --light-bg: #ECF0F1;
+            --white-bg: #FFFFFF;
+            --text-dark: #2C3E50;
+            --text-light: #FDFEFE;
+            --border-color: #D5DBDB;
+            --shadow-color: rgba(52, 152, 219, 0.2);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { height: 100%; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--light-bg); color: var(--text-dark); display: flex;
-            justify-content: center; align-items: flex-start; min-height: 100vh;
-            padding-top: 10px; overscroll-behavior: contain; font-size: 15px; line-height: 1.5;
-        }
-        #app-shell {
-            width: 100%; max-width: 400px; height: calc(100vh - 20px); max-height: 750px;
-            background-color: var(--white-bg); border-radius: 20px; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-            display: flex; flex-direction: column; overflow: hidden; position: relative;
-        }
-        /* Top Bar */
-        #top-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background-color: var(--white-bg); border-bottom: 1px solid var(--border-color); flex-shrink: 0; z-index: 10; }
-        .icon-button { background: none; border: none; font-size: 1.25em; color: var(--primary-color); cursor: pointer; padding: 6px; width: 38px; height: 38px; line-height: 1; text-align: center; border-radius: 50%; transition: all 0.2s ease; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--light-bg); color: var(--text-dark); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding-top: 10px; overscroll-behavior: contain; font-size: 15px; }
+        #app-shell { width: 100%; max-width: 400px; height: calc(100vh - 20px); max-height: 750px; background-color: var(--white-bg); border-radius: 20px; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+        #top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background-color: var(--white-bg); border-bottom: 1px solid #e8e8e8; flex-shrink: 0; }
+        .icon-button { background: none; border: none; font-size: 1.3em; color: var(--primary-color); cursor: pointer; padding: 8px; width: 40px; height: 40px; line-height: 1; text-align: center; border-radius: 50%; transition: background-color 0.2s ease;}
         .icon-button:hover:not(:disabled) { background-color: rgba(0,0,0,0.05); }
-        .icon-button:disabled { color: #adb5bd; cursor: not-allowed; background-color: transparent;}
+        .icon-button:disabled { color: #ccc; cursor: not-allowed; background-color: transparent;}
         #back-button { display: none; }
-        .top-bar-buttons { display: flex; align-items: center; gap: 3px; }
-        #app-title { font-size: 1.05em; font-weight: 600; color: var(--secondary-color); margin: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; text-align: center; }
-        #google-auth-button i { color: var(--google-color); }
-        #google-auth-button.logged-in i { color: var(--success-color); }
+        .top-bar-buttons { display: flex; align-items: center; gap: 5px; }
+        .media-input-buttons { display: flex; align-items: center; gap: 5px; margin-right: 10px;} /* Adicionado margin-right */
+        #app-title { font-size: 1.1em; font-weight: 600; color: var(--secondary-color); margin: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; text-align: center;}
+        .theme-toggle { font-size: 1.2em; }
 
-        /* Main Content & Views */
         #main-content { flex-grow: 1; overflow: hidden; position: relative; }
-        .view { position: absolute; inset: 0; background-color: var(--white-bg); transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.35s ease; overflow-y: auto; display: flex; flex-direction: column; opacity: 0; transform: translateX(100%); z-index: 1; visibility: hidden; }
-        .view.active-view { opacity: 1; transform: translateX(0); z-index: 2; visibility: visible; }
-        #recording-view { opacity: 1; transform: translateX(0); visibility: visible; z-index: 2; } /* Start active */
-        #list-view { transform: translateX(100%); opacity: 0; visibility: hidden; z-index: 1; } /* Start hidden */
-        #app-shell.show-list #recording-view { transform: translateX(-100%); opacity: 0; z-index: 1; visibility: hidden; }
-        #app-shell.show-list #list-view { transform: translateX(0); opacity: 1; z-index: 2; visibility: visible; }
+        .view { position: absolute; inset: 0; background-color: var(--white-bg); transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); overflow-y: auto; display: flex; flex-direction: column; padding: 20px; }
+        /* Initial State */
+        #recording-view { transform: translateX(0); z-index: 3; }
+        #camera-view { transform: translateX(100%); z-index: 2; }
+        #list-view { transform: translateX(200%); z-index: 1; }
 
-        /* Recording View */
-        #recording-view { justify-content: center; align-items: center; text-align: center; padding: 0; }
-        .recording-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; margin-top: -5%; padding: 10px; }
-        #recording-icon-wrapper { width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; position: relative; background-color: #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 4px solid var(--light-bg); flex-shrink: 0; }
-        #recording-icon { font-size: 3.2em; z-index: 2; transition: color 0.3s ease; }
-        #recording-icon-wrapper::before { content: ''; position: absolute; left: 50%; top: 50%; width: 90%; height: 90%; border-radius: 50%; background-color: var(--accent-color); opacity: 0; transform: translate(-50%, -50%) scale(0.8); z-index: 1; animation: idle-wave 2.5s infinite ease-out; }
+        /* Show Camera State */
+        #app-shell.show-camera #recording-view { transform: translateX(-100%); }
+        #app-shell.show-camera #camera-view { transform: translateX(0); }
+        #app-shell.show-camera #list-view { transform: translateX(100%); }
+
+        /* Show List State */
+        #app-shell.show-list #recording-view { transform: translateX(-200%); }
+        #app-shell.show-list #camera-view { transform: translateX(-100%); }
+        #app-shell.show-list #list-view { transform: translateX(0); }
+
+        /* --- Recording View --- */
+        #recording-view { justify-content: space-between; align-items: center; text-align: center; background: linear-gradient(180deg, var(--white-bg) 50%, #f9fafb 100%); position: relative; overflow: hidden; }
+        /* Removed #background-video styles */
+        .recording-timer-area { margin-top: 8%; }
+        #recording-icon-wrapper { width: 110px; height: 110px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; position: relative; background-color: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 3px solid var(--light-bg); }
+        #recording-icon { font-size: 2.8em; z-index: 2; transition: color 0.3s ease;}
+        #recording-icon-wrapper::before { content: ''; position: absolute; left: 50%; top: 50%; width: 90%; height: 90%; border-radius: 50%; background-color: var(--accent-color); opacity: 0; transform: translate(-50%, -50%) scale(0.8); animation: idle-wave 2.5s infinite ease-out; z-index: 1;}
+        #recording-icon.state-idle + #recording-icon-wrapper::before { animation: idle-wave 2.5s infinite ease-out; background-color: var(--success-color); }
+        #recording-icon.state-recording + #recording-icon-wrapper::before { animation: recording-wave 1.5s infinite ease-out; background-color: var(--danger-color); }
+        #recording-icon.state-paused + #recording-icon-wrapper::before,
+        #recording-icon.state-processing + #recording-icon-wrapper::before,
+        #recording-icon.state-analyzing_text + #recording-icon-wrapper::before,
+        #recording-icon.state-processing_file + #recording-icon-wrapper::before,
+        #recording-icon.state-camera_recording + #recording-icon-wrapper::before,
+        #recording-icon.state-processing_camera + #recording-icon-wrapper::before { animation: none; opacity: 0; }
         #recording-icon.state-idle { color: var(--success-color); }
-        #recording-icon.state-idle + #recording-icon-wrapper::before { animation: idle-wave 2.5s infinite ease-out; background-color: var(--success-color); opacity: 0.15; }
         #recording-icon.state-recording { color: var(--danger-color); }
-        #recording-icon.state-recording + #recording-icon-wrapper::before { animation: recording-wave 1.5s infinite ease-out; background-color: var(--danger-color); opacity: 0.4; }
         #recording-icon.state-paused { color: var(--warning-color); }
-        #recording-icon.state-paused + #recording-icon-wrapper::before, #recording-icon.state-processing + #recording-icon-wrapper::before, #recording-icon.state-analyzing + #recording-icon-wrapper::before { animation: none; opacity: 0; }
-        #recording-icon.state-processing { color: var(--info-color); } /* Blue for general processing */
-        #recording-icon.state-analyzing { color: var(--gemini-color); } /* Gemini color */
-        @keyframes recording-wave { 0%{transform:translate(-50%,-50%) scale(.9);opacity:.4} 70%{transform:translate(-50%,-50%) scale(1.3);opacity:.1} 100%{transform:translate(-50%,-50%) scale(1.4);opacity:0} }
-        @keyframes idle-wave { 0%{transform:translate(-50%,-50%) scale(.95);opacity:.15} 50%{transform:translate(-50%,-50%) scale(1.05);opacity:.05} 100%{transform:translate(-50%,-50%) scale(.95);opacity:.15} }
-        #timer-recording { font-size: 3.2em; font-weight: 300; color: var(--text-dark); letter-spacing: 1.5px; margin-bottom: 20px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
-        .recording-controls { display: flex; justify-content: space-around; align-items: center; width: 100%; padding: 15px 20px; background-color: rgba(255, 255, 255, 0.8); border-top: 1px solid var(--border-color); flex-shrink: 0; }
-        .recording-controls button { border: none; border-radius: 50%; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.2s ease; font-size: 1em; width: 60px; height: 60px; }
-        .recording-controls button span { font-size: 0.7em; margin-top: 4px; color: var(--secondary-color); }
-        .recording-controls button:disabled { opacity: 0.5; cursor: not-allowed; background-color: transparent !important; }
-        .recording-controls button:active:not(:disabled) { transform: scale(0.95); }
-        .control-main { width: 70px; height: 70px; color: white; font-size: 1.9em; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .control-main.state-idle { background-color: var(--success-color); }
-        .control-main.state-recording { background-color: var(--warning-color); color: var(--text-dark); }
-        .control-main.state-paused { background-color: var(--info-color); }
-        .control-main .fa-play { margin-left: 3px; }
-        .control-secondary { width: 55px; height: 55px; background: none; color: var(--secondary-color); font-size: 1.1em; }
-        .control-secondary:hover:not(:disabled) { background-color: rgba(0,0,0,0.05); }
-        #discardButton i { color: var(--danger-color); }
-        #stopButton { /* Stop button triggers processing */ }
-        #stopButton i { color: var(--danger-color); }
-        #discardButton span, #stopButton span { font-weight: 500; }
+        #recording-icon.state-processing,
+        #recording-icon.state-analyzing_text,
+        #recording-icon.state-processing_file,
+        #recording-icon.state-processing_camera { color: var(--secondary-color); }
+        @keyframes recording-wave { 0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.4; } 70% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.1; } 100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; } }
+        @keyframes idle-wave { 0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.15; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.05; } 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.15; } }
+        .recording-pulse::before { animation: recording-wave 1.5s infinite ease-out; background-color: var(--danger-color); opacity: 0.4; }
 
-        /* List View */
-        #list-view { padding: 15px; justify-content: flex-start; }
-        #list-view h2 { font-size: 1.1em; margin-bottom: 10px; color: var(--primary-color); padding-bottom: 5px; border-bottom: 1px solid #eee; margin-top: 15px; flex-shrink: 0; }
-        #list-view h2:first-of-type { margin-top: 0; }
-        #text-action-area { background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px; flex-shrink: 0; }
-        #transcriptionTextarea { width: 100%; min-height: 120px; max-height: 200px; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; line-height: 1.6; margin-bottom: 12px; resize: vertical; transition: background-color 0.2s; }
+        #timer-recording { font-size: 3em; font-weight: 300; color: var(--text-dark); letter-spacing: 1px; margin-bottom: 20px; font-variant-numeric: tabular-nums;}
+        .recording-view-controls { display: flex; justify-content: space-around; align-items: center; width: 100%; padding: 10px 0; margin-bottom: 8%;}
+        .recording-view-controls button { background: none; border: none; font-size: 1em; color: var(--secondary-color); cursor: pointer; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 70px; text-align: center; transition: color 0.2s;}
+        .recording-view-controls button span { font-size: 0.75em; }
+        .recording-view-controls button:disabled { color: #ced4da; cursor: not-allowed; }
+        .control-button-main { width: 65px; height: 65px; border-radius: 50%; color: white; font-size: 1.8em; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.18); transition: background-color 0.2s ease, transform 0.1s ease; }
+        .control-button-main:active:not(:disabled) { transform: scale(0.95); }
+        .control-button-main.state-idle { background-color: var(--success-color); }
+        .control-button-main.state-recording { background-color: var(--warning-color); color: var(--text-dark); }
+        .control-button-main.state-paused { background-color: var(--info-color); }
+        .control-button-main.state-processing, .control-button-main.state-analyzing_text,
+        .control-button-main.state-processing_file, .control-button-main.state-processing_camera { background-color: var(--secondary-color); cursor: not-allowed; }
+        .control-button-main .fa-play { margin-left: 3px; }
+
+        /* --- Camera View --- */
+        #camera-view { background-color: black; justify-content: center; align-items: center; position: relative; padding: 0;}
+        #cameraFeed { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); /* Flip for selfie view */ }
+        .camera-controls { position: absolute; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; gap: 20px; z-index: 10; }
+        .camera-controls button { background: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: background-color 0.2s ease; }
+        .camera-controls button i { font-size: 1.8em; color: var(--danger-color); }
+         #startStopCamRecording i.state-camera_recording { color: var(--warning-color); }
+         #startStopCamRecording i.state-processing_camera { color: var(--secondary-color); }
+         #discardCamRecording i { color: var(--secondary-color); }
+
+        /* --- List View --- */
+        #list-view { padding: 15px; overflow-y: auto;} /* Make sure list view is scrollable */
+        #list-view h2 { font-size: 1.1em; margin-bottom: 10px; color: var(--primary-color); padding-bottom: 5px; border-bottom: 1px solid #eee;}
+        #text-action-area { margin-bottom: 15px; background: #fdfdfd; padding: 15px; border-radius: 8px; border: 1px solid var(--light-bg); flex-shrink: 0; } /* Added flex-shrink */
+        #transcriptionTextarea { width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; line-height: 1.5; margin-bottom: 12px; resize: vertical; transition: background-color 0.2s; }
         #transcriptionTextarea:read-only { background-color: var(--light-bg); }
         .text-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .text-actions button { padding: 8px 15px; font-size: 0.85em; border-radius: 20px; border: none; cursor: pointer; transition: all 0.2s ease; color: white; margin-bottom: 5px; flex-shrink: 0; background-color: var(--primary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .text-actions button:hover:not(:disabled) { opacity: 0.9; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+        .text-actions button { padding: 9px 15px; font-size: 0.85em; border-radius: 20px; border: none; cursor: pointer; transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease; color: white; margin-bottom: 5px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .text-actions button:hover:not(:disabled) { opacity: 0.9; box-shadow: 0 3px 8px rgba(0,0,0,0.15);}
         .text-actions button:active:not(:disabled) { transform: scale(0.97); }
-        .text-actions button:disabled { opacity: 0.6; cursor: not-allowed; background-color: var(--secondary-color); box-shadow: none; }
+        .text-actions button:disabled { opacity: 0.6; cursor: not-allowed; background-color: var(--secondary-color); box-shadow: none;}
+        #scheduleTextButton { background-color: var(--purple-color); } #whatsappButton { background-color: var(--success-color); }
         .text-actions button i { margin-right: 6px; }
-        #analyzeTextButton { background-color: var(--gemini-color); }
-        #scheduleTextButton { background-color: var(--google-color); } /* Calendar Button */
-        #whatsappButton { background-color: var(--success-color); }
-        #copyTextButton { background-color: var(--info-color); }
-        #analysis-result-area { margin-top: 10px; font-size: 0.9em; color: var(--text-dark); border-top: 1px solid var(--border-color); padding-top: 10px; line-height: 1.4; max-height: 100px; overflow-y: auto; }
-        #analysis-result-area strong { color: var(--gemini-color); }
-        #analysis-result-area .error { color: var(--danger-color); }
-        #analysis-result-area .schedule-info { background-color: #e8f0fe; border-left: 3px solid var(--gemini-color); padding: 8px; margin-top: 5px; border-radius: 4px; }
 
-        /* History List */
-        #historyList { list-style: none; padding: 0; flex-grow: 1; overflow-y: auto; margin-top: 5px; border-top: 1px solid var(--border-color); padding-top: 10px; }
-        #historyList li { padding: 12px 10px; border-bottom: 1px solid #f0f0f0; margin-bottom: 5px; background-color: var(--white-bg); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.9em; transition: background-color 0.2s ease; border-radius: 5px; }
+        #historyList { list-style: none; padding: 0; max-height: calc(100% - 180px); overflow-y: auto; margin-top: 10px; padding-top: 0;} /* Adjusted max-height */
+        #historyList li { padding: 12px; border-bottom: 1px solid #f0f0f0; margin-bottom: 0px; background-color: var(--white-bg); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.9em; transition: background-color 0.2s ease;}
         #historyList li:hover { background-color: #fafdff; }
-        .history-placeholder { text-align: center; color: var(--secondary-color); padding: 20px; background: none; border: none; }
-        .history-info { flex-grow: 1; color: var(--secondary-color); display: flex; flex-direction: column; min-width: 100px; overflow: hidden;}
+        .history-info { flex-grow: 1; color: var(--secondary-color); display: flex; flex-direction: column; min-width: 100px;}
         .history-info .item-type { font-size: 0.7em; font-weight: bold; text-transform: uppercase; margin-bottom: 3px; border-radius: 3px; padding: 2px 5px; color: white; display: inline-block; width: fit-content;}
         .history-info .item-type.type-audio { background-color: var(--info-color); }
         .history-info .item-type.type-text { background-color: var(--purple-color); }
-        .history-info .item-type.type-image { background-color: var(--gemini-color); }
-        .history-info .item-type.type-document { background-color: var(--accent-color); }
-        .history-info .item-type.type-video { background-color: var(--danger-color); }
-        .history-info .date-time { font-size: 0.85em; color: var(--text-dark); font-weight: 500; }
-        .history-info .item-name { font-size: 0.8em; color: #6c757d; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .history-transcription { width: 100%; font-size: 0.9em; color: #495057; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #eee; max-height: 60px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; word-break: break-word; }
-        .history-actions { display: flex; gap: 8px; flex-wrap: nowrap; margin-left: auto; flex-shrink: 0;}
-        .history-actions button { padding: 6px 10px; font-size: 0.8em; cursor: pointer; border-radius: 15px; border: none; color: white; flex-shrink: 0; transition: all 0.2s; background-color: var(--secondary-color); }
-        .history-actions button:hover:not(:disabled) { opacity: 0.9; }
+        .history-info .item-type.type-camera_video { background-color: var(--danger-color); }
+        .history-info .item-type.type-image { background-color: var(--accent-color); }
+        .history-info .item-type.type-document { background-color: var(--warning-color); }
+
+        .history-info .date-time { font-size: 0.85em; color: var(--text-dark);} .history-info .duration { font-size: 0.75em; color: #adb5bd; }
+        .history-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+        .history-actions button { padding: 8px 12px; font-size: 0.85em; cursor: pointer; border-radius: 15px; border: none; color: white; flex-shrink: 0; transition: background-color 0.2s, transform 0.1s; }
+        .history-actions button:hover:not(:disabled) { opacity: 0.9;}
         .history-actions button:active:not(:disabled) { transform: scale(0.95); }
-        .history-actions button i { margin-right: 4px; font-size: 1.1em; }
         .play-history-btn { background-color: var(--primary-color); }
-        .load-history-btn { background-color: var(--accent-color); }
-        .analyze-history-btn { background-color: var(--gemini-color); }
-        .schedule-history-btn { background-color: var(--google-color); } /* Schedule from history */
+        .load-history-btn { background-color: var(--secondary-color); }
+        .edit-history-btn { background-color: var(--accent-color); }
         .delete-history-btn { background-color: var(--danger-color); }
+        .history-actions button i { margin-right: 4px;}
+        .history-transcription { width: 100%; font-size: 0.85em; color: #555; margin-top: 6px; font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top: 6px; border-top: 1px dashed #eee;}
+        .history-item-preview { max-width: 100%; max-height: 80px; margin-top: 8px; display: block; border-radius: 4px;} /* Style for image previews */
 
-        /* Status Bar */
-        #status-bar { padding: 8px 15px; font-size: 0.8em; text-align: left; border-top: 1px solid var(--border-color); flex-shrink: 0; background-color: var(--light-bg); display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; min-height: 35px; }
-        #status-message { flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 10px;}
-        #auth-status { font-size: 0.9em; color: var(--secondary-color); font-style: italic; flex-shrink: 0; white-space: nowrap; }
-        #status-bar.status-success { color: var(--success-color); background-color: #d4edda; font-weight: 500; }
-        #status-bar.status-error { color: var(--danger-color); background-color: #f8d7da; font-weight: 500; }
-        #status-bar.status-loading { color: var(--info-color); background-color: #d1ecf1; font-weight: 500; }
-        #status-bar.status-warning { color: var(--warning-color); background-color: #fff3cd; font-weight: 500; }
-        #status-bar.status-gemini { color: var(--gemini-color); background-color: #e8f0fe; font-weight: 500; }
+        #status-bar { padding: 10px 15px; font-size: 0.85em; text-align: center; border-top: 1px solid var(--border-color); flex-shrink: 0; background-color: var(--light-bg); transition: background-color 0.3s, color 0.3s; }
+        .status-info { color: var(--secondary-color); } .status-success { color: #155724; background-color: #d4edda; font-weight: 500; } .status-error { color: #721c24; background-color: #f8d7da; font-weight: 500;} .status-loading { color: #0c5460; background-color: #d1ecf1; font-style: italic; }
+        #audio-player-pool { display: none; }
 
-        /* Modal */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); animation: fadeIn 0.3s ease; }
-        .modal-content { background-color: var(--white-bg); margin: 10% auto; padding: 25px 30px; border: none; width: 90%; max-width: 550px; /* Slightly wider */ border-radius: 12px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: slideIn 0.3s ease; }
+        .modal-content { background-color: var(--white-bg); margin: 15% auto; padding: 25px 30px; border: none; width: 90%; max-width: 500px; border-radius: 12px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .modal-close-button { color: #aaa; position: absolute; top: 12px; right: 15px; font-size: 26px; font-weight: bold; cursor: pointer; line-height: 1; }
         .modal-close-button:hover, .modal-close-button:focus { color: var(--danger-color); }
-        .modal h2 { margin-top: 0; margin-bottom: 15px; color: var(--primary-color); text-align: center; font-size: 1.3em; }
-        .modal p { margin-bottom: 20px; line-height: 1.5; text-align: center; font-size: 0.95em; color: var(--secondary-color);}
+        .modal h2 { margin-top: 0; margin-bottom: 20px; color: var(--primary-color); text-align: center; font-size: 1.3em; }
+        .modal p { margin-bottom: 15px; line-height: 1.5; text-align: center; font-size: 0.95em;}
         .modal .form-group { margin-bottom: 15px; }
         .modal .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: var(--secondary-color); font-size: 0.9em; }
-        .modal .form-group input[type="password"], .modal .form-group input[type="text"] { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; }
-        .modal .form-group small { font-size: 0.8em; color: #6c757d; margin-top: 4px; display: block; }
-        .modal .form-group a { color: var(--primary-color); text-decoration: underline; }
-        .modal .button-primary { padding: 12px 20px; background: linear-gradient(to right, var(--primary-color), #2980B9); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; width: 100%; margin-top: 10px; transition: all 0.2s ease; display: block; font-weight: 500; }
+        .modal .form-group input[type="password"], .modal .form-group input[type="text"], .modal .form-group select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1em; }
+        .modal .button-primary { padding: 12px 20px; background: linear-gradient(to right, var(--primary-color), #1A5276); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; width: 100%; margin-top: 10px; transition: opacity 0.2s ease, transform 0.1s ease; display: block; }
         .modal .button-primary:hover { opacity: 0.9; }
         .modal .button-primary:active { transform: scale(0.98); }
-        .modal-status { margin-top: 15px; text-align: center; font-size: 0.9em; min-height: 1.2em; font-weight: 500; }
-        .modal-status.status-error { color: var(--danger-color); }
-        .modal-status.status-success { color: var(--success-color); }
+        .modal-status { margin-top: 15px; text-align: center; font-size: 0.9em; min-height: 1.2em; }
+        .modal-status.status-error { color: var(--danger-color); font-weight: bold;}
+        .modal-status.status-success { color: var(--success-color); font-weight: bold;}
+        .modal a { color: var(--primary-color); text-decoration: underline; font-weight: 500; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* Dark Mode Adjustments */
-        body.dark-mode { background-color: #212529; color: var(--text-light); }
-        body.dark-mode #app-shell { background-color: #343a40; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4); }
-        body.dark-mode #top-bar { background-color: #343a40; border-bottom: 1px solid #495057; }
-        body.dark-mode #app-title { color: #e9ecef; }
-        body.dark-mode .icon-button { color: var(--accent-color); }
+        /* Dark Mode Styles */
+        body.dark-mode { background-color: #2C3E50; }
+        body.dark-mode #app-shell { background-color: #34495E; }
+        body.dark-mode #top-bar { background-color: #34495E; border-bottom: 1px solid #4A6076; }
+        body.dark-mode #app-title { color: #ECF0F1; }
+        body.dark-mode .icon-button { color: #1ABC9C; }
         body.dark-mode .icon-button:hover:not(:disabled) { background-color: rgba(255,255,255,0.1); }
-        body.dark-mode .icon-button:disabled { color: #6c757d; }
-        body.dark-mode #recording-view { background: #343a40; }
-        body.dark-mode #recording-icon-wrapper { background-color: #495057; border: 4px solid #212529; }
-        body.dark-mode #timer-recording { color: var(--text-light); }
-        body.dark-mode .recording-controls { background-color: rgba(40, 40, 40, 0.8); border-top: 1px solid #495057; }
-        body.dark-mode .control-secondary { color: #adb5bd; }
-        body.dark-mode .control-secondary:hover:not(:disabled) { background-color: rgba(255,255,255,0.08); }
-        body.dark-mode #discardButton i, body.dark-mode #stopButton i { color: #ff6b6b; }
-        body.dark-mode #discardButton span, body.dark-mode #stopButton span { color: #adb5bd; }
-        body.dark-mode .control-main.state-recording { background-color: var(--warning-color); color: #343a40;}
-        body.dark-mode #list-view { background-color: #343a40; }
-        body.dark-mode #list-view h2 { color: var(--accent-color); border-bottom: 1px solid #495057; }
-        body.dark-mode #text-action-area { background: #495057; border: 1px solid #212529; }
-        body.dark-mode #transcriptionTextarea { background-color: #212529; color: var(--text-light); border: 1px solid #6c757d; }
-        body.dark-mode #transcriptionTextarea:read-only { background-color: #3a4148; }
-        body.dark-mode #analysis-result-area { color: var(--text-light); border-top: 1px solid #495057; }
-        body.dark-mode #analysis-result-area strong { color: #8ab4f8; } /* Gemini Blue Light */
-        body.dark-mode #analysis-result-area .error { color: #ff6b6b; }
-        body.dark-mode #analysis-result-area .schedule-info { background-color: #2c3e50; border-left: 3px solid #8ab4f8; }
-        body.dark-mode #historyList { border-top: 1px solid #495057; }
-        body.dark-mode #historyList li { background-color: #495057; border-bottom: 1px solid #5a6268; }
-        body.dark-mode #historyList li:hover { background-color: #5a6268; }
-        body.dark-mode .history-info .date-time { color: var(--text-light); }
-        body.dark-mode .history-info .item-name { color: #adb5bd; }
-        body.dark-mode .history-transcription { color: #ced4da; border-top: 1px dashed #5a6268; }
-        body.dark-mode #status-bar { background-color: #212529; border-top: 1px solid #495057; color: var(--text-light);}
-        body.dark-mode #status-bar.status-success { background-color: #1a3a25; color: #a7d7b9; }
-        body.dark-mode #status-bar.status-error { background-color: #4d1a21; color: #f1b0b7; }
-        body.dark-mode #status-bar.status-loading { background-color: #113c45; color: #a8dde7; }
-        body.dark-mode #status-bar.status-warning { background-color: #5c4510; color: #f8e6aa; }
-        body.dark-mode #status-bar.status-gemini { background-color: #1e3a5f; color: #a8c7fa; }
-        body.dark-mode #auth-status { color: #adb5bd; }
-        body.dark-mode .modal-content { background-color: #343a40; color: var(--text-light); }
-        body.dark-mode .modal-close-button { color: #adb5bd; }
-        body.dark-mode .modal h2 { color: var(--accent-color); }
-        body.dark-mode .modal p { color: #adb5bd; }
-        body.dark-mode .modal .form-group label { color: #ced4da; }
-        body.dark-mode .modal .form-group input[type="password"],
-        body.dark-mode .modal .form-group input[type="text"] { background-color: #212529; color: var(--text-light); border: 1px solid #6c757d; }
-        body.dark-mode .modal .form-group small { color: #adb5bd; }
-        body.dark-mode .modal .form-group a { color: #8ab4f8; }
-        body.dark-mode .modal .button-primary { background: linear-gradient(to right, var(--accent-color), #16A085); }
-        /* --- Fim do CSS Embutido --- */
+        body.dark-mode #recording-view { background: linear-gradient(180deg, #34495E 50%, #2C3E50 100%); }
+        body.dark-mode #recording-icon-wrapper { background-color: #4A6076; border: 3px solid #2C3E50; }
+        body.dark-mode #timer-recording { color: #ECF0F1; }
+        body.dark-mode #camera-view { background-color: #000; } /* Keep dark for camera view */
+        body.dark-mode #list-view { background-color: #34495E; }
+        body.dark-mode #text-action-area { background: #4A6076; border: 1px solid #2C3E50; }
+        body.dark-mode #transcriptionTextarea { background-color: #2C3E50; color: #ECF0F1; border: 1px solid #4A6076; }
+        body.dark-mode #transcriptionTextarea:read-only { background-color: #3A506B; }
+        body.dark-mode #historyList li { background-color: #34495E; border-bottom: 1px solid #4A6076; }
+        body.dark-mode #historyList li:hover { background-color: #3A506B; }
+        body.dark-mode .history-info .date-time { color: #ECF0F1; }
+        body.dark-mode .history-transcription { color: #BDC3C7; border-top: 1px dashed #4A6076; }
+        body.dark-mode #status-bar { background-color: #2C3E50; border-top: 1px solid #4A6076; }
+        body.dark-mode .modal-content { background-color: #34495E; color: #ECF0F1; }
+        body.dark-mode .modal-close-button { color: #BDC3C7; }
+        body.dark-mode .modal h2 { color: #1ABC9C; }
+        body.dark-mode .modal .form-group label { color: #ECF0F1; }
+        body.dark-mode .form-group input[type="password"],
+        body.dark-mode .form-group input[type="text"],
+        body.dark-mode .form-group select { background-color: #2C3E50; color: #ECF0F1; border: 1px solid #4A6076; }
     </style>
 </head>
 <body>
@@ -222,920 +199,1451 @@
             <button id="back-button" class="icon-button" title="Voltar"><i class="fas fa-arrow-left"></i></button>
             <h1 id="app-title">Gravar</h1>
             <div class="top-bar-buttons">
-                <button id="attachButton" class="icon-button" title="Anexar Arquivo"><i class="fas fa-paperclip"></i></button>
+                 <div class="media-input-buttons">
+                    <button id="cameraToggleButton" class="icon-button" title="Gravar Vídeo/Áudio"><i class="fas fa-camera"></i></button>
+                    <button id="attachmentButton" class="icon-button" title="Anexar Arquivo"><i class="fas fa-paperclip"></i></button>
+                 </div>
                 <button id="themeToggleButton" class="icon-button theme-toggle" title="Alternar Tema"><i class="fas fa-moon"></i></button>
                 <button id="historyButton" class="icon-button" title="Histórico"><i class="fas fa-list-ul"></i></button>
                 <button id="settingsButton" class="icon-button" title="Configurações"><i class="fas fa-cog"></i></button>
-                <button id="google-auth-button" class="icon-button" title="Login Google"><i class="fab fa-google"></i></button>
             </div>
         </div>
 
         <div id="main-content">
-            <!-- Tela de Gravação -->
-            <div id="recording-view" class="view active-view">
-                <div class="recording-area">
+            <div id="recording-view" class="view">
+                <!-- Background video removed -->
+                <div class="recording-timer-area">
                     <div id="recording-icon-wrapper">
                         <i id="recording-icon" class="fas fa-microphone state-idle"></i>
                     </div>
                     <div id="timer-recording">00:00</div>
                 </div>
-                <div class="recording-controls">
-                    <button id="discardButton" class="control-secondary" title="Descartar" disabled>
-                        <i class="fas fa-times"></i> <span>Descartar</span>
+                <div class="recording-view-controls">
+                    <button id="discardButton" title="Descartar" disabled>
+                        <i class="fas fa-times fa-2x"></i> <span>Descartar</span>
                     </button>
-                    <button id="recordPauseResumeButton" class="control-main state-idle" title="Gravar">
+                    <button id="recordPauseResumeButtonView" class="control-button-main state-idle" title="Gravar">
                         <i class="fas fa-microphone"></i>
                     </button>
-                    <button id="stopButton" class="control-secondary" title="Parar e Processar" disabled>
-                        <i class="fas fa-stop"></i> <span>Parar</span>
+                    <button id="stopButtonView" title="Parar" disabled>
+                        <i class="fas fa-stop fa-2x"></i> <span>Parar</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Tela de Lista/Histórico -->
+             <div id="camera-view" class="view">
+                <video id="cameraFeed" autoplay muted playsinline></video>
+                <div class="camera-controls">
+                     <button id="startStopCamRecording" title="Gravar Vídeo/Áudio">
+                        <i class="fas fa-circle"></i>
+                    </button>
+                    <button id="discardCamRecording" title="Descartar Gravação">
+                         <i class="fas fa-times"></i>
+                     </button>
+                </div>
+            </div>
+
             <div id="list-view" class="view">
                 <div id="text-action-area">
-                    <h2>Texto Processado</h2>
-                    <textarea id="transcriptionTextarea" placeholder="Cole texto, grave áudio ou anexe arquivos..."></textarea>
+                    <h2>Transcrição / Texto</h2>
+                    <textarea id="transcriptionTextarea" placeholder="A transcrição aparecerá aqui ou digite/cole texto..."></textarea>
                     <div class="text-actions">
-                        <button id="analyzeTextButton" title="Analisar Texto com Gemini" disabled>
-                            <i class="fas fa-brain"></i> Analisar
-                        </button>
-                         <button id="scheduleTextButton" title="Agendar Texto no Google Calendar" disabled>
+                        <button id="scheduleTextButton" title="Analisar e tentar agendar" disabled>
                             <i class="far fa-calendar-plus"></i> Agendar
                         </button>
-                        <button id="whatsappButton" title="Compartilhar Texto via WhatsApp" disabled>
+                        <button id="whatsappButton" title="Compartilhar via WhatsApp" disabled>
                             <i class="fab fa-whatsapp"></i> WhatsApp
                         </button>
-                         <button id="copyTextButton" title="Copiar Texto" disabled>
-                            <i class="far fa-copy"></i> Copiar
-                        </button>
                     </div>
-                     <div id="analysis-result-area">
-                         <!-- Resultados da análise Gemini e status agendamento -->
-                     </div>
                 </div>
                 <h2>Histórico</h2>
                 <ul id="historyList">
-                    <li class="history-placeholder">Nenhum item no histórico.</li>
+                    <li class="status-info" style="background: none; border: none; padding: 10px 0; text-align:center;">Carregando...</li>
                 </ul>
             </div>
         </div>
 
-        <div id="status-bar" class="status-info">
-            <span id="status-message">Pronto.</span>
-            <span id="auth-status"></span> <!-- Status Login Google -->
-        </div>
+        <div id="status-bar"> <span id="status-message">Pronto.</span> </div>
     </div>
 
-    <!-- Input de arquivo oculto -->
-    <input type="file" id="file-input" accept="audio/*,video/*,text/*,image/*" style="display: none;">
+    <div id="settings-modal" class="modal"> <div class="modal-content"> <span class="modal-close-button" onclick="app.closeSettingsModal()">×</span> <h2>Configurações</h2> <div class="form-group"> <label for="gemini-api-key-input">Chave API Google Gemini:</label> <input type="password" id="gemini-api-key-input" placeholder="Sua chave API"> <p style="font-size: 0.8em; margin-top: 5px;">Salva apenas no navegador.</p> </div> <div class="form-group"> <label for="gemini-model-select">Modelo Gemini:</label> <select id="gemini-model-select"> <option value="gemini-1.5-flash-latest">Gemini 1.5 Flash (Rápido)</option> <option value="gemini-1.5-pro-latest">Gemini 1.5 Pro (Avançado - Suporta Multimídia)</option> </select> </div> <button id="save-settings-button" class="button-primary">Salvar</button> <p id="settings-status" class="modal-status"></p> </div> </div>
+    <div id="apiKeyModal" class="modal"> <div class="modal-content"> <span class="modal-close-button" onclick="app.closeApiKeyModal()">×</span> <h2>Chave API Necessária</h2> <p>É necessária uma chave API Google Gemini para analisar áudio, imagens e vídeo.</p> <p>Recomenda-se usar o modelo Gemini 1.5 Pro para recursos multimídia.</p> <p><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Obtenha uma chave (grátis)</a></p> <p>Depois, clique em (<i class="fas fa-cog"></i>) para inseri-la.</p> <button class="button-primary" onclick="app.closeApiKeyModal()">Entendi</button> </div> </div>
 
-    <!-- Modal de Configurações -->
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-button">×</span>
-            <h2>Configurações de API</h2>
-            <p>Configure as credenciais necessárias para as funcionalidades.</p>
+    <input type="file" id="fileInput" accept="image/*, application/pdf, audio/*" style="display: none;">
+    <div id="audio-player-pool"></div>
 
-             <div class="form-group">
-                 <label for="google-client-id-input">Google OAuth Client ID:</label>
-                 <input type="text" id="google-client-id-input" placeholder="Seu Client ID do Google Cloud">
-                 <small>
-                     Necessário para Login Google, Transcrição de Áudio (Speech API) e Agendamento no Calendar.
-                     Obtenha no <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">Google Cloud Console</a> (Tipo: Web Application). Configure as Origens JavaScript Autorizadas.
-                 </small>
-             </div>
-
-            <div class="form-group">
-                <label for="gemini-api-key-input">Chave API Google Gemini:</label>
-                <input type="password" id="gemini-api-key-input" placeholder="Cole sua chave API Gemini aqui">
-                <small>
-                    Necessária para Transcrição de Imagem e Análise de Texto.
-                    Obtenha sua chave em <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.
-                    <br>
-                    <strong style="color: var(--danger-color);">Atenção à Segurança:</strong> Não exponha chaves de API diretamente no código em produção. Use um backend.
-                </small>
-            </div>
-            <button class="button-primary" id="save-settings-button">Salvar Configurações</button>
-            <div class="modal-status" id="settings-modal-status"></div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
     <script>
-        // --- Início do JavaScript Embutido ---
-        const app = (() => {
-            // --- DOM Elements ---
-            const appShell = document.getElementById('app-shell');
-            const topBar = { /* ... */
-                 backButton: document.getElementById('back-button'), title: document.getElementById('app-title'),
-                 attachButton: document.getElementById('attachButton'), themeToggleButton: document.getElementById('themeToggleButton'),
-                 historyButton: document.getElementById('historyButton'), settingsButton: document.getElementById('settingsButton'),
-                 googleAuthButton: document.getElementById('google-auth-button'),
-             };
-            const mainContent = document.getElementById('main-content');
-            const views = { recording: document.getElementById('recording-view'), list: document.getElementById('list-view') };
-            const recordingView = { /* ... */
-                 iconWrapper: document.getElementById('recording-icon-wrapper'), icon: document.getElementById('recording-icon'),
-                 timer: document.getElementById('timer-recording'), discardButton: document.getElementById('discardButton'),
-                 recordPauseResumeButton: document.getElementById('recordPauseResumeButton'), stopButton: document.getElementById('stopButton'),
-            };
-            const listView = { /* ... */
-                 transcriptionTextarea: document.getElementById('transcriptionTextarea'), analyzeTextButton: document.getElementById('analyzeTextButton'),
-                 scheduleTextButton: document.getElementById('scheduleTextButton'), // Added
-                 whatsappButton: document.getElementById('whatsappButton'), copyTextButton: document.getElementById('copyTextButton'),
-                 analysisResultArea: document.getElementById('analysis-result-area'), historyList: document.getElementById('historyList'),
-                 historyPlaceholder: document.querySelector('.history-placeholder'),
-             };
-            const statusBar = { /* ... */
-                 element: document.getElementById('status-bar'), message: document.getElementById('status-message'), auth: document.getElementById('auth-status'),
-             };
-            const fileInput = document.getElementById('file-input');
-            const settingsModal = { /* ... */
-                 element: document.getElementById('settings-modal'), content: document.querySelector('#settings-modal .modal-content'),
-                 closeButton: document.querySelector('#settings-modal .modal-close-button'),
-                 clientIdInput: document.getElementById('google-client-id-input'), // OAuth Client ID
-                 apiKeyInput: document.getElementById('gemini-api-key-input'), // Gemini Key
-                 saveButton: document.getElementById('save-settings-button'), status: document.getElementById('settings-modal-status'),
-             };
+        const MIN_AUDIO_DURATION_MS = 1000;
+        const MAX_HISTORY_ITEMS = 30; // Aumentado um pouco
+        const MAX_FILE_SIZE_MB = 15; // Limite para arquivos (pode variar na API)
+        const MAX_VIDEO_DURATION_SEC = 120; // Limite para vídeo na API (aprox)
 
-            // --- State ---
-            let state = {
-                isRecording: false, isPaused: false, recordingStartTime: null, pausedTime: 0,
-                timerInterval: null, currentBlob: null, mediaRecorder: null, audioChunks: [],
-                stream: null, currentView: 'recording', historyItems: [],
-                googleUser: null, gapiReady: false, googleApiClientId: null, // OAuth
-                geminiApiKey: null, // Gemini
-                isProcessing: false, // General lock
-                lastAnalyzedEventDetails: null // Store details from Gemini for scheduling
-            };
+        const API_KEY_STORAGE_KEY = 'geminiApiKey_appLike_v8';
+        const MODEL_STORAGE_KEY = 'geminiModel_appLike_v8';
+        const HISTORY_STORAGE_KEY = 'recordingHistory_appLike_v8';
 
-            // --- Constants ---
-            const HISTORY_STORAGE_KEY = 'intelligentRecorderHistory_v11_full';
-            const SETTINGS_STORAGE_KEY = 'intelligentRecorderSettings_v11_full';
-            const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/';
-            // Speech API Endpoint (REST v1) - can be v1p1beta1 for more features if needed
-            const SPEECH_API_ENDPOINT = 'https://speech.googleapis.com/v1/speech:recognize';
-             // Google API Scopes needed
-             const GOOGLE_API_SCOPES = [
-                 'https://www.googleapis.com/auth/calendar.events', // Create Calendar events
-                 'https://www.googleapis.com/auth/cloud-platform'   // Broad scope often needed for Speech API REST calls with token
-                 // Alternatively, more specific Speech scope if known and works: 'https://www.googleapis.com/auth/cloud-speech'
-             ].join(' ');
+        const appShell = document.getElementById('app-shell');
+        const backButton = document.getElementById('back-button');
+        const historyButton = document.getElementById('historyButton');
+        const settingsButton = document.getElementById('settingsButton');
+        const appTitle = document.getElementById('app-title');
+        const recordingView = document.getElementById('recording-view');
+        const cameraView = document.getElementById('camera-view'); // New
+        const listView = document.getElementById('list-view');
+        const transcriptionTextarea = document.getElementById('transcriptionTextarea');
+        const scheduleTextButton = document.getElementById('scheduleTextButton');
+        const whatsappButton = document.getElementById('whatsappButton');
+        const historyList = document.getElementById('historyList');
+        const recordingIconContainer = document.getElementById('recording-icon-wrapper');
+        const recordingIcon = document.getElementById('recording-icon');
+        const timerRecording = document.getElementById('timer-recording');
+        const discardButton = document.getElementById('discardButton');
+        const recordPauseResumeButtonView = document.getElementById('recordPauseResumeButtonView');
+        const stopButtonView = document.getElementById('stopButtonView');
+        const statusBar = document.getElementById('status-bar');
+        const statusMessage = document.getElementById('status-message');
+        const audioPlayerPool = document.getElementById('audio-player-pool');
+        const settingsModal = document.getElementById('settings-modal');
+        const apiKeyInput = document.getElementById('gemini-api-key-input');
+        const modelSelect = document.getElementById('gemini-model-select');
+        const saveSettingsButton = document.getElementById('save-settings-button');
+        const settingsStatus = document.getElementById('settings-status');
+        const apiKeyModal = document.getElementById('apiKeyModal');
 
-            // --- Initialization ---
-            function init() {
-                console.log("App initializing (Full version)...");
-                loadSettings();
-                setupEventListeners();
-                // Initialize Google Auth - relies on gapi loaded via defer
-                if (typeof gapi !== 'undefined') initGoogleAuth(); else console.error("GAPI not loaded");
-                loadHistory();
-                applyTheme(localStorage.getItem('theme') || 'light');
-                showView('recording');
-                updateUI();
-                checkCredentialsAndNotify(); // Initial check
+        const cameraToggleButton = document.getElementById('cameraToggleButton'); // New
+        const attachmentButton = document.getElementById('attachmentButton'); // New
+        const fileInput = document.getElementById('fileInput'); // New
+        const cameraFeed = document.getElementById('cameraFeed'); // New
+        const startStopCamRecording = document.getElementById('startStopCamRecording'); // New
+        const discardCamRecording = document.getElementById('discardCamRecording'); // New
+        const themeToggleButton = document.getElementById('themeToggleButton');
+
+        let mediaRecorder; // For audio recording view
+        let audioChunks = [];
+        let audioMimeType = 'audio/webm';
+        let recorderState = 'idle'; // 'idle', 'starting', 'recording', 'paused', 'processing', 'analyzing_text', 'processing_file', 'starting_camera', 'camera_recording', 'processing_camera'
+        let timerInterval;
+        let startTime;
+        let pausedDuration = 0;
+        let lastPauseTime;
+        let isDiscarding = false;
+
+        // Camera specific variables
+        let cameraState = 'idle'; // 'idle', 'ready', 'recording', 'processing'
+        let cameraStream = null;
+        let cameraRecorder = null;
+        let cameraChunks = [];
+        let cameraRecordingStartTime; // For camera timer display if needed later
+
+        let recordingHistory = [];
+        let currentPlayingAudioElement = null;
+
+        let GEMINI_API_KEY = '';
+        let GEMINI_MODEL = 'gemini-1.5-flash-latest'; // Default, recommend PRO for media
+
+        const formatTime = (ms) => {
+            if (isNaN(ms) || ms < 0) ms = 0;
+            const s = Math.floor(ms / 1000);
+            const m = Math.floor(s / 60);
+            const sr = s % 60;
+            return `${String(m).padStart(2, '0')}:${String(sr).padStart(2, '0')}`;
+        };
+        const updateTimer = () => {
+            if (recorderState === 'recording' && startTime) {
+                const e = Date.now() - startTime - pausedDuration;
+                timerRecording.textContent = formatTime(e);
+            } else if (cameraState === 'recording' && cameraRecordingStartTime) {
+                const e = Date.now() - cameraRecordingStartTime; // Simple timer for camera
+                // Update a different timer display if needed, for now maybe status bar?
+                // Or add a timer to camera view. Let's use status bar for simplicity.
+                 setStatus(`Vídeo: ${formatTime(e)}`, 'info');
+            }
+        };
+        const setStatus = (message, type = 'info') => {
+            statusMessage.textContent = message;
+            statusBar.className = `status-bar status-${type}`;
+            if (type === 'error') console.error("Status:", message);
+            else console.log("Status:", message);
+        };
+        const blobToDataURL = (blob) =>
+            new Promise((resolve, reject) => {
+                if (!blob) return reject("Blob nulo");
+                const r = new FileReader();
+                r.onloadend = () => resolve(r.result);
+                r.onerror = (e) => reject(e.target.error || "Erro FileReader");
+                r.readAsDataURL(blob);
+            });
+
+        const loadAndRenderHistory = () => {
+            loadHistoryFromLocalStorage();
+            renderHistory();
+        };
+
+        const showView = (viewName) => {
+            stopCurrentPlayback();
+            // Stop camera if active before changing views
+            if (cameraState !== 'idle') stopCamera();
+
+            appShell.classList.remove('show-list', 'show-camera');
+            // Reset recording view icon state if not actively recording/paused audio
+            if (recorderState !== 'recording' && recorderState !== 'paused') {
+                 resetRecordingStateVisuals(); // Resets icon state and timer
             }
 
-            // --- Event Listeners Setup ---
-            function setupEventListeners() {
-                // Top Bar
-                topBar.backButton.addEventListener('click', () => showView('recording'));
-                topBar.attachButton.addEventListener('click', () => fileInput.click());
-                topBar.themeToggleButton.addEventListener('click', toggleTheme);
-                topBar.historyButton.addEventListener('click', () => showView('list'));
-                topBar.settingsButton.addEventListener('click', openSettingsModal);
-                topBar.googleAuthButton.addEventListener('click', handleAuthClick); // Google Login
 
-                // Recording View
-                recordingView.recordPauseResumeButton.addEventListener('click', handleRecordPauseResume);
-                recordingView.stopButton.addEventListener('click', stopAndProcessRecording); // Changed action
-                recordingView.discardButton.addEventListener('click', discardRecording);
+            if (viewName === 'list') {
+                appShell.classList.add('show-list');
+                appTitle.textContent = 'Histórico e Ações';
+                backButton.style.display = 'block';
+                historyButton.style.display = 'none';
+                settingsButton.style.display = 'none';
+                cameraToggleButton.style.display = 'none';
+                attachmentButton.style.display = 'none';
 
-                // List View
-                listView.analyzeTextButton.addEventListener('click', analyzeTextWithGemini); // Gemini Analysis
-                listView.scheduleTextButton.addEventListener('click', handleManualScheduling); // Manual Calendar Scheduling
-                listView.whatsappButton.addEventListener('click', shareViaWhatsApp);
-                listView.copyTextButton.addEventListener('click', copyTranscription);
-                listView.historyList.addEventListener('click', handleHistoryAction);
+                loadAndRenderHistory(); // Ensure history is fresh
+            } else if (viewName === 'camera') {
+                 appShell.classList.add('show-camera');
+                 appTitle.textContent = 'Câmera';
+                 backButton.style.display = 'block'; // Back goes to recording view
+                 historyButton.style.display = 'none';
+                 settingsButton.style.display = 'none';
+                 cameraToggleButton.style.display = 'none'; // Hide self
+                 attachmentButton.style.display = 'none';
+                 startCamera(); // Try starting camera when view opens
 
-                // File Input
-                fileInput.addEventListener('change', handleFileAttachment);
-
-                // Settings Modal
-                settingsModal.closeButton.addEventListener('click', closeSettingsModal);
-                settingsModal.saveButton.addEventListener('click', saveSettings);
-                settingsModal.element.addEventListener('click', (e) => { if (e.target === settingsModal.element) closeSettingsModal(); });
-
-                // Update UI on text change
-                listView.transcriptionTextarea.addEventListener('input', () => {
-                     state.lastAnalyzedEventDetails = null; // Clear previous analysis if text manually changed
-                     updateUI();
-                     listView.analysisResultArea.innerHTML = ''; // Clear analysis display area
-                });
             }
+            else { // recording
+                appTitle.textContent = 'Gravar';
+                backButton.style.display = 'none';
+                historyButton.style.display = 'block';
+                settingsButton.style.display = 'block';
+                cameraToggleButton.style.display = 'block';
+                attachmentButton.style.display = 'block';
+                 // Ensure audio recording UI state is correct
+                 updateUIStates();
+            }
+             // Update visibility of camera controls based on cameraState, but only in camera view
+             updateCameraUIStates();
+        };
 
-             // --- Credential Checks and Notifications ---
-             function checkCredentialsAndNotify() {
-                 let warnings = [];
-                 if (!state.googleApiClientId) warnings.push("OAuth Client ID (Login, Áudio, Agenda)");
-                 if (!state.geminiApiKey) warnings.push("Chave API Gemini (Imagem, Análise)");
+        const resetRecordingStateVisuals = () => {
+            // This is specifically for the audio recording view UI
+            recorderState = 'idle';
+            timerRecording.textContent = '00:00';
+            recordingIcon.className = `fas fa-microphone state-idle`;
+            recordingIconContainer.classList.remove('recording-pulse', 'idle-pulse-animation', 'camera_recording', 'processing_file', 'processing_camera');
+             recordingIconContainer.classList.add('idle-pulse-animation');
+             // Don't reset global timer interval here, let startTimer/stopTimer handle it
+        };
 
-                 if (warnings.length > 0) {
-                     updateStatus(`Credenciais ausentes: ${warnings.join(', ')}. Funcionalidades limitadas.`, 'warning');
-                 } else {
-                     if(statusBar.element.classList.contains('status-warning')) { // Clear warning if credentials now exist
-                         updateStatus('Pronto.', 'info');
-                     }
+        const updateUIStates = () => {
+             // Updates UI for the main recording view and global buttons
+             const isIdle = recorderState === 'idle';
+             const isRec = recorderState === 'recording'; // Audio recording
+             const isPaused = recorderState === 'paused';
+             const isBusy = recorderState !== 'idle' && recorderState !== 'recording' && recorderState !== 'paused'; // Covers processing, analyzing_text, processing_file, camera states
+
+            // Main recording view controls
+            discardButton.disabled = !(isRec || isPaused);
+            stopButtonView.disabled = !(isRec || isPaused);
+            recordPauseResumeButtonView.disabled = isBusy;
+            recordPauseResumeButtonView.className = `control-button-main state-${recorderState}`;
+            const mainIcon = recordPauseResumeButtonView.querySelector('i');
+
+            if (isRec) {
+                 mainIcon.className = 'fas fa-pause';
+                 appTitle.textContent = 'Gravando';
+            } else if (isPaused) {
+                 mainIcon.className = 'fas fa-play';
+                 recordingIcon.className = 'fas fa-pause'; // Microphone icon still indicates paused
+                 appTitle.textContent = 'Pausado';
+            } else { // idle or busy (for main button appearance)
+                 mainIcon.className = 'fas fa-microphone';
+                 if (isBusy) {
+                     appTitle.textContent = 'Processando...';
+                     recordingIcon.className = `fas fa-circle-notch fa-spin state-${recorderState}`; // Spinning icon for busy states
+                     timerRecording.textContent = ''; // Clear timer during processing
+                 } else { // Truly idle
+                      appTitle.textContent = 'Gravar';
+                      timerRecording.textContent = '00:00';
+                      recordingIcon.className = `fas fa-microphone state-idle`;
                  }
-                 updateUI();
+            }
+
+            // Recording Icon pulse animation
+            recordingIconContainer.classList.remove('recording-pulse', 'idle-pulse-animation');
+            if (isRec) {
+                 recordingIconContainer.classList.add('recording-pulse');
+            } else if (isIdle) {
+                 recordingIconContainer.classList.add('idle-pulse-animation');
+            }
+
+            // Global buttons visibility/state
+            // Disable global buttons when any recording or processing is active
+            historyButton.disabled = isBusy || isRec || isPaused || cameraState !== 'idle';
+            settingsButton.disabled = isBusy || isRec || isPaused || cameraState !== 'idle';
+            cameraToggleButton.disabled = isBusy || isRec || isPaused; // Disable camera toggle during audio rec/pause/process
+            attachmentButton.disabled = isBusy || isRec || isPaused; // Disable attachment during audio rec/pause/process
+
+
+            // Text area and actions
+            transcriptionTextarea.readOnly = isBusy || isRec || isPaused || cameraState !== 'idle';
+            transcriptionTextarea.placeholder = isRec || isPaused ? "Gravação..." : isBusy || cameraState !== 'idle' ? "Processando..." : "Transcrição ou texto...";
+            const hasText = transcriptionTextarea.value.trim() !== '';
+            scheduleTextButton.disabled = isBusy || isRec || isPaused || cameraState !== 'idle' || !hasText; // Disable scheduling if busy or no text
+            whatsappButton.disabled = isBusy || isRec || isPaused || cameraState !== 'idle' || !hasText; // Disable whatsapp if busy or no text
+
+             // Ensure correct state for camera view elements if currently in camera view
+             if(appShell.classList.contains('show-camera')) {
+                 // No audio recording UI visible in camera view, so their disabled state doesn't matter as much
+                 // But global buttons still need to be disabled if camera is busy
+             }
+        };
+
+        // New function for Camera View UI state
+        const updateCameraUIStates = () => {
+            if(!appShell.classList.contains('show-camera')) return; // Only update if in camera view
+
+            const isCameraReady = cameraState === 'ready';
+            const isCameraRec = cameraState === 'recording';
+            const isCameraProcessing = cameraState === 'processing';
+
+            startStopCamRecording.disabled = isCameraProcessing;
+            discardCamRecording.disabled = isCameraProcessing;
+
+             const mainCamIcon = startStopCamRecording.querySelector('i');
+             const discardCamIcon = discardCamRecording.querySelector('i');
+
+            if (isCameraReady) {
+                 mainCamIcon.className = 'fas fa-circle'; // Record icon
+                 mainCamIcon.classList.remove('fa-spin');
+                 discardCamIcon.className = 'fas fa-times';
+                 appTitle.textContent = 'Câmera Pronta';
+            } else if (isCameraRec) {
+                 mainCamIcon.className = 'fas fa-stop state-camera_recording'; // Stop icon
+                 mainCamIcon.classList.remove('fa-spin');
+                 discardCamIcon.className = 'fas fa-times';
+                  appTitle.textContent = 'Gravando Vídeo...';
+            } else if (isCameraProcessing) {
+                 mainCamIcon.className = 'fas fa-circle-notch fa-spin state-processing_camera'; // Processing icon
+                 discardCamIcon.className = 'fas fa-times';
+                 appTitle.textContent = 'Processando Vídeo...';
+            } else { // idle (after stop/discard)
+                 mainCamIcon.className = 'fas fa-circle';
+                 mainCamIcon.classList.remove('fa-spin');
+                 discardCamIcon.className = 'fas fa-times';
+                 appTitle.textContent = 'Câmera'; // Or 'Câmera Inativa'
+            }
+
+             // Global buttons are disabled by main updateUIStates if cameraState != idle
+        };
+
+
+        const openSettingsModal = () => {
+            apiKeyInput.value = GEMINI_API_KEY;
+            modelSelect.value = GEMINI_MODEL; // Ensure select shows current model
+            settingsStatus.textContent = '';
+            settingsModal.style.display = 'block';
+        };
+        const closeSettingsModal = () => {
+            settingsModal.style.display = 'none';
+        };
+        const saveSettings = () => {
+            const nk = apiKeyInput.value.trim();
+            const nm = modelSelect.value;
+            if (!nk) {
+                settingsStatus.textContent = 'Chave API vazia.';
+                settingsStatus.className = 'modal-status status-error';
+                return;
+            }
+            GEMINI_API_KEY = nk;
+            GEMINI_MODEL = nm;
+            localStorage.setItem(API_KEY_STORAGE_KEY, GEMINI_API_KEY);
+            localStorage.setItem(MODEL_STORAGE_KEY, GEMINI_MODEL);
+            settingsStatus.textContent = 'Salvo!';
+            settingsStatus.className = 'modal-status status-success';
+            console.log('Configurações Salvas:', { model: GEMINI_MODEL });
+            setTimeout(closeSettingsModal, 1200);
+        };
+        const showApiKeyModal = () => {
+            apiKeyModal.style.display = 'block';
+        };
+        const closeApiKeyModal = () => {
+            apiKeyModal.style.display = 'none';
+        };
+
+        const toggleTheme = () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeToggleButton.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            themeToggleButton.title = isDark ? 'Tema Claro' : 'Tema Escuro';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            setStatus(`Tema ${isDark ? 'escuro' : 'claro'} ativado.`, 'info');
+        };
+
+        // --- Audio Recording Logic (Original) ---
+        const handleRecordPauseResumeView = () => {
+            if (recorderState === 'idle') startRecording();
+            else if (recorderState === 'recording') pauseRecording();
+            else if (recorderState === 'paused') resumeRecording();
+        };
+         const startRecording = async () => {
+            if (recorderState !== 'idle') return;
+             if (!GEMINI_API_KEY) { showApiKeyModal(); return; }
+            recorderState = 'starting';
+            updateUIStates();
+            setStatus('Iniciando gravação de áudio...', 'loading');
+            transcriptionTextarea.value = '';
+            try {
+                const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioChunks = [];
+                pausedDuration = 0;
+                startTime = Date.now();
+                lastPauseTime = null;
+                isDiscarding = false;
+                // Prefer opus in webm for better quality/compression, fallback
+                const t = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg', 'audio/wav'];
+                audioMimeType = t.find((ty) => MediaRecorder.isTypeSupported(ty)) || 'audio/webm';
+                 console.log("Using audio mime type:", audioMimeType);
+
+                mediaRecorder = new MediaRecorder(s, { mimeType: audioMimeType });
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) audioChunks.push(e.data);
+                };
+                mediaRecorder.onstop = async () => {
+                    stopTimer(); // Stop audio timer
+                    const d = startTime ? Date.now() - startTime - pausedDuration : 0;
+                    // Stop all tracks in the stream
+                    s.getTracks().forEach((tr) => tr.stop());
+
+                    if (isDiscarding) {
+                        setStatus('Gravação de áudio descartada.', 'info');
+                        recorderState = 'idle';
+                        isDiscarding = false;
+                        updateUIStates();
+                        return;
+                    }
+
+                    recorderState = 'processing'; // Indicate processing starts
+                    updateUIStates();
+                    setStatus('Processando áudio...', 'loading');
+
+                    if (audioChunks.length === 0 || d < MIN_AUDIO_DURATION_MS) {
+                        setStatus(`Gravação de áudio curta (${formatTime(d)})`, 'error');
+                        recorderState = 'idle';
+                        updateUIStates();
+                        return;
+                    }
+
+                    const b = new Blob(audioChunks, { type: audioMimeType });
+                    audioChunks = []; // Clear chunks
+                    // Pass blob and duration to a unified analysis function
+                    await analyzeAndSaveMedia(b, audioMimeType, d, 'audio');
+
+                    recorderState = 'idle'; // Analysis/Save finished
+                    // showView('list'); // Optionally go to list after successful process
+                    updateUIStates();
+                    setStatus('Pronto.', 'success'); // Final status update
+                };
+
+                mediaRecorder.onpause = () => {
+                    if (recorderState === 'recording') {
+                        recorderState = 'paused';
+                        lastPauseTime = Date.now();
+                        stopTimer();
+                        updateUIStates();
+                        setStatus('Gravação de áudio pausada.', 'info');
+                    }
+                };
+                mediaRecorder.onresume = () => {
+                    if (recorderState === 'paused') {
+                        recorderState = 'recording';
+                        pausedDuration += Date.now() - lastPauseTime;
+                        startTimer();
+                        updateUIStates();
+                        setStatus('Gravando áudio...', 'info');
+                    }
+                };
+                mediaRecorder.onerror = (e) => {
+                    setStatus(`Erro gravação áudio: ${e.error?.name || e.message}`, 'error');
+                    console.error("Audio Recorder Error:", e);
+                    stopTimer();
+                    s?.getTracks().forEach((t) => t.stop()); // Ensure tracks are stopped
+                    recorderState = 'idle';
+                    isDiscarding = false;
+                    updateUIStates();
+                };
+
+                mediaRecorder.start(1000); // Start recording, collect data every 1000ms
+                recorderState = 'recording';
+                startTimer();
+                updateUIStates();
+                setStatus('Gravando áudio...', 'info');
+
+            } catch (err) {
+                setStatus(`Erro iniciar áudio: ${err.name || err.message}`, 'error');
+                console.error("Error starting audio recording:", err);
+                recorderState = 'idle';
+                updateUIStates();
+            }
+        };
+        const pauseRecording = () => mediaRecorder?.pause();
+        const resumeRecording = () => mediaRecorder?.resume();
+        const handleStopButton = () => {
+             if (mediaRecorder && (recorderState === 'recording' || recorderState === 'paused')) {
+                isDiscarding = false;
+                mediaRecorder.stop();
+             }
+        };
+        const handleDiscardButton = () => {
+             if (mediaRecorder && (recorderState === 'recording' || recorderState === 'paused')) {
+                isDiscarding = true;
+                mediaRecorder.stop(); // The onstop handler will check isDiscarding
+             } else {
+                 // If somehow discard is active when not recording/paused (shouldn't happen with disabled state)
+                 resetRecordingStateVisuals();
+                 updateUIStates();
+                 setStatus("Descartado.", "info");
+             }
+        };
+        const startTimer = () => {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call
+        };
+        const stopTimer = () => clearInterval(timerInterval);
+
+
+        // --- Camera Recording Logic (New) ---
+        const handleCameraToggle = () => {
+             if (cameraState === 'idle') {
+                 showView('camera');
+             } else {
+                 // If camera is already active, hide the view
+                 stopCamera(); // Stops stream and resets state
+                 showView('recording'); // Go back to recording view
+             }
+        };
+
+        const startCamera = async () => {
+             if (cameraState !== 'idle') return; // Prevent starting if already active
+              if (!GEMINI_API_KEY) { showApiKeyModal(); showView('recording'); return; } // Go back if no API key
+
+            cameraState = 'starting';
+            updateCameraUIStates();
+            setStatus('Iniciando câmera...', 'loading');
+
+            try {
+                 const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                 cameraStream = s;
+                 cameraFeed.srcObject = s;
+
+                 cameraState = 'ready'; // Camera stream is active, ready to record
+                 updateCameraUIStates();
+                 setStatus('Câmera pronta. Pressione para gravar.', 'info');
+
+            } catch (err) {
+                setStatus(`Erro câmera: ${err.name || err.message}`, 'error');
+                console.error("Error starting camera:", err);
+                cameraState = 'idle';
+                cameraStream = null;
+                updateCameraUIStates();
+                 showView('recording'); // Go back to recording view on error
+            }
+        };
+
+        const stopCamera = () => {
+             // Stop stream and reset state
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+             if (cameraRecorder && cameraRecorder.state !== 'inactive') {
+                 cameraRecorder.stop(); // This will trigger onstop, handling processing/discard
+             } else {
+                 // If recorder wasn't active, just reset state and UI
+                 cameraState = 'idle';
+                 cameraRecorder = null;
+                 cameraChunks = [];
+                 updateCameraUIStates();
+                 stopTimer(); // Ensure camera timer is stopped if it was running
+                 setStatus('Câmera inativa.', 'info');
+             }
+        };
+
+        const handleStartStopCamRecording = () => {
+            if (cameraState === 'ready') {
+                startCamRecording();
+            } else if (cameraState === 'recording') {
+                 stopCamRecording(false); // Stop, not discard
+            }
+        };
+
+        const startCamRecording = () => {
+            if (cameraState !== 'ready' || !cameraStream) return;
+
+            cameraChunks = [];
+            isDiscarding = false;
+
+            try {
+                // Prefer webm with VP9 + Opus for better quality/compression, fallback
+                 const options = { mimeType: 'video/webm; codecs=vp9,opus' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                     options.mimeType = 'video/webm; codecs=vp8,opus';
+                     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                         options.mimeType = 'video/webm';
+                         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                             options.mimeType = cameraStream.getAudioTracks().length ? 'audio/webm' : ''; // Fallback to audio only if no video support? No, fail video if no video mime.
+                              if (!options.mimeType) throw new Error("No supported video MIME type.");
+                              console.warn("Falling back to audio only recording from camera stream due to MIME type support.");
+                         }
+                     }
+                }
+                 console.log("Using camera mime type:", options.mimeType);
+
+                cameraRecorder = new MediaRecorder(cameraStream, options);
+
+                cameraRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) cameraChunks.push(e.data);
+                };
+
+                cameraRecorder.onstop = async () => {
+                     stopTimer(); // Stop camera timer
+                     const d = cameraRecordingStartTime ? Date.now() - cameraRecordingStartTime : 0;
+                     cameraRecordingStartTime = null; // Reset timer variable
+
+                     // Stream tracks are stopped by stopCamera, which might be called separately,
+                     // but it's safer to stop them here too if they weren't already.
+                     // cameraStream.getTracks().forEach(track => track.stop()); // Moved to stopCamera
+
+                    if (isDiscarding) {
+                        setStatus('Gravação de vídeo descartada.', 'info');
+                        cameraState = 'idle'; // Reset state
+                         isDiscarding = false;
+                        updateCameraUIStates();
+                         showView('recording'); // Go back to recording view
+                        return;
+                    }
+
+                    cameraState = 'processing'; // Indicate processing starts
+                    updateCameraUIStates();
+                    setStatus('Processando vídeo...', 'loading');
+
+                    if (cameraChunks.length === 0 || d < MIN_AUDIO_DURATION_MS) { // Use audio min duration as proxy
+                        setStatus(`Gravação de vídeo curta (${formatTime(d)})`, 'error');
+                        cameraState = 'idle';
+                        updateCameraUIStates();
+                         showView('recording');
+                        return;
+                    }
+                     if (d > MAX_VIDEO_DURATION_SEC * 1000) {
+                         setStatus(`Vídeo muito longo (${formatTime(d)}). Max: ${MAX_VIDEO_DURATION_SEC}s`, 'error');
+                         cameraState = 'idle';
+                         updateCameraUIStates();
+                         showView('recording');
+                         return;
+                     }
+
+
+                    const b = new Blob(cameraChunks, { type: options.mimeType });
+                    cameraChunks = []; // Clear chunks
+
+                    // Pass blob, mime type, duration, and type 'camera_video' to analysis function
+                    await analyzeAndSaveMedia(b, options.mimeType, d, 'camera_video');
+
+                    cameraState = 'idle'; // Analysis/Save finished
+                     stopCamera(); // Ensure stream is stopped and state is fully reset
+                    updateCameraUIStates();
+                    // showView('list'); // Optionally go to list after successful process
+                    showView('recording'); // Go back to recording view
+                    setStatus('Processamento de vídeo concluído.', 'success');
+
+                };
+
+                cameraRecorder.onerror = (e) => {
+                    setStatus(`Erro grav. vídeo: ${e.error?.name || e.message}`, 'error');
+                     console.error("Camera Recorder Error:", e);
+                     stopTimer();
+                     stopCamera(); // Ensure everything stops
+                    cameraState = 'idle'; // Reset state
+                     isDiscarding = false;
+                     updateCameraUIStates();
+                    showView('recording'); // Go back
+                };
+
+                cameraRecorder.start();
+                 cameraRecordingStartTime = Date.now(); // Start camera timer
+                cameraState = 'recording';
+                startTimer(); // Use the same timer interval, updateTimer will check cameraState
+                updateCameraUIStates();
+                setStatus('Gravando vídeo...', 'info');
+
+            } catch (err) {
+                setStatus(`Erro grav. vídeo: ${err.name || err.message}`, 'error');
+                 console.error("Error starting camera recording:", err);
+                 stopCamera(); // Clean up any partial setup
+                cameraState = 'idle';
+                updateCameraUIStates();
+                 showView('recording'); // Go back
+            }
+        };
+
+         const stopCamRecording = (discard) => {
+             if (cameraRecorder && cameraState === 'recording') {
+                 isDiscarding = discard;
+                 cameraRecorder.stop(); // onstop handles discard flag
+             }
+         };
+
+        const handleDiscardCamRecording = () => {
+            if (cameraState === 'ready' || cameraState === 'recording') {
+                if (confirm("Descartar gravação/transmissão da câmera?")) {
+                     stopCamRecording(true); // Stop and discard
+                     stopCamera(); // Ensure stream stops immediately
+                }
+            }
+        };
+
+
+        // --- File Attachment Logic (New) ---
+        const handleAttachmentClick = () => {
+             if (recorderState !== 'idle' || cameraState !== 'idle') {
+                 setStatus("Ocupado. Finalize a gravação ou processamento.", "warning");
+                 return;
+             }
+             if (!GEMINI_API_KEY) { showApiKeyModal(); return; }
+             fileInput.click(); // Open file picker
+        };
+
+         const handleFileSelect = async (event) => {
+             const file = event.target.files[0];
+             fileInput.value = null; // Clear the input so same file can be selected again
+
+             if (!file) {
+                 setStatus("Nenhum arquivo selecionado.", "info");
+                 return;
              }
 
-             function showCredentialWarning(missingCredentialType, actionDescription = "") {
-                 const credName = missingCredentialType === 'oauth' ? 'Google OAuth Client ID' : 'Chave API Gemini';
-                 updateStatus(`${actionDescription} requer ${credName}. Adicione nas Configurações.`, 'error');
+             if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                 setStatus(`Arquivo muito grande. Max: ${MAX_FILE_SIZE_MB}MB`, "error");
+                 return;
+             }
+
+             recorderState = 'processing_file'; // Use main recorderState for file processing
+             updateUIStates();
+             setStatus(`Processando "${file.name}"...`, 'loading');
+             transcriptionTextarea.value = ''; // Clear textarea
+
+             try {
+                 // Read file as Data URL
+                 const dataUrl = await blobToDataURL(file);
+
+                 // Determine file type more specifically
+                 let fileType = 'document'; // Default for unknown/pdf
+                 if (file.type.startsWith('audio/')) {
+                     fileType = 'audio';
+                 } else if (file.type.startsWith('image/')) {
+                     fileType = 'image';
+                 } else if (file.type === 'application/pdf') {
+                    fileType = 'document';
+                 } else {
+                      setStatus(`Tipo de arquivo não suportado: ${file.type}`, 'error');
+                      recorderState = 'idle'; updateUIStates(); return;
+                 }
+                 console.log(`Analisando arquivo: "${file.name}" (${fileType})`);
+
+                 // Call unified analysis function
+                 await analyzeAndSaveMedia(file, file.type, file.size, fileType, file.name, dataUrl);
+
+             } catch (error) {
+                 setStatus(`Erro processar arquivo: ${error.message}`, 'error');
+                 console.error("File processing error:", error);
+                 transcriptionTextarea.value = `(Erro ao processar arquivo: ${error.message})`;
+             } finally {
+                 recorderState = 'idle';
+                 updateUIStates();
+                  // showView('list'); // Optionally go to list after processing
+                  setStatus("Pronto.", "success"); // Final status update
+             }
+         };
+
+
+        // --- Gemini Analysis and Save Logic (Unified) ---
+         const analyzeAndSaveMedia = async (blob, mimeType, durationOrSize, type, name = 'Arquivo', dataUrl = null) => {
+             let analysisRes = null;
+             let analysisErr = null;
+             let transcription = ''; // Store transcription directly
+             let details = null; // Store extracted details
+
+             const base64Data = dataUrl ? dataUrl.split(',')[1] : (dataUrl = await blobToDataURL(blob)).split(',')[1]; // Ensure dataUrl is available
+
+             if (!base64Data) {
+                  analysisErr = new Error("Conversão para Base64 falhou.");
+                  console.error(analysisErr.message);
+             } else {
+                try {
+                    setStatus(`Analisando ${type}...`, 'loading');
+                    let prompt = '';
+                    const modelToUse = GEMINI_MODEL; // Can make this conditional based on type if needed, but Pro handles multimodal
+                    let parts = [];
+
+                    const basePrompt = `SYSTEM: Retorne EXCLUSIVAMENTE um objeto JSON válido. Analise o conteúdo fornecido. Inclua a transcrição COMPLETA e precisa (se aplicável) em 'transcription'. Determine a intenção ('schedule_event','general_note','unknown') em 'intent'. Para 'schedule_event', extraia detalhes em 'details': 'summary'(string, obrigatório), 'start_datetime'(string, ISO 8601 com fuso, obrigatório), 'end_datetime'(string, ISO 8601 com fuso, opcional), 'location'(string, opcional), 'description'(string, opcional). Use a hora local de referência: ${new Date().toLocaleString(
+                        'pt-BR',
+                        { timeZoneName: 'short' }
+                    )}. Converta datas/horas relativas para ISO 8601 completo. Se faltarem detalhes obrigatórios para evento (summary ou start_datetime), a intenção DEVE ser 'general_note' ou 'unknown'. SAÍDA JSON: { "transcription": "string|null", "intent": "string", "details": {} }`;
+
+                    if (type === 'audio') {
+                         prompt = `${basePrompt}\nCONTEÚDO: Áudio para transcrever e analisar.`;
+                         parts = [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64Data } }];
+                    } else if (type === 'image') {
+                         prompt = `${basePrompt}\nCONTEÚDO: Imagem contendo texto e/ou informações para analisar. Transcreva todo o texto visível.`;
+                         parts = [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64Data } }];
+                    } else if (type === 'document') { // Assuming PDF support
+                         prompt = `${basePrompt}\nCONTEÚDO: Documento (PDF) contendo texto e/ou informações para analisar. Extraia e transcreva todo o texto do documento.`;
+                         parts = [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64Data } }];
+                    } else if (type === 'camera_video') {
+                         // Gemini 1.5 Pro can process video clips up to ~2 mins
+                         prompt = `${basePrompt}\nCONTEÚDO: Vídeo para transcrever o áudio e analisar o conteúdo visual e falado. Transcreva todo o áudio do vídeo.`;
+                         // Note: Sending video can be resource intensive and has length limits.
+                         parts = [{ text: prompt }, { inline_data: { mime_type: mimeType, data: base64Data } }];
+                    } else {
+                         throw new Error("Tipo de análise desconhecido.");
+                    }
+
+
+                    const requestBody = {
+                         contents: [{ parts: parts }],
+                         safetySettings: [{ category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' }],
+                         // Optional: generationConfig to control output randomness, etc.
+                    };
+
+                    analysisRes = await callGeminiAPI(requestBody);
+                    console.log(`Resultado Análise ${type}:`, JSON.stringify(analysisRes));
+
+                     if (analysisRes?.transcription || (analysisRes && typeof analysisRes === 'object')) {
+                         transcription = analysisRes.transcription || `(Análise de ${type} concluída, sem transcrição explícita.)`;
+                         details = analysisRes.details;
+                         // Automatically try to schedule if intent is clear
+                         if (analysisRes.intent === 'schedule_event') {
+                             const scheduled = await scheduleGoogleCalendar(analysisRes.details);
+                              if(scheduled) setStatus(`Análise e Agendamento de ${type} OK.`, 'success');
+                             else setStatus(`Análise de ${type} OK, falha ao agendar.`, 'warning');
+                         } else {
+                             setStatus(`Análise de ${type} OK.`, 'success');
+                         }
+                     } else {
+                         throw new Error(analysisRes?.error || `Análise de ${type} falhou ou formato inválido.`);
+                     }
+
+                 } catch (e) {
+                    analysisErr = e;
+                    console.error(`Erro na análise Gemini (${type}):`, e);
+                    transcription = `(Erro na análise de ${type}: ${e.message || 'Desconhecido'})`;
+                    setStatus(`Erro análise ${type}: ${e.message}`, 'error');
+                }
+             }
+
+            // Display transcription in textarea
+            transcriptionTextarea.value = transcription;
+
+            // Save to history
+            await saveRecording({
+                 id: Date.now(),
+                 type: type, // 'audio', 'camera_video', 'image', 'document', 'text'
+                 timestamp: new Date().toISOString(),
+                 duration: type === 'audio' || type === 'camera_video' ? formatTime(durationOrSize) : null,
+                 mimeType: mimeType,
+                 mediaDataUrl: (type === 'audio' || type === 'image') ? dataUrl : null, // Save data URL for audio/image
+                 transcription: transcription,
+                 details: details,
+                 intent: analysisRes?.intent || 'unknown',
+                 originalFileName: name !== 'Arquivo' ? name : null,
+            });
+        };
+
+        const callGeminiAPI = async (body) => {
+            if (!GEMINI_API_KEY) throw new Error("Chave API Google Gemini não configurada.");
+             // Ensure using a model that supports multimodal input if sending media
+             if (body.contents[0].parts.some(part => part.inline_data) && !GEMINI_MODEL.includes('pro')) {
+                  console.warn("Modelo Gemini não suporta multimídia. Tente mudar para Gemini 1.5 Pro nas configurações.");
+                  setStatus("Modelo Gemini não suporta multimídia. Mude p/ Pro.", "warning");
+                  // Optionally throw error or show modal here if attempting multimodal with wrong model
+             }
+            const u = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+            console.log(`Calling Gemini API: ${u.split('?')[0]} Model: ${GEMINI_MODEL}`);
+            try {
+                console.debug("API Req Body:", JSON.stringify(body));
+                const r = await fetch(u, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+                const bd = await r.json();
+                console.log("Raw API Resp Status:", r.status);
+                console.debug("Raw API Resp Body:", bd);
+
+                if (!r.ok) {
+                    const e = bd?.error?.message || r.statusText || `HTTP ${r.status}`;
+                    console.error("API Error Detail:", bd?.error);
+                    throw new Error(`Erro API: ${e}`);
+                }
+
+                if (bd.promptFeedback?.blockReason) throw new Error(`Conteúdo bloqueado pela API: ${bd.promptFeedback.blockReason}`);
+
+                const content = bd.candidates?.[0]?.content;
+                 // Handle potential empty content but still ok status, maybe means no text/analysis found
+                 if (!content?.parts?.[0]?.text) {
+                      const re = bd.candidates?.[0]?.finishReason;
+                      if (re && re !== 'STOP') throw new Error(`API finalizou: ${re}`);
+                      if (bd.candidates?.[0]?.safetyRatings?.some(rating => rating.blocked)) throw new Error("Conteúdo bloqueado por segurança.");
+                      console.warn("API resp inesperada ou vazia:", bd);
+                      // Return an empty result structure instead of throwing for *some* cases
+                      return { transcription: null, intent: 'unknown', details: {} };
+                 }
+
+                return parseGeminiResponse(content.parts[0].text);
+
+            } catch (e) {
+                console.error("API Call/Processing Error:", e);
+                throw e;
+            }
+        };
+
+        const parseGeminiResponse = (t) => {
+             // Attempt robust JSON parsing like before
+            if (!t || typeof t !== 'string') throw new Error("API resp vazia/inválida.");
+            console.debug("Raw API Txt:", t);
+            try {
+                 // Try parsing directly, or from ```json``` block, or from first/last brace
+                 const jsonMatch = t.match(/```json\s*([\s\S]*?)\s*```/);
+                 const jsonString = jsonMatch ? jsonMatch[1] : t.substring(t.indexOf('{'), t.lastIndexOf('}') + 1);
+                 return JSON.parse(jsonString);
+            } catch (e) {
+                 console.error("Final JSON parse fail:", e);
+                 throw new Error(`JSON inválido na resposta: ${e.message}`);
+            }
+        };
+
+        const formatDateForGCal = (iso) => {
+            if (!iso) return null;
+            try {
+                const d = new Date(iso);
+                if (isNaN(d)) {
+                    console.warn("Data inválida p/ GCal:", iso);
+                    return null;
+                }
+                // Format needs to be YYYYMMDD or YYYYMMDDTHHMMSS (Z or +/- timezone)
+                // Google Calendar URL API is a bit flexible, but ISO 8601 is best.
+                // It seems to work fine with YYYYMMDDTHHMMSS
+                const y = d.getFullYear();
+                const M = String(d.getMonth() + 1).padStart(2, '0');
+                const D = String(d.getDate()).padStart(2, '0');
+                const h = String(d.getHours()).padStart(2, '0');
+                const m = String(d.getMinutes()).padStart(2, '0');
+                const s = String(d.getSeconds()).padStart(2, '0');
+
+                // Use getTimezoneOffset for local timezone info
+                const offset = -d.getTimezoneOffset(); // Offset in minutes
+                const offsetHours = Math.floor(offset / 60);
+                const offsetMinutes = Math.abs(offset % 60);
+                const offsetSign = offset >= 0 ? '+' : '-';
+                const timezoneOffset = `${offsetSign}${String(offsetHours).padStart(2, '0')}${String(offsetMinutes).padStart(2, '0')}`;
+
+
+                const fmt = `${y}${M}${D}T${h}${m}${s}`; // No timezone in this format for URL API, relies on user's GCal settings
+
+                // An alternative format with Z or offset might be more precise but URL API might not support it directly.
+                // Let's stick to the simpler T separated one which is commonly used with this API.
+
+                console.log(`Formatando GCal: ISO In="${iso}", Parsed Date (local):`, d, `Formatted: ${fmt}`);
+                return fmt;
+            } catch (e) {
+                console.error("GCal Date Formatting Error:", iso, e);
+                return null;
+            }
+        };
+
+        const shareWhatsApp = () => {
+            const t = transcriptionTextarea.value.trim();
+            if (!t) {
+                setStatus("Texto vazio.", "error");
+                return;
+            }
+            const txt = `Nota/Transcrição:\n\n${t.substring(0, 2000)}`; // Limit size for URL
+            window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+            setStatus("Link WhatsApp aberto.", "info");
+        };
+
+        const scheduleGoogleCalendar = async (d) => {
+            console.log("Detalhes p/ GCal:", d);
+            if (!d || !d.summary || !d.start_datetime) {
+                setStatus("Faltam detalhes (título/início) para agendar.", "warning");
+                alert("Não foi possível extrair um título ou data/hora de início para agendar.");
+                return false;
+            }
+            const start = formatDateForGCal(d.start_datetime);
+            let end = formatDateForGCal(d.end_datetime);
+
+            if (!start) {
+                setStatus("Data início inválida para agendar.", "error");
+                alert("Data/hora de início inválida para agendar.");
+                return false;
+            }
+
+            // If start has time but no end, add a default end time (e.g., +1 hour)
+             if (d.start_datetime.includes('T') && !end) {
+                 try {
+                     let sd = new Date(d.start_datetime);
+                     if (!isNaN(sd)) {
+                         sd.setHours(sd.getHours() + 1);
+                         end = formatDateForGCal(sd.toISOString());
+                     }
+                 } catch (e) {
+                     console.warn("Não foi possível calcular hora fim padrão.", e);
+                 }
+             }
+
+
+            let url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(d.summary)}`;
+            url += `&dates=${start}${end ? '/' + end : ''}`;
+            if (d.location) url += `&location=${encodeURIComponent(d.location)}`;
+            const desc = d.description || transcriptionTextarea.value.trim();
+            if (desc) url += `&details=${encodeURIComponent(desc.substring(0, 1000))}`; // Limit details size
+
+            console.log("Abrindo GCal URL:", url);
+             try {
+                 window.open(url, '_blank');
+                 setStatus("Link Google Agenda aberto.", "success");
+                 return true;
+             } catch (e) {
+                 setStatus("Falha ao abrir Google Agenda.", "error");
+                 console.error("Error opening Google Calendar URL:", e);
                  return false;
              }
 
+        };
 
-            // --- Google Authentication & API ---
-            function initGoogleAuth() {
-                 // Only proceed if Client ID is set
-                 if (!state.googleApiClientId) {
-                      console.warn("Google Client ID not set. Google Auth/APIs disabled.");
-                      updateAuthStatus('ClientID não configurado');
-                      state.gapiReady = false;
-                      return;
-                 }
-                 updateAuthStatus('Inicializando Google API...');
-                 try {
-                     gapi.load('client:auth2', () => {
-                          gapi.client.init({
-                              // apiKey: null, // Use OAuth tokens primarily
-                              clientId: state.googleApiClientId,
-                              discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"], // Calendar API discovery
-                              scope: GOOGLE_API_SCOPES // Request necessary permissions
-                          }).then(() => {
-                              console.log("Google API client initialized.");
-                              state.gapiReady = true;
-                              gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-                              updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-                          }, (error) => { handleGapiError("Erro inicializando Google Client", error); });
-                      });
-                 } catch(error) { handleGapiError("Erro carregando gapi client:auth2", error); }
+        const handleScheduleTextButton = async () => {
+            const t = transcriptionTextarea.value.trim();
+            if (!t) {
+                setStatus("Digite ou carregue um texto para agendar.", "error");
+                return;
             }
-             function handleGapiError(message, error){
-                  console.error(message + ": ", error);
-                  updateAuthStatus('Erro Google API', true);
-                  updateStatus(`${message}: ${error.details || error.message || JSON.stringify(error)}`, 'error');
-                  state.gapiReady = false;
-                  updateUI();
-             }
+            if (!GEMINI_API_KEY) {
+                setStatus("Chave API necessária para análise.", "error");
+                showApiKeyModal();
+                return;
+            }
 
-            function updateSigninStatus(isSignedIn) { /* ... (Reintroduzido - sem mudanças) ... */
-                if (isSignedIn) {
-                     try {
-                        state.googleUser = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile();
-                        console.log('User signed in.', state.googleUser);
-                        updateAuthStatus(`Logado: ${state.googleUser.getName()}`);
-                        topBar.googleAuthButton.classList.add('logged-in');
-                        topBar.googleAuthButton.title = `Logado como ${state.googleUser.getName()}. Clique para Sair.`;
-                     } catch(e) { /*...*/ updateAuthStatus('Logado (erro perfil)', true); topBar.googleAuthButton.classList.add('logged-in'); }
+            recorderState = 'analyzing_text'; // Use main recorderState for text analysis
+            updateUIStates();
+            setStatus("Analisando texto para agendamento...", "loading");
+
+            let analysisRes = null;
+            let analysisErr = null;
+            let scheduled = false;
+
+            const prompt = `SYSTEM: Retorne EXCLUSIVAMENTE um objeto JSON válido. Analise o TEXTO a seguir para detalhes de um evento AGENDÁVEL. Hora Local Atual: ${new Date().toLocaleString('pt-BR', {
+                timeZoneName: 'short',
+            })}. Converta datas/horas relativas para ISO 8601 completo com fuso. Extraia 'summary'(string, obrigatório), 'start_datetime'(string, ISO 8601 com fuso, obrigatório), 'end_datetime'?(string, ISO 8601 com fuso), 'location'?(string), 'description'?(string). Se não identificar um evento com summary E start_datetime (data e hora), retorne intent "not_an_event". TEXTO:\n${t}\nSAÍDA JSON ESPERADA: { "intent": "schedule_event|not_an_event", "details": { "summary": "...", "start_datetime": "...", ... } }`;
+
+            const requestBody = {
+                contents: [{ parts: [{ text: prompt }] }],
+                safetySettings: [{ category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' }],
+            };
+
+            try {
+                analysisRes = await callGeminiAPI(requestBody);
+                console.log("Análise Texto p/ Agendar:", analysisRes);
+
+                if (analysisRes?.intent === 'schedule_event' && analysisRes?.details?.summary && analysisRes?.details?.start_datetime) {
+                    scheduled = await scheduleGoogleCalendar(analysisRes.details);
+                     if(scheduled) setStatus("Texto analisado e agendado.", "success");
+                     else setStatus("Texto analisado, falha ao agendar.", "warning");
                 } else {
-                    console.log('User signed out.');
-                    state.googleUser = null; state.lastAnalyzedEventDetails = null; // Clear details on logout
-                    updateAuthStatus('Não Logado');
-                     topBar.googleAuthButton.classList.remove('logged-in');
-                     topBar.googleAuthButton.title = 'Login com Google';
+                    setStatus("Análise de texto concluída. Não parece ser um evento agendável.", "info");
+                    alert("Não foi possível identificar um evento agendável neste texto.");
                 }
-                updateUI();
+            } catch (e) {
+                analysisErr = e;
+                setStatus(`Erro análise texto: ${e.message}`, "error");
+                console.error("Text analysis error:", e);
+            } finally {
+                recorderState = 'idle';
+                updateUIStates();
             }
-            function handleAuthClick() { /* ... (Reintroduzido - sem mudanças) ... */
-                 if (typeof gapi === 'undefined' || typeof gapi.auth2 === 'undefined' || !gapi.auth2.getAuthInstance) { /*...*/ return; }
-                if (!state.gapiReady && state.googleApiClientId) { initGoogleAuth(); return; } // Try init again if ID exists but not ready
-                 if (!state.googleApiClientId) { showCredentialWarning('oauth', 'Login Google '); return; }
-                if (!state.gapiReady) { updateStatus('Google API não pronta.', 'warning'); return; }
-                if (gapi.auth2.getAuthInstance().isSignedIn.get()) { gapi.auth2.getAuthInstance().signOut(); }
-                else { gapi.auth2.getAuthInstance().signIn(); }
+
+            // Save the text and analysis result to history
+            try {
+                await saveRecording({
+                     id: Date.now(),
+                     type: 'text', // Type 'text' for manual/loaded text analysis
+                     timestamp: new Date().toISOString(),
+                     duration: null,
+                     mimeType: 'text/plain',
+                     mediaDataUrl: null, // No media for pure text
+                     transcription: t, // Save the original text as transcription for type 'text'
+                     details: analysisRes?.details || null,
+                     intent: analysisRes?.intent || analysisErr ? 'error' : 'unknown',
+                     originalFileName: null,
+                });
+            } catch (svE) {
+                console.error("Erro salvar histórico texto:", svE);
+                setStatus("Erro ao salvar histórico.", "error");
             }
-            function updateAuthStatus(text, isError = false) { /* ... (Reintroduzido - sem mudanças) ... */
-                 statusBar.auth.textContent = text;
-                 statusBar.auth.style.color = isError ? 'var(--danger-color)' : 'var(--secondary-color)';
-                 if (document.body.classList.contains('dark-mode')) { statusBar.auth.style.color = isError ? '#ff6b6b' : '#adb5bd'; }
-            }
-            // Helper function to get current OAuth token
-            function getOAuthToken() {
-                if (state.gapiReady && state.googleUser && gapi.auth2?.getAuthInstance()?.isSignedIn.get()) {
-                    const authResponse = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true); // true = include access token
-                     // Check if token is expired (optional but good practice)
-                     // const expiresIn = authResponse.expires_in; // seconds
-                     // const expiresAt = authResponse.expires_at; // timestamp ms
-                     // if (expiresAt && Date.now() >= expiresAt - 60000) { // Refresh if expires in < 1 minute
-                     //     console.log("OAuth token nearly expired, attempting refresh...");
-                     //     // await gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
-                     //     // authResponse = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true);
-                     //     // NOTE: Automatic refresh can be complex. Let's rely on getting it fresh for now.
-                     // }
-                    return authResponse.access_token;
+        };
+
+
+        // --- History Management ---
+        const saveRecording = async (item) => {
+            // Check if item already exists (e.g., based on ID, though Date.now() makes collisions unlikely for interactive use)
+             const existingIndex = recordingHistory.findIndex(rec => rec.id === item.id);
+             if (existingIndex > -1) {
+                 recordingHistory[existingIndex] = item; // Update existing
+             } else {
+                // Add new item to the beginning
+                recordingHistory.unshift(item);
+                 // Trim history if it exceeds max size
+                if (recordingHistory.length > MAX_HISTORY_ITEMS) {
+                     recordingHistory = recordingHistory.slice(0, MAX_HISTORY_ITEMS);
                 }
-                return null;
+             }
+
+            saveHistoryToLocalStorage();
+             if(appShell.classList.contains('show-list')) { // Only re-render if list is visible
+                 renderHistory();
+             }
+        };
+
+        const saveHistoryToLocalStorage = () => {
+            try {
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(recordingHistory));
+            } catch (e) {
+                console.error("LocalStorage Save Err:", e);
+                setStatus("Erro salvar histórico.", "error");
             }
-
-            // --- Theme ---
-            function applyTheme(themeName) { /* ... (sem mudanças) ... */ }
-            function toggleTheme() { /* ... (sem mudanças) ... */ }
-            // --- View Management ---
-            function showView(viewId) { /* ... (sem mudanças) ... */ }
-            // --- Status Updates ---
-            function updateStatus(message, type = 'info') { /* ... (sem mudanças) ... */ }
-
-            // --- UI State Updates ---
-            function updateUI() {
-                 const hasGeminiApiKey = !!state.geminiApiKey;
-                 const hasOAuthClientId = !!state.googleApiClientId;
-                 const isLoggedIn = !!state.googleUser && state.gapiReady;
-                 const hasText = listView.transcriptionTextarea.value.trim().length > 0;
-                 const hasEventDetails = !!state.lastAnalyzedEventDetails; // Check if Gemini found event data
-
-                // Recording View Buttons
-                recordingView.recordPauseResumeButton.disabled = state.isProcessing || !hasOAuthClientId; // Disable recording if no Client ID
-                recordingView.stopButton.disabled = (!state.isRecording && !state.isPaused) || state.isProcessing;
-                recordingView.discardButton.disabled = (!state.isRecording && !state.isPaused) || state.isProcessing;
-                 // Add tooltip if no Client ID
-                 recordingView.recordPauseResumeButton.title = hasOAuthClientId ? (state.isRecording ? 'Pausar' : (state.isPaused ? 'Retomar' : 'Gravar')) : "Adicione Google Client ID nas Configurações para gravar/transcrever áudio";
-
-
-                 // Recording Icon & Button State (visuals)
-                 const recIcon = recordingView.icon;
-                 const recButton = recordingView.recordPauseResumeButton;
-                 recIcon.className = 'fas'; // Reset icon classes
-                 const recButtonIcon = recButton.querySelector('i'); if(recButtonIcon) recButtonIcon.className = 'fas';
-                 recButton.className = 'control-main'; // Reset main button classes
-
-                 if (state.isProcessing) {
-                     recIcon.classList.add('fa-spinner', 'fa-spin', 'state-processing');
-                     recButton.classList.add('state-processing'); if (recButtonIcon) recButtonIcon.classList.add('fa-spinner', 'fa-spin'); recButton.title = 'Processando...';
-                 } else if (state.isRecording) { /* ... (no change) ... */ recIcon.classList.add('fa-microphone-alt', 'state-recording'); recButton.classList.add('state-recording'); if (recButtonIcon) recButtonIcon.classList.add('fa-pause'); recButton.title = 'Pausar'; }
-                 else if (state.isPaused) { /* ... (no change) ... */ recIcon.classList.add('fa-microphone-slash', 'state-paused'); recButton.classList.add('state-paused'); if (recButtonIcon) { recButtonIcon.classList.add('fa-play'); recButtonIcon.style.marginLeft = '3px'; } else { recButton.innerHTML = '<i class="fas fa-play" style="margin-left: 3px;"></i>'; } recButton.title = 'Retomar'; }
-                 else { /* ... (no change) ... */ recIcon.classList.add('fa-microphone', 'state-idle'); recButton.classList.add('state-idle'); if (recButtonIcon) { recButtonIcon.classList.add('fa-microphone'); recButtonIcon.style.marginLeft = '0'; } else { recButton.innerHTML = '<i class="fas fa-microphone"></i>'; } recButton.title = hasOAuthClientId ? 'Gravar' : "Adicione Google Client ID nas Configurações"; if (!state.isRecording && !state.isPaused) recordingView.timer.textContent = '00:00'; }
-
-                 // List View Buttons
-                 listView.analyzeTextButton.disabled = !hasText || !hasGeminiApiKey || state.isProcessing;
-                 listView.scheduleTextButton.disabled = !hasText || !hasEventDetails || !isLoggedIn || state.isProcessing; // Requires text, event details, login, not processing
-                 listView.whatsappButton.disabled = !hasText || state.isProcessing;
-                 listView.copyTextButton.disabled = !hasText || state.isProcessing;
-
-                 // Add tooltips based on state
-                 listView.analyzeTextButton.title = hasGeminiApiKey ? "Analisar texto com Gemini" : "Adicione Chave API Gemini nas Configurações";
-                 listView.scheduleTextButton.title = !isLoggedIn ? "Faça Login com Google para agendar" : (!hasEventDetails ? "Analise o texto primeiro para encontrar detalhes" : "Agendar evento extraído no Google Calendar");
-
-
-                // General interaction buttons
-                topBar.attachButton.disabled = state.isProcessing;
-                topBar.settingsButton.disabled = state.isProcessing;
-                topBar.historyButton.disabled = state.isProcessing;
-                topBar.googleAuthButton.disabled = state.isProcessing || !hasOAuthClientId; // Disable login if no client ID
-                topBar.googleAuthButton.title = hasOAuthClientId ? (isLoggedIn ? `Logado como ${state.googleUser?.getName()}. Clique para Sair.` : 'Login com Google') : "Adicione Google Client ID nas Configurações";
+        };
+        const loadHistoryFromLocalStorage = () => {
+            try {
+                const s = localStorage.getItem(HISTORY_STORAGE_KEY);
+                recordingHistory = s ? JSON.parse(s) : [];
+                if (!Array.isArray(recordingHistory)) recordingHistory = [];
+                 // Basic validation and cleanup
+                recordingHistory = recordingHistory.filter(item =>
+                    item && typeof item.id === 'number' && typeof item.type === 'string' && typeof item.timestamp === 'string'
+                     // Add more checks if needed, e.g., require transcription for analysis types
+                );
+            } catch (e) {
+                console.error("LocalStorage Load Err:", e);
+                recordingHistory = []; // Clear history on load error
             }
+        };
 
-            // --- Recording Logic ---
-            async function handleRecordPauseResume() { /* ... (sem mudanças) ... */ }
-            async function startRecording() {
-                 if (!state.googleApiClientId) return showCredentialWarning('oauth', 'Gravação de áudio ');
-                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { /*...*/ return; }
-                 try { state.stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false }); }
-                 catch (err) { /*...*/ return; }
-                 try { /* ... (Setup MediaRecorder as before) ... */
-                     updateStatus('Iniciando gravação...', 'loading');
-                     state.isProcessing = true; updateUI();
-                     state.audioChunks = [];
-                     const options = { mimeType: 'audio/webm;codecs=opus' };
-                     try { state.mediaRecorder = new MediaRecorder(state.stream, options); }
-                     catch (e) { /* ... (Fallback mimeType) ... */
-                          try { state.mediaRecorder = new MediaRecorder(state.stream); }
-                          catch (e2) { /*...*/ return; }
-                     }
-                     console.log("Using mimeType:", state.mediaRecorder.mimeType);
-                     state.mediaRecorder.ondataavailable = event => { if (event.data.size > 0) state.audioChunks.push(event.data); };
-
-                     // MODIFIED: onstop NOW CALLS processAudioData
-                     state.mediaRecorder.onstop = async () => {
-                         console.log("MediaRecorder stopped (Full version).");
-                         if (state.audioChunks.length === 0) { /*...*/ return; }
-
-                         state.currentBlob = new Blob(state.audioChunks, { type: state.mediaRecorder.mimeType || 'audio/webm' });
-                         const fileName = `gravacao-${Date.now()}.${state.currentBlob.type.split('/')[1].split(';')[0] || 'webm'}`;
-                         state.audioChunks = [];
-
-                          // Check for login before attempting transcription
-                         if (!state.googleUser) {
-                             updateStatus('Faça login com Google para transcrever o áudio.', 'warning');
-                             await addAudioRecordingToHistory(state.currentBlob, fileName, "[Login necessário para transcrição]"); // Add to history without transcription
-                             resetRecordingState(); state.isProcessing = false; updateUI(); showView('list');
-                             return;
-                         }
-
-                         // --- Trigger full processing chain ---
-                         await processAudioData(state.currentBlob, fileName);
-                         // --- End of chain ---
-
-                         resetRecordingState();
-                         state.isProcessing = false; // Allow new actions
-                         updateUI();
-                         showView('list');
+        const renderHistory = () => {
+            if (recordingHistory.length === 0) {
+                historyList.innerHTML = '<li style="text-align:center; color:#888; border:none; background:none; padding:10px 0;">Histórico vazio.</li>';
+                return;
+            }
+            historyList.innerHTML = recordingHistory
+                .map((rec) => {
+                    const dt = new Date(rec.timestamp);
+                    const formattedDateTime = dt.toLocaleString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const itemTypeMap = {
+                         audio: 'Áudio',
+                         camera_video: 'Vídeo',
+                         image: 'Imagem',
+                         document: 'Doc',
+                         text: 'Texto'
+                    };
+                     const typeClassMap = {
+                         audio: 'info',
+                         camera_video: 'danger',
+                         image: 'accent',
+                         document: 'warning',
+                         text: 'purple'
                      };
+                    const itemTypeLabel = itemTypeMap[rec.type] || 'Item';
+                    const typeClass = typeClassMap[rec.type] || 'secondary';
 
-                     state.mediaRecorder.onerror = error => { /*...*/ };
-                     state.mediaRecorder.start(1000);
-                     state.isRecording = true; state.isPaused = false; state.recordingStartTime = Date.now(); state.pausedTime = 0;
-                     startTimer(); updateStatus('Gravando...', 'info');
-                     state.isProcessing = false;
+                    const mainText = rec.transcription || '(Sem transcrição)';
+                    const tPrev = mainText ? mainText.substring(0, 120) + (mainText.length > 120 ? '...' : '') : ''; // Increased preview length
 
-                 } catch (err) { /*...*/ }
+                    const canPlayAudio = rec.type === 'audio' && rec.mediaDataUrl;
+                    const canDisplayImage = rec.type === 'image' && rec.mediaDataUrl;
+                    // Add other preview types (video? need <video> tag, might be complex)
+
+                    return `
+                    <li data-id="${rec.id}">
+                        <div class="history-info">
+                            <span class="item-type type-${rec.type}">${itemTypeLabel}</span>
+                            <span class="date-time">${formattedDateTime}</span>
+                            ${rec.duration ? '<span class="duration">Duração: ' + rec.duration + '</span>' : ''}
+                            ${rec.originalFileName ? '<span class="filename" style="font-size:0.75em; color:#adb5bd;">' + rec.originalFileName + '</span>' : ''}
+                        </div>
+                        <div class="history-actions">
+                            ${canPlayAudio
+                                ? `<button class="play-history-btn" onclick="app.playHistoryItem(${rec.id},this)" title="Tocar"><i class="fas fa-play"></i></button>`
+                                : ''
+                            }
+                             <button class="load-history-btn" onclick="app.loadHistoryItem(${rec.id})" title="Carregar Texto"><i class="fas fa-upload"></i></button>
+                             <button class="edit-history-btn" onclick="app.editHistoryItem(${rec.id})" title="Editar Transcrição"><i class="fas fa-edit"></i></button>
+                            <button class="delete-history-btn" onclick="app.deleteHistoryItem(${rec.id})" title="Excluir"><i class="fas fa-trash"></i></button>
+                        </div>
+                        ${canDisplayImage ? `<img src="${rec.mediaDataUrl}" class="history-item-preview" alt="Preview">` : ''}
+                        ${mainText
+                            ? `<div class="history-transcription" title="${mainText.replace(/"/g, '&quot;').replace(/'/g, '&#x27;')}">${tPrev}</div>`
+                            : ''
+                        }
+                    </li>`;
+                })
+                .join('');
+        };
+
+        const deleteHistoryItem = (id) => {
+            if (!id) return;
+            const idx = recordingHistory.findIndex((r) => r.id === id);
+            if (idx === -1) return;
+             const itemToDelete = recordingHistory[idx];
+            if (confirm(`Excluir ${itemToDelete.type === 'audio' ? 'gravação' : itemToDelete.type} de ${new Date(itemToDelete.timestamp).toLocaleString('pt-BR')}?`)) {
+                // Stop playback if this item is playing
+                if (currentPlayingAudioElement && currentPlayingAudioElement.dataset.playingId == id) stopCurrentPlayback();
+
+                recordingHistory.splice(idx, 1);
+                saveHistoryToLocalStorage();
+                renderHistory();
+                setStatus("Excluído.", "info");
             }
-            function pauseRecording() { /* ... (sem mudanças) ... */ }
-            function resumeRecording() { /* ... (sem mudanças) ... */ }
+        };
 
-             // RENAMED: Stop now triggers the full processing chain via onstop
-             function stopAndProcessRecording() {
-                 if ((!state.isRecording && !state.isPaused) || state.isProcessing || !state.mediaRecorder) return;
-                 if (state.mediaRecorder.state === "inactive") { /*...*/ return; }
-
-                 updateStatus('Finalizando e processando...', 'loading'); // Updated message
-                 state.isProcessing = true; updateUI();
-
-                 try { state.mediaRecorder.stop(); /* onstop handler takes over */ }
-                 catch(e) { /*...*/ }
-
-                 if (state.stream) { state.stream.getTracks().forEach(track => track.stop()); state.stream = null; }
-             }
-
-            function discardRecording() { /* ... (sem mudanças) ... */ }
-            function resetRecordingState() { /* ... (sem mudanças) ... */ }
-            function startTimer() { /* ... (sem mudanças) ... */ }
-            function stopTimer() { /* ... (sem mudanças) ... */ }
-            function updateTimerDisplay() { /* ... (sem mudanças) ... */ }
-             async function addAudioRecordingToHistory(blob, fileName, transcription = "[Áudio gravado]") { /* ... (Added transcription param) ... */
-                 const historyItem = { id: `audio-${Date.now()}`, type: 'audio', name: fileName, date: new Date().toISOString(), transcription: transcription };
-                 await addToHistory(historyItem);
-             }
-
-
-            // --- File Handling & Processing ---
-            async function handleFileAttachment(event) {
-                if (state.isProcessing) return;
-                const file = event.target.files[0]; if (!file) return;
-                console.log(`File attached: ${file.name}, Type: ${file.type}`);
-                const fileType = getFileTypeFromFile(file);
-
-                // Check credentials based on type
-                if ((fileType === 'audio' || fileType === 'video') && !state.googleApiClientId) return showCredentialWarning('oauth', 'transcrição de áudio/vídeo ');
-                if (fileType === 'image' && !state.geminiApiKey) return showCredentialWarning('gemini', 'transcrição de imagem ');
-
-                state.isProcessing = true; updateStatus(`Processando anexo: ${file.name}...`, 'loading'); updateUI();
-                listView.transcriptionTextarea.value = ''; listView.analysisResultArea.innerHTML = '';
-
-                try {
-                     switch(fileType) {
-                         case 'audio':
-                         case 'video':
-                              if (!state.googleUser) {
-                                  updateStatus('Faça login com Google para transcrever.', 'warning');
-                                  await addAudioRecordingToHistory(file, file.name, "[Login necessário para transcrição]");
-                             } else {
-                                 await processAudioData(file, file.name); // Full chain for audio/video
-                             }
-                             break;
-                         case 'image':
-                             updateStatus('Transcrevendo imagem com Gemini...', 'gemini');
-                             const imageBase64 = await readFileAsBase64(file);
-                             const base64Data = imageBase64.substring(imageBase64.indexOf(',') + 1);
-                             const imgTranscription = await callGeminiVisionAPI(base64Data, file.type);
-                             await processTranscriptionResult(imgTranscription, file.name, 'image'); // Includes Gemini analysis + schedule attempt
-                             break;
-                         case 'text':
-                             const textContent = await file.text();
-                             await processTranscriptionResult(textContent, file.name, 'text'); // Includes Gemini analysis + schedule attempt
-                             break;
-                         default: // document
-                             const docItem = { id: `doc-${Date.now()}`, type: 'document', name: file.name, date: new Date().toISOString(), transcription: `[Documento anexado: ${file.name}]`};
-                             await addToHistory(docItem); updateStatus(`Documento "${file.name}" adicionado.`, 'info');
-                             break;
-                     }
-                    showView('list');
-                } catch (error) { /* ... (Error handling) ... */
-                     console.error("Error processing attachment:", error); updateStatus(`Erro ao processar ${file.name}: ${error.message}`, 'error');
-                 } finally { fileInput.value = ''; state.isProcessing = false; updateUI(); checkCredentialsAndNotify(); }
+        const editHistoryItem = (id) => {
+            if (!id) return;
+            const rec = recordingHistory.find((r) => r.id === id);
+            if (!rec) return;
+            const newTranscription = prompt("Editar transcrição:", rec.transcription || '');
+            if (newTranscription !== null) {
+                rec.transcription = newTranscription.trim();
+                 // If details were based on old text/transcription, they might be invalid now.
+                 // Optionally, clear or re-analyze details here if needed. For now, just update text.
+                saveHistoryToLocalStorage();
+                renderHistory();
+                setStatus("Transcrição editada.", "success");
             }
-             function readFileAsBase64(file) { /* ... (sem mudanças) ... */ }
-             function getFileTypeFromFile(file) { /* ... (sem mudanças) ... */ }
+        };
 
-            // --- Main Processing Orchestration ---
-
-             // Process Audio (Transcription -> Analysis -> Scheduling)
-             async function processAudioData(blobOrFile, fileName) {
-                 let transcription = `[Falha na transcrição de ${fileName}]`; // Default on error
-                 let itemType = blobOrFile.type.startsWith('audio/') ? 'audio' : 'video';
-                 try {
-                     updateStatus('Transcrevendo áudio (Google Speech)...', 'loading');
-                     transcription = await callGoogleSpeechAPI(blobOrFile);
-                 } catch (error) {
-                     console.error("Speech Transcription Error:", error);
-                     updateStatus(`Erro Transcrição: ${error.message}`, 'error');
-                     // Keep default error transcription
-                 } finally {
-                     // Always proceed to process the result (even if it's an error message)
-                     // This ensures Gemini analysis and scheduling are attempted on whatever text exists
-                     await processTranscriptionResult(transcription, fileName, itemType, blobOrFile);
-                 }
-             }
-
-             // Process Text Result (Analysis -> Scheduling) -> Called by audio, image, text load
-             async function processTranscriptionResult(text, sourceName, itemType, sourceBlob = null) {
-                 listView.transcriptionTextarea.value = text || '';
-                 updateStatus('Texto carregado. Analisando com Gemini...', 'gemini');
-                 updateUI(); // Update buttons based on text
-                 state.lastAnalyzedEventDetails = null; // Clear previous analysis data
-                 listView.analysisResultArea.innerHTML = ''; // Clear display area
-
-                 // Add item to history FIRST
-                 const historyItem = { id: `${itemType}-${Date.now()}`, type: itemType, name: sourceName, date: new Date().toISOString(), transcription: text || '' };
-                 await addToHistory(historyItem); // Add to history regardless of analysis outcome
-
-                 // Then, attempt Gemini analysis (if API key exists)
-                 let analysisResultText = "[Análise Gemini não executada (sem chave API ou erro)]";
-                 if (state.geminiApiKey) {
-                     try {
-                          analysisResultText = await analyzeTextWithGeminiInternal(text); // Use internal function
-                          // Display result immediately
-                          listView.analysisResultArea.innerHTML = `<strong>Análise Gemini:</strong><br>${analysisResultText.replace(/\n/g, '<br>')}`;
-                          // Update status after analysis display
-                          updateStatus('Análise Gemini concluída.', 'success');
-                     } catch (geminiError) {
-                          console.error("Gemini Analysis failed within processTranscriptionResult:", geminiError);
-                          listView.analysisResultArea.innerHTML = `<strong class="error">Erro Análise Gemini:</strong> ${geminiError.message}`;
-                          updateStatus(`Erro Análise Gemini: ${geminiError.message}`, 'error');
-                          // analysisResultText remains the default error message
-                     }
-                 } else {
-                     updateStatus('Texto carregado. Pule Análise (sem chave Gemini).', 'info');
-                     listView.analysisResultArea.innerHTML = `<i>Análise Gemini requer Chave API nas Configurações.</i>`;
-                 }
-
-                 // Finally, attempt scheduling based on Gemini's *structured* result (if any)
-                 if (state.lastAnalyzedEventDetails) {
-                      await attemptCalendarScheduling(state.lastAnalyzedEventDetails);
-                 } else {
-                      console.log("Nenhum detalhe de evento encontrado pela análise para agendar.");
-                       // Check if analysis provided a summary instead
-                      if (analysisResultText && !analysisResultText.startsWith('[') && !listView.analysisResultArea.querySelector('.schedule-info')) {
-                         // No structured event, but analysis happened. Maybe log it?
-                         console.log("Análise Gemini forneceu: ", analysisResultText);
-                      }
-                 }
-                  updateUI(); // Final UI update after all processing
-             }
-
-
-            // --- Google Speech API Call (using OAuth) ---
-             async function callGoogleSpeechAPI(blobOrFile) {
-                 const token = getOAuthToken();
-                 if (!token) { throw new Error("Login Google necessário para transcrição de áudio."); }
-
-                 updateStatus('Convertendo áudio e enviando (Google Speech)...', 'loading');
-                 const base64Audio = await readFileAsBase64(blobOrFile).then(dataUrl => dataUrl.split(',')[1]);
-
-                 const requestBody = {
-                     config: {
-                         languageCode: 'pt-BR', // Or make configurable
-                         enableAutomaticPunctuation: true,
-                         encoding: '', // Determine below
-                     },
-                     audio: { content: base64Audio }
-                 };
-
-                 // Encoding detection
-                 const mime = blobOrFile.type.toLowerCase();
-                 if (mime.includes('webm')) requestBody.config.encoding = 'WEBM_OPUS';
-                 else if (mime.includes('wav')) requestBody.config.encoding = 'LINEAR16';
-                 // Add more encodings as needed (MP3, FLAC, OGG_OPUS, AMR etc.) based on MediaRecorder output/uploads
-                 else requestBody.config.encoding = 'ENCODING_UNSPECIFIED';
-                 console.log("Using Speech API encoding:", requestBody.config.encoding);
-
-                 const response = await fetch(SPEECH_API_ENDPOINT, {
-                     method: 'POST',
-                     headers: {
-                         'Authorization': `Bearer ${token}`,
-                         'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify(requestBody)
-                 });
-
-                 const data = await response.json();
-
-                 if (!response.ok || data.error) {
-                     console.error("Google Speech API Error:", data.error || data);
-                     throw new Error(`Google Speech: ${data.error?.message || JSON.stringify(data.error) || `Erro ${response.status}`}`);
-                 }
-                 if (data.results && data.results.length > 0) {
-                     const transcription = data.results.map(result => result.alternatives[0].transcript).join('\n');
-                     console.log("Google Speech Transcription:", transcription);
-                     updateStatus('Transcrição de áudio recebida.', 'success');
-                     return transcription;
-                 } else {
-                     console.warn("Google Speech API - No transcription result:", data);
-                     return "[Nenhuma transcrição de áudio recebida]";
-                 }
-             }
-
-
-            // --- Gemini API Calls ---
-             async function callGeminiVisionAPI(imageBase64Data, mimeType) { /* ... (OCR - Sem mudanças) ... */
-                 if (!state.geminiApiKey) throw new Error("Chave API Gemini não configurada.");
-                 updateStatus('Enviando imagem para Gemini...', 'gemini');
-                 const model = 'gemini-pro-vision';
-                 const url = `${GEMINI_API_ENDPOINT}${model}:generateContent?key=${state.geminiApiKey}`;
-                 const requestBody = { contents: [{ parts: [ { text: "Transcreva todo o texto visível nesta imagem. Se não houver texto, responda '[Nenhum texto encontrado]'." }, { inline_data: { mime_type: mimeType, data: imageBase64Data } } ] }] };
-                 try {
-                     const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
-                     const data = await response.json();
-                     if (!response.ok || !data.candidates || data.candidates.length === 0) { /*...*/ throw new Error(`Gemini Vision: ${data?.error?.message || `Erro ${response.status}`}`); }
-                     const textResult = data.candidates[0]?.content?.parts?.[0]?.text || "[Nenhuma transcrição recebida do Gemini]";
-                     console.log("Gemini Vision Result:", textResult);
-                     updateStatus('Transcrição da imagem recebida.', 'success');
-                     return textResult;
-                 } catch (error) { /*...*/ throw error; }
-             }
-
-             // Called by button or automatically after transcription
-             async function analyzeTextWithGemini() {
-                 if (!checkApiKeyAndProceed("analisar texto ")) return;
-                 const textToAnalyze = listView.transcriptionTextarea.value.trim();
-                 if (!textToAnalyze) { updateStatus('Nenhum texto para analisar.', 'warning'); return; }
-
-                 state.isProcessing = true; updateStatus('Analisando texto com Gemini...', 'gemini'); updateUI();
-                 state.lastAnalyzedEventDetails = null; // Clear previous details
-                 listView.analysisResultArea.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analisando...';
-
-                 try {
-                     const analysisResultText = await analyzeTextWithGeminiInternal(textToAnalyze);
-                     // Display result
-                     listView.analysisResultArea.innerHTML = `<strong>Análise Gemini:</strong><br>${analysisResultText.replace(/\n/g, '<br>')}`;
-                     updateStatus('Análise Gemini concluída.', 'success');
-
-                     // If event details were extracted and stored in state, attempt scheduling
-                     if (state.lastAnalyzedEventDetails) {
-                         await attemptCalendarScheduling(state.lastAnalyzedEventDetails);
-                     } else {
-                          console.log("Análise concluída, mas sem detalhes de evento para agendar.");
-                     }
-
-                 } catch (error) {
-                     console.error("Error calling Gemini Pro API:", error);
-                     updateStatus(`Erro na análise Gemini: ${error.message}`, 'error');
-                     listView.analysisResultArea.innerHTML = `<strong class="error">Erro na análise:</strong> ${error.message}`;
-                 } finally {
-                     state.isProcessing = false; updateUI();
-                 }
-             }
-
-             // Internal function performing the actual Gemini text analysis call
-             async function analyzeTextWithGeminiInternal(textToAnalyze) {
-                 const model = 'gemini-pro';
-                 const url = `${GEMINI_API_ENDPOINT}${model}:generateContent?key=${state.geminiApiKey}`;
-                  // Enhanced prompt to request structured data *if* scheduling info is found
-                 const prompt = `Analise o seguinte texto.
-1.  Se encontrar informações claras de agendamento (evento, data, hora), extraia-as e responda APENAS no seguinte formato JSON: {"event": {"summary": "...", "date": "YYYY-MM-DD", "time": "HH:MM"}}
-2.  Se NÃO encontrar informações de agendamento, forneça um resumo conciso do texto em uma ou duas frases.
-
-Texto:
-"${textToAnalyze}"`;
-
-                 const requestBody = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 200 } };
-
-                 const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
-                 const data = await response.json();
-
-                 if (!response.ok || !data.candidates || data.candidates.length === 0) {
-                     console.error("Gemini Pro API Error Response:", data);
-                     throw new Error(`Gemini Pro: ${data?.error?.message || `Erro ${response.status}`}`);
-                 }
-
-                 const analysisResult = data.candidates[0]?.content?.parts?.[0]?.text || "[Nenhum resultado da análise]";
-                 console.log("Raw Gemini Analysis Result:", analysisResult);
-
-                 // Try to parse as JSON for event details
-                 try {
-                     const potentialJson = JSON.parse(analysisResult);
-                     if (potentialJson.event && potentialJson.event.summary && potentialJson.event.date) {
-                         console.log("Parsed event details from Gemini:", potentialJson.event);
-                         // Store details for scheduling
-                         state.lastAnalyzedEventDetails = potentialJson.event;
-                          // Return a user-friendly summary of the found event
-                          return `Evento encontrado: ${potentialJson.event.summary} em ${potentialJson.event.date}${potentialJson.event.time ? ' às ' + potentialJson.event.time : ''}.`;
-                     }
-                 } catch (e) {
-                     // Not JSON or not the expected structure, treat as a summary
-                     console.log("Gemini result is not structured event JSON, treating as summary.");
-                      state.lastAnalyzedEventDetails = null; // Ensure no stale data
-                 }
-
-                 // If it wasn't structured event data, return the raw text result (the summary)
-                 return analysisResult;
-             }
-
-            function checkApiKeyAndProceed(actionDescription = "") { /* ... (sem mudanças) ... */ }
-
-
-            // --- Calendar Scheduling Logic ---
-            function handleManualScheduling() {
-                 if (!state.lastAnalyzedEventDetails) {
-                     updateStatus('Nenhum detalhe de evento extraído para agendar. Analise o texto primeiro.', 'warning');
-                     return;
-                 }
-                 if (!state.googleUser) return showCredentialWarning('oauth', 'Agendamento no Calendar ');
-                 if (!state.gapiReady) { updateStatus('Google API não pronta.', 'warning'); return; }
-
-                 attemptCalendarScheduling(state.lastAnalyzedEventDetails);
+        const playHistoryItem = (id, button) => {
+            if (!id || !button) return;
+            const rec = recordingHistory.find((r) => r.id === id);
+            // Only allow playing audio type with data URL
+            if (!rec || rec.type !== 'audio' || !rec.mediaDataUrl) {
+                setStatus("Conteúdo não reproduzível (apenas áudio).", "warning");
+                return;
             }
 
-            async function attemptCalendarScheduling(eventDetails) {
-                if (!eventDetails || !eventDetails.summary || !eventDetails.date) {
-                    console.log("Agendamento pulado: detalhes do evento inválidos/ausentes.");
-                    return;
+            stopCurrentPlayback(); // Stop any currently playing audio
+
+            try {
+                // Use a single audio element instance or create one if needed
+                let p = document.getElementById('audioPlayerInstance');
+                if (!p) {
+                    p = document.createElement('audio');
+                    p.id = 'audioPlayerInstance';
+                    p.className = 'audio-player'; // Add a class for potential styling if needed
+                    audioPlayerPool.appendChild(p);
                 }
-                 if (!state.googleUser) { console.log("Agendamento pulado: usuário não logado."); return; }
-                 if (!state.gapiReady) { console.log("Agendamento pulado: GAPI não pronta."); return; }
-                 if (state.isProcessing) { console.log("Agendamento pulado: outra operação em progresso."); return; }
+
+                p.src = rec.mediaDataUrl; // Set the data URL as source
+                p.dataset.playingId = id; // Store the ID being played
+
+                const icon = button.querySelector('i');
+                icon.className = 'fas fa-spinner fa-spin'; // Show loading spinner
+
+                p.play()
+                    .then(() => {
+                        setStatus(`Tocando ${new Date(rec.timestamp).toLocaleTimeString()}`, "info");
+                        icon.className = 'fas fa-pause'; // Change icon to pause
+                         // Update button action to stop playback
+                        button.onclick = () => stopCurrentPlayback();
+                        currentPlayingAudioElement = p; // Keep track of the element
+
+                        // Set up event listeners for when playback ends or errors
+                        p.onended = () => stopCurrentPlayback(id); // Pass id to know which item finished
+                        p.onerror = (e) => {
+                            setStatus("Erro ao reproduzir áudio.", "error");
+                            console.error("Audio playback error:", e);
+                            stopCurrentPlayback(id);
+                        };
+                    })
+                    .catch((err) => {
+                        setStatus("Erro ao tocar áudio.", "error");
+                         console.error("Error during audio play():", err);
+                        icon.className = 'fas fa-play'; // Revert icon to play
+                         // Reset button action
+                        button.onclick = () => app.playHistoryItem(id, button);
+                    });
+
+            } catch (e) {
+                setStatus("Erro ao preparar áudio.", "error");
+                console.error("Error setting up audio player:", e);
+                 const icon = button.querySelector('i');
+                 icon.className = 'fas fa-play';
+            }
+        };
+
+        const stopCurrentPlayback = (endedId = null) => {
+            if (!currentPlayingAudioElement) return;
+
+            const pid = currentPlayingAudioElement.dataset.playingId;
+            // Pause and clear source
+            currentPlayingAudioElement.pause();
+            currentPlayingAudioElement.removeAttribute('src'); // Clear blob URL or data URL
+            currentPlayingAudioElement.dataset.playingId = ''; // Clear playing state
+
+            // Find the button in the history list item and reset its state
+            const btn = historyList.querySelector(`li[data-id="${pid}"] .play-history-btn`);
+            if (btn) {
+                btn.querySelector('i').className = 'fas fa-play'; // Revert icon to play
+                // Reset button action
+                btn.onclick = () => app.playHistoryItem(parseInt(pid), btn);
+            }
+
+            currentPlayingAudioElement = null; // Clear the reference
+
+            // Update status unless it was called because playback ended naturally
+            if (!endedId || endedId !== parseInt(pid)) {
+                 setStatus("Reprodução parada.", "info");
+            } else {
+                 setStatus("Reprodução concluída.", "info");
+            }
+        };
+
+        const loadHistoryItem = (id) => {
+            if (!id) return;
+            const rec = recordingHistory.find((r) => r.id === id);
+            if (!rec) {
+                 setStatus("Item de histórico não encontrado.", "error");
+                 return;
+            }
+             // Load the transcription into the textarea
+            transcriptionTextarea.value = rec.transcription || ''; // Use empty string if null/undefined
+
+             // Scroll to top of list view if it's active, or switch to it?
+             // User asked to load into the textarea, implies staying/going to the list view.
+             if(!appShell.classList.contains('show-list')) {
+                 showView('list'); // Go to list view if not already there
+             }
+            setStatus(`Texto de ${rec.type} carregado do histórico.`, "info");
+            updateUIStates(); // Update button states based on loaded text
+        };
 
 
-                 // Try to parse date and time
-                 const dateStr = eventDetails.date; // "YYYY-MM-DD"
-                 const timeStr = eventDetails.time || "09:00"; // Default time HH:MM or use default
-                 const startDateTimeISO = `${dateStr}T${timeStr}:00`; // Combine for ISO-like string
+        const loadApiKey = () => {
+            GEMINI_API_KEY = localStorage.getItem(API_KEY_STORAGE_KEY) || '';
+            GEMINI_MODEL = localStorage.getItem(MODEL_STORAGE_KEY) || 'gemini-1.5-flash-latest';
+            console.log("Chave API Carregada:", GEMINI_API_KEY ? "SIM" : "NÃO");
+            console.log("Modelo Carregado:", GEMINI_MODEL);
+             // Select the loaded model in the settings modal dropdown
+             if (modelSelect) {
+                 modelSelect.value = GEMINI_MODEL;
+             }
+        };
 
-                 let startDateTime, endDateTime;
-                 try {
-                      // Assume local time if no timezone specified by Gemini (which it won't be with this prompt)
-                     const startDate = new Date(startDateTimeISO);
-                     // Check if date is valid
-                     if (isNaN(startDate.getTime())) throw new Error("Data/hora inválida recebida da análise.");
+        window.onload = () => {
+             // Feature detection
+            if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder || !window.FileReader) {
+                setStatus('ERRO: Navegador não suporta APIs essenciais (gravação/arquivos).', 'error');
+                alert('Seu navegador não suporta as funcionalidades essenciais (gravação de áudio/vídeo ou leitura de arquivos). Por favor, use um navegador moderno como Chrome, Firefox ou Edge.');
+                // Disable relevant buttons
+                recordPauseResumeButtonView.disabled = true;
+                cameraToggleButton.disabled = true;
+                attachmentButton.disabled = true;
+                return;
+            }
 
-                     startDateTime = startDate.toISOString();
-                     // Default 1 hour duration
-                     endDateTime = new Date(startDate.getTime() + 60 * 60 * 1000).toISOString();
+             // Check for Media Recorder MIME type support for video if camera is expected
+            if (!MediaRecorder.isTypeSupported('video/webm; codecs=vp9,opus') && !MediaRecorder.isTypeSupported('video/webm; codecs=vp8,opus') && !MediaRecorder.isTypeSupported('video/webm')) {
+                 console.warn("Browser does not fully support video recording codecs (VP9/VP8 Opus), falling back or may fail.");
+                 // The camera recording start logic has fallbacks, but a user warning might be good if it's critical.
+                 // For now, let it try and show errors if it fails.
+            }
 
-                 } catch(e) {
-                     console.error("Error parsing date/time for scheduling:", e);
-                     updateStatus(`Erro ao formatar data/hora para agendamento: ${e.message}`, 'error');
-                     // Display error in analysis area?
-                      listView.analysisResultArea.innerHTML += `<br><span class="error">Falha ao formatar data/hora: ${e.message}</span>`;
-                     return;
+
+            loadApiKey();
+            loadHistoryFromLocalStorage();
+            resetRecordingStateVisuals(); // Ensure initial state is correct for audio view
+            cameraState = 'idle'; // Ensure initial camera state is idle
+            showView('recording'); // Start on the main recording view
+            updateUIStates(); // Initial UI state update
+            updateCameraUIStates(); // Initial camera UI state update (though camera view isn't shown yet)
+            setStatus("Pronto.");
+
+            // Initialize theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggleButton.querySelector('i').className = 'fas fa-sun';
+                themeToggleButton.title = 'Tema Claro';
+            }
+
+            // --- Event Listeners ---
+            // Audio Recording View Buttons
+            recordPauseResumeButtonView.addEventListener('click', handleRecordPauseResumeView);
+            stopButtonView.addEventListener('click', handleStopButton);
+            discardButton.addEventListener('click', handleDiscardButton);
+
+             // Camera View Buttons (New)
+            startStopCamRecording.addEventListener('click', handleStartStopCamRecording);
+            discardCamRecording.addEventListener('click', handleDiscardCamRecording);
+
+
+            // Global Top Bar Buttons
+            historyButton.addEventListener('click', () => showView('list'));
+            backButton.addEventListener('click', () => {
+                 // Back button logic depends on current view
+                 if(appShell.classList.contains('show-list')) {
+                     showView('recording'); // From list back to recording
+                 } else if (appShell.classList.contains('show-camera')) {
+                      showView('recording'); // From camera back to recording
                  }
+                 // From recording view, back button is hidden
+            });
+            settingsButton.addEventListener('click', openSettingsModal);
+            themeToggleButton.addEventListener('click', toggleTheme);
 
+             // New Media Input Buttons
+            cameraToggleButton.addEventListener('click', handleCameraToggle);
+            attachmentButton.addEventListener('click', handleAttachmentClick);
+            fileInput.addEventListener('change', handleFileSelect); // Listener for hidden file input
 
-                 const calendarEvent = {
-                     summary: eventDetails.summary,
-                     start: { dateTime: startDateTime, timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
-                     end: { dateTime: endDateTime, timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone },
-                     description: `Agendado via Gravador Inteligente.\n\nTexto original:\n"${listView.transcriptionTextarea.value}"`
-                 };
+            // List View / Text Area Actions
+            scheduleTextButton.addEventListener('click', handleScheduleTextButton);
+            whatsappButton.addEventListener('click', shareWhatsApp);
+            transcriptionTextarea.addEventListener('input', updateUIStates); // Update button states when text changes
 
-                 // Now call the Calendar API
-                 await scheduleOnGoogleCalendar(calendarEvent);
-            }
+            // Modals
+            saveSettingsButton.addEventListener('click', saveSettings);
+            window.addEventListener('click', (e) => {
+                if (e.target == settingsModal) closeSettingsModal();
+                if (e.target == apiKeyModal) closeApiKeyModal();
+            });
 
-            async function scheduleOnGoogleCalendar(calendarEvent) {
-                 // Re-check login/gapi state just before API call
-                 if (!state.gapiReady || !state.googleUser) {
-                     updateStatus('Login Google ou API não está pronto para agendar.', 'error');
-                     return;
+            // Expose functions to global `app` object for inline history buttons
+            window.app = {
+                 playHistoryItem,
+                 deleteHistoryItem,
+                 loadHistoryItem,
+                 editHistoryItem,
+                 closeSettingsModal,
+                 closeApiKeyModal
+            };
+
+             // Prevent user scaling on mobile
+             document.addEventListener('touchmove', function(event) {
+                 if (event.scale !== 1) {
+                     event.preventDefault();
                  }
-                 if (!gapi.client.calendar) { updateStatus('API do Google Calendar não carregada.', 'error'); return; }
-
-                 state.isProcessing = true; // Lock UI during API call
-                 updateStatus(`Agendando "${calendarEvent.summary}" no Google Calendar...`, 'loading');
-                 updateUI();
-
-                 try {
-                     const response = await gapi.client.calendar.events.insert({
-                         'calendarId': 'primary',
-                         'resource': calendarEvent
-                     });
-                     console.log('Google Calendar Event created:', response.result);
-                     updateStatus(`Evento "${response.result.summary}" agendado com sucesso!`, 'success');
-                      // Display success in analysis area
-                      listView.analysisResultArea.innerHTML += `<br><span style="color: var(--success-color);"><i class="fas fa-check-circle"></i> Evento agendado no Google Calendar!</span>`;
-                      // Clear event details after successful scheduling? Maybe not, allow manual retry.
-                      // state.lastAnalyzedEventDetails = null;
-
-                 } catch (error) {
-                     console.error('Error creating Google Calendar event:', error);
-                     const errorMsg = error.result?.error?.message || error.message || 'Erro desconhecido';
-                     updateStatus(`Falha ao agendar no Calendar: ${errorMsg}`, 'error');
-                      listView.analysisResultArea.innerHTML += `<br><span class="error">Falha ao agendar no Calendar: ${errorMsg}</span>`;
-                 } finally {
-                      state.isProcessing = false; updateUI();
-                 }
-            }
-
-            // --- History Management ---
-            async function addToHistory(itemData) { /* ... (sem mudanças) ... */ }
-            function renderHistoryList() { /* ... (sem mudanças) ... */ }
-            function createPlaceholderLi(text) { /* ... (sem mudanças) ... */ }
-            function createHistoryLi(item) { // Adjusted for full context
-                const li = document.createElement('li'); li.dataset.id = item.id; li.className = `history-item type-${item.type}`;
-                const safeTranscription = item.transcription ? item.transcription.replace(/</g, "<").replace(/>/g, ">") : '';
-                const shortTranscription = safeTranscription ? safeTranscription.substring(0, 250) + (safeTranscription.length > 250 ? '...' : '') : '[Sem texto/transcrição]';
-                const safeName = item.name ? item.name.replace(/</g, "<").replace(/>/g, ">") : '[Desconhecido]';
-                const canAnalyze = item.transcription && item.type !== 'audio' && item.type !== 'video'; // Only analyze items with text
-                const canSchedule = false; // Scheduling from history not directly supported without re-analysis
-
-                li.innerHTML = `
-                    <div class="history-info"> <span class="item-type type-${item.type}">${item.type.toUpperCase()}</span> <span class="date-time">${new Date(item.date).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</span> <span class="item-name" title="${safeName}">${safeName}</span> </div>
-                    ${item.transcription ? `<div class="history-transcription">${shortTranscription}</div>` : ''}
-                    <div class="history-actions">
-                         ${(item.type === 'audio' || item.type === 'video') ? '<button class="play-history-btn" title="Reproduzir (Não impl.)" disabled><i class="fas fa-play"></i></button>' : ''}
-                         <button class="load-history-btn" title="Carregar Texto" ${!item.transcription ? 'disabled' : ''}><i class="fas fa-file-alt"></i></button>
-                         <button class="analyze-history-btn" title="Analisar Texto com Gemini" ${!canAnalyze ? 'disabled' : ''}><i class="fas fa-brain"></i></button>
-                         <button class="schedule-history-btn" title="Reanalisar e tentar Agendar" ${!canAnalyze ? 'disabled' : ''}><i class="far fa-calendar-plus"></i></button>
-                         <button class="delete-history-btn" title="Excluir"><i class="fas fa-trash"></i></button>
-                    </div>`;
-                return li;
-            }
-            function handleHistoryAction(event) { // Adjusted for full context
-                 const button = event.target.closest('button'); if (!button || button.disabled) return;
-                 const li = event.target.closest('li[data-id]'); const itemId = li?.dataset.id; if (!itemId) return;
-                 const item = state.historyItems.find(h => h.id === itemId); if (!item) return;
-
-                 if (button.classList.contains('load-history-btn')) {
-                      listView.transcriptionTextarea.value = item.transcription || ''; updateStatus(`Texto de "${item.name}" carregado.`, 'info'); showView('list'); listView.transcriptionTextarea.focus(); state.lastAnalyzedEventDetails = null; listView.analysisResultArea.innerHTML = ''; updateUI();
-                 } else if (button.classList.contains('analyze-history-btn') || button.classList.contains('schedule-history-btn')) {
-                      if (item.transcription && checkApiKeyAndProceed(`analisar histórico "${item.name}" `)) {
-                           listView.transcriptionTextarea.value = item.transcription; // Load text
-                           showView('list'); // Ensure view
-                           analyzeTextWithGemini(); // Trigger analysis (which will then trigger scheduling if details found & button was schedule)
-                      } else if (!item.transcription) { updateStatus('Não há texto para analisar.', 'warning'); }
-                 } else if (button.classList.contains('delete-history-btn')) {
-                      if (confirm(`Tem certeza que deseja excluir o item "${item.name}"?`)) { deleteHistoryItem(itemId); }
-                 } else if (button.classList.contains('play-history-btn')) { updateStatus('Reprodução não implementada.', 'warning'); }
-            }
-             async function deleteHistoryItem(itemId) { /* ... (sem mudanças) ... */ }
-            async function saveHistory() { /* ... (sem mudanças) ... */ }
-            function loadHistory() { /* ... (sem mudanças) ... */ }
-
-            // --- Other Actions ---
-            function shareViaWhatsApp() { /* ... (sem mudanças) ... */ }
-            function copyTranscription() { /* ... (sem mudanças) ... */ }
-
-            // --- Settings Modal ---
-            function openSettingsModal() {
-                 settingsModal.clientIdInput.value = state.googleApiClientId || ''; // Load Client ID
-                 settingsModal.apiKeyInput.value = state.geminiApiKey || ''; // Load Gemini Key
-                 settingsModal.status.textContent = ''; settingsModal.status.className = 'modal-status';
-                 settingsModal.element.style.display = 'block';
-            }
-            function closeSettingsModal() { settingsModal.element.style.display = 'none'; }
-            function saveSettings() {
-                 const oldClientId = state.googleApiClientId;
-                 const oldApiKey = state.geminiApiKey;
-                 state.googleApiClientId = settingsModal.clientIdInput.value.trim();
-                 state.geminiApiKey = settingsModal.apiKeyInput.value.trim();
-                 const settingsToSave = { googleApiClientId: state.googleApiClientId, geminiApiKey: state.geminiApiKey };
-                 try {
-                     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsToSave));
-                     settingsModal.status.textContent = 'Configurações salvas!'; settingsModal.status.className = 'modal-status status-success';
-                     checkCredentialsAndNotify(); // Notify about current state
-                     // Re-initialize Google Auth ONLY if Client ID changed
-                     if (state.googleApiClientId && state.googleApiClientId !== oldClientId) {
-                          console.log("Client ID changed. Re-initializing Google Auth.");
-                          if (state.gapiReady && gapi.auth2?.getAuthInstance()?.isSignedIn.get()) { gapi.auth2.getAuthInstance().signOut(); }
-                          state.gapiReady = false; initGoogleAuth();
-                     }
-                     setTimeout(closeSettingsModal, 1500);
-                 } catch (e) { /*...*/ settingsModal.status.textContent = 'Erro ao salvar.'; settingsModal.status.className = 'modal-status status-error'; }
-            }
-            function loadSettings() {
-                 const savedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
-                 if (savedSettings) {
-                     try {
-                         const parsed = JSON.parse(savedSettings);
-                         state.googleApiClientId = parsed.googleApiClientId || null;
-                         state.geminiApiKey = parsed.geminiApiKey || null;
-                          console.log("Settings loaded:", { ClientID: state.googleApiClientId ? '***' : 'N/A', GeminiKey: state.geminiApiKey ? '***' : 'N/A' });
-                     } catch (e) { /*...*/ localStorage.removeItem(SETTINGS_STORAGE_KEY); }
-                 }
-            }
-
-            // --- Public API ---
-            return { init: init };
-        })();
-
-        // --- Start the App ---
-        document.addEventListener('DOMContentLoaded', app.init);
-        // --- Fim do JavaScript Embutido ---
+             }, { passive: false });
+        };
     </script>
-
 </body>
 </html>
