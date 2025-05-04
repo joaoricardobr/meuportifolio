@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium IPTV - Assinatura Mensal com +10.000 Canais e Streamings</title>
+    <meta name="description" content="O melhor serviço de IPTV premium com +10.000 canais, filmes, séries e todos os streamings inclusos. Planos mensais a partir de R$29,90.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF0000',
+                        secondary: '#FFD700',
+                        dark: '#0F172A',
+                        darker: '#020617'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(2,6,23,0.95) 100%);
+        }
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(255, 0, 0, 0.2), 0 10px 10px -5px rgba(255, 0, 0, 0.1);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .streaming-logo {
+            filter: grayscale(100%) brightness(150%);
+            transition: all 0.3s ease;
+        }
+        .streaming-logo:hover {
+            filter: grayscale(0%) brightness(100%);
+            transform: scale(1.1);
+        }
+        .testimonial-card {
+            background: linear-gradient(145deg, rgba(15,23,42,0.8) 0%, rgba(2,6,23,0.9) 100%);
+            border-left: 4px solid #FF0000;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .faq-question {
+            transition: all 0.3s ease;
+        }
+        .faq-question:hover {
+            color: #FFD700;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #FF0000;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-darker text-gray-200 font-sans">
+    <!-- Header/Navigation -->
+    <header class="sticky top-0 z-50 bg-dark/90 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-tv text-primary text-2xl"></i>
+                <span class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">PREMIUM IPTV</span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link">Início</a>
+                <a href="#features" class="nav-link">Recursos</a>
+                <a href="#servers" class="nav-link">Servidores</a>
+                <a href="#plans" class="nav-link">Planos</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Contato</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <a href="#login" class="hidden sm:inline-block px-4 py-2 rounded-lg bg-dark border border-primary hover:bg-primary hover:text-dark transition duration-300">
+                    <i class="fas fa-user mr-2"></i>Área do Cliente
+                </a>
+                <button class="md:hidden text-2xl" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-dark/95 backdrop-blur-sm" id="mobile-menu">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#home" class="nav-link py-2">Início</a>
+                <a href="#features" class="nav-link py-2">Recursos</a>
+                <a href="#servers" class="nav-link py-2">Servidores</a>
+                <a href="#plans" class="nav-link py-2">Planos</a>
+                <a href="#faq" class="nav-link py-2">FAQ</a>
+                <a href="#contact" class="nav-link py-2">Contato</a>
+                <a href="#login" class="px-4 py-2 rounded-lg bg-primary text-dark font-medium text-center">
+                    <i class="fas fa-user mr-2"></i>Área do Cliente
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1601146602346-5f2b3a0a0f7a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')] bg-cover bg-center"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">A Melhor</span> Experiência em IPTV
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                        +10.000 canais, filmes, séries e todos os streamings em um só lugar. Qualidade Full HD/4K com 8 servidores dedicados.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#plans" class="px-8 py-4 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg text-center transition duration-300">
+                            <i class="fas fa-crown mr-2"></i>Assinar Agora
+                        </a>
+                        <a href="#demo" class="px-8 py-4 border border-primary hover:bg-dark text-white font-bold rounded-lg text-center transition duration-300">
+                            <i class="fas fa-play mr-2"></i>Ver Demonstração
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="bg-dark rounded-xl overflow-hidden shadow-2xl border border-gray-800">
+                        <div class="video-container">
+                           <iframe width="560" height="315" src="https://www.youtube.com/embed/eVX4DqDzGDE?si=a9eHh5XgyQCUsEba" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Interface Premium IPTV</h3>
+                            <p class="text-gray-400">Veja como é fácil navegar por milhares de conteúdos com nossa interface intuitiva.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">POR QUE ESCOLHER NOSSO IPTV</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Recursos Exclusivos</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Oferecemos a melhor experiência em transmissão de TV pela internet com recursos que você não encontra em outros serviços.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-darker p-8 rounded-xl border border-gray-800 hover:border-primary transition duration-300">
+                    <div class="feature-icon bg-primary/20 text-primary mb-6">
+                        <i class="fas fa-server text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">8 Servidores Dedicados</h3>
+                    <p class="text-gray-400">Infraestrutura robusta com múltiplos servidores para garantir estabilidade e qualidade sem buffering.</p>
+                </div>
+                
+                <div class="bg-darker p-8 rounded-xl border border-gray-800 hover:border-primary transition duration-300">
+                    <div class="feature-icon bg-primary/20 text-primary mb-6">
+                        <i class="fas fa-film text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">+10.000 Conteúdos</h3>
+                    <p class="text-gray-400">Filmes, séries, canais esportivos, infantis, notícias e muito mais, todos atualizados diariamente.</p>
+                </div>
+                
+                <div class="bg-darker p-8 rounded-xl border border-gray-800 hover:border-primary transition duration-300">
+                    <div class="feature-icon bg-primary/20 text-primary mb-6">
+                        <i class="fas fa-tv text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Streamings Inclusos</h3>
+                    <p class="text-gray-400">Netflix, Amazon Prime, Disney+, HBO Max e outros serviços premium inclusos em seu plano.</p>
+                </div>
+                
+                <div class="bg-darker p-8 rounded-xl border border-gray-800 hover:border-primary transition duration-300">
+                    <div class="feature-icon bg-primary/20 text-primary mb-6">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Multiplataforma</h3>
+                    <p class="text-gray-400">Assista em Smart TVs, celulares, tablets, computadores e dispositivos como Fire Stick e Android TV.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servers Section -->
+    <section id="servers" class="py-20 bg-darker">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">INFRAESTRUTURA</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Nossos Servidores Premium</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Distribuição global de servidores para garantir a melhor qualidade de streaming em qualquer lugar do mundo.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">P2BIT</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">P2P Binstream - Conexão global com qualidade Full HD e 4K</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 18ms</span>
+                        <span>Uptime: 99.99%</span>
+                    </div>
+                </div>
+                
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">AUDSERV</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Servidor dedicado para áudio de alta qualidade</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 22ms</span>
+                        <span>Uptime: 99.98%</span>
+                    </div>
+                </div>
+                
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">NEWP2</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Nova geração de servidores P2P</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 25ms</span>
+                        <span>Uptime: 99.97%</span>
+                    </div>
+                </div>
+                
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">NETTURBO</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Otimizado para máxima velocidade</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 15ms</span>
+                        <span>Uptime: 99.99%</span>
+                    </div>
+                </div>
+
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">BLESSED SERVER</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Estabilidade garantida 24/7</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 20ms</span>
+                        <span>Uptime: 99.98%</span>
+                    </div>
+                </div>
+
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">LITE PLAY</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Otimizado para conexões mais lentas</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 30ms</span>
+                        <span>Uptime: 99.96%</span>
+                    </div>
+                </div>
+
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">ATIVABOX</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Especializado em conteúdo brasileiro</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 12ms</span>
+                        <span>Uptime: 99.99%</span>
+                    </div>
+                </div>
+
+                <div class="bg-dark p-6 rounded-lg border border-gray-800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <h3 class="font-bold">DUO VTVBR</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-3">Canais brasileiros em alta qualidade</p>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Latência: 10ms</span>
+                        <span>Uptime: 99.99%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-gray-400 mb-6">
+                  os nossos servidores são redundantes e garantem estabilidade mesmo durante picos de acesso, com qualidade Full HD e 4K disponíveis 24/7 sem travamentos.</p>
+                <a href="#plans" class="inline-block px-8 py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                    <i class="fas fa-rocket mr-2"></i>Experimente Agora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streaming Services -->
+    <section class="py-16 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Streamings Premium Inclusos</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Todos esses serviços estão disponíveis em seu plano Premium IPTV sem custo adicional.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-6">
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Netflix_Logomark.png/640px-Netflix_Logomark.png" alt="Netflix" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Netflix</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png" alt="Amazon Prime" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Prime Video</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Disney+" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Disney+</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg" alt="HBO Max" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">HBO Max</span>
+                </div>
+                <div class="flex flexocol items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple TV+" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Apple TV+</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Star%2B_logo.svg/640px-Star%2B_logo.svg.png" alt="Star+" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Star+</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Globoplay_logo_2020.svg/640px-Globoplay_logo_2020.svg.png" alt="Globoplay" class="streaming-logo h-12 w-auto mb-2">
+                    <span class="text-xs text-gray-400">Globoplay</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section id="plans" class="py-20 bg-darker">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">PLANOS E PREÇOS</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Escolha o Melhor Plano Para Você</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Planos flexíveis que se adaptam às suas necessidades. Quanto maior o período, maior o desconto!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-dark border border-gray-800 rounded-xl overflow-hidden plan-card transition duration-300">
+                    <div class="p-6 border-b border-gray-800">
+                        <h3 class="text-xl font-bold mb-2">Plano Mensal</h3>
+                        <p class="text-gray-400 text-sm">Ideal para testar nosso serviço</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">R$ 29,90</span>
+                            <span class="text-gray-500">/mês</span>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>1 Mês de Acesso</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>+10.000 Canais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Streamings Inclusos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Qualidade Full HD/4K</span>
+                            </li>
+                        </ul>
+                        <button class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-dark border border-gray-800 rounded-xl overflow-hidden plan-card transition duration-300">
+                    <div class="p-6 border-b border-gray-800">
+                        <h3 class="text-xl font-bold mb-2">Plano Trimestral</h3>
+                        <p class="text-gray-400 text-sm">Economize 15%</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">R$ 76,20</span>
+                            <span class="text-gray-500">/3 meses</span>
+                            <div class="text-sm text-gray-400 line-through">R$ 89,70</div>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>3 Meses de Acesso</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>+10.000 Canais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Streamings Inclusos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Qualidade Full HD/4K</span>
+                            </li>
+                        </ul>
+                        <button class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-dark border-2 border-primary rounded-xl overflow-hidden plan-card transition duration-300 transform scale-105">
+                    <div class="p-6 border-b border-gray-800 bg-primary/10">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold mb-2">Plano Semestral</h3>
+                            <span class="px-3 py-1 bg-primary text-dark text-xs font-bold rounded-full">POPULAR</span>
+                        </div>
+                        <p class="text-gray-400 text-sm">Economize 30%</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">R$ 125,40</span>
+                            <span class="text-gray-500">/6 meses</span>
+                            <div class="text-sm text-gray-400 line-through">R$ 179,40</div>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>6 Meses de Acesso</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>+10.000 Canais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Streamings Inclusos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Qualidade Full HD/4K</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Suporte Prioritário</span>
+                            </li>
+                        </ul>
+                        <button class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-dark border border-gray-800 rounded-xl overflow-hidden plan-card transition duration-300">
+                    <div class="p-6 border-b border-gray-800">
+                        <h3 class="text-xl font-bold mb-2">Plano Anual</h3>
+                        <p class="text-gray-400 text-sm">Economize 50%</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold">R$ 179,40</span>
+                            <span class="text-gray-500">/12 meses</span>
+                            <div class="text-sm text-gray-400 line-through">R$ 358,80</div>
+                        </div>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>12 Meses de Acesso</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>+10.000 Canais</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Streamings Inclusos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Qualidade Full HD/4K</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>Suporte Prioritário</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-primary mr-2"></i>
+                                <span>2 Dispositivos Simultâneos</span>
+                            </li>
+                        </ul>
+                        <button class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                            Assinar Agora
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-dark border border-gray-800 rounded-xl p-8">
+                <h3 class="text-xl font-bold mb-4">Formas de Pagamento</h3>
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex items-center bg-gray-900 px-4 py-2 rounded-lg">
+                        <i class="fab fa-cc-visa text-2xl text-blue-400 mr-2"></i>
+                        <span>Cartão de Crédito</span>
+                    </div>
+                    <div class="flex items-center bg-gray-900 px-4 py-2 rounded-lg">
+                        <i class="fas fa-barcode text-2xl text-green-400 mr-2"></i>
+                        <span>Boleto Bancário</span>
+                    </div>
+                    <div class="flex items-center bg-gray-900 px-4 py-2 rounded-lg">
+                        <i class="fas fa-qrcode text-2xl text-purple-400 mr-2"></i>
+                        <span>Pix</span>
+                    </div>
+                    <div class="flex items-center bg-gray-900 px-4 py-2 rounded-lg">
+                        <i class="fab fa-paypal text-2xl text-blue-300 mr-2"></i>
+                        <span>PayPal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">DEPOIMENTOS</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">O Que Nossos Clientes Dizem</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Avaliações reais de clientes satisfeitos com nosso serviço Premium IPTV.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Ana Carolina</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Finalmente encontrei um IPTV que realmente funciona! Todos os canais que preciso, qualidade excelente e nunca trava. Recomendo demais!"</p>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Ricardo Almeida</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Como amante de futebol, fiquei impressionado com a quantidade de canais esportivos e a qualidade das transmissões. Melhor custo-benefício do mercado!"</p>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Fernanda Gomes</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Adoro ter todos os streamings em um só lugar. Economizei muito cancelando várias assinaturas. O suporte também é muito atencioso e rápido."</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlos Eduardo</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Depois de testar vários IPTVs, esse é de longe o melhor. Canais em 4K, filmes atualizados e um suporte que realmente resolve os problemas."</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Juliana Santos</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Meus filhos adoram os canais infantis e eu amo as séries e filmes. A família toda está satisfeita com a qualidade e variedade de conteúdo."</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Marcos Vinícius</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"O melhor investimento que fiz em entretenimento este ano. Todos os jogos de futebol, PPVs e ainda os streamings inclusos. Vale cada centavo!"</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/52.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Patrícia Lima</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Instalei no meu celular e na TV sem nenhuma dificuldade. A qualidade da imagem é impressionante e nunca tive problemas com travamentos."</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/men/29.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Roberto Silva</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Assino há 6 meses e nunca precisei reclamar. Os servidores são estáveis e quando precisei de ajuda, o suporte resolveu em minutos."</p>
+                </div>
+
+                <div class="testimonial-card p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-700 mr-4 overflow-hidden">
+                            <img src="https://randomuser.me/api/portraits/women/37.jpg" alt="Cliente" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Camila Oliveira</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">"Cancelei minha TV a cabo e não me arrependo. Tenho mais canais, melhor qualidade e pago muito menos. Recomendo para todos meus amigos!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-darker">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">DÚVIDAS FREQUENTES</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Perguntas Frequentes</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Tire suas dúvidas sobre nosso serviço Premium IPTV.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">O que é IPTV e como funciona?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">IPTV (Internet Protocol Television) é uma tecnologia que permite assistir TV através da internet. Ao invés de usar sinais de TV a cabo ou satélite, o conteúdo é transmitido via protocolo de internet, oferecendo maior flexibilidade e qualidade.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">Quais dispositivos são compatíveis?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">Nosso serviço funciona em Smart TVs (Android TV, Tizen, webOS), dispositivos como Fire TV Stick, Chromecast, Android Box, além de celulares, tablets e computadores. Fornecemos aplicativos e tutoriais para cada plataforma.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">Preciso de internet rápida?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">Recomendamos uma conexão mínima de 15Mbps para qualidade HD e 25Mbps para 4K. Nossos servidores são otimizados para garantir a melhor experiência mesmo com conexões mais lentas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">Como faço para instalar?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">Após a compra, você receberá um e-mail com login, senha e links para download dos aplicativos compatíveis com seu dispositivo. Também fornecemos tutoriais em vídeo passo a passo para cada plataforma.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">Posso assistir em mais de um dispositivo?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">Sim, nossos planos permitem conexão simultânea em 1 dispositivo (planos mensal e trimestral) ou 2 dispositivos (planos semestral e anual). Você pode alternar entre dispositivos quando quiser.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item mb-6">
+                    <div class="faq-question flex justify-between items-center cursor-pointer p-4 bg-dark rounded-lg">
+                        <h3 class="font-bold">Como é o suporte técnico?</h3>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </div>
+                    <div class="faq-answer hidden p-4 bg-dark/50 rounded-b-lg">
+                        <p class="text-gray-400">Oferecemos suporte 24/7 via WhatsApp e e-mail. Nossa equipe está sempre disponível para ajudar com configurações, problemas de conexão ou qualquer dúvida sobre o serviço.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-primary font-bold">CONTATO</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Fale Conosco</h2>
+                <p class="max-w-2xl mx-auto text-gray-400">Tem dúvidas ou precisa de ajuda? Nossa equipe está pronta para te atender.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <div class="bg-darker p-8 rounded-xl border border-gray-800">
+                        <h3 class="text-xl font-bold mb-6">Envie uma Mensagem</h3>
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-2">Seu Nome</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 bg-dark border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium mb-2">Seu E-mail</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 bg-dark border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium mb-2">Assunto</label>
+                                <select id="subject" class="w-full px-4 py-3 bg-dark border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="support">Suporte Técnico</option>
+                                    <option value="sales">Dúvidas sobre Planos</option>
+                                    <option value="billing">Problemas com Pagamento</option>
+                                    <option value="other">Outro</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium mb-2">Sua Mensagem</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-3 bg-dark border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-darker p-8 rounded-xl border border-gray-800 h-full">
+                        <h3 class="text-xl font-bold mb-6">Outras Formas de Contato</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 text-primary p-3 rounded-lg mr-4">
+                                    <i class="fas fa-phone-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Telefone/WhatsApp</h4>
+                                    <p class="text-gray-400">+55 (87) 98806-3327</p>
+                                    <a href="https://wa.me/558798806-3327" class="inline-block mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-300">
+                                        <i class="fab fa-whatsapp mr-2"></i>Chamar no WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 text-primary p-3 rounded-lg mr-4">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">E-mail</h4>
+                                    <p class="text-gray-400">suporte@premiumiptv.com</p>
+                                    <a href="mailto:suporte@premiumiptv.com" class="inline-block mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-300">
+                                        <i class="fas fa-paper-plane mr-2"></i>Enviar E-mail
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 text-primary p-3 rounded-lg mr-4">
+                                    <i class="fas fa-clock text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Horário de Atendimento</h4>
+                                    <p class="text-gray-400">24 horas por dia, 7 dias por semana</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h4 class="font-bold mb-4">Siga-nos nas Redes Sociais</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 flex items-center justify-center bg-dark hover:bg-primary hover:text-dark rounded-full transition duration-300">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 flex items-center justify-center bg-dark hover:bg-primary hover:text-dark rounded-full transition duration-300">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 flex items-center justify-center bg-dark hover:bg-primary hover:text-dark rounded-full transition duration-300">
+                                    <i class="fab fa-telegram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 flex items-center justify-center bg-dark hover:bg-primary hover:text-dark rounded-full transition duration-300">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/70">
+        <div class="bg-dark rounded-xl max-w-md w-full mx-4 p-8 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6 text-center">Área do Cliente</h2>
+            <form class="space-y-6">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium mb-2">E-mail</label>
+                    <input type="email" id="login-email" class="w-full px-4 py-3 bg-darker border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium mb-2">Senha</label>
+                    <input type="password" id="login-password" class="w-full px-4 py-3 bg-darker border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="mr-2">
+                        <label for="remember" class="text-sm">Lembrar-me</label>
+                    </div>
+                    <a href="#" class="text-sm text-primary hover:underline">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="w-full py-3 bg-primary hover:bg-red-700 text-dark font-bold rounded-lg transition duration-300">
+                    Entrar
+                </button>
+            </form>
+            <div class="mt-6 text-center text-sm">
+                <p class="text-gray-400">Ainda não tem uma conta? <a href="#plans" class="text-primary hover:underline">Assine agora</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-darker border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-tv text-primary text-2xl"></i>
+                        <span class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">PREMIUM IPTV</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">O melhor serviço de IPTV premium com qualidade Full HD/4K, +10.000 conteúdos e todos os streamings em um só lugar.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-primary transition duration-300">Início</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-primary transition duration-300">Recursos</a></li>
+                        <li><a href="#servers" class="text-gray-400 hover:text-primary transition duration-300">Servidores</a></li>
+                        <li><a href="#plans" class="text-gray-400 hover:text-primary transition duration-300">Planos</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-primary transition duration-300">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Suporte</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#contact" class="text-gray-400 hover:text-primary transition duration-300">Contato</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition duration-300">Tutoriais</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition duration-300">Aplicativos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition duration-300">Status do Serviço</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition duration-300">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Inscreva-se para receber novidades e ofertas exclusivas.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Seu e-mail" class="px-4 py-2 bg-dark border border-gray-800 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-primary w-full">
+                        <button type="submit" class="px-4 py-2 bg-primary text-dark rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Premium IPTV. Todos os direitos reservados.</p>
+                <p class="mt-2">Este serviço não transmite conteúdo protegido por direitos autorais sem permissão.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-dark rounded-full hidden items-center justify-center shadow-lg">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+        
+        // Login Modal
+        const loginModal = document.getElementById('login-modal');
+        const loginLinks = document.querySelectorAll('a[href="#login"]');
+        const closeModal = document.getElementById('close-modal');
+        
+        loginLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Back to Top Button
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('hidden');
+                backToTop.classList.add('flex');
+            } else {
+                backToTop.classList.add('hidden');
+                backToTop.classList.remove('flex');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Form Submission
+        const contactForm = document.getElementById('contact-form');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For this example, we'll just show an alert
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            contactForm.reset();
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
