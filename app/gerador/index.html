@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Prompts - Gemini AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Prompts Inteligentes</h1>
+        <div class="api-key-section">
+            <h2>Configuração da API</h2>
+            <div class="input-group">
+                <label for="api-key">Sua Chave API do Gemini:</label>
+                <input type="password" id="api-key" placeholder="Cole sua chave API aqui">
+                <button id="save-key">Salvar Chave</button>
+            </div>
+            <div id="api-status">Status: Chave não configurada</div>
+            <p class="api-info">Obtenha sua chave API no <a href="https://ai.google.dev/" target="_blank">Google AI Studio</a></p>
+        </div>
 
+        <div class="prompt-generator">
+            <h2>Gerar Novo Prompt</h2>
+            <div class="input-group">
+                <label for="prompt-type">Tipo de Prompt:</label>
+                <select id="prompt-type">
+                    <option value="criativo">Escrita Criativa</option>
+                    <option value="academico">Texto Acadêmico</option>
+                    <option value="negocio">Comunicação de Negócios</option>
+                    <option value="marketing">Marketing e Vendas</option>
+                    <option value="codigo">Programação</option>
+                    <option value="personalizado">Personalizado</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="prompt-topic">Tópico ou Assunto:</label>
+                <input type="text" id="prompt-topic" placeholder="Ex: Inteligência Artificial, Marketing Digital, etc.">
+            </div>
+
+            <div class="input-group">
+                <label for="prompt-details">Detalhes Adicionais (opcional):</label>
+                <textarea id="prompt-details" placeholder="Forneça mais detalhes sobre o que você precisa..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="prompt-tone">Tom da Comunicação:</label>
+                <select id="prompt-tone">
+                    <option value="formal">Formal</option>
+                    <option value="informal">Informal</option>
+                    <option value="amigavel">Amigável</option>
+                    <option value="tecnico">Técnico</option>
+                    <option value="persuasivo">Persuasivo</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="prompt-length">Tamanho Desejado:</label>
+                <select id="prompt-length">
+                    <option value="curto">Curto</option>
+                    <option value="medio">Médio</option>
+                    <option value="longo">Longo</option>
+                    <option value="detalhado">Muito Detalhado</option>
+                </select>
+            </div>
+
+            <button id="generate-prompt">Gerar Prompt</button>
+
+            <div class="spinner hidden" id="loading-spinner"></div>
+        </div>
+
+        <div class="result-section hidden" id="result-section">
+            <h2>Prompt Gerado</h2>
+            <div class="prompt-output">
+                <div id="generated-prompt"></div>
+                <div class="prompt-actions">
+                    <button id="copy-prompt">Copiar</button>
+                    <button id="save-prompt">Salvar</button>
+                    <button id="regenerate-prompt">Regenerar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="saved-prompts">
+            <h2>Prompts Salvos</h2>
+            <div id="prompts-list">
+                <p class="no-prompts">Nenhum prompt salvo ainda.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Gerador de Prompts Inteligentes com Gemini AI</p>
+    </footer>
+
+    <script src="gemini-api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
