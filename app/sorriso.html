@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Sorriso Radiante - Odontologia Especializada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .counter-item {
+            transition: all 1s ease-out;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .testimonial-slide {
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar (optional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0d9488; /* teal-600 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0f766e; /* teal-700 */
+        }
+
+        /* Tailwind Customizations (se necessário, mas vamos usar classes utilitárias principalmente) */
+        .text-teal-custom { color: #0d9488; } /* Exemplo */
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+    <!-- Header -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#home" class="flex items-center">
+                <i class="fas fa-tooth text-3xl text-teal-600 mr-2"></i>
+                <span class="text-2xl font-bold text-teal-700">Sorriso Radiante</span>
+            </a>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="text-slate-700 hover:text-teal-600 font-medium">Início</a>
+                <a href="#services" class="text-slate-700 hover:text-teal-600 font-medium">Serviços</a>
+                <a href="#team" class="text-slate-700 hover:text-teal-600 font-medium">Dentistas</a>
+                <a href="#about" class="text-slate-700 hover:text-teal-600 font-medium">Sobre Nós</a>
+                <a href="#faq" class="text-slate-700 hover:text-teal-600 font-medium">FAQ</a>
+                <a href="#testimonials" class="text-slate-700 hover:text-teal-600 font-medium">Depoimentos</a>
+                <a href="#contact" class="text-slate-700 hover:text-teal-600 font-medium">Contato</a>
+            </nav>
+            
+            <a href="#contact" class="hidden md:block bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                Agendar Consulta
+            </a>
+            
+            <button id="mobile-menu-button" class="md:hidden text-teal-700">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white w-full absolute left-0 top-full shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#home" class="text-slate-700 hover:text-teal-600 font-medium py-2">Início</a>
+                <a href="#services" class="text-slate-700 hover:text-teal-600 font-medium py-2">Serviços</a>
+                <a href="#team" class="text-slate-700 hover:text-teal-600 font-medium py-2">Dentistas</a>
+                <a href="#about" class="text-slate-700 hover:text-teal-600 font-medium py-2">Sobre Nós</a>
+                <a href="#faq" class="text-slate-700 hover:text-teal-600 font-medium py-2">FAQ</a>
+                <a href="#testimonials" class="text-slate-700 hover:text-teal-600 font-medium py-2">Depoimentos</a>
+                <a href="#contact" class="text-slate-700 hover:text-teal-600 font-medium py-2">Contato</a>
+                <a href="#contact" class="block bg-teal-500 hover:bg-teal-600 text-white text-center px-6 py-2 rounded-full font-medium transition duration-300 my-2">
+                    Agendar Consulta
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section pt-36 pb-24 text-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0 text-center md:text-left">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">Clínica Odontológica Sorriso Radiante</h1>
+                <p class="text-xl md:text-2xl mb-10">Cuidado especializado para transformar o seu sorriso com tecnologia e carinho.</p>
+                <a href="#contact" class="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition duration-300 shadow-lg">
+                    Agende Sua Avaliação
+                </a>
+            </div>
+            
+            <div class="md:w-2/5 bg-white/95 backdrop-blur-sm rounded-lg p-6 text-slate-800 shadow-xl">
+                <div class="flex items-center mb-5">
+                    <div class="bg-yellow-100 px-3 py-1 rounded-full flex items-center mr-3">
+                        <i class="fas fa-star text-yellow-500 mr-1"></i>
+                        <span class="font-bold text-yellow-600">4.9</span>
+                    </div>
+                    <span class="text-sm text-slate-600">Baseado em 500+ avaliações</span>
+                </div>
+                
+                <div class="flex items-center mb-5">
+                    <i class="fas fa-phone-alt text-teal-600 mr-4 text-2xl"></i>
+                    <div>
+                        <p class="text-sm text-slate-500">Ligue para nós (WhatsApp)</p>
+                        <p class="font-bold text-slate-700">(31) 91234-5678</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-5">
+                    <i class="far fa-clock text-teal-600 mr-4 text-2xl"></i>
+                    <div>
+                        <p class="text-sm text-slate-500">Horário de funcionamento</p>
+                        <p class="font-bold text-slate-700">Seg-Sex: 8h às 19h | Sáb: 9h às 14h</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <i class="far fa-envelope text-teal-600 mr-4 text-2xl"></i>
+                    <div>
+                        <p class="text-sm text-slate-500">Envie um e-mail</p>
+                        <p class="font-bold text-slate-700">contato@sorrisoradiante.com.br</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-12">
+                    <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                         alt="Interior da Clínica Sorriso Radiante" class="rounded-lg shadow-xl w-full">
+                </div>
+                
+                <div class="md:w-1/2">
+                    <span class="text-teal-600 font-semibold uppercase tracking-wider">Sobre Nós</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mb-6 mt-2">Bem-vindo à Clínica Sorriso Radiante</h2>
+                    <p class="text-slate-600 mb-6">
+                        Na Clínica Sorriso Radiante, nossa missão é oferecer tratamentos odontológicos de excelência em um ambiente acolhedor e moderno. Combinamos a experiência de profissionais altamente qualificados com tecnologia de ponta para cuidar da saúde bucal de toda a sua família, promovendo sorrisos mais saudáveis e confiantes.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-3 text-xl"></i>
+                            <span class="text-slate-700">Planos de tratamento individualizados e humanizados.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-3 text-xl"></i>
+                            <span class="text-slate-700">Equipe especializada em diversas áreas da odontologia.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-3 text-xl"></i>
+                            <span class="text-slate-700">Tecnologia avançada para diagnósticos precisos e tratamentos eficazes.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-teal-500 mt-1 mr-3 text-xl"></i>
+                            <span class="text-slate-700">Ambiente confortável e seguro, seguindo rigorosos protocolos de biossegurança.</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-full font-medium transition duration-300 shadow-md">
+                        Saiba Mais Sobre Nós
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section py-20 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-teal-600 font-semibold uppercase tracking-wider">Nossos Serviços</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mt-2 mb-4">Cuidado Completo para Cada Sorriso</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Oferecemos uma ampla gama de serviços odontológicos para atender todas as necessidades da sua família, desde a prevenção até tratamentos complexos.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card Template -->
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-tooth text-teal-600 text-3xl"></i> <!-- Ícone Genérico -->
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Odontologia Geral</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Consultas de rotina, limpezas, restaurações e orientações para manter sua saúde bucal em dia.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-smile-beam text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Odontologia Estética</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Clareamento dental, facetas, lentes de contato e design do sorriso para uma aparência radiante.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-child text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Odontopediatria</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Cuidado especializado e lúdico para crianças, construindo uma relação positiva com a saúde bucal.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-teeth-open text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Implantes Dentários</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Soluções modernas e seguras para reposição de dentes perdidos, restaurando função e estética.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-user-nurse text-teal-600 text-3xl"></i> <!-- Ajustado o ícone para periodontia -->
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Periodontia</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Tratamento de doenças gengivais e periodontais para manter a saúde dos tecidos de suporte dos dentes.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 self-start">
+                        <i class="fas fa-tooth text-teal-600 text-3xl"></i> <!-- Ícone de aparelho ortodôntico -->
+                    </div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Ortodontia</h3>
+                    <p class="text-slate-600 mb-6 flex-grow">
+                        Correção do alinhamento dental e problemas de mordida com aparelhos convencionais e alinhadores estéticos.
+                    </p>
+                    <a href="#" class="text-teal-600 font-semibold flex items-center group">
+                        Saiba mais <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#contact" class="inline-block border-2 border-teal-500 text-teal-600 hover:bg-teal-500 hover:text-white px-8 py-3 rounded-full font-semibold transition duration-300 text-lg">
+                    Agende Sua Consulta
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section py-20 bg-teal-700 text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+                <div class="counter-item p-4">
+                    <div class="text-5xl md:text-6xl font-bold mb-3" data-count="8500">0</div>
+                    <p class="text-xl text-teal-100">Pacientes Atendidos</p>
+                </div>
+                <div class="counter-item p-4">
+                    <div class="text-5xl md:text-6xl font-bold mb-3" data-count="6200">0</div>
+                    <p class="text-xl text-teal-100">Sorrisos Transformados</p>
+                </div>
+                <div class="counter-item p-4">
+                    <div class="text-5xl md:text-6xl font-bold mb-3" data-count="1800">0</div>
+                    <p class="text-xl text-teal-100">Implantes Realizados</p>
+                </div>
+                <div class="counter-item p-4">
+                    <div class="text-5xl md:text-6xl font-bold mb-3" data-count="12">0</div>
+                    <p class="text-xl text-teal-100">Anos de Experiência</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-teal-600 font-semibold uppercase tracking-wider">Nossos Diferenciais</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mt-2 mb-4">Serviço Excepcional com Toque Pessoal</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Descubra por que tantas famílias confiam na Clínica Sorriso Radiante para cuidar de seus sorrisos.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-6 rounded-lg hover:shadow-xl transition duration-300 border border-slate-200">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-user-md text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">Dentistas Especializados</h3>
+                    <p class="text-slate-600 text-sm">
+                        Nossa equipe é composta por profissionais experientes e em constante atualização nas suas áreas de atuação.
+                    </p>
+                </div>
+                <div class="text-center p-6 rounded-lg hover:shadow-xl transition duration-300 border border-slate-200">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-microscope text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">Tecnologia de Ponta</h3>
+                    <p class="text-slate-600 text-sm">
+                        Utilizamos equipamentos modernos para diagnósticos precisos e tratamentos mais confortáveis e eficazes.
+                    </p>
+                </div>
+                <div class="text-center p-6 rounded-lg hover:shadow-xl transition duration-300 border border-slate-200">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-heart text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">Atendimento Humanizado</h3>
+                    <p class="text-slate-600 text-sm">
+                        Focamos em um atendimento personalizado, entendendo as necessidades individuais de cada paciente.
+                    </p>
+                </div>
+                <div class="text-center p-6 rounded-lg hover:shadow-xl transition duration-300 border border-slate-200">
+                    <div class="bg-teal-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-shield-alt text-teal-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">Ambiente Acolhedor</h3>
+                    <p class="text-slate-600 text-sm">
+                        Nossa clínica foi projetada para oferecer conforto e tranquilidade, tornando sua visita uma experiência positiva.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section py-20 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-teal-600 font-semibold uppercase tracking-wider">Nossa Equipe</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mt-2 mb-4">Conheça Nossos Dentistas</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Profissionais dedicados e apaixonados por transformar sorrisos e promover saúde bucal.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                    <img src="https://images.unsplash.com/photo-1667133295308-9ef24f71952e?q=80&w=1657&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                         alt="Dr. Ricardo Alves" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold text-teal-700 mb-1">Dr. Ricardo Alves</h3>
+                        <p class="text-teal-600 font-medium mb-3">Clínico Geral e Implantodontista</p>
+                        <p class="text-slate-600 text-sm mb-4">
+                            Responsável técnico, com vasta experiência em reabilitação oral e implantes. CRO-MG 12345.
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-instagram fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                    <img src=" https://images.unsplash.com/photo-1560070201-d3d11effa179?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D   " 
+                         alt="Dra. Beatriz Lima" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold text-teal-700 mb-1">Dra. Beatriz Lima</h3>
+                        <p class="text-teal-600 font-medium mb-3">Odontopediatra e Ortodontista</p>
+                        <p class="text-slate-600 text-sm mb-4">
+                            Especialista em cuidar do sorriso dos pequenos e alinhar dentes para todas as idades. CRO-MG 67890.
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-instagram fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                         alt="Dr. Fernando Costa" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold text-teal-700 mb-1">Dr. Fernando Costa</h3>
+                        <p class="text-teal-600 font-medium mb-3">Especialista em Endodontia</p>
+                        <p class="text-slate-600 text-sm mb-4">
+                            Dedicado ao tratamento de canal, aliviando dores e preservando dentes com precisão. CRO-MG 24680.
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-instagram fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                    <img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                         alt="Dra. Carolina Melo" class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold text-teal-700 mb-1">Dra. Carolina Melo</h3>
+                        <p class="text-teal-600 font-medium mb-3">Periodontista e Estética Dental</p>
+                        <p class="text-slate-600 text-sm mb-4">
+                            Cuida da saúde das gengivas e especialista em harmonização do sorriso com facetas e clareamento. CRO-MG 13579.
+                        </p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-teal-500 hover:text-teal-700"><i class="fab fa-instagram fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                 <span class="text-teal-600 font-semibold uppercase tracking-wider">Perguntas Frequentes</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mt-2 mb-4">Tire Suas Dúvidas</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Respostas para as perguntas mais comuns sobre nossos tratamentos e cuidados odontológicos.
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- FAQ Item Template -->
+                <div class="border border-slate-200 rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-5 text-left font-semibold text-lg text-teal-700 hover:bg-teal-50 focus:outline-none transition-colors">
+                        <span>Com que frequência devo visitar o dentista?</span>
+                        <i class="fas fa-plus text-teal-500 transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content overflow-hidden">
+                        <p class="p-5 pt-0 text-slate-600">
+                            Recomendamos visitas de rotina a cada 6 meses para um check-up completo e limpeza profissional. No entanto, dependendo do seu histórico de saúde bucal, seu dentista pode sugerir um intervalo diferente.
+                        </p>
+                    </div>
+                </div>
+                 <div class="border border-slate-200 rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-5 text-left font-semibold text-lg text-teal-700 hover:bg-teal-50 focus:outline-none transition-colors">
+                        <span>A clínica atende urgências odontológicas?</span>
+                        <i class="fas fa-plus text-teal-500 transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content overflow-hidden">
+                        <p class="p-5 pt-0 text-slate-600">
+                            Sim, priorizamos o atendimento de urgências como dor aguda, fraturas dentárias ou traumas. Entre em contato conosco imediatamente para orientações e agendamento.
+                        </p>
+                    </div>
+                </div>
+                 <div class="border border-slate-200 rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-5 text-left font-semibold text-lg text-teal-700 hover:bg-teal-50 focus:outline-none transition-colors">
+                        <span>Quais formas de pagamento são aceitas?</span>
+                        <i class="fas fa-plus text-teal-500 transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content overflow-hidden">
+                        <p class="p-5 pt-0 text-slate-600">
+                            Aceitamos diversas formas de pagamento, incluindo cartões de crédito (com parcelamento), débito, PIX e dinheiro. Também trabalhamos com alguns convênios odontológicos – consulte-nos para mais informações.
+                        </p>
+                    </div>
+                </div>
+                 <div class="border border-slate-200 rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-5 text-left font-semibold text-lg text-teal-700 hover:bg-teal-50 focus:outline-none transition-colors">
+                        <span>O clareamento dental pode prejudicar os dentes?</span>
+                        <i class="fas fa-plus text-teal-500 transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content overflow-hidden">
+                        <p class="p-5 pt-0 text-slate-600">
+                            Quando realizado sob supervisão de um dentista qualificado, o clareamento dental é um procedimento seguro e eficaz. Utilizamos produtos e técnicas que minimizam a sensibilidade e protegem a estrutura dental. Uma avaliação prévia é essencial.
+                        </p>
+                    </div>
+                </div>
+                 <div class="border border-slate-200 rounded-lg">
+                    <button class="faq-question flex justify-between items-center w-full p-5 text-left font-semibold text-lg text-teal-700 hover:bg-teal-50 focus:outline-none transition-colors">
+                        <span>A partir de qual idade devo levar meu filho ao odontopediatra?</span>
+                        <i class="fas fa-plus text-teal-500 transform transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content overflow-hidden">
+                        <p class="p-5 pt-0 text-slate-600">
+                            A primeira visita ao odontopediatra é recomendada quando os primeiros dentes de leite nascem, ou até o primeiro ano de vida da criança. Essa consulta inicial é fundamental para orientações sobre higiene, dieta e prevenção.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section py-20 bg-teal-700 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-teal-200 font-semibold uppercase tracking-wider">Depoimentos</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">O Que Nossos Pacientes Dizem</h2>
+                <p class="max-w-2xl mx-auto opacity-90">
+                    A satisfação dos nossos pacientes é a nossa maior recompensa.
+                </p>
+            </div>
+            
+            <div class="relative max-w-3xl mx-auto">
+                <div class="testimonial-slider overflow-hidden">
+                    <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slides">
+                        <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                            <div class="bg-white/10 backdrop-blur-md p-8 rounded-lg shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" 
+                                         alt="Luiza Mendes" class="w-16 h-16 rounded-full object-cover mr-5 border-2 border-teal-300">
+                                    <div>
+                                        <h4 class="font-bold text-lg">Luiza Mendes</h4>
+                                        <div class="flex text-yellow-400">
+                                            <i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="italic text-teal-50">
+                                    "Atendimento impecável desde a recepção até o consultório. A Dra. Beatriz é maravilhosa com crianças, meu filho perdeu o medo de dentista. Recomendo de olhos fechados!"
+                                </p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                            <div class="bg-white/10 backdrop-blur-md p-8 rounded-lg shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" 
+                                         alt="Pedro Almeida" class="w-16 h-16 rounded-full object-cover mr-5 border-2 border-teal-300">
+                                    <div>
+                                        <h4 class="font-bold text-lg">Pedro Almeida</h4>
+                                        <div class="flex text-yellow-400">
+                                           <i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="italic text-teal-50">
+                                    "Fiz meu tratamento de implante com o Dr. Ricardo e o resultado foi fantástico. Clínica moderna, equipe atenciosa e profissionais muito competentes. Estou muito satisfeito!"
+                                </p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide w-full flex-shrink-0 px-4">
+                            <div class="bg-white/10 backdrop-blur-md p-8 rounded-lg shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" 
+                                         alt="Sofia Ferreira" class="w-16 h-16 rounded-full object-cover mr-5 border-2 border-teal-300">
+                                    <div>
+                                        <h4 class="font-bold text-lg">Sofia Ferreira</h4>
+                                        <div class="flex text-yellow-400">
+                                            <i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star mr-1"></i><i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="italic text-teal-50">
+                                    "Amei o resultado do meu clareamento e das facetas feitas pela Dra. Carolina. Superou minhas expectativas! Ambiente agradável e equipe muito profissional."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="testimonial-prev" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-3 md:-ml-6 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition duration-300 focus:outline-none">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="testimonial-next" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-3 md:-mr-6 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition duration-300 focus:outline-none">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <div class="flex justify-center mt-8 space-x-2" id="testimonial-dots">
+                    <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition duration-300 dot-active"></button>
+                    <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition duration-300"></button>
+                    <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition duration-300"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20 bg-white">
+        <div class="container mx-auto px-4">
+             <div class="text-center mb-16">
+                <span class="text-teal-600 font-semibold uppercase tracking-wider">Fale Conosco</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-teal-700 mt-2 mb-4">Agende Sua Consulta</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Estamos prontos para atender você! Entre em contato por telefone, WhatsApp, e-mail ou preencha o formulário abaixo.
+                </p>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-10">
+                <div class="lg:w-1/2">
+                    <div class="space-y-6">
+                        <div class="flex items-start p-4 bg-slate-50 rounded-lg shadow">
+                            <i class="fas fa-map-marker-alt text-teal-600 mt-1 mr-5 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold text-teal-700 text-lg mb-1">Nosso Endereço</h4>
+                                <p class="text-slate-600">Av. Afonso Pena, 1500, Sala 302, Centro,<br>Belo Horizonte - MG, CEP 30130-005</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 bg-slate-50 rounded-lg shadow">
+                            <i class="fas fa-phone-alt text-teal-600 mt-1 mr-5 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold text-teal-700 text-lg mb-1">Telefones</h4>
+                                <p class="text-slate-600">(31) 91234-5678 (WhatsApp)</p>
+                                <p class="text-slate-600">(31) 3333-4444 (Fixo)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 bg-slate-50 rounded-lg shadow">
+                            <i class="far fa-envelope text-teal-600 mt-1 mr-5 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold text-teal-700 text-lg mb-1">E-mail</h4>
+                                <p class="text-slate-600">contato@sorrisoradiante.com.br</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 bg-slate-50 rounded-lg shadow">
+                            <i class="far fa-clock text-teal-600 mt-1 mr-5 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold text-teal-700 text-lg mb-1">Horário de Funcionamento</h4>
+                                <p class="text-slate-600">Segunda a Sexta: 8h às 19h</p>
+                                <p class="text-slate-600">Sábado: 9h às 14h</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-10 flex space-x-4">
+                        <a href="#" class="bg-teal-500 hover:bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-facebook-f fa-lg"></i>
+                        </a>
+                        <a href="#" class="bg-teal-500 hover:bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="https://wa.me/5531912345678" target="_blank" class="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-whatsapp fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 bg-slate-100 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold text-teal-700 mb-6">Envie-nos uma Mensagem</h3>
+                    <form id="contact-form" class="space-y-5">
+                        <div>
+                            <label for="name" class="block text-slate-700 font-medium mb-2">Nome Completo <span class="text-red-500">*</span></label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-shadow" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-slate-700 font-medium mb-2">E-mail <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-shadow" required>
+                        </div>
+                         <div>
+                            <label for="phone" class="block text-slate-700 font-medium mb-2">Telefone / WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-shadow" required>
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-slate-700 font-medium mb-2">Assunto <span class="text-red-500">*</span></label>
+                            <select id="subject" name="subject" class="w-full px-4 py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-shadow" required>
+                                <option value="" disabled selected>Selecione um assunto</option>
+                                <option value="agendamento">Agendamento de Consulta</option>
+                                <option value="orcamento">Orçamento de Tratamento</option>
+                                <option value="duvidas">Dúvidas Gerais</option>
+                                <option value="convenios">Informações sobre Convênios</option>
+                                <option value="outros">Outros Assuntos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-slate-700 font-medium mb-2">Sua Mensagem <span class="text-red-500">*</span></label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-shadow" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-full font-semibold text-lg transition duration-300 shadow-md hover:shadow-lg">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-300 py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tooth text-3xl text-teal-400 mr-2"></i>
+                        <span class="text-2xl font-bold text-white">Sorriso Radiante</span>
+                    </div>
+                    <p class="text-slate-400 mb-4 text-sm">
+                        Cuidando da sua saúde bucal com tecnologia, carinho e os melhores profissionais.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="https://wa.me/5531912345678" target="_blank" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fab fa-whatsapp fa-lg"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-teal-400 transition-colors"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-5">Links Úteis</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#home" class="hover:text-teal-400 transition-colors">Início</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Nossos Serviços</a></li>
+                        <li><a href="#team" class="hover:text-teal-400 transition-colors">Equipe de Dentistas</a></li>
+                        <li><a href="#about" class="hover:text-teal-400 transition-colors">Sobre a Clínica</a></li>
+                        <li><a href="#faq" class="hover:text-teal-400 transition-colors">Perguntas Frequentes</a></li>
+                        <li><a href="#contact" class="hover:text-teal-400 transition-colors">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-5">Principais Tratamentos</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Odontologia Geral</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Implantes Dentários</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Ortodontia (Aparelhos)</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Clareamento Dental</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Odontopediatria</a></li>
+                        <li><a href="#services" class="hover:text-teal-400 transition-colors">Periodontia</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-5">Informações de Contato</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
+                            <span>Av. Afonso Pena, 1500, Sala 302, Centro, Belo Horizonte - MG</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-teal-400 mt-1 mr-3"></i>
+                            <span>(31) 91234-5678</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="far fa-envelope text-teal-400 mt-1 mr-3"></i>
+                            <span>contato@sorrisoradiante.com.br</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="text-slate-400 mb-4 md:mb-0">
+                    © <span id="currentYear"></span> Clínica Sorriso Radiante. Todos os direitos reservados.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-slate-400 hover:text-teal-400 transition-colors">Termos de Uso</a>
+                    <a href="#" class="text-slate-400 hover:text-teal-400 transition-colors">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-teal-500 hover:bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 invisible z-40">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+             mobileMenuButton.querySelector('i').classList.toggle('fa-bars');
+            mobileMenuButton.querySelector('i').classList.toggle('fa-times');
+        });
+        
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    let offset = 80; // Default offset for header
+                    if (targetId === '#home') {
+                        offset = 0; // No offset for home
+                    }
+                    window.scrollTo({
+                        top: targetElement.offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.querySelector('i').classList.remove('fa-times');
+                        mobileMenuButton.querySelector('i').classList.add('fa-bars');
+                    }
+                }
+            });
+        });
+        
+        // Animated Counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter-item [data-count]');
+            const speed = 200; // Lower number means faster animation
+            
+            counters.forEach(counter => {
+                let isAnimated = counter.getAttribute('data-animated') === 'true';
+                if (isAnimated) return; // Skip if already animated
+
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-count');
+                    const count = +counter.innerText.replace(/\D/g, ''); // Remove non-digits for parsing
+                    
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment).toLocaleString('pt-BR');
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target.toLocaleString('pt-BR');
+                        counter.setAttribute('data-animated', 'true');
+                    }
+                };
+                updateCount();
+            });
+        }
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+                // Close all other open answers
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    if (item !== answer && item.style.maxHeight && item.style.maxHeight !== '0px') {
+                        item.style.maxHeight = '0px';
+                        item.previousElementSibling.querySelector('i').classList.remove('fa-minus', 'rotate-180');
+                        item.previousElementSibling.querySelector('i').classList.add('fa-plus');
+                    }
+                });
+                
+                if (isOpen) {
+                    answer.style.maxHeight = '0px';
+                    icon.classList.remove('fa-minus', 'rotate-180');
+                    icon.classList.add('fa-plus');
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus', 'rotate-180');
+                }
+            });
+        });
+        
+        // Testimonial Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dots = document.querySelectorAll('#testimonial-dots button');
+        const slider = document.getElementById('testimonial-slides');
+        let testimonialInterval;
+
+        function updateSlider() {
+            if (slides.length === 0) return;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('bg-white/60', index === currentSlide);
+                dot.classList.toggle('bg-white/30', index !== currentSlide);
+            });
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        }
+
+        function startSliderInterval() {
+            testimonialInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopSliderInterval() {
+            clearInterval(testimonialInterval);
+        }
+
+        if (slides.length > 0) {
+            document.getElementById('testimonial-next').addEventListener('click', () => {
+                stopSliderInterval();
+                nextSlide();
+                startSliderInterval();
+            });
+            
+            document.getElementById('testimonial-prev').addEventListener('click', () => {
+                stopSliderInterval();
+                prevSlide();
+                startSliderInterval();
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    stopSliderInterval();
+                    currentSlide = index;
+                    updateSlider();
+                    startSliderInterval();
+                });
+            });
+            
+            startSliderInterval();
+            updateSlider(); // Initial call
+        }
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Form Submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Basic validation example
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            if (!name || !email || !phone || !subject || !message) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            this.reset();
+        });
+        
+        // Intersection Observer for Section Animations
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate counters when stats section is visible
+                    if (entry.target.classList.contains('bg-teal-700') && entry.target.querySelectorAll('.counter-item').length > 0) {
+                        animateCounters();
+                    }
+                    // observer.unobserve(entry.target); // Optional: unobserve after animation
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
